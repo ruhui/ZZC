@@ -79,7 +79,7 @@ public class LoginAcitivty extends BaseActivity {
     ResponseResultListener callback_address = new ResponseResultListener<List<AddressModel>>() {
         @Override
         public void success(List<AddressModel> returnMsg) {
-            Log.e("success","success");
+            Log.e("success","success测试修改");
             closeProgress();
         }
 
