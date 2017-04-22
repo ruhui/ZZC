@@ -3,6 +3,7 @@ package com.zzcar.zzc.service;
 import com.zzcar.zzc.models.AddressModel;
 import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.requests.LoginRequest;
+import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.networks.responses.UserMsgResponse;
@@ -39,4 +40,7 @@ public interface ZZCService {
     @GET("index/car_push")
     Observable<ResponseParent<List<HomeCarPushResponse>>> gethomecarpush(@HeaderMap Map<String, String> header);
 
+    /*车源列表*/
+    @GET("goods/cars")
+    Observable<ResponseParent<List<HomeCarGetResponse>>> getcars(@HeaderMap Map<String, String> header);
 }
