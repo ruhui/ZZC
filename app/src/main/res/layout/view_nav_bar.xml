@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/activityTitleHeight"
+    android:background="@color/colorPrimary"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/ivMenuLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center"
+        android:paddingLeft="@dimen/spacing_small"
+        android:paddingRight="@dimen/spacing_small"
+        android:scaleType="center"
+        tools:src="@drawable/back_icon" />
+
+
+    <TextView
+        android:id="@+id/tv_title"
+        style="@style/TextTitle"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:singleLine="true"
+        android:textIsSelectable="false"
+        tools:text="标题" />
+
+    <ImageView
+        android:id="@+id/ivMenuRight"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:paddingLeft="@dimen/spacing_small"
+        android:paddingRight="@dimen/spacing_small"
+        android:layout_marginRight="@dimen/spacing_small"
+        android:scaleType="center"
+        tools:src="@drawable/refresh"
+        android:layout_alignTop="@+id/ivMenuRightSecond"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/ivMenuRightSecond" />
+
+    <ImageView
+        android:id="@+id/ivMenuRightSecond"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:paddingLeft="@dimen/spacing_small"
+        android:paddingRight="@dimen/spacing_small"
+        android:scaleType="center"
+        tools:src="@drawable/refresh"
+        android:layout_alignTop="@+id/tv_title"
+        android:layout_toLeftOf="@+id/ivMenuRight"
+        android:layout_toStartOf="@+id/ivMenuRight" />
+</RelativeLayout>
