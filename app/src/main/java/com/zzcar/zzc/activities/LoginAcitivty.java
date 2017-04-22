@@ -102,7 +102,7 @@ public class LoginAcitivty extends BaseActivity {
     ResponseResultListener callback_usermsg = new ResponseResultListener<UserMsgResponse>() {
         @Override
         public void success(UserMsgResponse returnMsg) {
-            Log.e("success","success");
+            Log.e("success","success大煞风景；佛挡杀佛收到");
             closeProgress();
         }
 
