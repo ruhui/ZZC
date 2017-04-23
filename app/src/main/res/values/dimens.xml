@@ -8,4 +8,5 @@
     <dimen name="dp_30">30dp</dimen>
     <dimen name="activityTitleHeight">47dp</dimen>
     <dimen name="actionbar_heigh">65dp</dimen>
+    <dimen name="font_xlarge">14sp</dimen>
 </resources>

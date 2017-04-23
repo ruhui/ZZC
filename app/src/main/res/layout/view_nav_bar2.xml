@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:paddingRight="@dimen/spacing_small"
-        android:paddingLeft="@dimen/spacing_small"
+        android:paddingLeft="@dimen/dp_22"
         android:scaleType="fitCenter"
         tools:src="@drawable/back_icon" />
 
@@ -19,7 +19,7 @@
     <TextView
         android:id="@+id/tv_title"
         style="@style/TextTitle"
-        android:layout_width="250dp"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
         android:ellipsize="marquee"
         android:focusable="true"
@@ -29,18 +29,20 @@
         android:singleLine="true"
         android:textIsSelectable="false"
         tools:text="标题"
+        android:textColor="@color/app_red"
+        android:textSize="@dimen/sp_16"
         android:layout_alignBaseline="@+id/ivMenuRightTxt"
         android:layout_alignBottom="@+id/ivMenuRightTxt"
         android:layout_centerHorizontal="true" />
 
     <TextView
         android:id="@+id/ivMenuRightTxt"
-        android:layout_width="60dp"
+        android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:paddingLeft="@dimen/spacing_small"
-        android:paddingRight="@dimen/spacing_small"
+        android:paddingRight="15dp"
         android:gravity="center"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textColor="@color/white"
         tools:text="@string/app_login"
         android:layout_centerVertical="true"
