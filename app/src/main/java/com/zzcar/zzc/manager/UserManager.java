@@ -169,9 +169,9 @@ public class UserManager {
         String user_id = SecurePreferences.getInstance().getString("Authorization", "");
         Map<String,String> hashmap = new HashMap<>();
         //名称/编号
-        hashmap.put("keyword", keyword);
+        hashmap.put("keyword", "");
         //商品状态：0销售中（默认），1下架中，2审核不通过，3违规下架,4删除的
-        hashmap.put("saleStatus", saleStatus);
+        hashmap.put("saleStatus", "0");
         //排序：1最新(默认)、2销量高、3价格高到低、4价格低到高、5按车龄最小，6按里程最少
         hashmap.put("sort", sort);
         //商品分类

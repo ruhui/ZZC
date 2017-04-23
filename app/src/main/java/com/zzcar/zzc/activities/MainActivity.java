@@ -142,7 +142,7 @@ public class MainActivity extends BaseActivity {
     public void onBackPressed() {
         int count = getSupportFragmentManager().getBackStackEntryCount();
         if (count == 0){
-            moveTaskToBack(false);
+            moveTaskToBack(true);
         }else{
             super.onBackPressed();
         }
