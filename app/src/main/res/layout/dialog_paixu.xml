@@ -265,15 +265,9 @@
     </RelativeLayout>
 
     <RelativeLayout
-
+        android:id="@+id/relaDown"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/relaDown"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="sdjfk你加快速度发给你过来就那倒是"/>
 
     </RelativeLayout>
 </LinearLayout>
