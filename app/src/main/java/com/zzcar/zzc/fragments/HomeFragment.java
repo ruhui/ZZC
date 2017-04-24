@@ -276,9 +276,11 @@ public class HomeFragment extends BasePullRecyclerFragment {
     PaixuPopwindow.PaixuListener paixuListener = new PaixuPopwindow.PaixuListener() {
         @Override
         public void defaultValue(String title, String value) {
+            showProgress();
             popCode = value;
             closePopwindow();
             setTabDefault();
+            getCarsData();
         }
 
         @Override
@@ -286,6 +288,8 @@ public class HomeFragment extends BasePullRecyclerFragment {
             popCode = value;
             closePopwindow();
             setTabDefault();
+            showProgress();
+            getCarsData();
         }
 
         @Override
@@ -293,6 +297,8 @@ public class HomeFragment extends BasePullRecyclerFragment {
             popCode = value;
             closePopwindow();
             setTabDefault();
+            showProgress();
+            getCarsData();
         }
 
         @Override
@@ -300,6 +306,8 @@ public class HomeFragment extends BasePullRecyclerFragment {
             popCode = value;
             closePopwindow();
             setTabDefault();
+            showProgress();
+            getCarsData();
         }
 
         @Override
@@ -307,6 +315,8 @@ public class HomeFragment extends BasePullRecyclerFragment {
             popCode = value;
             closePopwindow();
             setTabDefault();
+            showProgress();
+            getCarsData();
         }
 
         @Override
@@ -314,6 +324,8 @@ public class HomeFragment extends BasePullRecyclerFragment {
             popCode = value;
             closePopwindow();
             setTabDefault();
+            showProgress();
+            getCarsData();
         }
 
         @Override

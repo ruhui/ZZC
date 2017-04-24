@@ -206,10 +206,4 @@ public class PaixuPopwindow {
          }
      }
 
-
-//     public void setPopcode(String popCode){
-//         this.popCode = popCode;
-////         showImage();
-//         itemTextImgView6.setSelect();
-//     }
 }
