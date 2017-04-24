@@ -188,4 +188,5 @@ public abstract class BaseFragment extends Fragment implements NetEvevt {
       getFragmentManager().popBackStackImmediate(mLastStackName,
               FragmentManager.POP_BACK_STACK_INCLUSIVE);
   }
+
 }

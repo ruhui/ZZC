@@ -4,25 +4,34 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import com.zzcar.zzc.R;
+import com.zzcar.zzc.activities.MainActivity;
 import com.zzcar.zzc.activities.SearchActivity_;
 import com.zzcar.zzc.fragments.base.BaseFragment;
+import com.zzcar.zzc.fragments.base.BasePullRecyclerFragment;
+import com.zzcar.zzc.interfaces.FragmentClosePop;
+import com.zzcar.zzc.interfaces.PopcloseListener;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.networks.PosetSubscriber;
+import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
 import com.zzcar.zzc.utils.LogUtil;
-import com.zzcar.zzc.views.widget.MyPopwindow;
+import com.zzcar.zzc.views.widget.PaixuPopwindow;
 import com.zzcar.zzc.views.widget.NavBarSearch;
+import com.zzcar.zzc.views.widget.pullview.PullRecyclerView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.List;
 import rx.Subscriber;
@@ -34,16 +43,19 @@ import rx.Subscriber;
  **/
 
 @EFragment(R.layout.fragment_home)
-public class HomeFragment extends BaseFragment {
+public class HomeFragment extends BasePullRecyclerFragment {
 
     private int[] tabStr = new int[]{R.string.paixu, R.string.qudao, R.string.brand, R.string.price};
+
+    /*排序显示的哪个*/
+    private String popCode = "1";
+    /*当前页码*/
+    private int CURTURNPAGE = 1;
 
     private PopupWindow popupWindow_paixu;
     private PopupWindow popupWindow_qudao;
     private PopupWindow popupWindow_brand;
     private PopupWindow popupWindow_price;
-
-
 
     @ViewById(R.id.line2)
     View view;
@@ -51,27 +63,6 @@ public class HomeFragment extends BaseFragment {
     TabLayout mTab;
     @ViewById(R.id.mNavbar)
     NavBarSearch mNavbar;
-
-    @AfterViews
-    void initView(){
-
-        Drawable bgdrable = getResources().getDrawable(R.drawable.select_main_item);
-        int bgcolor = getActivity().getResources().getColor(R.color.mdtp_transparent_black);
-
-        initTab();
-
-        initBar();
-
-        getCarPush();
-
-
-        MyPopwindow popwindow = new MyPopwindow();
-        popupWindow_paixu = popwindow.showPopupWindow(getActivity(), bgdrable, bgcolor);
-        popupWindow_qudao = popwindow.showPopupWindow(getActivity(), bgdrable, bgcolor);
-        popupWindow_brand = popwindow.showPopupWindow(getActivity(), bgdrable, bgcolor);
-        popupWindow_price = popwindow.showPopupWindow(getActivity(), bgdrable, bgcolor);
-
-    }
 
     private void initBar() {
         //搜索
@@ -82,11 +73,18 @@ public class HomeFragment extends BaseFragment {
                 startActivityForResult(intent, 10200);
             }
         });
+        mNavbar.setSearchImgListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SearchActivity_.class);
+                startActivityForResult(intent, 10200);
+            }
+        });
     }
 
     private void getCarPush() {
-        Subscriber subscriber = new PosetSubscriber<List<HomeCarPushResponse>>().getSubscriber(callback_carpush);
-        UserManager.getHomeCarpush(subscriber);
+//        Subscriber subscriber = new PosetSubscriber<List<HomeCarPushResponse>>().getSubscriber(callback_carpush);
+//        UserManager.getHomeCarpush(subscriber);
     }
 
     private void initTab() {
@@ -119,6 +117,7 @@ public class HomeFragment extends BaseFragment {
                     popupWindow_qudao.showAsDropDown(view);
                     popupWindow_brand.dismiss();
                     popupWindow_price.dismiss();
+
                 }else if(position == 2){
                     popupWindow_paixu.dismiss();
                     popupWindow_qudao.dismiss();
@@ -130,6 +129,7 @@ public class HomeFragment extends BaseFragment {
                     popupWindow_brand.dismiss();
                     popupWindow_price.showAsDropDown(view);
                 }
+                setParentShowing(true);
             }
 
             @Override
@@ -150,10 +150,12 @@ public class HomeFragment extends BaseFragment {
                         popupWindow_paixu.dismiss();
                         imgView.setImageResource(R.drawable.nav_icon_down_default);
                         homeTitle.setTextColor(getResources().getColor(R.color.color_333333));
+                        setParentShowing(false);
                     }else{
                         popupWindow_paixu.showAsDropDown(view);
                         imgView.setImageResource(R.drawable.nav_icon_up_selected);
                         homeTitle.setTextColor(getResources().getColor(R.color.app_red));
+                        setParentShowing(true);
                     }
                     popupWindow_qudao.dismiss();
                     popupWindow_brand.dismiss();
@@ -164,10 +166,12 @@ public class HomeFragment extends BaseFragment {
                         popupWindow_qudao.dismiss();
                         imgView.setImageResource(R.drawable.nav_icon_down_default);
                         homeTitle.setTextColor(getResources().getColor(R.color.color_333333));
+                        setParentShowing(false);
                     }else{
                         popupWindow_qudao.showAsDropDown(view);
                         imgView.setImageResource(R.drawable.nav_icon_up_selected);
                         homeTitle.setTextColor(getResources().getColor(R.color.app_red));
+                        setParentShowing(true);
                     }
                     popupWindow_brand.dismiss();
                     popupWindow_price.dismiss();
@@ -178,10 +182,12 @@ public class HomeFragment extends BaseFragment {
                         popupWindow_brand.dismiss();
                         imgView.setImageResource(R.drawable.nav_icon_down_default);
                         homeTitle.setTextColor(getResources().getColor(R.color.color_333333));
+                        setParentShowing(false);
                     }else{
                         popupWindow_brand.showAsDropDown(view);
                         imgView.setImageResource(R.drawable.nav_icon_up_selected);
                         homeTitle.setTextColor(getResources().getColor(R.color.app_red));
+                        setParentShowing(true);
                     }
                     popupWindow_price.dismiss();
                 }else if(position == 3){
@@ -192,10 +198,12 @@ public class HomeFragment extends BaseFragment {
                         popupWindow_price.dismiss();
                         imgView.setImageResource(R.drawable.nav_icon_down_default);
                         homeTitle.setTextColor(getResources().getColor(R.color.color_333333));
+                        setParentShowing(false);
                     }else{
                         popupWindow_price.showAsDropDown(view);
                         imgView.setImageResource(R.drawable.nav_icon_up_selected);
                         homeTitle.setTextColor(getResources().getColor(R.color.app_red));
+                        setParentShowing(true);
                     }
                 }
             }
@@ -229,4 +237,173 @@ public class HomeFragment extends BaseFragment {
         }
     };
 
+
+    public void setParentShowing(boolean ispopshowing){
+        ((MainActivity) getActivity()).popisShowing = ispopshowing;
+    }
+
+    @Subscribe
+    public void setClosePop(FragmentClosePop closePop){
+        if (closePop.closePop){
+            closePopwindow();
+            setParentShowing(false);
+        }
+    }
+
+    private void closePopwindow() {
+        if (popupWindow_paixu != null){
+            popupWindow_paixu.dismiss();
+        }
+        if (popupWindow_qudao != null){
+            popupWindow_qudao.dismiss();
+        }
+        if (popupWindow_brand != null){
+            popupWindow_brand.dismiss();
+        }
+        if (popupWindow_price != null){
+            popupWindow_price.dismiss();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+
+    /*排序pop的监听*/
+    PaixuPopwindow.PaixuListener paixuListener = new PaixuPopwindow.PaixuListener() {
+        @Override
+        public void defaultValue(String title, String value) {
+            popCode = value;
+            closePopwindow();
+            setTabDefault();
+        }
+
+        @Override
+        public void newPush(String title, String value) {
+            popCode = value;
+            closePopwindow();
+            setTabDefault();
+        }
+
+        @Override
+        public void priceUp(String title, String value) {
+            popCode = value;
+            closePopwindow();
+            setTabDefault();
+        }
+
+        @Override
+        public void priceDown(String title, String value) {
+            popCode = value;
+            closePopwindow();
+            setTabDefault();
+        }
+
+        @Override
+        public void driverAge(String title, String value) {
+            popCode = value;
+            closePopwindow();
+            setTabDefault();
+        }
+
+        @Override
+        public void mileage(String title, String value) {
+            popCode = value;
+            closePopwindow();
+            setTabDefault();
+        }
+
+        @Override
+        public void downdismis() {
+            closePopwindow();
+            setTabDefault();
+        }
+    };
+
+    public void setTabDefault(){
+        for (int i=0; i< mTab.getTabCount(); i++){
+            ImageView imgView = (ImageView) mTab.getTabAt(i).getCustomView().findViewById(R.id.homeIcon);
+            TextView homeTitle = (TextView) mTab.getTabAt(i).getCustomView().findViewById(R.id.homeTitle);
+            imgView.setImageResource(R.drawable.nav_icon_down_default);
+            homeTitle.setTextColor(getResources().getColor(R.color.color_333333));
+        }
+    }
+
+
+    @Override
+    protected void initView(PullRecyclerView recyclerView) {
+        EventBus.getDefault().register(this);
+        Drawable bgdrable = getResources().getDrawable(R.drawable.select_main_item);
+        int bgcolor = getActivity().getResources().getColor(R.color.mdtp_transparent_black);
+
+        initTab();
+
+        initBar();
+
+        getCarPush();
+
+        recyclerView.enableLoadMore(true);
+        recyclerView.enableRefresh(true);
+
+        //排序
+        PaixuPopwindow paixuPopwindow = new PaixuPopwindow();
+        popupWindow_paixu = paixuPopwindow.showPopupWindow(getActivity(), bgdrable, bgcolor,paixuListener, popCode);
+        //渠道
+        PaixuPopwindow paixuPopwindow1 = new PaixuPopwindow();
+        popupWindow_qudao = paixuPopwindow1.showPopupWindow(getActivity(), bgdrable, bgcolor, paixuListener, popCode);
+        //品牌
+        PaixuPopwindow paixuPopwindow2 = new PaixuPopwindow();
+        popupWindow_brand = paixuPopwindow2.showPopupWindow(getActivity(), bgdrable, bgcolor,paixuListener, popCode);
+        //价格
+        PaixuPopwindow paixuPopwindow3 = new PaixuPopwindow();
+        popupWindow_price = paixuPopwindow3.showPopupWindow(getActivity(), bgdrable, bgcolor,paixuListener, popCode);
+        /*加载数据*/
+        getCarsData();
+    }
+
+    @Override
+    protected void onRefresh(RecyclerView recyclerView) {
+        showProgress();
+        CURTURNPAGE = 1;
+        getCarsData();
+    }
+
+    @Override
+    protected void onLoadMore(RecyclerView recyclerView) {
+        CURTURNPAGE++;
+        getCarsData();
+    }
+
+
+    /**
+     * 车源列表
+      */
+    private void getCarsData(){
+        String searchTxt = mNavbar.getSearchText().toString();
+        Subscriber subscriber = new PosetSubscriber<HomeCarGetResponse>().getSubscriber(callback_cardata);
+        UserManager.getHomeCarFrom(searchTxt, popCode, "", CURTURNPAGE, subscriber);
+    }
+
+    ResponseResultListener callback_cardata = new ResponseResultListener<HomeCarGetResponse>() {
+        @Override
+        public void success(HomeCarGetResponse returnMsg) {
+            if (returnMsg.getRows().size() == 10){
+                finishLoad(true);
+            }else{
+                finishLoad(false);
+            }
+            closeProgress();
+            LogUtil.E("success","success");
+        }
+
+        @Override
+        public void fialed(String resCode, String message) {
+            finishLoad(false);
+            closeProgress();
+            LogUtil.E("fialed","fialed");
+        }
+    };
 }

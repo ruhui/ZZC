@@ -41,13 +41,16 @@
         android:background="@color/grey"
         android:layout_below="@+id/mTab"
         />
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/mRecyclerView"
+
+    <com.zzcar.zzc.views.widget.pullview.PullRecyclerView_
+        android:id="@+id/pull_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/mTab">
+        android:layout_below="@+id/mTab"
+        >
 
-    </android.support.v7.widget.RecyclerView>
+    </com.zzcar.zzc.views.widget.pullview.PullRecyclerView_>
+
 
 
     <FrameLayout

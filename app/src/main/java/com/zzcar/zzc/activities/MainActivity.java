@@ -12,12 +12,15 @@ import android.widget.TextView;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
+import com.zzcar.zzc.fragments.HomeFragment;
 import com.zzcar.zzc.fragments.HomeFragment_;
+import com.zzcar.zzc.interfaces.FragmentClosePop;
 import com.zzcar.zzc.views.widget.NoScrollViewPager;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -32,6 +35,8 @@ public class MainActivity extends BaseActivity {
 
     @ViewById(R.id.networkState)
     TextView networkState;
+
+    public boolean popisShowing = false;
 
     @AfterViews
     void initView(){
@@ -65,7 +70,6 @@ public class MainActivity extends BaseActivity {
 
         TabFragmentAdapter adapter = new TabFragmentAdapter(infos);
         mPager.setAdapter(adapter);
-
 
         for (int i = 0; i < adapter.getCount(); i++) {
             //i == 0设置为可点击
@@ -142,7 +146,11 @@ public class MainActivity extends BaseActivity {
     public void onBackPressed() {
         int count = getSupportFragmentManager().getBackStackEntryCount();
         if (count == 0){
-            moveTaskToBack(true);
+            if (popisShowing){
+                EventBus.getDefault().post(new FragmentClosePop(true));
+            }else{
+                moveTaskToBack(true);
+            }
         }else{
             super.onBackPressed();
         }

@@ -16,6 +16,7 @@ import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 import rx.Observable;
 
 /**
@@ -42,5 +43,5 @@ public interface ZZCService {
 
     /*车源列表*/
     @GET("goods/cars")
-    Observable<ResponseParent<List<HomeCarGetResponse>>> getcars(@HeaderMap Map<String, String> header);
+    Observable<ResponseParent<HomeCarGetResponse>> getcars(@QueryMap Map<String, String> paraMap,@HeaderMap Map<String, String> header);
 }

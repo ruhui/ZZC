@@ -157,40 +157,25 @@ public class UserManager {
     /**
      * 获取首页车源数据
      */
-    public static void getHomeCarFrom(String keyword,String saleStatus,String sort,String category_id,String sell_out, String select_sale,String props,String page,
-                                      Subscriber<ResponseParent<List<HomeCarPushResponse>>> subscriber){
+    public static void getHomeCarFrom(String keyword,String sort,String props, int page,
+                                      Subscriber<ResponseParent<HomeCarPushResponse>> subscriber){
         /* 防止多次点击 */
         cancelTagandRemove("getHomeCarFrom");
-
-        if (TextUtils.isEmpty(saleStatus)){
-            saleStatus = "0";
-        }
         String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
-        String user_id = SecurePreferences.getInstance().getString("Authorization", "");
         Map<String,String> hashmap = new HashMap<>();
         //名称/编号
-        hashmap.put("keyword", "");
-        //商品状态：0销售中（默认），1下架中，2审核不通过，3违规下架,4删除的
-        hashmap.put("saleStatus", "0");
+        hashmap.put("keyword", keyword);
         //排序：1最新(默认)、2销量高、3价格高到低、4价格低到高、5按车龄最小，6按里程最少
         hashmap.put("sort", sort);
-        //商品分类
-        hashmap.put("category_id", category_id);
-        //用户id，用户个人主页，要传值
-        hashmap.put("user_id", user_id);
-        // 是否销售完
-        hashmap.put("sell_out", sell_out);
-        //  是否查询促销
-        hashmap.put("select_sale", select_sale);
         //属性,属性值的组合.格式:{"key1":value1,"key2":value2,"color_ids":[1,2]};参数 如goods/cars?page=1&props={"city_id":350200,"color_ids":[1,2]}
-        hashmap.put("props ", props );
-        //  是否查询促销
-        hashmap.put("page", page);
-        //  是否查询促销
+//        hashmap.put("props ", props );
+        //页码
+        hashmap.put("page", String.valueOf(page));
+        //默认一页显示行数
         hashmap.put("size", "10");
 
         ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
-        Subscription subscription = ApiClient.getApiService().getcars(zzcHeaders.getHashMap())
+        Subscription subscription = ApiClient.getApiService().getcars(hashmap, zzcHeaders.getHashMap())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

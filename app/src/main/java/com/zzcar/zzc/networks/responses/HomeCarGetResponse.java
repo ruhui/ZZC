@@ -15,7 +15,7 @@ public class HomeCarGetResponse {
     private int size;
     private int total_pages;
     private int total_result;
-    List<HomeCarGet> rows;
+    private List<HomeCarGet> rows;
 
     public HomeCarGetResponse(int page, int size, int total_pages, int total_result, List<HomeCarGet> rows) {
         this.page = page;

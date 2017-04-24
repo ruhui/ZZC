@@ -13,13 +13,13 @@ public class HomeCarGet {
     private boolean promotion;
     private String first_image;
     private String update_time;
-    private HomeCarMember homeCarMember;
+    private HomeCarMember member;
     private double mileage;
     private int on_number_year;
     private String car_province_city;
 
     public HomeCarGet(int product_id, String name, double market_price, int stock, boolean promotion,
-                      String first_image, String update_time, HomeCarMember homeCarMember, double mileage, int on_number_year, String car_province_city) {
+                      String first_image, String update_time, HomeCarMember member, double mileage, int on_number_year, String car_province_city) {
         this.product_id = product_id;
         this.name = name;
         this.market_price = market_price;
@@ -27,7 +27,7 @@ public class HomeCarGet {
         this.promotion = promotion;
         this.first_image = first_image;
         this.update_time = update_time;
-        this.homeCarMember = homeCarMember;
+        this.member = member;
         this.mileage = mileage;
         this.on_number_year = on_number_year;
         this.car_province_city = car_province_city;
@@ -90,11 +90,11 @@ public class HomeCarGet {
     }
 
     public HomeCarMember getHomeCarMember() {
-        return homeCarMember;
+        return member;
     }
 
-    public void setHomeCarMember(HomeCarMember homeCarMember) {
-        this.homeCarMember = homeCarMember;
+    public void setHomeCarMember(HomeCarMember member) {
+        this.member = member;
     }
 
     public double getMileage() {
