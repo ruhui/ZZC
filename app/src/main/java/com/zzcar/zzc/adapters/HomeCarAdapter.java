@@ -6,6 +6,7 @@ import android.widget.BaseAdapter;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.adapters.base.BaseRecyclerAdapter;
 import com.zzcar.zzc.adapters.viewholders.HomeCarItemView;
+import com.zzcar.zzc.adapters.viewholders.HomeCarItemView_;
 import com.zzcar.zzc.models.HomeCarGet;
 
 import org.androidannotations.annotations.EViewGroup;
@@ -16,16 +17,15 @@ import org.androidannotations.annotations.EViewGroup;
  * 创建时间： 2017/4/24 18:13
  **/
 
-@EViewGroup(R.layout.adapter_homecarfrom)
 public class HomeCarAdapter extends BaseRecyclerAdapter<HomeCarGet, HomeCarItemView> {
 
     @Override
     protected HomeCarItemView onCreateItemView(ViewGroup parent, int viewType) {
-        return null;
+        return HomeCarItemView_.build(parent.getContext());
     }
 
     @Override
     protected void onBindView(HomeCarItemView itemView, HomeCarGet homeCarGet, int position) {
-
+        itemView.bind();
     }
 }
