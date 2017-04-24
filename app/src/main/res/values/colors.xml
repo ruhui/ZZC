@@ -18,4 +18,5 @@
     <!--透明-->
     <color name="transparent">#00000000</color>
     <color name="color_959595">#959595</color>
+    <color name="color_d5d5d5">#d5d5d5</color>
 </resources>

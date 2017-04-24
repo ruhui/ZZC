@@ -26,6 +26,6 @@ public class HomeCarAdapter extends BaseRecyclerAdapter<HomeCarGet, HomeCarItemV
 
     @Override
     protected void onBindView(HomeCarItemView itemView, HomeCarGet homeCarGet, int position) {
-        itemView.bind();
+        itemView.bind(homeCarGet, position);
     }
 }

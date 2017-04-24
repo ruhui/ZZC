@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,12 +14,14 @@ import android.widget.TextView;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.MainActivity;
 import com.zzcar.zzc.activities.SearchActivity_;
+import com.zzcar.zzc.adapters.HomeCarAdapter;
 import com.zzcar.zzc.fragments.base.BaseFragment;
 import com.zzcar.zzc.fragments.base.BasePullRecyclerFragment;
 import com.zzcar.zzc.interfaces.FragmentClosePop;
 import com.zzcar.zzc.interfaces.PopcloseListener;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
+import com.zzcar.zzc.models.HomeCarGet;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
@@ -33,6 +36,7 @@ import org.androidannotations.annotations.ViewById;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.util.ArrayList;
 import java.util.List;
 import rx.Subscriber;
 
@@ -46,6 +50,7 @@ import rx.Subscriber;
 public class HomeFragment extends BasePullRecyclerFragment {
 
     private int[] tabStr = new int[]{R.string.paixu, R.string.qudao, R.string.brand, R.string.price};
+    private HomeCarAdapter carfromAdapter;
 
     /*排序显示的哪个*/
     private String popCode = "1";
@@ -56,6 +61,8 @@ public class HomeFragment extends BasePullRecyclerFragment {
     private PopupWindow popupWindow_qudao;
     private PopupWindow popupWindow_brand;
     private PopupWindow popupWindow_price;
+
+    List<HomeCarGet> mList = new ArrayList<>();
 
     @ViewById(R.id.line2)
     View view;
@@ -372,6 +379,12 @@ public class HomeFragment extends BasePullRecyclerFragment {
         //价格
         PaixuPopwindow paixuPopwindow3 = new PaixuPopwindow();
         popupWindow_price = paixuPopwindow3.showPopupWindow(getActivity(), bgdrable, bgcolor,paixuListener, popCode);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        carfromAdapter = new HomeCarAdapter();
+        recyclerView.setAdapter(carfromAdapter);
+        carfromAdapter.addAll(mList);
+
         /*加载数据*/
         getCarsData();
     }
@@ -380,6 +393,7 @@ public class HomeFragment extends BasePullRecyclerFragment {
     protected void onRefresh(RecyclerView recyclerView) {
         showProgress();
         CURTURNPAGE = 1;
+        mList.clear();
         getCarsData();
     }
 
@@ -409,6 +423,11 @@ public class HomeFragment extends BasePullRecyclerFragment {
             }
             closeProgress();
             LogUtil.E("success","success");
+            mList.addAll(returnMsg.getRows());
+            if (carfromAdapter != null){
+                carfromAdapter.clear();
+                carfromAdapter.addAll(mList);
+            }
         }
 
         @Override
