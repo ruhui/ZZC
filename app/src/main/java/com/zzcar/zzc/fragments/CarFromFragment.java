@@ -24,9 +24,11 @@ import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.HomeCarGet;
 import com.zzcar.zzc.networks.PosetSubscriber;
+import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
 import com.zzcar.zzc.utils.LogUtil;
+import com.zzcar.zzc.views.widget.ChannelPopwindow;
 import com.zzcar.zzc.views.widget.NavBarSearch;
 import com.zzcar.zzc.views.widget.PaixuPopwindow;
 import com.zzcar.zzc.views.widget.pullview.PullRecyclerView;
@@ -55,8 +57,12 @@ public class CarFromFragment extends BasePullRecyclerFragment {
 
     /*排序显示的哪个*/
     private String popCode = "1";
+    /*渠道选择的是哪个*/
+    private int channelPosition = 10000;
     /*当前页码*/
     private int CURTURNPAGE = Constant.DEFAULTPAGE;
+
+    private ChannelPopwindow channelPopwindow;
 
     private PopupWindow popupWindow_paixu;
     private PopupWindow popupWindow_qudao;
@@ -64,6 +70,8 @@ public class CarFromFragment extends BasePullRecyclerFragment {
     private PopupWindow popupWindow_price;
 
     List<HomeCarGet> mList = new ArrayList<>();
+    /*渠道列表*/
+    private List<CarChanelResponse> mChannelList = new ArrayList<>();
 
     @ViewById(R.id.line2)
     View view;
@@ -125,7 +133,7 @@ public class CarFromFragment extends BasePullRecyclerFragment {
                     popupWindow_qudao.showAsDropDown(view);
                     popupWindow_brand.dismiss();
                     popupWindow_price.dismiss();
-
+                    channelPopwindow.setAdapter(channelPosition);
                 }else if(position == 2){
                     popupWindow_paixu.dismiss();
                     popupWindow_qudao.dismiss();
@@ -180,6 +188,7 @@ public class CarFromFragment extends BasePullRecyclerFragment {
                         imgView.setImageResource(R.drawable.nav_icon_up_selected);
                         homeTitle.setTextColor(getResources().getColor(R.color.app_red));
                         setParentShowing(true);
+                        channelPopwindow.setAdapter(channelPosition);
                     }
                     popupWindow_brand.dismiss();
                     popupWindow_price.dismiss();
@@ -231,7 +240,7 @@ public class CarFromFragment extends BasePullRecyclerFragment {
 
     }
 
-
+    /*activity和popwindow的联动*/
     public void setParentShowing(boolean ispopshowing){
         ((MainActivity) getActivity()).popisShowing = ispopshowing;
     }
@@ -303,6 +312,20 @@ public class CarFromFragment extends BasePullRecyclerFragment {
         public void downdismis() {
             closePopwindow();
             setTabDefault();
+            setParentShowing(false);
+        }
+    };
+
+
+    /**
+     * 渠道监听
+     * @param value
+     */
+    ChannelPopwindow.ChannelListener channelListener = new ChannelPopwindow.ChannelListener() {
+        @Override
+        public void selectItem(String title, String value, int position) {
+            channelPosition = position;
+            resertChannelStatus();
         }
     };
 
@@ -315,6 +338,14 @@ public class CarFromFragment extends BasePullRecyclerFragment {
         CURTURNPAGE = Constant.DEFAULTPAGE;
         mList.clear();
         getCarsData();
+        setParentShowing(false);
+    }
+
+    /*点击渠道的重启状态*/
+    private void resertChannelStatus(){
+        closePopwindow();
+        setTabDefault();
+        setParentShowing(false);
     }
 
     public void setTabDefault(){
@@ -341,8 +372,8 @@ public class CarFromFragment extends BasePullRecyclerFragment {
         PaixuPopwindow paixuPopwindow = new PaixuPopwindow();
         popupWindow_paixu = paixuPopwindow.showPopupWindow(getActivity(), bgdrable, bgcolor,paixuListener, popCode);
         //渠道
-        PaixuPopwindow paixuPopwindow1 = new PaixuPopwindow();
-        popupWindow_qudao = paixuPopwindow1.showPopupWindow(getActivity(), bgdrable, bgcolor, paixuListener, popCode);
+        channelPopwindow = new ChannelPopwindow();
+        popupWindow_qudao = channelPopwindow.showPopupWindow(getActivity(), bgdrable, bgcolor, mChannelList, channelListener);
         //品牌
         PaixuPopwindow paixuPopwindow2 = new PaixuPopwindow();
         popupWindow_brand = paixuPopwindow2.showPopupWindow(getActivity(), bgdrable, bgcolor,paixuListener, popCode);
@@ -359,7 +390,11 @@ public class CarFromFragment extends BasePullRecyclerFragment {
 
         /*加载数据*/
         getCarsData();
+        /*获取渠道*/
+        getCarChannel();
     }
+
+
 
     @Override
     protected void onRefresh(RecyclerView recyclerView) {
@@ -385,6 +420,15 @@ public class CarFromFragment extends BasePullRecyclerFragment {
         UserManager.getHomeCarFrom(searchTxt, popCode, "", CURTURNPAGE, subscriber);
     }
 
+    /**
+     * 获取渠道
+     */
+    private void getCarChannel() {
+        Subscriber subscriber = new PosetSubscriber<List<CarChanelResponse>>().getSubscriber(callback_carchannel);
+        UserManager.getCarChannel(subscriber);
+    }
+
+    /*帅选回调*/
     ResponseResultListener callback_cardata = new ResponseResultListener<HomeCarGetResponse>() {
         @Override
         public void success(HomeCarGetResponse returnMsg) {
@@ -405,6 +449,21 @@ public class CarFromFragment extends BasePullRecyclerFragment {
         public void fialed(String resCode, String message) {
             finishLoad(false);
             closeProgress();
+            LogUtil.E("fialed","fialed");
+        }
+    };
+
+    /*渠道回调*/
+    ResponseResultListener callback_carchannel = new ResponseResultListener<List<CarChanelResponse>>() {
+        @Override
+        public void success(List<CarChanelResponse> returnMsg) {
+            LogUtil.E("success","success");
+            mChannelList.addAll(returnMsg);
+            channelPopwindow.setAdapter(mChannelList, channelPosition);
+        }
+
+        @Override
+        public void fialed(String resCode, String message) {
             LogUtil.E("fialed","fialed");
         }
     };

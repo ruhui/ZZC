@@ -7,6 +7,7 @@ import com.zzcar.zzc.networks.ApiClient;
 import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.ZZCHeaders;
 import com.zzcar.zzc.networks.requests.LoginRequest;
+import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.utils.SecurePreferences;
@@ -182,4 +183,21 @@ public class UserManager {
                 .subscribe(subscriber);
         add("getHomeCarFrom", subscription);
     }
+
+    /**
+     * 获取车源渠道
+     */
+    public static void getCarChannel(Subscriber<ResponseParent<List<CarChanelResponse>>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("getCarChannel");
+        Map<String,String> hashmap = new HashMap<>();
+        ZZCHeaders zzcHeaders = new ZZCHeaders(hashmap);
+        Subscription subscription = ApiClient.getApiService().getcarchannel(zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("getCarChannel", subscription);
+    }
+
 }

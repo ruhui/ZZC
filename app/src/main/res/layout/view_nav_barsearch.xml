@@ -21,10 +21,11 @@
         android:layout_toStartOf="@+id/textView" />
 
     <ImageView
-        android:layout_width="@dimen/dp_30"
+        android:layout_width="20dp"
         android:layout_height="@dimen/dp_30"
         android:src="@drawable/nav_icon_shaixuan_default"
         android:scaleType="center"
+        android:layout_marginRight="5dp"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
