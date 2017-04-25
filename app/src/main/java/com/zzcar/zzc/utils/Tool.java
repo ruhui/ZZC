@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -272,4 +274,131 @@ public class Tool {
 //        oks.show(context);
 //    }
 
+    /**
+     * 车源的时间格式
+     */
+    public static String getTimeFormat(String date){
+        String newyear="",mouth="",day="",hour="",minute="";
+        if (date.indexOf("-") > 0){
+            newyear = date.substring(0, date.indexOf("-"));
+            date = date.substring(date.indexOf("-")+1);
+            if (date.indexOf("-")>0){
+                mouth = date.substring(0, date.indexOf( "-"));
+                date = date.substring(date.indexOf("-")+1);
+                if (date.indexOf(" ")>0){
+                    day = date.substring(0, date.indexOf(" "));
+                    date = date.substring(date.indexOf(" ")+1);
+                    if (date.indexOf(":")>0){
+                        hour = date.substring(0, date.indexOf(":"));
+                        date = date.substring(date.indexOf(":")+1);
+                        if (date.indexOf(":") > 0){
+                            minute = date.substring(0, date.indexOf(":"));
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!TextUtils.isEmpty(newyear) ){
+            if ((Integer.valueOf(newyear) < getYear())){
+                return newyear+"年"+mouth+"月";
+            }else if (Integer.valueOf(newyear) == getYear()){
+                if (!TextUtils.isEmpty(day) && !TextUtils.isEmpty(mouth) && !TextUtils.isEmpty(day) ){
+                    int m = Integer.valueOf(mouth);
+                    int h = getMonth();
+                    if (Integer.valueOf(mouth) < getMonth()){
+                        return mouth+"月"+day+"日";
+                    }else if ((Integer.valueOf(mouth) == getMonth()) ){
+                        if (Integer.valueOf(day) < getDay()){
+                            return mouth+"月"+day+"日";
+                        }else if (Integer.valueOf(day) == getDay()){
+                            int hout =getHour();
+                            int houtp = getHour()-Integer.valueOf(hour);
+                            if (houtp > 1 && houtp < 24){
+                                return hour+" : "+minute;
+                            }else{
+                                return "刚刚";
+                            }
+                        }else{
+                            return "";
+                        }
+                    }else{
+                        return  "";
+                    }
+                }else{
+                    return newyear +"年";
+                }
+            }else{
+                return  "";
+            }
+        }else{
+            return  "";
+        }
+    }
+
+
+    public void getTimeByCalendar(){
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);//获取年份
+        int month=cal.get(Calendar.MONTH);//获取月份
+        int day=cal.get(Calendar.DATE);//获取日
+        int hour=cal.get(Calendar.HOUR);//小时
+        int minute=cal.get(Calendar.MINUTE);//分
+        int second=cal.get(Calendar.SECOND);//秒
+        int WeekOfYear = cal.get(Calendar.DAY_OF_WEEK);//一周的第几天
+    }
+
+    /**
+     * 获取年
+     */
+    public static int getYear(){
+        Calendar cal = Calendar.getInstance();
+        int year = cal.get(Calendar.YEAR);//获取年份
+        return year;
+    }
+    /**
+     * 获取月
+     */
+    public static int getMonth(){
+        Calendar cal = Calendar.getInstance();
+        int month=cal.get(Calendar.MONTH);//获取月份
+        return month+1;
+    }
+
+    /**
+     * 获取日
+     */
+    public static int getDay(){
+        Calendar cal = Calendar.getInstance();
+        return cal.get(Calendar.DATE);//获取日
+    }
+
+    /**
+     * 获取时
+     */
+    public static int getHour(){
+        Calendar cal = Calendar.getInstance();
+        return cal.get(Calendar.HOUR_OF_DAY);//小时
+    }
+
+    /**
+     * 获取分
+     */
+    public static int getMinute(){
+        Calendar cal = Calendar.getInstance();
+        return cal.get(Calendar.MINUTE);//分
+    }
+
+    /**
+     * 获取图片路径
+     */
+    public static String getPicUrl(String url, int width, int height){
+        if (url.contains(".jpg")){
+            return Constant.PICLOOKURL + url + "_1_" + width + "_" + height + "_0.jpg";
+        }else  if (url.contains(".png")){
+            return Constant.PICLOOKURL + url + "_1_" + width + "_" + height + "_0.png";
+        }else{
+            return "";
+        }
+    }
 }

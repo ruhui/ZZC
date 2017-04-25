@@ -2,13 +2,19 @@ package com.zzcar.zzc.adapters.viewholders;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zzcar.zzc.R;
+import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.models.HomeCarGet;
+import com.zzcar.zzc.utils.ImageLoader;
+import com.zzcar.zzc.utils.LogUtil;
+import com.zzcar.zzc.utils.Tool;
+import com.zzcar.zzc.utils.Utils;
 
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
@@ -32,8 +38,6 @@ public class HomeCarItemView extends LinearLayout {
     TextView txtYear;
     @ViewById(R.id.textView12)
     TextView txtMilie;
-    @ViewById(R.id.textView13)
-    TextView txtPifa;
     @ViewById(R.id.textView14)
     TextView txtPrice;
     @ViewById(R.id.textView15)
@@ -44,47 +48,52 @@ public class HomeCarItemView extends LinearLayout {
     TextView txtTime;
     @ViewById(R.id.textView19)
     TextView txtTuiguang;
-    @ViewById(R.id.textView20)
-    TextView txtHaspay;
     @ViewById(R.id.relativeLayout)
     RelativeLayout relativeLayout;
+
+    private Context mContext;
 
 
     public HomeCarItemView(Context context) {
         super(context);
+        mContext = context;
     }
 
     public HomeCarItemView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        mContext = context;
     }
 
     public void bind(HomeCarGet homeCarGet, int position) {
         if (homeCarGet.getStock() == 0){
             bgImage.setImageResource(R.drawable.pic_bg_default);
             txtContent.setText("");
-            txtAddress.setText("");
             relativeLayout.setVisibility(INVISIBLE);
-            txtRenzheng.setVisibility(INVISIBLE);
             txtCompany.setText("");
             txtTime.setText("");
-            txtTime.setText("");
-            txtTuiguang.setVisibility(INVISIBLE);
-            txtHaspay.setVisibility(VISIBLE);
+            txtTuiguang.setText("已售");
             txtPrice.setText("");
-            txtPifa.setText("");
         }else{
+            int weidth = Utils.dip2px(mContext, 92);
+            int height = Utils.dip2px(mContext, 67);
+            ImageLoader.loadImage(Tool.getPicUrl(homeCarGet.getFirst_image(), weidth, height), bgImage, R.drawable.pic_bg_default);
             if (homeCarGet.isPromotion()){
                 //是推广
                 txtTuiguang.setVisibility(VISIBLE);
+                txtTuiguang.setText("推广");
             }else{
                 txtTuiguang.setVisibility(INVISIBLE);
+                txtTuiguang.setText("");
             }
-            txtHaspay.setVisibility(INVISIBLE);
+            relativeLayout.setVisibility(VISIBLE);
+            txtCompany.setText(homeCarGet.getHomeCarMember().getShop_name());
             txtContent.setText(homeCarGet.getName());
             txtAddress.setText(homeCarGet.getCar_province_city());
-            txtYear.setText(homeCarGet.getOn_number_year());
-            txtMilie.setText(""+homeCarGet.getMileage());
+            txtYear.setText(homeCarGet.getOn_number_year()+"");
+            txtMilie.setText(""+homeCarGet.getMileage()+"万公里");
             txtPrice.setText(homeCarGet.getMarket_price()+"万");
+            txtTime.setText(Tool.getTimeFormat(homeCarGet.getUpdate_time()));
         }
+        txtRenzheng.setText(homeCarGet.getHomeCarMember().getAuth_status_name() );
     }
 }

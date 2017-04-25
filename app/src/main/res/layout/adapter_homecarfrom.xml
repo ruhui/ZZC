@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="128dp">
+    android:layout_height="wrap_content"
+    android:background="@color/grey">
 
 
     <RelativeLayout
@@ -51,12 +52,13 @@
                 android:layout_centerVertical="true"
                 android:text="地区"
                 android:textColor="@color/color_7d7c7c"
-                android:textSize="11dp" />
+                android:textSize="11sp" />
 
             <View
                 android:id="@+id/view9"
                 android:layout_width="0.5dp"
                 android:layout_height="10dp"
+                android:layout_marginLeft="2dp"
                 android:layout_centerVertical="true"
                 android:layout_toEndOf="@+id/textView10"
                 android:layout_toRightOf="@+id/textView10"
@@ -70,14 +72,16 @@
                 android:layout_toEndOf="@+id/view9"
                 android:layout_toRightOf="@+id/view9"
                 android:text="2017年"
+                android:layout_marginLeft="2dp"
                 android:textColor="@color/color_7d7c7c"
-                android:textSize="11dp" />
+                android:textSize="11sp" />
 
             <View
                 android:id="@+id/view10"
                 android:layout_width="0.5dp"
                 android:layout_height="10dp"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="2dp"
                 android:layout_toEndOf="@+id/textView11"
                 android:layout_toRightOf="@+id/textView11"
                 android:background="@color/color_d5d5d5" />
@@ -90,35 +94,11 @@
                 android:layout_toEndOf="@+id/view10"
                 android:layout_toRightOf="@+id/view10"
                 android:text="3.1万公里"
+                android:layout_marginLeft="2dp"
                 android:textColor="@color/color_7d7c7c"
-                android:textSize="11dp" />
+                android:textSize="11sp" />
 
         </RelativeLayout>
-
-        <TextView
-            android:id="@+id/textView13"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/relativeLayout"
-            android:layout_alignStart="@+id/relativeLayout"
-            android:layout_below="@+id/relativeLayout"
-            android:layout_marginTop="5dp"
-            android:text="批发推广:"
-            android:textColor="@color/app_red"
-            android:textSize="@dimen/sp_12" />
-
-        <TextView
-            android:id="@+id/textView14"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="26dp"
-            android:layout_marginStart="26dp"
-            android:text="x.x0万"
-            android:textColor="@color/app_red"
-            android:textSize="13sp"
-            android:layout_alignBottom="@+id/textView13"
-            android:layout_toRightOf="@+id/textView13"
-            android:layout_toEndOf="@+id/textView13" />
 
         <TextView
             android:id="@+id/textView15"
@@ -176,18 +156,16 @@
             android:background="@color/app_red"/>
 
         <TextView
-            android:id="@+id/textView20"
-            android:layout_width="30dp"
-            android:layout_height="15dp"
-            android:layout_alignLeft="@+id/textView8"
-            android:layout_alignStart="@+id/textView8"
-            android:layout_alignTop="@+id/textView8"
-            android:text="已售"
-            android:textSize="10sp"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:background="@color/app_red"/>
-
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="x.x0万"
+            android:textColor="@color/app_red"
+            android:textSize="13sp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/relativeLayout"
+            android:layout_alignLeft="@+id/relativeLayout"
+            android:layout_alignStart="@+id/relativeLayout" />
     </RelativeLayout>
 
     <View

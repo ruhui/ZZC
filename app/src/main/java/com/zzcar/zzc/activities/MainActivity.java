@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
+import com.zzcar.zzc.fragments.CarFromFragment;
+import com.zzcar.zzc.fragments.CarFromFragment_;
 import com.zzcar.zzc.fragments.HomeFragment;
 import com.zzcar.zzc.fragments.HomeFragment_;
 import com.zzcar.zzc.interfaces.FragmentClosePop;
@@ -56,7 +58,7 @@ public class MainActivity extends BaseActivity {
         TabInfo homeTabInfo = new TabInfo(HomeFragment_.builder().build(), R.drawable.tab_home, R.string.tab_home);
         infos.add(homeTabInfo);
 
-        TabInfo preheatTabInfo = new TabInfo(HomeFragment_.builder().build(), R.drawable.tab_home_car, R.string.tab_carfrom);
+        TabInfo preheatTabInfo = new TabInfo(CarFromFragment_.builder().build(), R.drawable.tab_home_car, R.string.tab_carfrom);
         infos.add(preheatTabInfo);
 
         TabInfo shopingTabInfo = new TabInfo(HomeFragment_.builder().build(), R.drawable.tab_home_shangji, R.string.tab_shangji);

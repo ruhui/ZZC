@@ -9,4 +9,5 @@
     <dimen name="activityTitleHeight">47dp</dimen>
     <dimen name="actionbar_heigh">65dp</dimen>
     <dimen name="font_xlarge">14sp</dimen>
+    <dimen name="halfdp">0.5dp</dimen>
 </resources>

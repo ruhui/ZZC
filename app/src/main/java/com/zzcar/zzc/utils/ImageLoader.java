@@ -106,8 +106,11 @@ public class ImageLoader {
     }
 
     public static void loadImage(Uri uri, ImageView imageView) {
-
         Glide.with(imageView.getContext()).loadFromMediaStore(uri).fitCenter().diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+    }
+
+    public static void loadImage(String url, ImageView imageView) {
+        Glide.with(imageView.getContext()).load(url).fitCenter().diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
     }
 
     public static void loadImageRadio(String url, ImageView imageView,int radio) {
