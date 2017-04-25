@@ -297,10 +297,7 @@ public class CarFromFragment extends BasePullRecyclerFragment {
             showProgress();
             searchRequest.setChannel(value);
             searchRequest.setChanneldes(title);
-            resertChannelStatus(1, title);
-
-            searchRequest.setChannel(value);
-
+            resertChannelStatus();
             CURTURNPAGE = Constant.DEFAULTPAGE;
             mList.clear();
             getCarsData();
@@ -319,24 +316,12 @@ public class CarFromFragment extends BasePullRecyclerFragment {
     }
 
     /*点击渠道的重启状态*/
-    private void resertChannelStatus(int tabPosition,String title){
+    private void resertChannelStatus(){
         closePopwindow();
-        setTabDefault(tabPosition, title);
+        setTabDefault();
         setParentShowing(false);
     }
 
-    /*需要设置值*/
-    public void setTabDefault(int tabPosition, String title){
-        for (int i=0; i< mTab.getTabCount(); i++){
-            ImageView imgView = (ImageView) mTab.getTabAt(i).getCustomView().findViewById(R.id.homeIcon);
-            TextView homeTitle = (TextView) mTab.getTabAt(i).getCustomView().findViewById(R.id.homeTitle);
-            imgView.setImageResource(R.drawable.nav_icon_down_default);
-            homeTitle.setTextColor(getResources().getColor(R.color.color_333333));
-            if(tabPosition == i ){
-                homeTitle.setText(title);
-            }
-        }
-    }
 
     /*需要设置值*/
     public void setTabDefault(){
@@ -345,6 +330,15 @@ public class CarFromFragment extends BasePullRecyclerFragment {
             TextView homeTitle = (TextView) mTab.getTabAt(i).getCustomView().findViewById(R.id.homeTitle);
             imgView.setImageResource(R.drawable.nav_icon_down_default);
             homeTitle.setTextColor(getResources().getColor(R.color.color_333333));
+            if (i == 0){
+                homeTitle.setText(searchRequest.getSortdes());
+            }else if(i == 1){
+                homeTitle.setText(searchRequest.getChanneldes());
+            }else if( i == 2 ){
+                homeTitle.setText(searchRequest.getBland_iddes());
+            }else if( i == 3){
+                homeTitle.setText(searchRequest.getPrice_typedes());
+            }
         }
     }
 

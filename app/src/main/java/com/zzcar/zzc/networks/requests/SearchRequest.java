@@ -23,10 +23,26 @@ public class SearchRequest {
     private String min_mileage="";
     private String max_mileage="";
 
-    private String sortdes;
-    private String channeldes;
-    private String bland_iddes;
-    private String price_typedes;
+    private String sortdes = "排序";
+    private String channeldes = "渠道";
+    private String bland_iddes = "品牌";
+    private String price_typedes = "价格";
+
+    public String getSortdes() {
+        return sortdes;
+    }
+
+    public String getChanneldes() {
+        return channeldes;
+    }
+
+    public String getBland_iddes() {
+        return bland_iddes;
+    }
+
+    public String getPrice_typedes() {
+        return price_typedes;
+    }
 
     public void setSortdes(String sortdes) {
         this.sortdes = sortdes;
