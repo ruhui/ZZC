@@ -12,8 +12,9 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 
 import com.zzcar.zzc.R;
+import com.zzcar.zzc.networks.requests.SearchRequest;
 
- /**
+/**
     * 1最新(默认)、2销量高、3价格高到低、4价格低到高、5按车龄最小，6按里程最少
     * 创建作者： 黄如辉
     * 创建时间： 2017/4/24 14:10
@@ -25,8 +26,9 @@ public class PaixuPopwindow {
     private String popCode;
      private  ItemTextImgView itemTextImgView1,itemTextImgView2,itemTextImgView3,itemTextImgView4,itemTextImgView5,itemTextImgView6;
 
-    public PopupWindow showPopupWindow(Context mContext, Drawable bgdrawable, int bgcolor, PaixuListener paixuListener, String popCode) {
-        this.popCode = popCode;
+    public PopupWindow showPopupWindow(Context mContext, Drawable bgdrawable,
+                                       int bgcolor, PaixuListener paixuListener, SearchRequest searchRequest) {
+        this.popCode = searchRequest.getSort();
         this.paixuListener = paixuListener;
         View contentView = initView(mContext);
         PopupWindow popupWindow;
@@ -67,7 +69,6 @@ public class PaixuPopwindow {
         itemTextImgView4 = (ItemTextImgView) contentView.findViewById(R.id.itemTextImgView4);
         itemTextImgView5 = (ItemTextImgView) contentView.findViewById(R.id.itemTextImgView5);
         itemTextImgView6 = (ItemTextImgView) contentView.findViewById(R.id.itemTextImgView6);
-        RelativeLayout relaDown = (RelativeLayout) contentView.findViewById(R.id.relaDown);
 
         itemTextImgView1.setTextValue("最新");
         itemTextImgView2.setTextValue("销量高");
@@ -93,7 +94,7 @@ public class PaixuPopwindow {
         itemTextImgView2.setOnSelectListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paixuListener.newPush("销量高", "2");
+                paixuListener.defaultValue("销量高", "2");
                 popCode = "2";
                 showImage();
             }
@@ -103,7 +104,7 @@ public class PaixuPopwindow {
         itemTextImgView3.setOnSelectListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paixuListener.priceUp("价格高到低", "3");
+                paixuListener.defaultValue("价格高到低", "3");
                 popCode = "3";
                 showImage();
             }
@@ -113,7 +114,7 @@ public class PaixuPopwindow {
         itemTextImgView4.setOnSelectListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paixuListener.priceDown("价格低到高", "4");
+                paixuListener.defaultValue("价格低到高", "4");
                 popCode = "4";
                 showImage();
             }
@@ -123,7 +124,7 @@ public class PaixuPopwindow {
         itemTextImgView5.setOnSelectListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paixuListener.driverAge("按车龄最小", "5");
+                paixuListener.defaultValue("按车龄最小", "5");
                 popCode = "5";
                 showImage();
             }
@@ -133,31 +134,19 @@ public class PaixuPopwindow {
         itemTextImgView6.setOnSelectListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                paixuListener.mileage("按里程最少", "6");
+                paixuListener.defaultValue("按里程最少", "6");
                 popCode = "6";
                 showImage();
             }
         });
 
-        //底部消失
-        relaDown.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                paixuListener.downdismis();
-            }
-        });
+
 
         return contentView;
     }
 
     public interface PaixuListener{
         public void defaultValue(String title, String value);
-        public void newPush(String title, String value);
-        public void priceUp(String title, String value);
-        public void priceDown(String title, String value);
-        public void driverAge(String title, String value);
-        public void mileage(String title, String value);
-        public void downdismis();
     }
 
      private void showImage(){

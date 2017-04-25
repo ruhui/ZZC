@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.adapters.ChannelAdapter;
+import com.zzcar.zzc.networks.requests.SearchRequest;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
 
 import java.util.ArrayList;
@@ -79,13 +80,13 @@ public class ChannelPopwindow {
        public void selectItem(String title, String value, int position);
    }
 
-    public void setAdapter(List<CarChanelResponse> mList, int position){
+    public void setAdapter(List<CarChanelResponse> mList, SearchRequest searchRequest){
         mChannelList.addAll(mList);
-        adapter.setData(mChannelList, position);
+        adapter.setData(mChannelList, searchRequest);
     }
 
-    public void setAdapter( int position){
-        adapter.setData(position);
+    public void setAdapter(SearchRequest searchRequest){
+        adapter.setData(searchRequest);
     }
 
     ChannelAdapter.ItemClickListener itemClickListener = new ChannelAdapter.ItemClickListener() {

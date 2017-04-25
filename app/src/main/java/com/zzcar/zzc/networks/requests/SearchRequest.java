@@ -6,23 +6,60 @@ package com.zzcar.zzc.networks.requests;
  * 创建时间： 2017/4/25 17:52
  **/
 public class SearchRequest {
-    private String channel;
-    private String emission_ids;
-    private String color_ids;
-    private String bland_id;
-    private String series_id;
-    private String year_id;
-    private String spec_id;
-    private String province_id;
-    private String city_id;
-    private String price_type;
-    private String min_price;
-    private String max_price;
-    private String mileage;
-    private String min_mileage;
-    private String max_mileage;
+    private String sort="1";
+    private String channel="";
+    private String emission_ids="";
+    private String color_ids="";
+    private String bland_id="";
+    private String series_id="";
+    private String year_id="";
+    private String spec_id="";
+    private String province_id="";
+    private String city_id="";
+    private String price_type="";
+    private String min_price="";
+    private String max_price="";
+    private String mileage="";
+    private String min_mileage="";
+    private String max_mileage="";
+
+    private String sortdes;
+    private String channeldes;
+    private String bland_iddes;
+    private String price_typedes;
+
+    public void setSortdes(String sortdes) {
+        this.sortdes = sortdes;
+    }
+
+    public void setChanneldes(String channeldes) {
+        this.channeldes = channeldes;
+    }
+
+    public void setBland_iddes(String bland_iddes) {
+        this.bland_iddes = bland_iddes;
+    }
+
+    public void setPrice_typedes(String price_typedes) {
+        this.price_typedes = price_typedes;
+    }
 
     public SearchRequest() {}
+
+    /*默认状态*/
+    public void defaultStatus(){
+        sort = "1";channel="";emission_ids="";color_ids="";bland_id="";series_id="";year_id="";max_mileage="";
+        spec_id="";province_id="";city_id="";price_type="";min_price="";max_price="";mileage="";min_mileage="";
+        sortdes="排序";channeldes="渠道";bland_iddes="品牌";price_typedes="价格";
+    }
+
+    public String getSort() {
+        return sort;
+    }
+
+    public void setSort(String sort) {
+        this.sort = sort;
+    }
 
     public String getChannel() {
         return channel;

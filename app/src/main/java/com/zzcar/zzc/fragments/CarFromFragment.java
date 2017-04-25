@@ -59,10 +59,6 @@ public class CarFromFragment extends BasePullRecyclerFragment {
     private int[] tabStr = new int[]{R.string.paixu, R.string.qudao, R.string.brand, R.string.price};
     private HomeCarAdapter carfromAdapter;
 
-    /*排序显示的哪个*/
-    private String popCode = "1";
-    /*渠道选择的是哪个*/
-    private int channelPosition = 10000;
     /*当前页码*/
     private int CURTURNPAGE = Constant.DEFAULTPAGE;
 
@@ -137,7 +133,7 @@ public class CarFromFragment extends BasePullRecyclerFragment {
                     popupWindow_qudao.showAsDropDown(view);
                     popupWindow_brand.dismiss();
                     popupWindow_price.dismiss();
-                    channelPopwindow.setAdapter(channelPosition);
+                    channelPopwindow.setAdapter(searchRequest);
                 }else if(position == 2){
                     popupWindow_paixu.dismiss();
                     popupWindow_qudao.dismiss();
@@ -192,7 +188,7 @@ public class CarFromFragment extends BasePullRecyclerFragment {
                         imgView.setImageResource(R.drawable.nav_icon_up_selected);
                         homeTitle.setTextColor(getResources().getColor(R.color.app_red));
                         setParentShowing(true);
-                        channelPopwindow.setAdapter(channelPosition);
+                        channelPopwindow.setAdapter(searchRequest);
                     }
                     popupWindow_brand.dismiss();
                     popupWindow_price.dismiss();
@@ -284,39 +280,9 @@ public class CarFromFragment extends BasePullRecyclerFragment {
     PaixuPopwindow.PaixuListener paixuListener = new PaixuPopwindow.PaixuListener() {
         @Override
         public void defaultValue(String title, String value) {
-           loadStateus(value);
-        }
-
-        @Override
-        public void newPush(String title, String value) {
-            loadStateus(value);
-        }
-
-        @Override
-        public void priceUp(String title, String value) {
-            loadStateus(value);
-        }
-
-        @Override
-        public void priceDown(String title, String value) {
-            loadStateus(value);
-        }
-
-        @Override
-        public void driverAge(String title, String value) {
-            loadStateus(value);
-        }
-
-        @Override
-        public void mileage(String title, String value) {
-            loadStateus(value);
-        }
-
-        @Override
-        public void downdismis() {
-            closePopwindow();
-            setTabDefault();
-            setParentShowing(false);
+            searchRequest.setSort(value);
+            searchRequest.setSortdes(title);
+            loadStateus();
         }
     };
 
@@ -329,8 +295,9 @@ public class CarFromFragment extends BasePullRecyclerFragment {
         @Override
         public void selectItem(String title, String value, int position) {
             showProgress();
-            channelPosition = position;
-            resertChannelStatus();
+            searchRequest.setChannel(value);
+            searchRequest.setChanneldes(title);
+            resertChannelStatus(1, title);
 
             searchRequest.setChannel(value);
 
@@ -341,9 +308,8 @@ public class CarFromFragment extends BasePullRecyclerFragment {
     };
 
     /*点击排序的操作*/
-    private void loadStateus(String value) {
+    private void loadStateus() {
         showProgress();
-        popCode = value;
         closePopwindow();
         setTabDefault();
         CURTURNPAGE = Constant.DEFAULTPAGE;
@@ -353,12 +319,26 @@ public class CarFromFragment extends BasePullRecyclerFragment {
     }
 
     /*点击渠道的重启状态*/
-    private void resertChannelStatus(){
+    private void resertChannelStatus(int tabPosition,String title){
         closePopwindow();
-        setTabDefault();
+        setTabDefault(tabPosition, title);
         setParentShowing(false);
     }
 
+    /*需要设置值*/
+    public void setTabDefault(int tabPosition, String title){
+        for (int i=0; i< mTab.getTabCount(); i++){
+            ImageView imgView = (ImageView) mTab.getTabAt(i).getCustomView().findViewById(R.id.homeIcon);
+            TextView homeTitle = (TextView) mTab.getTabAt(i).getCustomView().findViewById(R.id.homeTitle);
+            imgView.setImageResource(R.drawable.nav_icon_down_default);
+            homeTitle.setTextColor(getResources().getColor(R.color.color_333333));
+            if(tabPosition == i ){
+                homeTitle.setText(title);
+            }
+        }
+    }
+
+    /*需要设置值*/
     public void setTabDefault(){
         for (int i=0; i< mTab.getTabCount(); i++){
             ImageView imgView = (ImageView) mTab.getTabAt(i).getCustomView().findViewById(R.id.homeIcon);
@@ -381,16 +361,16 @@ public class CarFromFragment extends BasePullRecyclerFragment {
 
         //排序
         PaixuPopwindow paixuPopwindow = new PaixuPopwindow();
-        popupWindow_paixu = paixuPopwindow.showPopupWindow(getActivity(), bgdrable, bgcolor,paixuListener, popCode);
+        popupWindow_paixu = paixuPopwindow.showPopupWindow(getActivity(), bgdrable, bgcolor,paixuListener, searchRequest);
         //渠道
         channelPopwindow = new ChannelPopwindow();
         popupWindow_qudao = channelPopwindow.showPopupWindow(getActivity(), bgdrable, bgcolor, mChannelList, channelListener);
         //品牌
         PaixuPopwindow paixuPopwindow2 = new PaixuPopwindow();
-        popupWindow_brand = paixuPopwindow2.showPopupWindow(getActivity(), bgdrable, bgcolor,paixuListener, popCode);
+        popupWindow_brand = paixuPopwindow2.showPopupWindow(getActivity(), bgdrable, bgcolor,paixuListener, searchRequest);
         //价格
         PaixuPopwindow paixuPopwindow3 = new PaixuPopwindow();
-        popupWindow_price = paixuPopwindow3.showPopupWindow(getActivity(), bgdrable, bgcolor,paixuListener, popCode);
+        popupWindow_price = paixuPopwindow3.showPopupWindow(getActivity(), bgdrable, bgcolor,paixuListener, searchRequest);
 
         recyclerView.enableRefresh(true);
         recyclerView.enableLoadMore(true);
@@ -404,7 +384,6 @@ public class CarFromFragment extends BasePullRecyclerFragment {
         /*获取渠道*/
         getCarChannel();
     }
-
 
 
     @Override
@@ -428,7 +407,7 @@ public class CarFromFragment extends BasePullRecyclerFragment {
     private void getCarsData(){
         String searchTxt = mNavbar.getSearchText().toString();
         Subscriber subscriber = new PosetSubscriber<HomeCarGetResponse>().getSubscriber(callback_cardata);
-        UserManager.getHomeCarFrom(searchTxt, popCode, searchRequest, CURTURNPAGE, subscriber);
+        UserManager.getHomeCarFrom(searchTxt, searchRequest, CURTURNPAGE, subscriber);
     }
 
     /**
@@ -470,7 +449,7 @@ public class CarFromFragment extends BasePullRecyclerFragment {
         public void success(List<CarChanelResponse> returnMsg) {
             LogUtil.E("success","success");
             mChannelList.addAll(returnMsg);
-            channelPopwindow.setAdapter(mChannelList, channelPosition);
+            channelPopwindow.setAdapter(mChannelList, searchRequest);
         }
 
         @Override

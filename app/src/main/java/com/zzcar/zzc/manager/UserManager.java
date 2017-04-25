@@ -160,7 +160,7 @@ public class UserManager {
     /**
      * 获取首页车源数据
      */
-    public static void getHomeCarFrom(String keyword, String sort, SearchRequest props, int page,
+    public static void getHomeCarFrom(String keyword, SearchRequest props, int page,
                                       Subscriber<ResponseParent<HomeCarPushResponse>> subscriber){
         /* 防止多次点击 */
         cancelTagandRemove("getHomeCarFrom");
@@ -169,7 +169,7 @@ public class UserManager {
         //名称/编号
         hashmap.put("keyword", keyword);
         //排序：1最新(默认)、2销量高、3价格高到低、4价格低到高、5按车龄最小，6按里程最少
-        hashmap.put("sort", sort);
+        hashmap.put("sort", props.getSort());
         //属性,属性值的组合.格式:{"key1":value1,"key2":value2,"color_ids":[1,2]};参数 如goods/cars?page=1&props={"city_id":350200,"color_ids":[1,2]}
         hashmap.put("props ", Tool.getGson(props));
         //页码
@@ -201,5 +201,10 @@ public class UserManager {
                 .subscribe(subscriber);
         add("getCarChannel", subscription);
     }
+
+    /**
+     * 获取价格区间
+     */
+
 
 }

@@ -11,8 +11,9 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/font_xlarge"
         android:text="@string/paixu"
+        android:maxLength="4"
         android:textColor="@color/color_333333"
-        android:layout_marginRight="8dp"/>
+        android:layout_marginRight="5dp"/>
 
     <ImageView
         android:id="@+id/homeIcon"

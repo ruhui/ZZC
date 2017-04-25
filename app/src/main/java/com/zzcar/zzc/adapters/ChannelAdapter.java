@@ -2,6 +2,7 @@ package com.zzcar.zzc.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zzcar.zzc.R;
+import com.zzcar.zzc.networks.requests.SearchRequest;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
 
 import java.util.ArrayList;
@@ -22,7 +24,8 @@ import java.util.List;
  **/
 public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 
-    private int selectPosition = 10000;
+    private SearchRequest searchRequest;
+    private String selectPosition = "";
     private ArrayList<CarChanelResponse> mList = new ArrayList<>();
     private ItemClickListener clickListener;
     private Context mContext;
@@ -44,8 +47,8 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
         final CarChanelResponse carChanelResponse = mList.get(position);
         holder.txtTitle.setText(carChanelResponse.getText());
         holder.imgSelect.setVisibility(View.INVISIBLE);
-        if (selectPosition != 10000){
-            if (selectPosition == position){
+        if (!TextUtils.isEmpty(selectPosition)){
+            if (selectPosition == carChanelResponse.getValue()){
                 holder.txtTitle.setTextColor(mContext.getResources().getColor(R.color.app_red));
             }else{
                 holder.txtTitle.setTextColor(mContext.getResources().getColor(R.color.color_333333));
@@ -65,14 +68,24 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
         return mList.size();
     }
 
-    public void setData(List<CarChanelResponse> mChannelList, int position) {
+    public void setData(List<CarChanelResponse> mChannelList, SearchRequest searchRequest) {
+        this.searchRequest = searchRequest;
         mList.addAll(mChannelList);
-        selectPosition = position;
+        if (searchRequest.getChannel().equals("")){
+            selectPosition ="";
+        }else{
+            selectPosition = searchRequest.getChannel();
+        }
         notifyDataSetChanged();
     }
 
-    public void setData(int position) {
-        selectPosition = position;
+    public void setData(SearchRequest searchRequest) {
+        this.searchRequest = searchRequest;
+        if (searchRequest.getChannel().equals("")){
+            selectPosition ="";
+        }else{
+            selectPosition = searchRequest.getChannel();
+        }
         notifyDataSetChanged();
     }
 

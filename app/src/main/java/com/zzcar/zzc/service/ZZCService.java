@@ -49,4 +49,8 @@ public interface ZZCService {
     /*获取车源渠道*/
     @GET("common/car_channel")
     Observable<ResponseParent<List<CarChanelResponse>>> getcarchannel(@HeaderMap Map<String, String> header);
+
+    /*获取价格区间*/
+    @GET("common/price_type")
+    Observable<ResponseParent<List<CarChanelResponse>>> getpricebetween(@HeaderMap Map<String, String> header);
 }
