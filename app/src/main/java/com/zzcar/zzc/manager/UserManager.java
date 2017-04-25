@@ -7,10 +7,12 @@ import com.zzcar.zzc.networks.ApiClient;
 import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.ZZCHeaders;
 import com.zzcar.zzc.networks.requests.LoginRequest;
+import com.zzcar.zzc.networks.requests.SearchRequest;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.utils.SecurePreferences;
+import com.zzcar.zzc.utils.Tool;
 
 import java.util.HashMap;
 import java.util.List;
@@ -158,7 +160,7 @@ public class UserManager {
     /**
      * 获取首页车源数据
      */
-    public static void getHomeCarFrom(String keyword,String sort,String props, int page,
+    public static void getHomeCarFrom(String keyword, String sort, SearchRequest props, int page,
                                       Subscriber<ResponseParent<HomeCarPushResponse>> subscriber){
         /* 防止多次点击 */
         cancelTagandRemove("getHomeCarFrom");
@@ -169,7 +171,7 @@ public class UserManager {
         //排序：1最新(默认)、2销量高、3价格高到低、4价格低到高、5按车龄最小，6按里程最少
         hashmap.put("sort", sort);
         //属性,属性值的组合.格式:{"key1":value1,"key2":value2,"color_ids":[1,2]};参数 如goods/cars?page=1&props={"city_id":350200,"color_ids":[1,2]}
-//        hashmap.put("props ", props );
+        hashmap.put("props ", Tool.getGson(props));
         //页码
         hashmap.put("page", String.valueOf(page));
         //默认一页显示行数

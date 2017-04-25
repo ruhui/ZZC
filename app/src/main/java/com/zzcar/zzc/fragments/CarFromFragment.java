@@ -24,6 +24,7 @@ import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.HomeCarGet;
 import com.zzcar.zzc.networks.PosetSubscriber;
+import com.zzcar.zzc.networks.requests.SearchRequest;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
@@ -52,6 +53,9 @@ import rx.Subscriber;
 @EFragment(R.layout.fragment_home_carfrom)
 public class CarFromFragment extends BasePullRecyclerFragment {
 
+
+    /*搜索条件*/
+    public SearchRequest searchRequest = new SearchRequest();
     private int[] tabStr = new int[]{R.string.paixu, R.string.qudao, R.string.brand, R.string.price};
     private HomeCarAdapter carfromAdapter;
 
@@ -324,8 +328,15 @@ public class CarFromFragment extends BasePullRecyclerFragment {
     ChannelPopwindow.ChannelListener channelListener = new ChannelPopwindow.ChannelListener() {
         @Override
         public void selectItem(String title, String value, int position) {
+            showProgress();
             channelPosition = position;
             resertChannelStatus();
+
+            searchRequest.setChannel(value);
+
+            CURTURNPAGE = Constant.DEFAULTPAGE;
+            mList.clear();
+            getCarsData();
         }
     };
 
@@ -417,7 +428,7 @@ public class CarFromFragment extends BasePullRecyclerFragment {
     private void getCarsData(){
         String searchTxt = mNavbar.getSearchText().toString();
         Subscriber subscriber = new PosetSubscriber<HomeCarGetResponse>().getSubscriber(callback_cardata);
-        UserManager.getHomeCarFrom(searchTxt, popCode, "", CURTURNPAGE, subscriber);
+        UserManager.getHomeCarFrom(searchTxt, popCode, searchRequest, CURTURNPAGE, subscriber);
     }
 
     /**

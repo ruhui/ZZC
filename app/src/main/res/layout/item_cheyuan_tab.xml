@@ -9,7 +9,7 @@
         android:id="@+id/homeTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="13sp"
+        android:textSize="@dimen/font_xlarge"
         android:text="@string/paixu"
         android:textColor="@color/color_333333"
         android:layout_marginRight="8dp"/>
