@@ -6,7 +6,10 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -17,7 +20,6 @@ import com.zzcar.zzc.activities.MainActivity;
 import com.zzcar.zzc.activities.SearchActivity_;
 import com.zzcar.zzc.adapters.HomeCarAdapter;
 import com.zzcar.zzc.constants.Constant;
-import com.zzcar.zzc.fragments.base.BaseFragment;
 import com.zzcar.zzc.fragments.base.BasePullRecyclerFragment;
 import com.zzcar.zzc.interfaces.FragmentClosePop;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
@@ -27,8 +29,10 @@ import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.requests.SearchRequest;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
-import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
 import com.zzcar.zzc.utils.LogUtil;
+import com.zzcar.zzc.utils.ToastUtil;
+import com.zzcar.zzc.utils.Tool;
+import com.zzcar.zzc.views.widget.PriceBetweenPopwindow;
 import com.zzcar.zzc.views.widget.ChannelPopwindow;
 import com.zzcar.zzc.views.widget.NavBarSearch;
 import com.zzcar.zzc.views.widget.PaixuPopwindow;
@@ -63,6 +67,7 @@ public class CarFromFragment extends BasePullRecyclerFragment {
     private int CURTURNPAGE = Constant.DEFAULTPAGE;
 
     private ChannelPopwindow channelPopwindow;
+    private PriceBetweenPopwindow priceBetweenPopwindow;
 
     private PopupWindow popupWindow_paixu;
     private PopupWindow popupWindow_qudao;
@@ -72,6 +77,8 @@ public class CarFromFragment extends BasePullRecyclerFragment {
     List<HomeCarGet> mList = new ArrayList<>();
     /*渠道列表*/
     private List<CarChanelResponse> mChannelList = new ArrayList<>();
+    /*价格列表*/
+    private List<CarChanelResponse> mPricelList = new ArrayList<>();
 
     @ViewById(R.id.line2)
     View view;
@@ -98,6 +105,20 @@ public class CarFromFragment extends BasePullRecyclerFragment {
                 startActivityForResult(intent, 10200);
                 closePopwindow();
                 setTabDefault();
+            }
+        });
+
+        mNavbar.onSeacherListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH){
+                    CURTURNPAGE = Constant.DEFAULTPAGE;
+                    mList.clear();
+                    getCarsData();
+                    Tool.hideInputMethod(getActivity(), mNavbar);
+                    return true;
+                }
+                return false;
             }
         });
     }
@@ -304,6 +325,37 @@ public class CarFromFragment extends BasePullRecyclerFragment {
         }
     };
 
+    /**
+     * 价格监听
+     * @param value
+     */
+    PriceBetweenPopwindow.PriceBetweenListener priceBetweenListener = new PriceBetweenPopwindow.PriceBetweenListener() {
+        @Override
+        public void selectItem(String title, String value, int position) {
+            showProgress();
+            searchRequest.setMin_price("");
+            searchRequest.setMax_price("");
+            searchRequest.setPrice_type(value);
+            searchRequest.setPrice_typedes(title);
+            resertChannelStatus();
+            CURTURNPAGE = Constant.DEFAULTPAGE;
+            mList.clear();
+            getCarsData();
+        }
+
+        @Override
+        public void sureSelfPrice(String title, String startprice, String endprice) {
+            searchRequest.setPrice_type("");
+            searchRequest.setPrice_typedes(title);
+            searchRequest.setMin_price(startprice);
+            searchRequest.setMax_price(endprice);
+            resertChannelStatus();
+            CURTURNPAGE = Constant.DEFAULTPAGE;
+            mList.clear();
+            getCarsData();
+        }
+    };
+
     /*点击排序的操作*/
     private void loadStateus() {
         showProgress();
@@ -360,11 +412,11 @@ public class CarFromFragment extends BasePullRecyclerFragment {
         channelPopwindow = new ChannelPopwindow();
         popupWindow_qudao = channelPopwindow.showPopupWindow(getActivity(), bgdrable, bgcolor, mChannelList, channelListener);
         //品牌
-        PaixuPopwindow paixuPopwindow2 = new PaixuPopwindow();
-        popupWindow_brand = paixuPopwindow2.showPopupWindow(getActivity(), bgdrable, bgcolor,paixuListener, searchRequest);
+        PriceBetweenPopwindow brandPopwindow = new PriceBetweenPopwindow();
+        popupWindow_brand = brandPopwindow.showPopupWindow(getActivity(), bgdrable, bgcolor, mPricelList, priceBetweenListener);
         //价格
-        PaixuPopwindow paixuPopwindow3 = new PaixuPopwindow();
-        popupWindow_price = paixuPopwindow3.showPopupWindow(getActivity(), bgdrable, bgcolor,paixuListener, searchRequest);
+        priceBetweenPopwindow = new PriceBetweenPopwindow();
+        popupWindow_price = priceBetweenPopwindow.showPopupWindow(getActivity(), bgdrable, bgcolor, mPricelList, priceBetweenListener);
 
         recyclerView.enableRefresh(true);
         recyclerView.enableLoadMore(true);
@@ -373,10 +425,15 @@ public class CarFromFragment extends BasePullRecyclerFragment {
         recyclerView.setAdapter(carfromAdapter);
         carfromAdapter.addAll(mList);
 
+        mList.clear();
+        mChannelList.clear();
+        mPricelList.clear();
         /*加载数据*/
         getCarsData();
         /*获取渠道*/
         getCarChannel();
+        /*获取价格*/
+        getPriceBetween();
     }
 
 
@@ -394,6 +451,11 @@ public class CarFromFragment extends BasePullRecyclerFragment {
         getCarsData();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        Tool.hideInputMethod(getActivity(), mNavbar);
+    }
 
     /**
      * 车源列表
@@ -410,6 +472,14 @@ public class CarFromFragment extends BasePullRecyclerFragment {
     private void getCarChannel() {
         Subscriber subscriber = new PosetSubscriber<List<CarChanelResponse>>().getSubscriber(callback_carchannel);
         UserManager.getCarChannel(subscriber);
+    }
+
+    /**
+     * 获取价格
+     */
+    private void getPriceBetween() {
+        Subscriber subscriber = new PosetSubscriber<List<CarChanelResponse>>().getSubscriber(callback_pricebetween);
+        UserManager.getPriceBwtween(subscriber);
     }
 
     /*帅选回调*/
@@ -444,6 +514,21 @@ public class CarFromFragment extends BasePullRecyclerFragment {
             LogUtil.E("success","success");
             mChannelList.addAll(returnMsg);
             channelPopwindow.setAdapter(mChannelList, searchRequest);
+        }
+
+        @Override
+        public void fialed(String resCode, String message) {
+            LogUtil.E("fialed","fialed");
+        }
+    };
+
+    /*价格区间回调*/
+    ResponseResultListener callback_pricebetween = new ResponseResultListener<List<CarChanelResponse>>() {
+        @Override
+        public void success(List<CarChanelResponse> returnMsg) {
+            LogUtil.E("success","success");
+            mPricelList.addAll(returnMsg);
+            priceBetweenPopwindow.setAdapter(mPricelList, searchRequest);
         }
 
         @Override

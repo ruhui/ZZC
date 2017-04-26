@@ -48,4 +48,8 @@ public class NavBarSearch extends Toolbar {
     public void setSearchImgListener(OnClickListener listener){
         searchImg.setOnClickListener(listener);
     }
+
+    public void onSeacherListener(TextView.OnEditorActionListener listener){
+        searchEditText.setOnEditorActionListener(listener);
+    }
 }

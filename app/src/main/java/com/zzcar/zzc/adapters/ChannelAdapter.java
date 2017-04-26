@@ -24,7 +24,6 @@ import java.util.List;
  **/
 public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHolder> {
 
-    private SearchRequest searchRequest;
     private String selectPosition = "";
     private ArrayList<CarChanelResponse> mList = new ArrayList<>();
     private ItemClickListener clickListener;
@@ -69,7 +68,6 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
     }
 
     public void setData(List<CarChanelResponse> mChannelList, SearchRequest searchRequest) {
-        this.searchRequest = searchRequest;
         mList.addAll(mChannelList);
         if (searchRequest.getChannel().equals("")){
             selectPosition ="";
@@ -80,7 +78,6 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
     }
 
     public void setData(SearchRequest searchRequest) {
-        this.searchRequest = searchRequest;
         if (searchRequest.getChannel().equals("")){
             selectPosition ="";
         }else{

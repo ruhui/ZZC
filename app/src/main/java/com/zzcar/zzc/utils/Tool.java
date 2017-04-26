@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
 import com.google.gson.Gson;
+import com.zzcar.zzc.MyApplication;
 import com.zzcar.zzc.constants.Constant;
 
 import java.math.BigDecimal;
@@ -106,6 +107,17 @@ public class Tool {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 显示键盘
+     */
+    public static void showInputMethod() {
+        InputMethodManager imm = (InputMethodManager) MyApplication.getInstance().getSystemService(Context.INPUT_METHOD_SERVICE);
+        //这里给它设置了弹出的时间，
+        imm.toggleSoftInput(1000, InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+
 
     /**
      * @param date

@@ -177,6 +177,7 @@ public class UserManager {
         //默认一页显示行数
         hashmap.put("size", "10");
 
+
         ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
         Subscription subscription = ApiClient.getApiService().getcars(hashmap, zzcHeaders.getHashMap())
                 .subscribeOn(Schedulers.io())
@@ -205,6 +206,18 @@ public class UserManager {
     /**
      * 获取价格区间
      */
+    public static void getPriceBwtween(Subscriber<ResponseParent<List<CarChanelResponse>>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("getPriceBwtween");
+        Map<String,String> hashmap = new HashMap<>();
 
+        ZZCHeaders zzcHeaders = new ZZCHeaders(hashmap);
+        Subscription subscription = ApiClient.getApiService().getpricebetween(zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("getPriceBwtween", subscription);
+    }
 
 }
