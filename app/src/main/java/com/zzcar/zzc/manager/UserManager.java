@@ -8,6 +8,7 @@ import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.ZZCHeaders;
 import com.zzcar.zzc.networks.requests.LoginRequest;
 import com.zzcar.zzc.networks.requests.SearchRequest;
+import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
@@ -218,6 +219,23 @@ public class UserManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
         add("getPriceBwtween", subscription);
+    }
+
+    /**
+     * 获取品牌
+     */
+    public static void getBrandList(Subscriber<ResponseParent<List<BrandListResponse>>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("getBrandList");
+        Map<String,String> hashmap = new HashMap<>();
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        Subscription subscription = ApiClient.getApiService().getbarnd(zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("getBrandList", subscription);
     }
 
 }

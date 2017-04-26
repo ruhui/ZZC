@@ -10,29 +10,34 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 
+import com.zzcar.greendao.BrandListResponseDao;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.adapters.ChannelAdapter;
 import com.zzcar.zzc.networks.requests.SearchRequest;
+import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
+import com.zzcar.zzc.utils.GreenDaoUtils;
 
+import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
-   * 1最新(默认)、2销量高、3价格高到低、4价格低到高、5按车龄最小，6按里程最少
+   * 品牌
    * 创建作者： 黄如辉
    * 创建时间： 2017/4/24 14:10
   **/
 
-public class ChannelPopwindow {
+public class BrandPopwindow {
 
    private ChannelListener channelListener;
     private ChannelAdapter adapter;
     private List<CarChanelResponse> mChannelList = new ArrayList<>();
+    private List<BrandListResponse> hotBrandList = new ArrayList<>();
+    private List<BrandListResponse> mBrandList = new ArrayList<>();
 
-    public PopupWindow showPopupWindow(Context mContext, Drawable bgdrawable, int bgcolor, List<CarChanelResponse> mList, ChannelListener channelListener) {
+    public PopupWindow showPopupWindow(Context mContext, Drawable bgdrawable, int bgcolor, List<CarChanelResponse> mList) {
        this.channelListener = channelListener;
         mChannelList.addAll(mList);
        View contentView = initView(mContext);
@@ -69,16 +74,10 @@ public class ChannelPopwindow {
        View contentView = LayoutInflater.from(mContext).inflate(
                R.layout.layout_recycleview, null);
 
-       RelativeLayout relaClearPrice = (RelativeLayout) contentView.findViewById(R.id.relaClearPrice);
+
        RecyclerView mRecyclerView = (RecyclerView) contentView.findViewById(R.id.mRecyclerView);
        mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
        mRecyclerView.setAdapter(adapter = new ChannelAdapter(mContext, mChannelList, itemClickListener));
-       relaClearPrice.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               channelListener.selectItem("渠道", "", 0);
-           }
-       });
        return contentView;
    }
 
@@ -101,4 +100,21 @@ public class ChannelPopwindow {
             channelListener.selectItem(text, value, position);
         }
     };
+
+    public void setData(){
+        if (hotBrandList.size() > 0){
+            return;
+        }
+        BrandListResponseDao brandDao = GreenDaoUtils.getSingleTon().getmDaoSession().getBrandListResponseDao();
+        List<BrandListResponse> userList = brandDao.queryBuilder()
+                .where(BrandListResponseDao.Properties.Name.like("奥迪"),
+                        BrandListResponseDao.Properties.Name.like("奔驰"),BrandListResponseDao.Properties.Name.like("本田"),
+                        BrandListResponseDao.Properties.Name.like("别克"),BrandListResponseDao.Properties.Name.like("大众"),
+                        BrandListResponseDao.Properties.Name.like("丰田"),BrandListResponseDao.Properties.Name.like("福特"),
+                        BrandListResponseDao.Properties.Name.like("日产"),BrandListResponseDao.Properties.Name.like("现代"))
+                .build().list();
+        List<BrandListResponse> listbrand = brandDao.loadAll();
+        hotBrandList.addAll(userList);
+        mBrandList.addAll(listbrand);
+    }
 }

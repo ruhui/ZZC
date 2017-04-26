@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.zzcar.greendao.BrandListResponseDao;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.MainActivity;
 import com.zzcar.zzc.activities.SearchActivity_;
@@ -27,11 +28,14 @@ import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.HomeCarGet;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.requests.SearchRequest;
+import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
+import com.zzcar.zzc.utils.GreenDaoUtils;
 import com.zzcar.zzc.utils.LogUtil;
 import com.zzcar.zzc.utils.ToastUtil;
 import com.zzcar.zzc.utils.Tool;
+import com.zzcar.zzc.views.widget.BrandPopwindow;
 import com.zzcar.zzc.views.widget.PriceBetweenPopwindow;
 import com.zzcar.zzc.views.widget.ChannelPopwindow;
 import com.zzcar.zzc.views.widget.NavBarSearch;
@@ -57,7 +61,7 @@ import rx.Subscriber;
 @EFragment(R.layout.fragment_home_carfrom)
 public class CarFromFragment extends BasePullRecyclerFragment {
 
-
+    BrandListResponseDao brandDao;
     /*搜索条件*/
     public SearchRequest searchRequest = new SearchRequest();
     private int[] tabStr = new int[]{R.string.paixu, R.string.qudao, R.string.brand, R.string.price};
@@ -68,6 +72,7 @@ public class CarFromFragment extends BasePullRecyclerFragment {
 
     private ChannelPopwindow channelPopwindow;
     private PriceBetweenPopwindow priceBetweenPopwindow;
+    private BrandPopwindow brandPopwindow;
 
     private PopupWindow popupWindow_paixu;
     private PopupWindow popupWindow_qudao;
@@ -79,6 +84,8 @@ public class CarFromFragment extends BasePullRecyclerFragment {
     private List<CarChanelResponse> mChannelList = new ArrayList<>();
     /*价格列表*/
     private List<CarChanelResponse> mPricelList = new ArrayList<>();
+    /*品牌列表*/
+    private List<BrandListResponse> mBrandList = new ArrayList<>();
 
     @ViewById(R.id.line2)
     View view;
@@ -155,11 +162,18 @@ public class CarFromFragment extends BasePullRecyclerFragment {
                     popupWindow_brand.dismiss();
                     popupWindow_price.dismiss();
                     channelPopwindow.setAdapter(searchRequest);
+
                 }else if(position == 2){
                     popupWindow_paixu.dismiss();
                     popupWindow_qudao.dismiss();
                     popupWindow_brand.showAsDropDown(view);
                     popupWindow_price.dismiss();
+                    if (mBrandList.size() == 0){
+                        mBrandList.clear();
+                        getBrad();
+                    }else{
+                        brandPopwindow.setData();
+                    }
                 }else if(position == 3){
                     popupWindow_paixu.dismiss();
                     popupWindow_qudao.dismiss();
@@ -210,10 +224,19 @@ public class CarFromFragment extends BasePullRecyclerFragment {
                         homeTitle.setTextColor(getResources().getColor(R.color.app_red));
                         setParentShowing(true);
                         channelPopwindow.setAdapter(searchRequest);
+
                     }
+
                     popupWindow_brand.dismiss();
                     popupWindow_price.dismiss();
                 }else if(position == 2){
+                    if (mBrandList.size() == 0){
+                        mBrandList.clear();
+                        getBrad();
+                    }else{
+                        brandPopwindow.setData();
+                    }
+
                     popupWindow_paixu.dismiss();
                     popupWindow_qudao.dismiss();
                     if (popupWindow_brand.isShowing()){
@@ -397,6 +420,9 @@ public class CarFromFragment extends BasePullRecyclerFragment {
 
     @Override
     protected void initView(PullRecyclerView recyclerView) {
+        brandDao = GreenDaoUtils.getSingleTon().getmDaoSession().getBrandListResponseDao();
+        mBrandList = brandDao.loadAll();
+
         EventBus.getDefault().register(this);
         Drawable bgdrable = getResources().getDrawable(R.drawable.select_main_item);
         int bgcolor = getActivity().getResources().getColor(R.color.mdtp_transparent_black);
@@ -412,8 +438,8 @@ public class CarFromFragment extends BasePullRecyclerFragment {
         channelPopwindow = new ChannelPopwindow();
         popupWindow_qudao = channelPopwindow.showPopupWindow(getActivity(), bgdrable, bgcolor, mChannelList, channelListener);
         //品牌
-        PriceBetweenPopwindow brandPopwindow = new PriceBetweenPopwindow();
-        popupWindow_brand = brandPopwindow.showPopupWindow(getActivity(), bgdrable, bgcolor, mPricelList, priceBetweenListener);
+        brandPopwindow = new BrandPopwindow();
+        popupWindow_brand = brandPopwindow.showPopupWindow(getActivity(), bgdrable, bgcolor, mPricelList);
         //价格
         priceBetweenPopwindow = new PriceBetweenPopwindow();
         popupWindow_price = priceBetweenPopwindow.showPopupWindow(getActivity(), bgdrable, bgcolor, mPricelList, priceBetweenListener);
@@ -482,6 +508,15 @@ public class CarFromFragment extends BasePullRecyclerFragment {
         UserManager.getPriceBwtween(subscriber);
     }
 
+    /**
+     * 获取品牌
+     */
+    private void getBrad() {
+        Subscriber subscriber = new PosetSubscriber<List<BrandListResponse>>().getSubscriber(callback_brand);
+        UserManager.getBrandList(subscriber);
+    }
+
+
     /*帅选回调*/
     ResponseResultListener callback_cardata = new ResponseResultListener<HomeCarGetResponse>() {
         @Override
@@ -536,4 +571,24 @@ public class CarFromFragment extends BasePullRecyclerFragment {
             LogUtil.E("fialed","fialed");
         }
     };
+
+    /*获取品牌*/
+    ResponseResultListener callback_brand = new ResponseResultListener<List<BrandListResponse>>() {
+        @Override
+        public void success(List<BrandListResponse> returnMsg) {
+            LogUtil.E("success","success");
+            mBrandList.addAll(returnMsg);
+            //写入数据库
+            brandDao.insertInTx(mBrandList);
+            brandPopwindow.setData();
+//            priceBetweenPopwindow.setAdapter(mPricelList, searchRequest);
+        }
+
+        @Override
+        public void fialed(String resCode, String message) {
+            LogUtil.E("fialed","fialed");
+        }
+    };
+
+
 }

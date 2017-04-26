@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
+apply plugin: 'org.greenrobot.greendao'
 def AAVersion = '3.3.1'
 
 android {
@@ -34,7 +35,24 @@ android {
         cruncherEnabled = false
         useNewCruncher = false
     }
+
+
+    greendao {
+
+        schemaVersion 2//数据库版本号
+
+        daoPackage 'com.zzcar.greendao'//设置DaoMaster、DaoSession、Dao包名
+
+        targetGenDir 'src/main/java'//设置DaoMaster、DaoSession、Dao目录
+
+        //targetGenDirTest：设置生成单元测试目录
+
+        //generateTests：设置自动生成单元测试用例
+
+    }
+
 }
+
 
 apt {
     arguments {
@@ -91,4 +109,6 @@ dependencies {
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.umeng.analytics:analytics:latest.integration'
     testCompile 'junit:junit:4.12'
+    compile 'org.greenrobot:greendao:3.1.1'
+    compile 'org.greenrobot:greendao-generator:3.1.0'
 }
