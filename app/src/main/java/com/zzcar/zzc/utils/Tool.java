@@ -404,11 +404,13 @@ public class Tool {
     /**
      * 获取图片路径
      */
-    public static String getPicUrl(String url, int width, int height){
+    public static String getPicUrl(Context mContext, String url, int width, int heigh){
+        int weidth = Utils.dip2px(mContext, width);
+        int height = Utils.dip2px(mContext, heigh);
         if (url.contains(".jpg")){
-            return Constant.PICLOOKURL + url + "_1_" + width + "_" + height + "_0.jpg";
+            return Constant.PICLOOKURL + url + "_1_" + weidth + "_" + height + "_0.jpg";
         }else  if (url.contains(".png")){
-            return Constant.PICLOOKURL + url + "_1_" + width + "_" + height + "_0.png";
+            return Constant.PICLOOKURL + url + "_1_" + weidth + "_" + height + "_0.png";
         }else{
             return "";
         }

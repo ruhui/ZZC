@@ -5,15 +5,58 @@
     android:background="@color/mdtp_transparent_black">
 
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/mRecyclerView"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="30dp"
+        android:text="热门品牌"
+        android:textColor="@color/color_959595"
+        android:gravity="center|left"
+        android:paddingLeft="20dp"
+        android:textSize="@dimen/sp_14"
+        android:background="@color/white"/>
+    
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/hotcityRecycleView"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:background="@color/white"
+        >
+    </android.support.v7.widget.RecyclerView>
+
+    <RelativeLayout
+        android:id="@+id/relaClearPrice"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/selector_bg_white_grey"
 
         >
 
-    </android.support.v7.widget.RecyclerView>
+        <View
+            android:layout_height="0.5dp"
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/grey"
+            android:layout_marginLeft="22dp"/>
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:text="不限品牌"
+            android:textColor="@color/color_333333"
+            android:textSize="14sp"
+            android:layout_marginLeft="20dp"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/grey"/>
 
 
 </LinearLayout>

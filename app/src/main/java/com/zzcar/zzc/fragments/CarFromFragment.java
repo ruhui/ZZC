@@ -379,6 +379,25 @@ public class CarFromFragment extends BasePullRecyclerFragment {
         }
     };
 
+
+    /**
+     * 品牌监听
+     */
+    BrandPopwindow.BrandListener brandListener = new BrandPopwindow.BrandListener() {
+        @Override
+        public void setSelect(String title, String value) {
+            showProgress();
+            searchRequest.setBland_id(value);
+            searchRequest.setBland_iddes(title);
+            resertChannelStatus();
+            CURTURNPAGE = Constant.DEFAULTPAGE;
+            mList.clear();
+            getCarsData();
+        }
+    };
+
+
+
     /*点击排序的操作*/
     private void loadStateus() {
         showProgress();
@@ -439,7 +458,7 @@ public class CarFromFragment extends BasePullRecyclerFragment {
         popupWindow_qudao = channelPopwindow.showPopupWindow(getActivity(), bgdrable, bgcolor, mChannelList, channelListener);
         //品牌
         brandPopwindow = new BrandPopwindow();
-        popupWindow_brand = brandPopwindow.showPopupWindow(getActivity(), bgdrable, bgcolor, mPricelList);
+        popupWindow_brand = brandPopwindow.showPopupWindow(getActivity(), bgdrable, bgcolor, brandListener);
         //价格
         priceBetweenPopwindow = new PriceBetweenPopwindow();
         popupWindow_price = priceBetweenPopwindow.showPopupWindow(getActivity(), bgdrable, bgcolor, mPricelList, priceBetweenListener);

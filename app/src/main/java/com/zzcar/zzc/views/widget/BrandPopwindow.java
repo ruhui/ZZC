@@ -3,6 +3,7 @@ package com.zzcar.zzc.views.widget;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,9 +11,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 
 import com.zzcar.greendao.BrandListResponseDao;
 import com.zzcar.zzc.R;
+import com.zzcar.zzc.adapters.CarBrandAdapter;
 import com.zzcar.zzc.adapters.ChannelAdapter;
 import com.zzcar.zzc.networks.requests.SearchRequest;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
@@ -31,15 +34,13 @@ import java.util.List;
 
 public class BrandPopwindow {
 
-   private ChannelListener channelListener;
-    private ChannelAdapter adapter;
-    private List<CarChanelResponse> mChannelList = new ArrayList<>();
+    private BrandListener brandListener;
     private List<BrandListResponse> hotBrandList = new ArrayList<>();
     private List<BrandListResponse> mBrandList = new ArrayList<>();
+    private CarBrandAdapter adapter;
 
-    public PopupWindow showPopupWindow(Context mContext, Drawable bgdrawable, int bgcolor, List<CarChanelResponse> mList) {
-       this.channelListener = channelListener;
-        mChannelList.addAll(mList);
+    public PopupWindow showPopupWindow(Context mContext, Drawable bgdrawable, int bgcolor, BrandListener brandListener) {
+       this.brandListener = brandListener;
        View contentView = initView(mContext);
        PopupWindow popupWindow;
        popupWindow = new PopupWindow(contentView,
@@ -72,42 +73,36 @@ public class BrandPopwindow {
    private View initView(Context mContext) {
        // 一个自定义的布局，作为显示的内容
        View contentView = LayoutInflater.from(mContext).inflate(
-               R.layout.layout_recycleview, null);
+               R.layout.layout_popwindiw_brand, null);
 
 
-       RecyclerView mRecyclerView = (RecyclerView) contentView.findViewById(R.id.mRecyclerView);
-       mRecyclerView.setLayoutManager(new LinearLayoutManager(mContext));
-       mRecyclerView.setAdapter(adapter = new ChannelAdapter(mContext, mChannelList, itemClickListener));
+       RelativeLayout relaClearPrice = (RelativeLayout) contentView.findViewById(R.id.relaClearPrice);
+       RecyclerView mRecyclerView = (RecyclerView) contentView.findViewById(R.id.hotcityRecycleView);
+       mRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 5));
+       mRecyclerView.setAdapter(adapter = new CarBrandAdapter(brandadapterListener));
+       adapter.addAll(hotBrandList);
+
+
+       relaClearPrice.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               brandListener.setSelect("品牌", "");
+           }
+       });
+
        return contentView;
    }
 
-   public interface ChannelListener{
-       public void selectItem(String title, String value, int position);
-   }
-
-    public void setAdapter(List<CarChanelResponse> mList, SearchRequest searchRequest){
-        mChannelList.addAll(mList);
-        adapter.setData(mChannelList, searchRequest);
-    }
-
-    public void setAdapter(SearchRequest searchRequest){
-        adapter.setData(searchRequest);
-    }
-
-    ChannelAdapter.ItemClickListener itemClickListener = new ChannelAdapter.ItemClickListener() {
-        @Override
-        public void setOnItemClickListener(String text, String value, int position) {
-            channelListener.selectItem(text, value, position);
-        }
-    };
 
     public void setData(){
         if (hotBrandList.size() > 0){
+            adapter.clear();
+            adapter.addAll(hotBrandList);
             return;
         }
         BrandListResponseDao brandDao = GreenDaoUtils.getSingleTon().getmDaoSession().getBrandListResponseDao();
         List<BrandListResponse> userList = brandDao.queryBuilder()
-                .where(BrandListResponseDao.Properties.Name.like("奥迪"),
+                .whereOr(BrandListResponseDao.Properties.Name.like("奥迪"), BrandListResponseDao.Properties.Name.like("宝马"),
                         BrandListResponseDao.Properties.Name.like("奔驰"),BrandListResponseDao.Properties.Name.like("本田"),
                         BrandListResponseDao.Properties.Name.like("别克"),BrandListResponseDao.Properties.Name.like("大众"),
                         BrandListResponseDao.Properties.Name.like("丰田"),BrandListResponseDao.Properties.Name.like("福特"),
@@ -116,5 +111,19 @@ public class BrandPopwindow {
         List<BrandListResponse> listbrand = brandDao.loadAll();
         hotBrandList.addAll(userList);
         mBrandList.addAll(listbrand);
+
+        adapter.clear();
+        adapter.addAll(hotBrandList);
     }
+
+    public interface BrandListener{
+        public void setSelect(String title, String value);
+    }
+
+    CarBrandAdapter.BrandAdapterListener brandadapterListener = new CarBrandAdapter.BrandAdapterListener() {
+        @Override
+        public void setSelect(String title, String value) {
+             brandListener.setSelect(title, value);
+        }
+    };
 }
