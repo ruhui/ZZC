@@ -415,4 +415,11 @@ public class Tool {
             return "";
         }
     }
+
+    /**
+     * 获取图片路径
+     */
+    public static String getPicUrl(Context mContext, String url){
+        return Constant.PICLOOKURL + url;
+    }
 }

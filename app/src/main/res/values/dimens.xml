@@ -6,8 +6,14 @@
     <dimen name="font_normal">13sp</dimen>
     <dimen name="font_xxxlarge">20sp</dimen>
     <dimen name="dp_30">30dp</dimen>
-    <dimen name="activityTitleHeight">47dp</dimen>
     <dimen name="actionbar_heigh">65dp</dimen>
     <dimen name="font_xlarge">14sp</dimen>
     <dimen name="halfdp">0.5dp</dimen>
+
+    <dimen name="activityTitleHeight">47dp</dimen>
+    <dimen name="indicator_right_padding">10dp</dimen>
+    <dimen name="indicator_corner_radius">12dp</dimen>
+    <dimen name="indicator_internal_padding">4dp</dimen>
+    <dimen name="header_footer_left_right_padding">24dp</dimen>
+    <dimen name="header_footer_top_bottom_padding">12dp</dimen>
 </resources>

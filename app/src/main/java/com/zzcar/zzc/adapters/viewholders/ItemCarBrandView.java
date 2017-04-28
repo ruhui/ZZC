@@ -38,7 +38,7 @@ public class ItemCarBrandView extends RelativeLayout {
     }
 
     public void setImageView(String imgPath){
-        imgPath = Tool.getPicUrl(mContext, imgPath, 35, 35);
+        imgPath = Tool.getPicUrl(mContext, imgPath);
         ImageLoader.loadImage(imgPath, imageView3);
     }
 
