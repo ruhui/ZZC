@@ -86,6 +86,11 @@ public class ChannelAdapter extends RecyclerView.Adapter<ChannelAdapter.ViewHold
         notifyDataSetChanged();
     }
 
+    public void setData(List<CarChanelResponse> mChannelList) {
+        mList.clear();
+        mList.addAll(mChannelList);
+        notifyDataSetChanged();
+    }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 

@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context="com.zzcar.zzc.activities.MileageActivity">
+
+    <com.zzcar.zzc.views.widget.NavBar2_
+        android:id="@+id/mNavbar"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:gravity="bottom"
+        android:background="@color/white"
+        app:title_res="@string/tab_mine">
+    </com.zzcar.zzc.views.widget.NavBar2_>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"/>
+
+    <RelativeLayout
+        android:id="@+id/relaItem"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/txt_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16dp"
+            android:text="自定义"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/font_xlarge"
+            android:typeface="serif" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="22dp"
+            android:background="@color/grey" />
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="60dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:layout_toEndOf="@+id/txt_title"
+            android:layout_toRightOf="@+id/txt_title"
+            android:background="@drawable/shape_line_grey"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_12" />
+
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="60dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:layout_toEndOf="@+id/textView4"
+            android:layout_toRightOf="@+id/textView4"
+            android:background="@drawable/shape_line_grey"
+            android:ems="10"
+            android:gravity="center"
+            android:inputType="number"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_12" />
+
+        <TextView
+            android:id="@+id/txtRight"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:gravity="center"
+            android:text="@string/submit_sure"
+            android:textColor="@color/selector_color_redtogrey"
+            android:textSize="@dimen/font_xlarge"
+            android:layout_marginRight="11dp"
+            android:layout_marginEnd="11dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/editText"
+            android:layout_alignBottom="@+id/editText"
+            android:layout_marginLeft="5dp"
+            android:layout_toEndOf="@+id/editText"
+            android:layout_toRightOf="@+id/editText"
+            android:text="   "
+            android:textColor="@color/color_d5d5d5"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:textSize="11sp"
+        android:background="@color/color_f2f2f2"
+        android:text="全部"
+        android:gravity="center|left"
+        android:paddingLeft="16dp"
+        android:textColor="@color/color_656565"
+        />
+
+    <RelativeLayout
+        android:id="@+id/relaClearPrice"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@drawable/selector_bg_white_grey"
+        >
+
+        <View
+            android:layout_height="0.5dp"
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/grey"
+            android:layout_marginLeft="22dp"/>
+
+        <TextView
+            android:layout_width="75dp"
+            android:layout_height="30dp"
+            android:text="不限里程"
+            android:textColor="@color/app_red"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:textSize="11sp"
+        android:background="@color/color_f2f2f2"
+        android:text="里程"
+        android:gravity="center|left"
+        android:paddingLeft="16dp"
+        android:textColor="@color/color_656565"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/mRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        >
+
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

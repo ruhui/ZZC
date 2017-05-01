@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,21 +13,15 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
-
+import android.widget.TextView;
 import com.zzcar.greendao.BrandListResponseDao;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.adapters.CarBrandAdapter;
-import com.zzcar.zzc.adapters.ChannelAdapter;
 import com.zzcar.zzc.adapters.SortAdapter;
 import com.zzcar.zzc.models.PinyinComparator;
-import com.zzcar.zzc.networks.requests.SearchRequest;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
-import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.utils.GreenDaoUtils;
 import com.zzcar.zzc.utils.ToastUtil;
-
-import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -48,11 +41,12 @@ public class BrandPopwindow {
     private ListView sortListView;
     private SortAdapter sortAdapter;
     private PinyinComparator pinyinComparator;
+    private PopupWindow popupWindow;
 
     public PopupWindow showPopupWindow(Context mContext, Drawable bgdrawable, int bgcolor, BrandListener brandListener) {
        this.brandListener = brandListener;
        View contentView = initView(mContext);
-       PopupWindow popupWindow;
+
        popupWindow = new PopupWindow(contentView,
                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
        popupWindow.setTouchable(true);
@@ -80,18 +74,23 @@ public class BrandPopwindow {
        return popupWindow;
    }
 
-   private View initView(Context mContext) {
+   private View initView(final Context mContext) {
        // 一个自定义的布局，作为显示的内容
        View contentView = LayoutInflater.from(mContext).inflate(
                R.layout.layout_popwindiw_brand, null);
 
-       sortListView = (ListView) contentView.findViewById(R.id.country_lvcountry);
-       SideBar sideBar = (SideBar) contentView.findViewById(R.id.sidrbar);
-       RelativeLayout relaClearPrice = (RelativeLayout) contentView.findViewById(R.id.relaClearPrice);
-       RecyclerView mRecyclerView = (RecyclerView) contentView.findViewById(R.id.hotcityRecycleView);
+       TextView textView5 = (TextView) contentView.findViewById(R.id.textView5);
+       View vHead= View.inflate(mContext, R.layout.headview_brand, null);
+       RelativeLayout relaClearPrice = (RelativeLayout) vHead.findViewById(R.id.relaClearPrice);
+       RecyclerView mRecyclerView = (RecyclerView) vHead.findViewById(R.id.hotcityRecycleView);
        mRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 5));
        mRecyclerView.setAdapter(adapter = new CarBrandAdapter(brandadapterListener));
        adapter.addAll(hotBrandList);
+
+
+       sortListView = (ListView) contentView.findViewById(R.id.country_lvcountry);
+       SideBar sideBar = (SideBar) contentView.findViewById(R.id.sidrbar);
+       sortListView.addHeaderView(vHead);
 
        pinyinComparator = new PinyinComparator();
 
@@ -120,15 +119,35 @@ public class BrandPopwindow {
            public void onItemClick(AdapterView<?> parent, View view,
                                    int position, long id) {
                ToastUtil.showToast("position"+position);
+               int brandid = mBrandList.get(position-1).getId();
+               brandListener.showSeriesPopwindow(brandid);
+//               carseriespop.showAsDropDown(parentview);
+//               carSeriesPopwindow.getDate(brandid);
+
            }
        });
        Collections.sort(mBrandList, pinyinComparator);
        sortAdapter = new SortAdapter(mContext, mBrandList);
+       sortListView.setAdapter(sortAdapter);
+
+       //取消
+       textView5.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               brandListener.setDismiss();
+           }
+       });
        return contentView;
    }
 
 
     public void setData(){
+
+//        showFragment(mContext, carSeriesFragment);
+//        if (carSeriesPopwindow == null){
+//            carSeriesPopwindow = new CarSeriesPopwindow();
+//            carseriespop = carSeriesPopwindow.showPopupWindow(mContext, bgdrawable, bgcolor);
+//        }
         if (hotBrandList.size() > 0){
             adapter.clear();
             adapter.addAll(hotBrandList);
@@ -156,6 +175,8 @@ public class BrandPopwindow {
 
     public interface BrandListener{
         public void setSelect(String title, String value);
+        public void setDismiss();
+        public void showSeriesPopwindow(int brandid);
     }
 
     CarBrandAdapter.BrandAdapterListener brandadapterListener = new CarBrandAdapter.BrandAdapterListener() {

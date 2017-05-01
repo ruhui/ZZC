@@ -73,13 +73,13 @@ dependencies {
     //标签
     //消息总线处理
     //    compile 'com.jph.takephoto:takephoto_library:4.0.3'
-    testCompile 'junit:junit:4.12'
-    compile 'com.android.support:appcompat-v7:25.1.0'
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
     //viewpager的indicator，参考 https://github.com/JakeWharton/ViewPagerIndicator，最好看看demo
     compile files('libs/SocialSDK_Sina_Simplify.jar')
     //下拉刷新控件https://github.com/liaohuqiu/android-Ultra-Pull-To-Refresh
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:cardview-v7:25.1.0'
     compile 'com.squareup.okhttp3:okhttp:3.5.0'
@@ -108,7 +108,8 @@ dependencies {
     compile 'me.iwf.photopicker:PhotoPicker:0.9.5@aar'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.umeng.analytics:analytics:latest.integration'
-    testCompile 'junit:junit:4.12'
     compile 'org.greenrobot:greendao:3.1.1'
     compile 'org.greenrobot:greendao-generator:3.1.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
 }

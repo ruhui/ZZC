@@ -1,18 +1,23 @@
 package com.zzcar.zzc.activities;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
+import com.zzcar.zzc.networks.requests.SearchRequest;
 import com.zzcar.zzc.views.widget.ItemIconTextIcon;
 import com.zzcar.zzc.views.widget.NavBar2;
 import com.zzcar.zzc.views.widget.NavBar2_;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
+
+import java.util.List;
 
 @EActivity(R.layout.activity_search)
 public class SearchActivity extends BaseActivity {
@@ -35,20 +40,23 @@ public class SearchActivity extends BaseActivity {
     @ViewById(R.id.itemIconTextIcon7)
     ItemIconTextIcon itemIconTextIcon7;
 
+    private SearchRequest searchRequest;
+
     @AfterViews
     void initView(){
+        searchRequest = new SearchRequest();
         mNavbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
         mNavbar.setMiddleTitle("高级筛选");
         mNavbar.setRightTxt("清空条件");
         mNavbar.setRightTxtColor(R.color.color_959595);
 
-        itemIconTextIcon1.setTitle("所在地");itemIconTextIcon1.setRightText("福建厦门");
-        itemIconTextIcon2.setTitle("品牌车系");itemIconTextIcon2.setRightText("2014宝马");
-        itemIconTextIcon3.setTitle("价格");itemIconTextIcon3.setRightText("20-50万");
-        itemIconTextIcon4.setTitle("颜色");itemIconTextIcon4.setRightText("红色");
-        itemIconTextIcon5.setTitle("标现里程");itemIconTextIcon5.setRightText("一万公里");
-        itemIconTextIcon6.setTitle("排放");itemIconTextIcon6.setRightText("国五");
-        itemIconTextIcon7.setTitle("渠道");itemIconTextIcon7.setRightText("二手车行");
+        itemIconTextIcon1.setTitle("所在地");itemIconTextIcon1.setRightText("");
+        itemIconTextIcon2.setTitle("品牌车系");itemIconTextIcon2.setRightText("");
+        itemIconTextIcon3.setTitle("价格");itemIconTextIcon3.setRightText("");
+        itemIconTextIcon4.setTitle("颜色");itemIconTextIcon4.setRightText("");
+        itemIconTextIcon5.setTitle("表显里程");itemIconTextIcon5.setRightText("");
+        itemIconTextIcon6.setTitle("排放");itemIconTextIcon6.setRightText("");
+        itemIconTextIcon7.setTitle("渠道");itemIconTextIcon7.setRightText("");
 
         mNavbar.setOnMenuClickListener(new NavBar2.OnMenuClickListener() {
             @Override
@@ -62,10 +70,94 @@ public class SearchActivity extends BaseActivity {
                 super.onRightMenuClick(view);
             }
         });
+
+        /*品牌*/
+        itemIconTextIcon2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SearchActivity.this, BrandCarActivity_.class);
+                startActivityForResult(intent, 10105);
+            }
+        });
+
+        /*价格*/
+        itemIconTextIcon3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SearchActivity.this, PirceActivity_.class);
+                startActivityForResult(intent, 10104);
+            }
+        });
+
+        /*表显里程*/
+        itemIconTextIcon5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SearchActivity.this, MileageActivity_.class);
+                startActivityForResult(intent, 10103);
+            }
+        });
+
+        /*排放*/
+        itemIconTextIcon6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SearchActivity.this, EmissionActivity_.class);
+                startActivityForResult(intent, 10102);
+            }
+        });
+
+        /*渠道*/
+        itemIconTextIcon7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SearchActivity.this, ChannelActivity_.class);
+                startActivityForResult(intent, 10101);
+            }
+        });
     }
 
     @Override
     public void onNetChange(int netMobile) {
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null){
+            if (requestCode == 10101){
+                String channelid = data.getStringExtra("channelid");
+                String channeldes = data.getStringExtra("channeldes");
+                searchRequest.setChannel(channelid);
+                searchRequest.setChanneldes(channeldes);
+                itemIconTextIcon7.setRightText(channeldes);
+            }else if (requestCode == 10102){
+                List<String> emissionids = (List<String>) data.getSerializableExtra("emissionids");
+                String emissiones = data.getStringExtra("emissiones");
+                searchRequest.setEmission_ids(emissionids);
+                searchRequest.setEmission_des(emissiones);
+                itemIconTextIcon6.setRightText(emissiones);
+            }else if (requestCode == 10103){
+                String mileage = data.getStringExtra("mileage");
+                String min_mileage = data.getStringExtra("min_mileage");
+                String max_mileage = data.getStringExtra("max_mileage");
+                String mileagedes = data.getStringExtra("mileagedes");
+                searchRequest.setMileage(mileage);
+                searchRequest.setMin_mileage(min_mileage);
+                searchRequest.setMax_mileage(max_mileage);
+                itemIconTextIcon5.setRightText(mileagedes);
+            }else if (requestCode == 10104){
+                String price_type = data.getStringExtra("price_type");
+                String min_price = data.getStringExtra("min_price");
+                String max_price = data.getStringExtra("max_price");
+                String pricedes = data.getStringExtra("max_pricedes");
+                searchRequest.setPrice_type(price_type);
+                searchRequest.setMin_price(min_price);
+                searchRequest.setMax_price(max_price);
+                searchRequest.setPrice_typedes(pricedes);
+                itemIconTextIcon3.setRightText(pricedes);
+            }
+        }
     }
 }

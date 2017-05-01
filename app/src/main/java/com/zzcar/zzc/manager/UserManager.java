@@ -10,6 +10,8 @@ import com.zzcar.zzc.networks.requests.LoginRequest;
 import com.zzcar.zzc.networks.requests.SearchRequest;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
+import com.zzcar.zzc.networks.responses.CarSeriesResponse;
+import com.zzcar.zzc.networks.responses.CarTypeResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.utils.SecurePreferences;
@@ -236,6 +238,72 @@ public class UserManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
         add("getBrandList", subscription);
+    }
+
+    /**
+     * 获取车系
+     */
+    public static void getCarseries(int brandid, Subscriber<ResponseParent<List<CarSeriesResponse>>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("getCarseries");
+        Map<String,String> hashmap = new HashMap<>();
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        Subscription subscription = ApiClient.getApiService().getcarseries(brandid, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("getCarseries", subscription);
+    }
+
+    /**
+     * 获取车型
+     */
+    public static void getCarTYpe(long carseriasid, Subscriber<ResponseParent<List<CarTypeResponse>>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("getCarTYpe");
+        Map<String,String> hashmap = new HashMap<>();
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        Subscription subscription = ApiClient.getApiService().getspec(carseriasid, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("getCarTYpe", subscription);
+    }
+
+    /**
+     * 排放
+     */
+    public static void getEmission(Subscriber<ResponseParent<List<CarChanelResponse>>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("getEmission");
+        Map<String,String> hashmap = new HashMap<>();
+        ZZCHeaders zzcHeaders = new ZZCHeaders(hashmap);
+        Subscription subscription = ApiClient.getApiService().getemission(zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("getEmission", subscription);
+    }
+
+    /**
+     * 里程
+     */
+    public static void getMileage(Subscriber<ResponseParent<List<CarChanelResponse>>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("getMileage");
+        Map<String,String> hashmap = new HashMap<>();
+        ZZCHeaders zzcHeaders = new ZZCHeaders(hashmap);
+        Subscription subscription = ApiClient.getApiService().getmileage(zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("getMileage", subscription);
     }
 
 }

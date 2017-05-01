@@ -5,6 +5,8 @@ import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.requests.LoginRequest;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
+import com.zzcar.zzc.networks.responses.CarSeriesResponse;
+import com.zzcar.zzc.networks.responses.CarTypeResponse;
 import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
@@ -58,5 +60,21 @@ public interface ZZCService {
     /*获取汽车品牌*/
     @GET("common/car_bland")
     Observable<ResponseParent<List<BrandListResponse>>> getbarnd(@HeaderMap Map<String, String> header);
+
+    /*获取车系*/
+    @GET("common/car_series")
+    Observable<ResponseParent<List<CarSeriesResponse>>> getcarseries(@Query("id") int id, @HeaderMap Map<String, String> header);
+
+    /*获取车型*/
+    @GET("common/car_spec")
+    Observable<ResponseParent<List<CarTypeResponse>>> getspec(@Query("id") long id,@HeaderMap Map<String, String> header);
+
+    /*排放*/
+    @GET("common/emission")
+    Observable<ResponseParent<List<CarChanelResponse>>> getemission(@HeaderMap Map<String, String> header);
+
+    /*里程*/
+    @GET("common/mileage")
+    Observable<ResponseParent<List<CarChanelResponse>>> getmileage(@HeaderMap Map<String, String> header);
 
 }

@@ -21,6 +21,7 @@ import com.zzcar.zzc.utils.NetUtil;
 import com.zzcar.zzc.views.widget.ProgressDialog;
 import com.zzcar.zzc.views.widget.ProgressDialog_;
 import org.androidannotations.annotations.EFragment;
+
 import java.util.List;
 
 /**
@@ -150,12 +151,12 @@ public abstract class BaseFragment extends Fragment implements NetEvevt {
 
    @Override
    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-       List<Fragment> fragments = getChildFragmentManager().getFragments();
-       if (fragments != null) {
-           for (Fragment fragment : fragments) {
-               fragment.onActivityResult(requestCode, resultCode, data);
-           }
-       }
+//       List<Fragment> fragments = getChildFragmentManager().getFragments();
+//       if (fragments != null) {
+//           for (Fragment fragment : fragments) {
+//               fragment.onActivityResult(requestCode, resultCode, data);
+//           }
+//       }
    }
 
    @Override
@@ -173,12 +174,22 @@ public abstract class BaseFragment extends Fragment implements NetEvevt {
    public void onDestroyView() {
        closeProgress();
        super.onDestroyView();
+
    }
 
   public void showFragment(Context actovoty, BaseFragment fragment){
       FragmentTransaction transaction = ((AppCompatActivity)actovoty).getSupportFragmentManager().beginTransaction();
       transaction.setCustomAnimations(0, 0, 0, 0);
       transaction.add(R.id.container, fragment, fragment.getClass().getName());
+      fragment.mLastStackName = "" + System.currentTimeMillis() + hashCode();
+      transaction.addToBackStack(fragment.mLastStackName);
+      transaction.commitAllowingStateLoss();
+  }
+
+  public void showFragment(Context actovoty, BaseFragment fragment, int fragmentlayoutid){
+      FragmentTransaction transaction = ((AppCompatActivity)actovoty).getSupportFragmentManager().beginTransaction();
+      transaction.setCustomAnimations(0, 0, 0, 0);
+      transaction.add(fragmentlayoutid, fragment, fragment.getClass().getName());
       fragment.mLastStackName = "" + System.currentTimeMillis() + hashCode();
       transaction.addToBackStack(fragment.mLastStackName);
       transaction.commitAllowingStateLoss();

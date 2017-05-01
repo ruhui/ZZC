@@ -1,5 +1,7 @@
 package com.zzcar.zzc.networks.requests;
 
+import java.util.List;
+
 /**
  * 描述：
  * 创建作者： 黄如辉
@@ -8,8 +10,8 @@ package com.zzcar.zzc.networks.requests;
 public class SearchRequest {
     private String sort="1";
     private String channel="";
-    private String emission_ids="";
-    private String color_ids="";
+    private List<String> emission_ids;
+    private List<String> color_ids;
     private String bland_id="";
     private String series_id="";
     private String year_id="";
@@ -27,9 +29,18 @@ public class SearchRequest {
     private String channeldes = "渠道";
     private String bland_iddes = "品牌";
     private String price_typedes = "价格";
+    private String emission_des = "";
 
     public String getSortdes() {
         return sortdes;
+    }
+
+    public String getEmission_des() {
+        return emission_des;
+    }
+
+    public void setEmission_des(String emission_des) {
+        this.emission_des = emission_des;
     }
 
     public String getChanneldes() {
@@ -64,9 +75,9 @@ public class SearchRequest {
 
     /*默认状态*/
     public void defaultStatus(){
-        sort = "1";channel="";emission_ids="";color_ids="";bland_id="";series_id="";year_id="";max_mileage="";
+        sort = "1";channel="";emission_ids.clear();color_ids.clear();bland_id="";series_id="";year_id="";max_mileage="";
         spec_id="";province_id="";city_id="";price_type="";min_price="";max_price="";mileage="";min_mileage="";
-        sortdes="排序";channeldes="渠道";bland_iddes="品牌";price_typedes="价格";
+        sortdes="排序";channeldes="渠道";bland_iddes="品牌";price_typedes="价格";emission_des = "";
     }
 
     public String getSort() {
@@ -77,28 +88,28 @@ public class SearchRequest {
         this.sort = sort;
     }
 
+    public List<String> getEmission_ids() {
+        return emission_ids;
+    }
+
+    public void setEmission_ids(List<String> emission_ids) {
+        this.emission_ids = emission_ids;
+    }
+
+    public List<String> getColor_ids() {
+        return color_ids;
+    }
+
+    public void setColor_ids(List<String> color_ids) {
+        this.color_ids = color_ids;
+    }
+
     public String getChannel() {
         return channel;
     }
 
     public void setChannel(String channel) {
         this.channel = channel;
-    }
-
-    public String getEmission_ids() {
-        return emission_ids;
-    }
-
-    public void setEmission_ids(String emission_ids) {
-        this.emission_ids = emission_ids;
-    }
-
-    public String getColor_ids() {
-        return color_ids;
-    }
-
-    public void setColor_ids(String color_ids) {
-        this.color_ids = color_ids;
     }
 
     public String getBland_id() {

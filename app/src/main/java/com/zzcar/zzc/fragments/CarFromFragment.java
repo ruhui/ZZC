@@ -2,11 +2,17 @@ package com.zzcar.zzc.fragments;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -22,6 +28,9 @@ import com.zzcar.zzc.activities.SearchActivity_;
 import com.zzcar.zzc.adapters.HomeCarAdapter;
 import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.fragments.base.BasePullRecyclerFragment;
+import com.zzcar.zzc.interfaces.BrandCarseriesAndType;
+import com.zzcar.zzc.interfaces.BrandListener;
+import com.zzcar.zzc.interfaces.CarseriesAndType;
 import com.zzcar.zzc.interfaces.FragmentClosePop;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
@@ -36,6 +45,7 @@ import com.zzcar.zzc.utils.LogUtil;
 import com.zzcar.zzc.utils.ToastUtil;
 import com.zzcar.zzc.utils.Tool;
 import com.zzcar.zzc.views.widget.BrandPopwindow;
+import com.zzcar.zzc.views.widget.CarSeriesPopwindow;
 import com.zzcar.zzc.views.widget.PriceBetweenPopwindow;
 import com.zzcar.zzc.views.widget.ChannelPopwindow;
 import com.zzcar.zzc.views.widget.NavBarSearch;
@@ -72,12 +82,17 @@ public class CarFromFragment extends BasePullRecyclerFragment {
 
     private ChannelPopwindow channelPopwindow;
     private PriceBetweenPopwindow priceBetweenPopwindow;
-    private BrandPopwindow brandPopwindow;
+//    private BrandPopwindow brandPopwindow;
 
     private PopupWindow popupWindow_paixu;
     private PopupWindow popupWindow_qudao;
-    private PopupWindow popupWindow_brand;
+//    private PopupWindow popupWindow_brand;
     private PopupWindow popupWindow_price;
+
+    private CarBrandFragment carBrandFragment;
+
+//    private CarSeriesPopwindow carSeriesPopwindow;
+//    private PopupWindow carseriespop;
 
     List<HomeCarGet> mList = new ArrayList<>();
     /*渠道列表*/
@@ -89,10 +104,19 @@ public class CarFromFragment extends BasePullRecyclerFragment {
 
     @ViewById(R.id.line2)
     View view;
+    @ViewById(R.id.line3)
+    View line3;
     @ViewById(R.id.mTab)
     TabLayout mTab;
     @ViewById(R.id.mNavbar)
     NavBarSearch mNavbar;
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     private void initBar() {
         //搜索
@@ -154,30 +178,45 @@ public class CarFromFragment extends BasePullRecyclerFragment {
                 if (position == 0){
                     popupWindow_paixu.showAsDropDown(view);
                     popupWindow_qudao.dismiss();
-                    popupWindow_brand.dismiss();
+                    if (carBrandFragment != null && carBrandFragment.isAdded()){
+                        carBrandFragment.closefragment();
+                    }
+//                    popupWindow_brand.dismiss();
+//                    carseriespop.dismiss();
                     popupWindow_price.dismiss();
                 }else if(position == 1){
                     popupWindow_paixu.dismiss();
                     popupWindow_qudao.showAsDropDown(view);
-                    popupWindow_brand.dismiss();
+                    if (carBrandFragment != null && carBrandFragment.isAdded()){
+                        carBrandFragment.closefragment();
+                    }
+//                    popupWindow_brand.dismiss();
+//                    carseriespop.dismiss();
                     popupWindow_price.dismiss();
                     channelPopwindow.setAdapter(searchRequest);
 
                 }else if(position == 2){
                     popupWindow_paixu.dismiss();
                     popupWindow_qudao.dismiss();
-                    popupWindow_brand.showAsDropDown(view);
+
+//                    popupWindow_brand.showAsDropDown(view);
                     popupWindow_price.dismiss();
                     if (mBrandList.size() == 0){
                         mBrandList.clear();
                         getBrad();
                     }else{
-                        brandPopwindow.setData();
+//                        brandPopwindow.setData();
+                        carbrandpopshow();
                     }
+
                 }else if(position == 3){
                     popupWindow_paixu.dismiss();
                     popupWindow_qudao.dismiss();
-                    popupWindow_brand.dismiss();
+                    if (carBrandFragment != null && carBrandFragment.isAdded()){
+                        carBrandFragment.closefragment();
+                    }
+//                    popupWindow_brand.dismiss();
+//                    carseriespop.dismiss();
                     popupWindow_price.showAsDropDown(view);
                 }
                 setParentShowing(true);
@@ -209,7 +248,11 @@ public class CarFromFragment extends BasePullRecyclerFragment {
                         setParentShowing(true);
                     }
                     popupWindow_qudao.dismiss();
-                    popupWindow_brand.dismiss();
+                    if (carBrandFragment != null && carBrandFragment.isAdded()){
+                        carBrandFragment.closefragment();
+                    }
+//                    popupWindow_brand.dismiss();
+//                    carseriespop.dismiss();
                     popupWindow_price.dismiss();
                 } else if(position == 1){
                     popupWindow_paixu.dismiss();
@@ -226,35 +269,48 @@ public class CarFromFragment extends BasePullRecyclerFragment {
                         channelPopwindow.setAdapter(searchRequest);
 
                     }
-
-                    popupWindow_brand.dismiss();
+                    if (carBrandFragment != null && carBrandFragment.isAdded()){
+                        carBrandFragment.closefragment();
+                    }
+//                    popupWindow_brand.dismiss();
+//                    carseriespop.dismiss();
                     popupWindow_price.dismiss();
                 }else if(position == 2){
                     if (mBrandList.size() == 0){
                         mBrandList.clear();
                         getBrad();
                     }else{
-                        brandPopwindow.setData();
+                        if (carBrandFragment != null){
+                            if (!carBrandFragment.isAdded()){
+                                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+                                transaction.add(R.id.rootLayout, carBrandFragment, CarBrandFragment.class.getName());
+                                transaction.addToBackStack("CarBrandFragment");
+                                transaction.commit();
+                                imgView.setImageResource(R.drawable.nav_icon_up_selected);
+                                homeTitle.setTextColor(getResources().getColor(R.color.app_red));
+                                setParentShowing(true);
+                            }else{
+                                carBrandFragment.closefragment();
+                                imgView.setImageResource(R.drawable.nav_icon_down_default);
+                                homeTitle.setTextColor(getResources().getColor(R.color.color_333333));
+                                setParentShowing(false);
+                            }
+                            carBrandFragment.setData();
+                        }else{
+                            showCarBrandfragment();
+                        }
                     }
-
                     popupWindow_paixu.dismiss();
                     popupWindow_qudao.dismiss();
-                    if (popupWindow_brand.isShowing()){
-                        popupWindow_brand.dismiss();
-                        imgView.setImageResource(R.drawable.nav_icon_down_default);
-                        homeTitle.setTextColor(getResources().getColor(R.color.color_333333));
-                        setParentShowing(false);
-                    }else{
-                        popupWindow_brand.showAsDropDown(view);
-                        imgView.setImageResource(R.drawable.nav_icon_up_selected);
-                        homeTitle.setTextColor(getResources().getColor(R.color.app_red));
-                        setParentShowing(true);
-                    }
                     popupWindow_price.dismiss();
                 }else if(position == 3){
                     popupWindow_paixu.dismiss();
                     popupWindow_qudao.dismiss();
-                    popupWindow_brand.dismiss();
+//                    popupWindow_brand.dismiss();
+//                    carseriespop.dismiss();
+                    if (carBrandFragment != null && carBrandFragment.isAdded()){
+                        carBrandFragment.closefragment();
+                    }
                     if (popupWindow_price.isShowing()){
                         popupWindow_price.dismiss();
                         imgView.setImageResource(R.drawable.nav_icon_down_default);
@@ -268,6 +324,7 @@ public class CarFromFragment extends BasePullRecyclerFragment {
                     }
                 }
             }
+
         });
     }
 
@@ -298,6 +355,22 @@ public class CarFromFragment extends BasePullRecyclerFragment {
         }
     }
 
+    private void carbrandpopshow() {
+        if (carBrandFragment != null){
+            if (!carBrandFragment.isAdded()){
+                FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+                transaction.add(R.id.rootLayout, carBrandFragment, CarBrandFragment.class.getName());
+                transaction.addToBackStack("CarBrandFragment");
+                transaction.commit();
+            }else{
+                carBrandFragment.closefragment();
+            }
+            carBrandFragment.setData();
+        }else{
+            showCarBrandfragment();
+        }
+    }
+
     private void closePopwindow() {
         if (popupWindow_paixu != null){
             popupWindow_paixu.dismiss();
@@ -305,9 +378,13 @@ public class CarFromFragment extends BasePullRecyclerFragment {
         if (popupWindow_qudao != null){
             popupWindow_qudao.dismiss();
         }
-        if (popupWindow_brand != null){
-            popupWindow_brand.dismiss();
+        if (carBrandFragment != null && carBrandFragment.isAdded()){
+            carBrandFragment.closefragment();
         }
+//        if (popupWindow_brand != null){
+//            popupWindow_brand.dismiss();
+//            carseriespop.dismiss();
+//        }
         if (popupWindow_price != null){
             popupWindow_price.dismiss();
         }
@@ -383,20 +460,50 @@ public class CarFromFragment extends BasePullRecyclerFragment {
     /**
      * 品牌监听
      */
-    BrandPopwindow.BrandListener brandListener = new BrandPopwindow.BrandListener() {
+//    BrandPopwindow.BrandListener brandListener = new BrandPopwindow.BrandListener() {
+//        @Override
+//        public void setSelect(String title, String value) {
+//            showProgress();
+//            searchRequest.setBland_id(value);
+//            searchRequest.setBland_iddes(title);
+//            resertChannelStatus();
+//            CURTURNPAGE = Constant.DEFAULTPAGE;
+//            mList.clear();
+//            getCarsData();
+//        }
+//
+//        @Override
+//        public void setDismiss() {
+//            resertChannelStatus();
+//        }
+//
+//        @Override
+//        public void showSeriesPopwindow(int brandid) {
+////            carSeriesPopwindow.getDate(brandid);
+////            if (carseriespop.isShowing()){
+////                popupWindow_brand.dismiss();
+////                carseriespop.dismiss();
+////            }
+////            popupWindow_brand.showAsDropDown(line3);
+////            carseriespop.showAsDropDown(line3);
+////            carseriesFragment = CarseriesFragment_.builder().build();
+////            if (carseriesFragment==null || !carseriesFragment.isAdded()){
+////                showFragment(getActivity(), carseriesFragment, R.id.rootLayout);
+////            }
+////            carseriesFragment.setBrand(brandid);
+//
+//        }
+//    };
+
+    /**
+     * 车系监听
+     */
+    CarSeriesPopwindow.CarSeriListener carSeriListener = new CarSeriesPopwindow.CarSeriListener() {
         @Override
-        public void setSelect(String title, String value) {
-            showProgress();
-            searchRequest.setBland_id(value);
-            searchRequest.setBland_iddes(title);
-            resertChannelStatus();
-            CURTURNPAGE = Constant.DEFAULTPAGE;
-            mList.clear();
-            getCarsData();
+        public void onClickItem() {
+
         }
     };
-
-
 
     /*点击排序的操作*/
     private void loadStateus() {
@@ -437,12 +544,13 @@ public class CarFromFragment extends BasePullRecyclerFragment {
     }
 
 
+
     @Override
     protected void initView(PullRecyclerView recyclerView) {
         brandDao = GreenDaoUtils.getSingleTon().getmDaoSession().getBrandListResponseDao();
         mBrandList = brandDao.loadAll();
 
-        EventBus.getDefault().register(this);
+
         Drawable bgdrable = getResources().getDrawable(R.drawable.select_main_item);
         int bgcolor = getActivity().getResources().getColor(R.color.mdtp_transparent_black);
 
@@ -457,11 +565,15 @@ public class CarFromFragment extends BasePullRecyclerFragment {
         channelPopwindow = new ChannelPopwindow();
         popupWindow_qudao = channelPopwindow.showPopupWindow(getActivity(), bgdrable, bgcolor, mChannelList, channelListener);
         //品牌
-        brandPopwindow = new BrandPopwindow();
-        popupWindow_brand = brandPopwindow.showPopupWindow(getActivity(), bgdrable, bgcolor, brandListener);
+//        brandPopwindow = new BrandPopwindow();
+//        popupWindow_brand = brandPopwindow.showPopupWindow(getActivity(), bgdrable, bgcolor, brandListener);
         //价格
         priceBetweenPopwindow = new PriceBetweenPopwindow();
         popupWindow_price = priceBetweenPopwindow.showPopupWindow(getActivity(), bgdrable, bgcolor, mPricelList, priceBetweenListener);
+
+        //品牌二级界面
+//        carSeriesPopwindow = new CarSeriesPopwindow();
+//        carseriespop = carSeriesPopwindow.showPopupWindow(getActivity(), bgdrable, bgcolor, carSeriListener);
 
         recyclerView.enableRefresh(true);
         recyclerView.enableLoadMore(true);
@@ -480,7 +592,6 @@ public class CarFromFragment extends BasePullRecyclerFragment {
         /*获取价格*/
         getPriceBetween();
     }
-
 
     @Override
     protected void onRefresh(RecyclerView recyclerView) {
@@ -599,7 +710,10 @@ public class CarFromFragment extends BasePullRecyclerFragment {
             mBrandList.addAll(returnMsg);
             //写入数据库
             brandDao.insertInTx(mBrandList);
-            brandPopwindow.setData();
+            carbrandpopshow();
+//            showCarBrandfragment();
+//            carBrandFragment.setData();
+//            brandPopwindow.setData();
 //            priceBetweenPopwindow.setAdapter(mPricelList, searchRequest);
         }
 
@@ -609,5 +723,61 @@ public class CarFromFragment extends BasePullRecyclerFragment {
         }
     };
 
+    void showCarBrandfragment(){
+        carBrandFragment = CarBrandFragment_.builder().build();
+        if (carBrandFragment==null || !carBrandFragment.isAdded()){
+            FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+            transaction.add(R.id.rootLayout, carBrandFragment, CarBrandFragment.class.getName());
+            transaction.addToBackStack("CarBrandFragment");
+            transaction.commit();
+        }
+    }
 
+    @Subscribe
+    public void brandDatachange(BrandListener listener){
+        showProgress();
+        searchRequest.setBland_id(listener.value);
+        searchRequest.setBland_iddes(listener.text);
+        searchRequest.setSpec_id("");
+        searchRequest.setSeries_id("");
+        resertChannelStatus();
+        CURTURNPAGE = Constant.DEFAULTPAGE;
+        mList.clear();
+        getCarsData();
+    }
+
+    @Subscribe
+    public void brandandtype(CarseriesAndType listener){
+        showProgress();
+        searchRequest.setBland_id(listener.brandid);
+        searchRequest.setBland_iddes(listener.brandiddes);
+        searchRequest.setSeries_id(listener.seriasid);
+        searchRequest.setSpec_id("");
+        resertChannelStatus();
+        CURTURNPAGE = Constant.DEFAULTPAGE;
+        mList.clear();
+        getCarsData();
+    }
+
+    @Subscribe
+    public void brandandtypethree(BrandCarseriesAndType listener){
+        showProgress();
+        searchRequest.setBland_id(listener.brandid);
+        searchRequest.setBland_iddes(listener.brandiddes);
+        searchRequest.setSeries_id(listener.seriasid);
+        searchRequest.setSpec_id(listener.spec_id);
+        resertChannelStatus();
+        CURTURNPAGE = Constant.DEFAULTPAGE;
+        mList.clear();
+        getCarsData();
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        if (carBrandFragment != null){
+            getFragmentManager().popBackStackImmediate("CarBrandFragment",
+                    FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
+        return super.onBackPressed();
+    }
 }

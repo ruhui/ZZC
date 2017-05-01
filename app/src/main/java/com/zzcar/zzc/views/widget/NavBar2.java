@@ -103,7 +103,7 @@ public class NavBar2 extends Toolbar {
     }
 
     public void setRightTxtColor(int color){
-        ivMenuRightTxt.setTextColor(color);
+        ivMenuRightTxt.setTextColor(getResources().getColor(color));
     }
 
     public void setDisplayLeftMenu(boolean enable) {
@@ -132,6 +132,10 @@ public class NavBar2 extends Toolbar {
 
     public void setMiddleTitle(CharSequence title) {
         mTitleTextView.setText(title);
+    }
+
+    public void setMiddleTextColor(int color){
+        mTitleTextView.setTextColor(getResources().getColor(color));
     }
 
     public void setMiddleTitleColor(int color) {

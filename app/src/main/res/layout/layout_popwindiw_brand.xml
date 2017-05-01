@@ -2,93 +2,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/mdtp_transparent_black">
+    android:background="@color/app_red">
 
-
-    <ScrollView
-        android:id="@+id/pullToRefreshScrollView"
+    <ListView
+        android:id="@+id/country_lvcountry"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none"
-        android:layout_above="@+id/textView5">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/txthot"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:text="热门品牌"
-                android:textColor="@color/color_959595"
-                android:gravity="center|left"
-                android:paddingLeft="20dp"
-                android:textSize="@dimen/sp_14"
-                android:background="@color/white"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/hotcityRecycleView"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:background="@color/white"
-                android:layout_below="@+id/txthot"
-                >
-            </android.support.v7.widget.RecyclerView>
-
-            <RelativeLayout
-                android:id="@+id/relaClearPrice"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:background="@drawable/selector_bg_white_grey"
-                android:layout_below="@+id/hotcityRecycleView"
-                >
-
-                <View
-                    android:layout_height="0.5dp"
-                    android:layout_width="match_parent"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:background="@color/grey"
-                    android:layout_marginLeft="22dp"/>
-
-                <TextView
-                    android:layout_width="70dp"
-                    android:layout_height="30dp"
-                    android:text="不限品牌"
-                    android:textColor="@color/app_red"
-                    android:textSize="13sp"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="center"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" />
-            </RelativeLayout>
-
-            <View
-                android:id="@+id/line"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/grey"
-                android:layout_below="@+id/relaClearPrice"/>
-
-
-            <ListView
-                android:id="@+id/country_lvcountry"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:divider="@null"
-                android:background="@color/white"
-                android:layout_below="@+id/line"/>
-
-
-        </RelativeLayout>
-
-    </ScrollView>
-
+        android:divider="@null"
+        android:background="@color/white"
+        android:layout_above="@+id/textView5" />
 
     <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@+id/textView5"
