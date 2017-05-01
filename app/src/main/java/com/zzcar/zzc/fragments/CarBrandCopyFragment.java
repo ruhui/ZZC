@@ -209,7 +209,6 @@ public class CarBrandCopyFragment extends BaseFragment {
             transaction.add(R.id.frameLayout, carseriesFragment, CarBrandCopyFragment.class.getName());
             transaction.setCustomAnimations(R.anim.fragment_slide_left_enter,
                     R.anim.fragment_slide_right_exit);
-            transaction.addToBackStack("CarseriesCopyFragment");
             transaction.commit();
         }
         carseriesFragment.setBrand(brandid, branddes);

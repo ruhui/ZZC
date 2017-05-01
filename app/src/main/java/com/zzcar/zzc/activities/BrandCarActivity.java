@@ -64,7 +64,6 @@ public class BrandCarActivity extends BaseActivity {
             if (!carBrandFragment.isAdded()){
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 transaction.add(R.id.brandframe, carBrandFragment, CarBrandFragment.class.getName());
-                transaction.addToBackStack("CarBrandCopyFragment");
                 transaction.commit();
             }else{
                 carBrandFragment.closefragment();
@@ -85,7 +84,6 @@ public class BrandCarActivity extends BaseActivity {
         if (carBrandFragment==null || !carBrandFragment.isAdded()){
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.brandframe, carBrandFragment, CarBrandFragment.class.getName());
-            transaction.addToBackStack("CarBrandCopyFragment");
             transaction.commit();
         }
     }
