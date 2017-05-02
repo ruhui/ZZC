@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
@@ -40,6 +41,8 @@ public class SearchActivity extends BaseActivity {
     ItemIconTextIcon itemIconTextIcon6;
     @ViewById(R.id.itemIconTextIcon7)
     ItemIconTextIcon itemIconTextIcon7;
+    @ViewById(R.id.sureSubmit)
+    TextView sureSubmit;
 
     private SearchRequest searchRequest;
 
@@ -69,6 +72,8 @@ public class SearchActivity extends BaseActivity {
             @Override
             public void onRightMenuClick(View view) {
                 super.onRightMenuClick(view);
+                searchRequest.resetData();
+                resertView();
             }
         });
 
@@ -134,6 +139,27 @@ public class SearchActivity extends BaseActivity {
                 startActivityForResult(intent, 10101);
             }
         });
+
+        sureSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.putExtra("searchRequest", (Serializable) searchRequest);
+                setResult(10200, intent);
+                finish();
+            }
+        });
+    }
+
+    /*重置界面*/
+    private void resertView() {
+        itemIconTextIcon7.setRightText(searchRequest.getChanneldes());
+        itemIconTextIcon6.setRightText(searchRequest.getEmission_des());
+        itemIconTextIcon5.setRightText(searchRequest.getMileagedes());
+        itemIconTextIcon3.setRightText(searchRequest.getPrice_typedes());
+        itemIconTextIcon2.setRightText(searchRequest.getBland_iddes());
+        itemIconTextIcon1.setRightText(searchRequest.getCitydes());
+        itemIconTextIcon4.setRightText(searchRequest.getColorDes());
     }
 
     @Override
@@ -165,6 +191,7 @@ public class SearchActivity extends BaseActivity {
                 searchRequest.setMileage(mileage);
                 searchRequest.setMin_mileage(min_mileage);
                 searchRequest.setMax_mileage(max_mileage);
+                searchRequest.setMileagedes(mileagedes);
                 itemIconTextIcon5.setRightText(mileagedes);
             }else if (requestCode == 10104){
                 String price_type = data.getStringExtra("price_type");

@@ -119,7 +119,7 @@ public class CarFromFragment extends BasePullRecyclerFragment {
     }
 
     private void initBar() {
-        //搜索
+        //高级搜索
         mNavbar.setSearchTextListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -457,53 +457,18 @@ public class CarFromFragment extends BasePullRecyclerFragment {
     };
 
 
-    /**
-     * 品牌监听
-     */
-//    BrandPopwindow.BrandListener brandListener = new BrandPopwindow.BrandListener() {
-//        @Override
-//        public void setSelect(String title, String value) {
-//            showProgress();
-//            searchRequest.setBland_id(value);
-//            searchRequest.setBland_iddes(title);
-//            resertChannelStatus();
-//            CURTURNPAGE = Constant.DEFAULTPAGE;
-//            mList.clear();
-//            getCarsData();
-//        }
-//
-//        @Override
-//        public void setDismiss() {
-//            resertChannelStatus();
-//        }
-//
-//        @Override
-//        public void showSeriesPopwindow(int brandid) {
-////            carSeriesPopwindow.getDate(brandid);
-////            if (carseriespop.isShowing()){
-////                popupWindow_brand.dismiss();
-////                carseriespop.dismiss();
-////            }
-////            popupWindow_brand.showAsDropDown(line3);
-////            carseriespop.showAsDropDown(line3);
-////            carseriesFragment = CarseriesFragment_.builder().build();
-////            if (carseriesFragment==null || !carseriesFragment.isAdded()){
-////                showFragment(getActivity(), carseriesFragment, R.id.rootLayout);
-////            }
-////            carseriesFragment.setBrand(brandid);
-//
-//        }
-//    };
-
-    /**
-     * 车系监听
-     */
-    CarSeriesPopwindow.CarSeriListener carSeriListener = new CarSeriesPopwindow.CarSeriListener() {
-        @Override
-        public void onClickItem() {
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null && requestCode == 10200){
+            SearchRequest request = (SearchRequest) data.getSerializableExtra("searchRequest");
+            searchRequest.copyData(request);
+            resertChannelStatus();
+            CURTURNPAGE = Constant.DEFAULTPAGE;
+            mList.clear();
+            getCarsData();
         }
-    };
+    }
 
     /*点击排序的操作*/
     private void loadStateus() {

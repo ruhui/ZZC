@@ -87,6 +87,7 @@ public class BrandCarActivity extends BaseActivity {
             transaction.add(R.id.brandframe, carBrandFragment, CarBrandFragment.class.getName());
             transaction.commit();
         }
+        carBrandFragment.setData();
     }
 
     @Override
@@ -123,7 +124,8 @@ public class BrandCarActivity extends BaseActivity {
             //写入数据库
             BrandListResponseDao brandDao = GreenDaoUtils.getSingleTon().getmDaoSession().getBrandListResponseDao();
             brandDao.insertInTx(mBrandList);
-            carBrandFragment.setData();
+            showCarBrandfragment();
+
         }
 
         @Override

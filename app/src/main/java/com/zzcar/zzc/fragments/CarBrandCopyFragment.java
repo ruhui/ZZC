@@ -154,7 +154,15 @@ public class CarBrandCopyFragment extends BaseFragment {
                 }
             }
         });
-        setData();
+
+        if (mBrandList.size() > 0){
+            adapter.clear();
+            adapter.addAll(hotBrandList);
+            Collections.sort(mBrandList, pinyinComparator);
+            sortAdapter.updateListView(mBrandList);
+        }else{
+            setData();
+        }
     }
 
     @Override
@@ -190,10 +198,12 @@ public class CarBrandCopyFragment extends BaseFragment {
         hotBrandList.addAll(userList);
         mBrandList.addAll(listbrand);
 
-        adapter.clear();
-        adapter.addAll(hotBrandList);
-        Collections.sort(mBrandList, pinyinComparator);
-        sortAdapter.updateListView(mBrandList);
+        if(getView() != null){
+            adapter.clear();
+            adapter.addAll(hotBrandList);
+            Collections.sort(mBrandList, pinyinComparator);
+            sortAdapter.updateListView(mBrandList);
+        }
     }
 
     public void closefragment() {

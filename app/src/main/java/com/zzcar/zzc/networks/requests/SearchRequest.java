@@ -1,5 +1,9 @@
 package com.zzcar.zzc.networks.requests;
 
+import android.text.TextUtils;
+
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -7,11 +11,11 @@ import java.util.List;
  * 创建作者： 黄如辉
  * 创建时间： 2017/4/25 17:52
  **/
-public class SearchRequest {
+public class SearchRequest implements Serializable{
     private String sort="1";
     private String channel="";
-    private List<String> emission_ids;
-    private List<String> color_ids;
+    private List<String> emission_ids = new ArrayList<>();
+    private List<String> color_ids = new ArrayList<>();
     private String bland_id="";
     private String series_id="";
     private String year_id="";
@@ -32,6 +36,15 @@ public class SearchRequest {
     private String emission_des = "";
     private String citydes = "";
     private String colorDes = "";
+    private String mileagedes = "";
+
+    public String getMileagedes() {
+        return mileagedes;
+    }
+
+    public void setMileagedes(String mileagedes) {
+        this.mileagedes = mileagedes;
+    }
 
     public String getColorDes() {
         return colorDes;
@@ -95,7 +108,7 @@ public class SearchRequest {
     public void defaultStatus(){
         sort = "1";channel="";emission_ids.clear();color_ids.clear();bland_id="";series_id="";year_id="";max_mileage="";
         spec_id="";province_id="";city_id="";price_type="";min_price="";max_price="";mileage="";min_mileage="";
-        sortdes="排序";channeldes="渠道";bland_iddes="品牌";price_typedes="价格";emission_des = "";citydes = "";
+        sortdes="排序";channeldes="渠道";bland_iddes="品牌";price_typedes="价格";emission_des = "";citydes = ""; mileagedes = "";
     }
 
     public String getSort() {
@@ -224,6 +237,91 @@ public class SearchRequest {
 
     public void setMax_mileage(String max_mileage) {
         this.max_mileage = max_mileage;
+    }
+
+    public void copyData(SearchRequest request){
+        if (!TextUtils.isEmpty(request.getSort())){
+            setSortdes(request.getSort());
+        }
+        if (!TextUtils.isEmpty(request.getChannel())){
+            setChannel(request.getChannel());
+        }
+        if (request.getEmission_ids().size() != 0){
+            setEmission_ids(request.getEmission_ids());
+        }
+        if (request.getColor_ids().size() != 0){
+            setColor_ids(request.getColor_ids());
+        }
+        if (!TextUtils.isEmpty(request.getBland_id())){
+            setBland_id(request.getBland_id());
+        }
+        if (!TextUtils.isEmpty(request.getSeries_id())){
+            setSeries_id(request.getSeries_id());
+        }
+
+        if (!TextUtils.isEmpty(request.getYear_id())){
+            setYear_id(request.getYear_id());
+        }
+        if (!TextUtils.isEmpty(request.getSpec_id())){
+            setSpec_id(request.getSpec_id());
+        }
+        if (!TextUtils.isEmpty(request.getProvince_id())){
+            setProvince_id(request.getProvince_id());
+        }
+        if (!TextUtils.isEmpty(request.getCity_id())){
+            setCity_id(request.getCity_id());
+        }
+        if (!TextUtils.isEmpty(request.getPrice_type())){
+            setPrice_type(request.getPrice_type());
+        }
+        if (!TextUtils.isEmpty(request.getMin_price())){
+            setMin_price(request.getMin_price());
+        }
+        if (!TextUtils.isEmpty(request.getMax_price())){
+            setMax_price(request.getMax_price());
+        }
+        if (!TextUtils.isEmpty(request.getMileage())){
+            setMileage(request.getMileage());
+        }
+        if (!TextUtils.isEmpty(request.getMin_mileage())){
+            setMin_mileage(request.getMin_mileage());
+        }
+        if (!TextUtils.isEmpty(request.getMax_mileage())){
+            setMax_mileage(request.getMax_mileage());
+        }
+        if (!TextUtils.isEmpty(request.getSortdes())){
+            setSortdes(request.getSortdes());
+        }
+
+        if (!TextUtils.isEmpty(request.getChanneldes())){
+            setChanneldes(request.getChanneldes());
+        }
+        if (!TextUtils.isEmpty(request.getBland_iddes())){
+            setBland_iddes(request.getBland_iddes());
+        }
+        if (!TextUtils.isEmpty(request.getPrice_typedes())){
+            setPrice_typedes(request.getPrice_typedes());
+        }
+        if (!TextUtils.isEmpty(request.getEmission_des())){
+            setEmission_des(request.getEmission_des());
+        }
+        if (!TextUtils.isEmpty(request.getCitydes())){
+            setCitydes(request.getCitydes());
+        }
+        if (!TextUtils.isEmpty(request.getColorDes())){
+            setColorDes(request.getColorDes());
+        }
+        if (!TextUtils.isEmpty(request.getMileagedes())){
+            setMileagedes(request.getMileagedes());
+        }
+    }
+
+    public void resetData(){
+        sort = "";channel="";emission_ids.clear();color_ids.clear();bland_id="";series_id="";year_id="";max_mileage="";
+        spec_id="";province_id="";city_id="";price_type="";min_price="";max_price="";mileage="";min_mileage="";
+        sortdes="";channeldes="";bland_iddes="";price_typedes="";emission_des = "";citydes = "";color_ids.clear();emission_ids.clear();
+        colorDes = ""; emission_des = ""; mileagedes="";
+
     }
 }
 

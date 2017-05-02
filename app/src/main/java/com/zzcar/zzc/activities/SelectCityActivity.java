@@ -1,6 +1,7 @@
 package com.zzcar.zzc.activities;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -201,42 +202,9 @@ public class SelectCityActivity extends BaseActivity {
         @Override
         public void success(List<CityResponse> returnMsg) {
             LogUtil.E("success","success");
-            if (provenceDao.count() == 0){
-                //写入数据库
-                for (CityResponse cityResponse:returnMsg){
-                    ProvenceModel provenceModel = new ProvenceModel();
-                    provenceModel.setFirst_letter(cityResponse.getFirst_letter());
-                    provenceModel.setFull_name(cityResponse.getFull_name());
-                    provenceModel.setId(cityResponse.getId());
-                    provenceModel.setName(cityResponse.getName());
-                    provenceModel.setRegion_name(cityResponse.getRegion_name());
-                    provenceDao.insert(provenceModel);
-                    for (CityChild cityChild : cityResponse.getChildren()){
-                        CityModel cityModel = new CityModel();
-                        cityModel.setRegion_name(cityChild.getRegion_name());
-                        cityModel.setName(cityChild.getName());
-                        cityModel.setId(cityChild.getId());
-                        cityChild.setFull_name(cityChild.getFull_name());
-                        cityModel.setFirst_letter(cityChild.getFirst_letter());
-                        cityModel.setParentid(provenceModel.getId());
-                        cityDao.insert(cityModel);
-                    }
-                }
 
-            }
+            new LoadAsynTask(returnMsg).execute("");
 
-            List<CityModel> userList = cityDao.queryBuilder()
-                    .whereOr(CityModelDao.Properties.Name.eq("厦门市"), CityModelDao.Properties.Name.eq("深圳市"),
-                            CityModelDao.Properties.Name.like("福州市"),CityModelDao.Properties.Name.like("泉州市"))
-                    .build().list();
-            hotCityList.clear();
-            hotCityList.addAll(userList);
-            provenctList.clear();
-            provenctList = provenceDao.loadAll();
-
-            closeProgress();
-            hotAdapter.addAll(hotCityList);
-            sortAdapter.updateListView(provenctList);
         }
 
         @Override
@@ -294,4 +262,57 @@ public class SelectCityActivity extends BaseActivity {
             getSelectCity(provinceid+"", cityid+"", citydes);
         }
     };
+
+    private class LoadAsynTask extends AsyncTask<String, Void, String>{
+
+        private List<CityResponse> returnMsg;
+        public LoadAsynTask(List<CityResponse> returnMsg) {
+            this.returnMsg = returnMsg;
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            if (provenceDao.count() == 0){
+                //写入数据库
+                for (CityResponse cityResponse:returnMsg){
+                    ProvenceModel provenceModel = new ProvenceModel();
+                    provenceModel.setFirst_letter(cityResponse.getFirst_letter());
+                    provenceModel.setFull_name(cityResponse.getFull_name());
+                    provenceModel.setId(cityResponse.getId());
+                    provenceModel.setName(cityResponse.getName());
+                    provenceModel.setRegion_name(cityResponse.getRegion_name());
+                    provenceDao.insert(provenceModel);
+                    for (CityChild cityChild : cityResponse.getChildren()){
+                        CityModel cityModel = new CityModel();
+                        cityModel.setRegion_name(cityChild.getRegion_name());
+                        cityModel.setName(cityChild.getName());
+                        cityModel.setId(cityChild.getId());
+                        cityChild.setFull_name(cityChild.getFull_name());
+                        cityModel.setFirst_letter(cityChild.getFirst_letter());
+                        cityModel.setParentid(provenceModel.getId());
+                        cityDao.insert(cityModel);
+                    }
+                }
+
+            }
+
+            List<CityModel> userList = cityDao.queryBuilder()
+                    .whereOr(CityModelDao.Properties.Name.eq("厦门市"), CityModelDao.Properties.Name.eq("深圳市"),
+                            CityModelDao.Properties.Name.like("福州市"),CityModelDao.Properties.Name.like("泉州市"))
+                    .build().list();
+            hotCityList.clear();
+            hotCityList.addAll(userList);
+            provenctList.clear();
+            provenctList = provenceDao.loadAll();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+            closeProgress();
+            hotAdapter.addAll(hotCityList);
+            sortAdapter.updateListView(provenctList);
+        }
+    }
 }

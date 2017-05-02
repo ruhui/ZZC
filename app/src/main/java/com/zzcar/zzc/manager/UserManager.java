@@ -7,6 +7,7 @@ import com.zzcar.zzc.networks.ApiClient;
 import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.ZZCHeaders;
 import com.zzcar.zzc.networks.requests.LoginRequest;
+import com.zzcar.zzc.networks.requests.ParametersRequest;
 import com.zzcar.zzc.networks.requests.SearchRequest;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
@@ -169,6 +170,23 @@ public class UserManager {
                                       Subscriber<ResponseParent<HomeCarPushResponse>> subscriber){
         /* 防止多次点击 */
         cancelTagandRemove("getHomeCarFrom");
+        ParametersRequest parameters = new ParametersRequest();
+        parameters.setChannel(props.getChannel());
+        parameters.setEmission_ids(props.getEmission_ids());
+        parameters.setColor_ids(props.getColor_ids());
+        parameters.setBland_id(props.getBland_id());
+        parameters.setSeries_id(props.getSeries_id());
+        parameters.setYear_id(props.getYear_id());
+        parameters.setSpec_id(props.getSpec_id());
+        parameters.setProvince_id(props.getProvince_id());
+        parameters.setCity_id(props.getCity_id());
+        parameters.setPrice_type(props.getPrice_type());
+        parameters.setMin_price(props.getMin_price());
+        parameters.setMax_price(props.getMax_price());
+        parameters.setMileage(props.getMileage());
+        parameters.setMin_mileage(props.getMin_mileage());
+        parameters.setMax_mileage(props.getMax_mileage());
+
         String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
         Map<String,String> hashmap = new HashMap<>();
         //名称/编号
@@ -176,7 +194,7 @@ public class UserManager {
         //排序：1最新(默认)、2销量高、3价格高到低、4价格低到高、5按车龄最小，6按里程最少
         hashmap.put("sort", props.getSort());
         //属性,属性值的组合.格式:{"key1":value1,"key2":value2,"color_ids":[1,2]};参数 如goods/cars?page=1&props={"city_id":350200,"color_ids":[1,2]}
-        hashmap.put("props ", Tool.getGson(props));
+        hashmap.put("props ", Tool.getGson(parameters));
         //页码
         hashmap.put("page", String.valueOf(page));
         //默认一页显示行数
