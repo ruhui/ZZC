@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="50dp"
+    android:elevation="10dp"
+    android:background="@color/white"
+    >
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="不限城市"
+        android:textSize="12sp"
+        android:textColor="@color/color_333333"
+        android:gravity="center|left"
+        android:paddingLeft="16dp"
+        android:background="@drawable/selector_bg_white_grey"
+        />
+
+    <View
+        android:id="@+id/line4"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/grey"
+        android:layout_below="@+id/textView6"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/mRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:layout_below="@+id/line4"
+        />
+</LinearLayout>

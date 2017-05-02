@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+   >
+
+    <RelativeLayout
+        android:id="@+id/relaItem"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/selector_bg_white_grey"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+
+        <TextView
+            android:id="@+id/txt_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/indicator_corner_radius"
+            android:textColor="@color/color_090909"
+            android:text="这是模型layout"
+            android:typeface="serif"
+            android:layout_marginLeft="13dp"
+            android:layout_marginStart="13dp"
+            android:layout_alignBaseline="@+id/checkBox"
+            android:layout_alignBottom="@+id/checkBox"
+            android:layout_toRightOf="@+id/checkBox"
+            android:layout_toEndOf="@+id/checkBox" />
+
+
+        <View
+            android:layout_height="0.5dp"
+            android:layout_width="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/grey"
+            android:layout_marginLeft="22dp"
+            android:id="@+id/view3" />
+
+
+        <ImageView
+            android:id="@+id/checkBox"
+            android:layout_width="21dp"
+            android:layout_height="21dp"
+            android:checked="false"
+            android:layout_marginLeft="16dp"
+            android:background="@drawable/selector_checkbox"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+
+        <RelativeLayout
+            android:layout_width="210dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
+
+            <com.zzcar.zzc.views.widget.CircleView
+                android:id="@+id/mCicleTextView"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>

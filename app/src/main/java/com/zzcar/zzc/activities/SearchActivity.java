@@ -17,6 +17,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
+import java.io.Serializable;
 import java.util.List;
 
 @EActivity(R.layout.activity_search)
@@ -68,6 +69,24 @@ public class SearchActivity extends BaseActivity {
             @Override
             public void onRightMenuClick(View view) {
                 super.onRightMenuClick(view);
+            }
+        });
+
+        /*颜色*/
+        itemIconTextIcon4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SearchActivity.this, ColorSelectActivity_.class);
+                startActivityForResult(intent, 10107);
+            }
+        });
+
+        /*所在地*/
+        itemIconTextIcon1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(SearchActivity.this, SelectCityActivity_.class);
+                startActivityForResult(intent, 10106);
             }
         });
 
@@ -157,6 +176,30 @@ public class SearchActivity extends BaseActivity {
                 searchRequest.setMax_price(max_price);
                 searchRequest.setPrice_typedes(pricedes);
                 itemIconTextIcon3.setRightText(pricedes);
+            }else if (requestCode == 10105){
+                String brandid = data.getStringExtra("brandid");
+                String seriesid = data.getStringExtra("seriesid");
+                String typeid = data.getStringExtra("typeid");
+                String branddes = data.getStringExtra("branddes");
+                searchRequest.setBland_id(brandid);
+                searchRequest.setSeries_id(seriesid);
+                searchRequest.setSpec_id(typeid);
+                searchRequest.setBland_iddes(branddes);
+                itemIconTextIcon2.setRightText(branddes);
+            }else if (requestCode == 10106){
+                String province_id = data.getStringExtra("province_id");
+                String city_id = data.getStringExtra("city_id");
+                String citydes = data.getStringExtra("citydes");
+                searchRequest.setProvince_id(province_id);
+                searchRequest.setCity_id(city_id);
+                searchRequest.setCitydes(citydes);
+                itemIconTextIcon1.setRightText(citydes);
+            }else if (requestCode == 10107){
+                List<String> colorids = (List<String>) data.getSerializableExtra("colorids");
+                String colordes = data.getStringExtra("colordes");
+                searchRequest.setColor_ids(colorids);
+                searchRequest.setColorDes(colordes);
+                itemIconTextIcon4.setRightText(colordes);
             }
         }
     }

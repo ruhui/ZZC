@@ -7,6 +7,8 @@ import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.networks.responses.CarSeriesResponse;
 import com.zzcar.zzc.networks.responses.CarTypeResponse;
+import com.zzcar.zzc.networks.responses.CityResponse;
+import com.zzcar.zzc.networks.responses.ColorResponse;
 import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
@@ -77,4 +79,11 @@ public interface ZZCService {
     @GET("common/mileage")
     Observable<ResponseParent<List<CarChanelResponse>>> getmileage(@HeaderMap Map<String, String> header);
 
+    /*城市*/
+    @GET("common/province_city")
+    Observable<ResponseParent<List<CityResponse>>> getprovincecity(@HeaderMap Map<String, String> header);
+
+    /*颜色*/
+    @GET("common/color")
+    Observable<ResponseParent<List<ColorResponse>>> getcolor(@HeaderMap Map<String, String> header);
 }

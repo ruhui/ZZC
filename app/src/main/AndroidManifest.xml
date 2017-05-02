@@ -34,7 +34,9 @@
         <activity android:name=".activities.EmissionActivity_" />
         <activity android:name=".activities.MileageActivity_" />
         <activity android:name=".activities.PirceActivity_" />
-        <activity android:name=".activities.BrandCarActivity_"></activity>
+        <activity android:name=".activities.BrandCarActivity_" />
+        <activity android:name=".activities.SelectCityActivity_" />
+        <activity android:name=".activities.ColorSelectActivity_"></activity>
     </application>
 
 </manifest>

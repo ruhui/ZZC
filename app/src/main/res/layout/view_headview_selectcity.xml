@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:background="@color/color_f2f2f2"
+        android:textColor="@color/color_656565"
+        android:textSize="11sp"
+        android:text="*"
+        android:gravity="center|left"
+        android:paddingLeft="16dp"/>
+
+    <TextView
+        android:id="@+id/allcity"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textSize="@dimen/sp_12"
+        android:textColor="@color/color_090909"
+        android:text="全国"
+        android:background="@drawable/selector_bg_white_grey"
+        android:gravity="center|left"
+        android:paddingLeft="16dp"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:background="@color/color_f2f2f2"
+        android:textColor="@color/color_656565"
+        android:textSize="11sp"
+        android:text="热门城市"
+        android:gravity="center|left"
+        android:paddingLeft="16dp"/>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/hotcityRecycleView"
+        android:layout_width="match_parent"
+        android:layout_height="163dp"
+        android:layout_marginRight="20dp"
+        android:background="@color/white"
+        android:layout_below="@+id/txthot"
+        >
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

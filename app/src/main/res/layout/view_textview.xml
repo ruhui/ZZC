@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/selector_bg_white_grey">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <TextView
+            android:id="@+id/allcity"
+            android:layout_width="match_parent"
+            android:layout_height="39dp"
+            android:textSize="@dimen/sp_12"
+            android:textColor="@color/color_090909"
+            android:text="全国"
+            android:background="@color/white"
+            android:gravity="center|left"
+            android:paddingLeft="16dp"
+            />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey"
+            android:layout_marginLeft="20dp"
+            android:layout_below="@+id/allcity"
+            />
+    </RelativeLayout>
+</LinearLayout>

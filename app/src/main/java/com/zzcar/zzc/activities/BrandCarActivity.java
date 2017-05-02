@@ -1,5 +1,6 @@
 package com.zzcar.zzc.activities;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -60,22 +61,22 @@ public class BrandCarActivity extends BaseActivity {
 
         BrandListResponseDao brandDao = GreenDaoUtils.getSingleTon().getmDaoSession().getBrandListResponseDao();
         List<BrandListResponse> listbrand = brandDao.loadAll();
-        if (carBrandFragment != null){
-            if (!carBrandFragment.isAdded()){
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.add(R.id.brandframe, carBrandFragment, CarBrandFragment.class.getName());
-                transaction.commit();
+        if (listbrand.size() > 0){
+            if (carBrandFragment != null){
+                if (!carBrandFragment.isAdded()){
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.add(R.id.brandframe, carBrandFragment, CarBrandFragment.class.getName());
+                    transaction.commit();
+                }else{
+                    carBrandFragment.setData();
+                }
             }else{
-                carBrandFragment.closefragment();
-            }
-            if (listbrand.size() > 0){
-                carBrandFragment.setData();
-            }else{
-                getBrad();
+                showCarBrandfragment();
             }
         }else{
-            showCarBrandfragment();
+            getBrad();
         }
+
     }
 
 
@@ -91,6 +92,17 @@ public class BrandCarActivity extends BaseActivity {
     @Override
     public void onNetChange(int netMobile) {
 
+    }
+
+
+    public void setBrandandType(String branid, String seriesid, String typeid,String branddes){
+        Intent intent = new Intent();
+        intent.putExtra("brandid", branid);
+        intent.putExtra("seriesid", seriesid);
+        intent.putExtra("typeid", typeid);
+        intent.putExtra("branddes",branddes);
+        setResult(10105, intent);
+        finish();
     }
 
     /**

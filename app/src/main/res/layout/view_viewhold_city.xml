@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/selector_bg_white_grey">
+
+    <TextView
+        android:id="@+id/txtCity"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textSize="@dimen/sp_12"
+        android:textColor="@color/color_090909"
+        android:text="全国"
+        android:gravity="center|left"
+        android:paddingLeft="16dp"
+        android:background="@drawable/selector_bg_white_grey"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        android:layout_marginLeft="20dp"/>
+</LinearLayout>

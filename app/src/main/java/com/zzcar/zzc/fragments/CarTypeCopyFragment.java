@@ -7,6 +7,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.zzcar.zzc.R;
+import com.zzcar.zzc.activities.BrandCarActivity;
 import com.zzcar.zzc.adapters.CarTypeAdapter;
 import com.zzcar.zzc.fragments.base.BaseFragment;
 import com.zzcar.zzc.interfaces.BrandCarseriesAndType;
@@ -21,7 +22,6 @@ import com.zzcar.zzc.utils.LogUtil;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,14 +53,14 @@ public class CarTypeCopyFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 CarTypeSpecs carTypeSpecs = mCartypeList.get(i);
-                EventBus.getDefault().post(new BrandCarseriesAndType(branid+"", seriesid+"", carTypeSpecs.getId()+"", brandiddes));
+                ((BrandCarActivity)getActivity()).setBrandandType(branid+"", seriesid+"" , carTypeSpecs.getId()+"", brandiddes);
             }
 
         });
         textView6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EventBus.getDefault().post(new CarseriesAndType(branid+"", seriesid+"", brandiddes));
+                ((BrandCarActivity)getActivity()).setBrandandType(branid+"", seriesid+"" , "", brandiddes);
             }
         });
 

@@ -22,6 +22,7 @@ import org.androidannotations.annotations.ViewById;
 @EViewGroup(R.layout.view_nav_bar2)
 public class NavBar2 extends Toolbar {
 
+
     @ViewById
     ImageView ivMenuLeft;
     @ViewById
@@ -50,7 +51,6 @@ public class NavBar2 extends Toolbar {
         super(context, attrs);
         initAttr(context, attrs);
     }
-
 
     private void initAttr(Context context, AttributeSet attrs) {
         TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.NavBar);

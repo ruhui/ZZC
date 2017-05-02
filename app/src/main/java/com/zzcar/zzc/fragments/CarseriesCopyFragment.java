@@ -9,9 +9,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.zzcar.zzc.R;
+import com.zzcar.zzc.activities.BrandCarActivity;
 import com.zzcar.zzc.adapters.CarseriesAdapter;
 import com.zzcar.zzc.fragments.base.BaseFragment;
-import com.zzcar.zzc.interfaces.BrandListener;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.CarfactoryDto;
@@ -23,7 +23,6 @@ import com.zzcar.zzc.utils.LogUtil;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,7 +63,7 @@ public class CarseriesCopyFragment extends BaseFragment {
         textView6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EventBus.getDefault().post(new BrandListener(brandiddes, brandid+""));
+                ((BrandCarActivity)getActivity()).setBrandandType(brandid+"", "" , "", brandiddes);
             }
         });
 
@@ -186,6 +185,7 @@ public class CarseriesCopyFragment extends BaseFragment {
             transaction.add(R.id.cartypeLayout, cartypeFragment, CarBrandFragment.class.getName());
             transaction.setCustomAnimations(R.anim.fragment_slide_left_enter,
                     R.anim.fragment_slide_right_exit);
+            transaction.addToBackStack("CarTypeCopyFragment");
             transaction.commit();
         }
         cartypeFragment.setBrand(typeid, brandid, brandiddes);

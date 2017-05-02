@@ -12,6 +12,8 @@ import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.networks.responses.CarSeriesResponse;
 import com.zzcar.zzc.networks.responses.CarTypeResponse;
+import com.zzcar.zzc.networks.responses.CityResponse;
+import com.zzcar.zzc.networks.responses.ColorResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.utils.SecurePreferences;
@@ -247,6 +249,7 @@ public class UserManager {
          /* 防止多次点击 */
         cancelTagandRemove("getCarseries");
         Map<String,String> hashmap = new HashMap<>();
+        hashmap.put("id", brandid+"");
         String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
         ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
         Subscription subscription = ApiClient.getApiService().getcarseries(brandid, zzcHeaders.getHashMap())
@@ -264,6 +267,7 @@ public class UserManager {
          /* 防止多次点击 */
         cancelTagandRemove("getCarTYpe");
         Map<String,String> hashmap = new HashMap<>();
+        hashmap.put("id", carseriasid+"");
         String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
         ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
         Subscription subscription = ApiClient.getApiService().getspec(carseriasid, zzcHeaders.getHashMap())
@@ -304,6 +308,38 @@ public class UserManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
         add("getMileage", subscription);
+    }
+
+    /**
+     * 城市
+     */
+    public static void getProvincecity(Subscriber<ResponseParent<List<CityResponse>>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("getProvincecity");
+        Map<String,String> hashmap = new HashMap<>();
+        ZZCHeaders zzcHeaders = new ZZCHeaders(hashmap);
+        Subscription subscription = ApiClient.getApiService().getprovincecity(zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("getProvincecity", subscription);
+    }
+
+    /**
+     * 颜色
+     */
+    public static void getColor(Subscriber<ResponseParent<List<ColorResponse>>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("getColor");
+        Map<String,String> hashmap = new HashMap<>();
+        ZZCHeaders zzcHeaders = new ZZCHeaders(hashmap);
+        Subscription subscription = ApiClient.getApiService().getcolor(zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("getColor", subscription);
     }
 
 }

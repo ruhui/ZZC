@@ -6,19 +6,18 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
-import com.zzcar.zzc.adapters.ChannelAdapter;
+import com.zzcar.zzc.adapters.ColorSelectAdapter;
 import com.zzcar.zzc.adapters.EmissionAdapter;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
+import com.zzcar.zzc.networks.responses.ColorResponse;
 import com.zzcar.zzc.utils.LogUtil;
 import com.zzcar.zzc.views.widget.NavBar2;
 
@@ -32,12 +31,11 @@ import java.util.List;
 
 import rx.Subscriber;
 
-@EActivity(R.layout.activity_emission)
-public class EmissionActivity extends BaseActivity {
+@EActivity(R.layout.activity_color_select)
+public class ColorSelectActivity extends BaseActivity {
 
-    /*排放列表*/
-    private List<CarChanelResponse> mChannelList = new ArrayList<>();
-    private EmissionAdapter adapter;
+    private List<ColorResponse> mColorList = new ArrayList<>();
+    private ColorSelectAdapter adapter;
     private List<String> emissionids = new ArrayList<>();
     private String emissionDes = "";
     private boolean imgchecked = false;
@@ -51,21 +49,19 @@ public class EmissionActivity extends BaseActivity {
     @ViewById(R.id.relaItem)
     RelativeLayout relaItem;
 
-    @Override
-    public void onNetChange(int netMobile) {
-
-    }
 
     @AfterViews
     void initView(){
+        getColorData();
+
         mNavbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
         mNavbar.setMiddleTextColor(R.color.color_333333);
-        mNavbar.setMiddleTitle("排放");
+        mNavbar.setMiddleTitle("颜色");
         mNavbar.setRightTxtColor(R.color.app_red);
         mNavbar.setRightTxt("确定");
-        getCarChannel();
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(adapter = new EmissionAdapter(getActivity(), mChannelList, itemClickListener));
+        mRecyclerView.setAdapter(adapter = new ColorSelectAdapter(getActivity(), mColorList, itemClickListener));
         mNavbar.setOnMenuClickListener(new NavBar2.OnMenuClickListener() {
             @Override
             public void onLeftMenuClick(View view) {
@@ -77,19 +73,19 @@ public class EmissionActivity extends BaseActivity {
             public void onRightMenuClick(View view) {
                 super.onRightMenuClick(view);
                 if (emissionids.size() == 0){
-                    emissionDes = "不限排放";
+                    emissionDes = "不限颜色";
                 }else{
                     for (int i=0;i<emissionids.size(); i++){
-                        for (int j=0;j<mChannelList.size();j++){
-                            if (mChannelList.get(j).getValue().equals(emissionids.get(i))){
-                                emissionDes += " "+mChannelList.get(j).getText();
+                        for (int j=0;j<mColorList.size();j++){
+                            if (mColorList.get(j).getValue().equals(emissionids.get(i))){
+                                emissionDes += " "+mColorList.get(j).getText();
                             }
                         }
                     }
                 }
                 Intent intent = new Intent();
-                intent.putExtra("emissionids", (Serializable)emissionids);
-                intent.putExtra("emissiones", emissionDes);
+                intent.putExtra("colorids", (Serializable)emissionids);
+                intent.putExtra("colordes", emissionDes);
                 setResult(10102, intent);
                 finish();
             }
@@ -112,7 +108,8 @@ public class EmissionActivity extends BaseActivity {
         });
     }
 
-    EmissionAdapter.ItemClickListener itemClickListener = new EmissionAdapter.ItemClickListener() {
+
+    ColorSelectAdapter.ItemClickListener itemClickListener = new ColorSelectAdapter.ItemClickListener() {
         @Override
         public void setOnItemClickListener(String text, String value, boolean checked) {
             if (imgchecked){
@@ -127,33 +124,22 @@ public class EmissionActivity extends BaseActivity {
                 emissionids.add(value);
             }
         }
-
-//        @Override
-//        public void setOnItemClickListener(String text, String value, int position) {
-//            Intent intent = new Intent();
-//            intent.putExtra("emissionid", value);
-//            intent.putExtra("emissiones", text);
-//            setResult(10102, intent);
-//            finish();
-//        }
     };
 
-    /**
-     * 获取排放
-     */
-    private void getCarChannel() {
-        Subscriber subscriber = new PosetSubscriber<List<CarChanelResponse>>().getSubscriber(callback_carchannel);
-        UserManager.getEmission(subscriber);
+
+    private void getColorData() {
+        Subscriber subscriber = new PosetSubscriber<List<ColorResponse>>().getSubscriber(callback_carchannel);
+        UserManager.getColor(subscriber);
     }
 
-    /*渠道回调*/
-    ResponseResultListener callback_carchannel = new ResponseResultListener<List<CarChanelResponse>>() {
+    /*颜色回调*/
+    ResponseResultListener callback_carchannel = new ResponseResultListener<List<ColorResponse>>() {
         @Override
-        public void success(List<CarChanelResponse> returnMsg) {
+        public void success(List<ColorResponse> returnMsg) {
             LogUtil.E("success","success");
-            mChannelList.clear();
-            mChannelList.addAll(returnMsg);
-            adapter.setData(mChannelList);
+            mColorList.clear();
+            mColorList.addAll(returnMsg);
+            adapter.setData(mColorList);
         }
 
         @Override
@@ -161,4 +147,9 @@ public class EmissionActivity extends BaseActivity {
             LogUtil.E("fialed","fialed");
         }
     };
+
+    @Override
+    public void onNetChange(int netMobile) {
+
+    }
 }
