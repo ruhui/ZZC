@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.models.ProvenceModel;
+import com.zzcar.zzc.networks.requests.SearchRequest;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.CityResponse;
 import com.zzcar.zzc.utils.ImageLoader;

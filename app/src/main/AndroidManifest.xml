@@ -36,7 +36,11 @@
         <activity android:name=".activities.PirceActivity_" />
         <activity android:name=".activities.BrandCarActivity_" />
         <activity android:name=".activities.SelectCityActivity_" />
-        <activity android:name=".activities.ColorSelectActivity_"></activity>
+        <activity android:name=".activities.ColorSelectActivity_" />
+        <activity
+            android:name=".activities.PushCarActivity_"
+            android:windowSoftInputMode="stateVisible|adjustResize"></activity>
+        <activity android:name=".activities.UserTypeActivity_"></activity>
     </application>
 
 </manifest>

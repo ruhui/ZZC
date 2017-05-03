@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
@@ -50,6 +51,10 @@ public class EmissionActivity extends BaseActivity {
     ImageView checkBox;
     @ViewById(R.id.relaItem)
     RelativeLayout relaItem;
+    @ViewById(R.id.allTxt)
+    TextView allTxt;
+
+    private boolean singleselect = false;
 
     @Override
     public void onNetChange(int netMobile) {
@@ -58,11 +63,19 @@ public class EmissionActivity extends BaseActivity {
 
     @AfterViews
     void initView(){
+        singleselect = getIntent().getBooleanExtra("singleselect", false);
         mNavbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
         mNavbar.setMiddleTextColor(R.color.color_333333);
         mNavbar.setMiddleTitle("排放");
-        mNavbar.setRightTxtColor(R.color.app_red);
-        mNavbar.setRightTxt("确定");
+
+        if (singleselect){
+            allTxt.setVisibility(View.GONE);
+            relaItem.setVisibility(View.GONE);
+        }else{
+            mNavbar.setRightTxtColor(R.color.app_red);
+            mNavbar.setRightTxt("确定");
+        }
+
         getCarChannel();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(adapter = new EmissionAdapter(getActivity(), mChannelList, itemClickListener));
@@ -76,6 +89,9 @@ public class EmissionActivity extends BaseActivity {
             @Override
             public void onRightMenuClick(View view) {
                 super.onRightMenuClick(view);
+                if (singleselect){
+                    return;
+                }
                 if (emissionids.size() == 0){
                     emissionDes = "不限排放";
                 }else{
@@ -125,6 +141,24 @@ public class EmissionActivity extends BaseActivity {
             }
             if (checked){
                 emissionids.add(value);
+            }
+            if (singleselect){
+                if (emissionids.size() == 0){
+                    emissionDes = "不限排放";
+                }else{
+                    for (int i=0;i<emissionids.size(); i++){
+                        for (int j=0;j<mChannelList.size();j++){
+                            if (mChannelList.get(j).getValue().equals(emissionids.get(i))){
+                                emissionDes += " "+mChannelList.get(j).getText();
+                            }
+                        }
+                    }
+                }
+                Intent intent = new Intent();
+                intent.putExtra("emissionids", (Serializable)emissionids);
+                intent.putExtra("emissiones", emissionDes);
+                setResult(10102, intent);
+                finish();
             }
         }
 

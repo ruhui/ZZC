@@ -7,14 +7,17 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -85,6 +88,7 @@ public class ZZCHeaders<T> {
         this.Authorization = "Bearer "+authorization;
         nonce = getStringRandom(8);
         timestamp = getDate();
+
         sign = getsignPost();
 
         hashMap.put("Authorization",Authorization);
@@ -151,17 +155,14 @@ public class ZZCHeaders<T> {
            if (paraMap == null){
                return "";
            }
-            List<Map.Entry<String, String>> infoIds =
-                    new ArrayList<Map.Entry<String, String>>((Collection<? extends Map.Entry<String, String>>) paraMap.entrySet());
+            LinkedHashMap<Object,String> sortpara = new LinkedHashMap<>();
+            Object[] key_arr =  paraMap.keySet().toArray();
+            Arrays.sort(key_arr);
+            for  (Object key : key_arr) {
+                sortpara.put(key, paraMap.get(key));
+            }
 
-            //排序
-            Collections.sort(infoIds, new Comparator<Map.Entry<String, String>>() {
-                public int compare(Map.Entry<String, String> o1, Map.Entry<String, String> o2) {
-//                    return (o2.getValue() - o1.getValue());
-                    return -(o1.getValue()).toString().compareTo(o2.getValue());
-                }
-            });
-            Iterator iter = paraMap.entrySet().iterator();
+            Iterator iter = sortpara.entrySet().iterator();
             while (iter.hasNext()) {
                 Map.Entry entry = (Map.Entry) iter.next();
                 String key = (String) entry.getKey();
@@ -172,9 +173,7 @@ public class ZZCHeaders<T> {
                     md5sign += "&" + key+"="+val;
                 }
             }
-
             md5sign += privateKey+timestamp+nonce;
-
         }
 
         return getMd5(md5sign);

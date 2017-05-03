@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/windowbackcolor"
+    tools:context="com.zzcar.zzc.activities.PushCarActivity">
+
+    <com.zzcar.zzc.views.widget.NavBar2_
+        android:id="@+id/mNavbar"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:gravity="bottom"
+        android:background="@color/white"
+        app:title_res="@string/tab_mine">
+    </com.zzcar.zzc.views.widget.NavBar2_>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/lineParent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <com.zzcar.zzc.views.widget.ItemOneView_
+                android:id="@+id/blandcar"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+            </com.zzcar.zzc.views.widget.ItemOneView_>
+
+            <com.zzcar.zzc.views.widget.ItemOneView_
+                android:id="@+id/selectCity"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+            </com.zzcar.zzc.views.widget.ItemOneView_>
+
+
+            <com.zzcar.zzc.views.widget.ItemSecondView_
+                android:id="@+id/priceItem"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+            </com.zzcar.zzc.views.widget.ItemSecondView_>
+
+            <com.zzcar.zzc.views.widget.ItemOneView_
+                android:id="@+id/cardTime"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+            </com.zzcar.zzc.views.widget.ItemOneView_>
+
+            <com.zzcar.zzc.views.widget.ItemOneView_
+                android:id="@+id/cardBelong"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+            </com.zzcar.zzc.views.widget.ItemOneView_>
+
+            <com.zzcar.zzc.views.widget.ItemSecondView_
+                android:id="@+id/mileData"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+            </com.zzcar.zzc.views.widget.ItemSecondView_>
+
+            <com.zzcar.zzc.views.widget.ItemOneView_
+                android:id="@+id/carColor"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+            </com.zzcar.zzc.views.widget.ItemOneView_>
+            <com.zzcar.zzc.views.widget.ItemOneView_
+                android:id="@+id/outComTime"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+            </com.zzcar.zzc.views.widget.ItemOneView_>
+
+            <com.zzcar.zzc.views.widget.ItemOneView_
+                android:id="@+id/emissionSta"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+            </com.zzcar.zzc.views.widget.ItemOneView_>
+
+            <com.zzcar.zzc.views.widget.ItemSecondView_
+                android:id="@+id/newcarPrice"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+            </com.zzcar.zzc.views.widget.ItemSecondView_>
+
+            <com.zzcar.zzc.views.widget.ItemOneView_
+                android:id="@+id/limitTime"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+            </com.zzcar.zzc.views.widget.ItemOneView_>
+
+            <com.zzcar.zzc.views.widget.ItemOneView_
+                android:id="@+id/useto"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+            </com.zzcar.zzc.views.widget.ItemOneView_>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@color/white"
+                android:layout_marginTop="5dp">
+
+
+                <TextView
+                    android:id="@+id/textView13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginStart="22dp"
+                    android:textSize="15sp"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/color_090909"
+                    android:text="车况描述" />
+
+                <EditText
+                    android:id="@+id/editText3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignLeft="@+id/textView13"
+                    android:layout_alignStart="@+id/textView13"
+                    android:ems="10"
+                    android:textSize="@dimen/sp_14"
+                    android:background="@null"
+                    android:gravity="top|left"
+                    android:paddingTop="5dp"
+                    android:inputType="textPersonName"
+                    android:text=""
+                    android:hint="请输入车辆描述"
+                    android:layout_below="@+id/textView13" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/white">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/mRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="50dp">
+
+                </android.support.v7.widget.RecyclerView>
+
+
+                <TextView
+                    android:id="@+id/txtSubmit"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:text="提交"
+                    android:gravity="center"
+                    android:layout_below="@+id/mRecyclerView"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/shape_red_radio"/>
+                
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

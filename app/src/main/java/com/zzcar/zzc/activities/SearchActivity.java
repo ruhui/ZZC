@@ -45,22 +45,41 @@ public class SearchActivity extends BaseActivity {
     TextView sureSubmit;
 
     private SearchRequest searchRequest;
+    private SearchRequest parentreques;
+    private boolean iscleardata = false;
 
     @AfterViews
     void initView(){
+        parentreques = (SearchRequest) getIntent().getSerializableExtra("searchRequest");
         searchRequest = new SearchRequest();
         mNavbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
         mNavbar.setMiddleTitle("高级筛选");
         mNavbar.setRightTxt("清空条件");
         mNavbar.setRightTxtColor(R.color.color_959595);
 
-        itemIconTextIcon1.setTitle("所在地");itemIconTextIcon1.setRightText("");
-        itemIconTextIcon2.setTitle("品牌车系");itemIconTextIcon2.setRightText("");
-        itemIconTextIcon3.setTitle("价格");itemIconTextIcon3.setRightText("");
-        itemIconTextIcon4.setTitle("颜色");itemIconTextIcon4.setRightText("");
-        itemIconTextIcon5.setTitle("表显里程");itemIconTextIcon5.setRightText("");
-        itemIconTextIcon6.setTitle("排放");itemIconTextIcon6.setRightText("");
-        itemIconTextIcon7.setTitle("渠道");itemIconTextIcon7.setRightText("");
+        itemIconTextIcon1.setTitle("所在地");
+        itemIconTextIcon2.setTitle("品牌车系");
+        itemIconTextIcon3.setTitle("价格");
+        itemIconTextIcon4.setTitle("颜色");
+        itemIconTextIcon5.setTitle("表显里程");
+        itemIconTextIcon6.setTitle("排放");
+        itemIconTextIcon7.setTitle("渠道");
+
+        if (parentreques != null){
+            itemIconTextIcon1.setRightText(parentreques.getCitydes());
+            if (!parentreques.getBland_iddes().equals("品牌")){
+                itemIconTextIcon2.setRightText(parentreques.getBland_iddes());
+            }
+            if (!parentreques.getPrice_typedes().equals("价格")){
+                itemIconTextIcon3.setRightText(parentreques.getPrice_typedes());
+            }
+            itemIconTextIcon4.setRightText(parentreques.getColorDes());
+            itemIconTextIcon5.setRightText(parentreques.getMileagedes());
+            itemIconTextIcon6.setRightText(parentreques.getEmission_des());
+            if (!parentreques.getChanneldes().equals("渠道")){
+                itemIconTextIcon7.setRightText(parentreques.getChanneldes());
+            }
+        }
 
         mNavbar.setOnMenuClickListener(new NavBar2.OnMenuClickListener() {
             @Override
@@ -73,6 +92,7 @@ public class SearchActivity extends BaseActivity {
             public void onRightMenuClick(View view) {
                 super.onRightMenuClick(view);
                 searchRequest.resetData();
+                iscleardata = true;
                 resertView();
             }
         });
@@ -145,6 +165,7 @@ public class SearchActivity extends BaseActivity {
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.putExtra("searchRequest", (Serializable) searchRequest);
+                intent.putExtra("iscleardata", iscleardata);
                 setResult(10200, intent);
                 finish();
             }
@@ -177,12 +198,14 @@ public class SearchActivity extends BaseActivity {
                 searchRequest.setChannel(channelid);
                 searchRequest.setChanneldes(channeldes);
                 itemIconTextIcon7.setRightText(channeldes);
+                iscleardata = false;
             }else if (requestCode == 10102){
                 List<String> emissionids = (List<String>) data.getSerializableExtra("emissionids");
                 String emissiones = data.getStringExtra("emissiones");
                 searchRequest.setEmission_ids(emissionids);
                 searchRequest.setEmission_des(emissiones);
                 itemIconTextIcon6.setRightText(emissiones);
+                iscleardata = false;
             }else if (requestCode == 10103){
                 String mileage = data.getStringExtra("mileage");
                 String min_mileage = data.getStringExtra("min_mileage");
@@ -193,6 +216,7 @@ public class SearchActivity extends BaseActivity {
                 searchRequest.setMax_mileage(max_mileage);
                 searchRequest.setMileagedes(mileagedes);
                 itemIconTextIcon5.setRightText(mileagedes);
+                iscleardata = false;
             }else if (requestCode == 10104){
                 String price_type = data.getStringExtra("price_type");
                 String min_price = data.getStringExtra("min_price");
@@ -203,6 +227,7 @@ public class SearchActivity extends BaseActivity {
                 searchRequest.setMax_price(max_price);
                 searchRequest.setPrice_typedes(pricedes);
                 itemIconTextIcon3.setRightText(pricedes);
+                iscleardata = false;
             }else if (requestCode == 10105){
                 String brandid = data.getStringExtra("brandid");
                 String seriesid = data.getStringExtra("seriesid");
@@ -213,6 +238,7 @@ public class SearchActivity extends BaseActivity {
                 searchRequest.setSpec_id(typeid);
                 searchRequest.setBland_iddes(branddes);
                 itemIconTextIcon2.setRightText(branddes);
+                iscleardata = false;
             }else if (requestCode == 10106){
                 String province_id = data.getStringExtra("province_id");
                 String city_id = data.getStringExtra("city_id");
@@ -221,12 +247,14 @@ public class SearchActivity extends BaseActivity {
                 searchRequest.setCity_id(city_id);
                 searchRequest.setCitydes(citydes);
                 itemIconTextIcon1.setRightText(citydes);
+                iscleardata = false;
             }else if (requestCode == 10107){
                 List<String> colorids = (List<String>) data.getSerializableExtra("colorids");
                 String colordes = data.getStringExtra("colordes");
                 searchRequest.setColor_ids(colorids);
                 searchRequest.setColorDes(colordes);
                 itemIconTextIcon4.setRightText(colordes);
+                iscleardata = false;
             }
         }
     }

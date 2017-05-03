@@ -30,6 +30,7 @@ import com.zzcar.zzc.models.CityChild;
 import com.zzcar.zzc.models.CityModel;
 import com.zzcar.zzc.models.ProvenceModel;
 import com.zzcar.zzc.networks.PosetSubscriber;
+import com.zzcar.zzc.networks.requests.SearchRequest;
 import com.zzcar.zzc.networks.responses.CityResponse;
 import com.zzcar.zzc.utils.GreenDaoUtils;
 import com.zzcar.zzc.utils.LogUtil;

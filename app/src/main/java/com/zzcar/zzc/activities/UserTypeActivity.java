@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.RelativeLayout;
 
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
@@ -16,6 +15,7 @@ import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.utils.LogUtil;
+import com.zzcar.zzc.views.widget.NavBar;
 import com.zzcar.zzc.views.widget.NavBar2;
 
 import org.androidannotations.annotations.AfterViews;
@@ -27,83 +27,52 @@ import java.util.List;
 
 import rx.Subscriber;
 
-@EActivity(R.layout.view_channel_recycleview)
-public class ChannelActivity extends BaseActivity {
 
-    /*渠道列表*/
-    private List<CarChanelResponse> mChannelList = new ArrayList<>();
-    private ChannelAdapter adapter;
+@EActivity(R.layout.activity_user_type)
+public class UserTypeActivity extends BaseActivity {
 
     @ViewById(R.id.mNavbar)
     NavBar2 mNavbar;
     @ViewById(R.id.mRecyclerView)
     RecyclerView mRecyclerView;
-    @ViewById(R.id.relaItem)
-    RelativeLayout relaItem;
 
-
+    private ChannelAdapter adapter;
+    private List<CarChanelResponse> mChannelList = new ArrayList<>();
 
     @AfterViews
     void initView(){
-
+        getUserType();
+        mNavbar.setMiddleTitle("用途");
         mNavbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
-        mNavbar.setMiddleTitle("渠道");
-        mNavbar.setRightTxtColor(R.color.color_959595);
-        getCarChannel();
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(adapter = new ChannelAdapter(getActivity(), mChannelList, itemClickListener));
         mNavbar.setOnMenuClickListener(new NavBar2.OnMenuClickListener() {
             @Override
             public void onLeftMenuClick(View view) {
                 super.onLeftMenuClick(view);
                 finish();
             }
-
-            @Override
-            public void onRightMenuClick(View view) {
-                super.onRightMenuClick(view);
-            }
         });
 
-        relaItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.putExtra("channelid", "");
-                intent.putExtra("channeldes", "不限");
-                setResult(10101, intent);
-                finish();
-            }
-        });
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(adapter = new ChannelAdapter(this, mChannelList, itemClickListener));
     }
-
 
     ChannelAdapter.ItemClickListener itemClickListener = new ChannelAdapter.ItemClickListener() {
         @Override
         public void setOnItemClickListener(String text, String value, int position) {
             Intent intent = new Intent();
-            intent.putExtra("channelid", value);
-            intent.putExtra("channeldes", text);
-            setResult(10101, intent);
+            intent.putExtra("usertypeid", value);
+            intent.putExtra("usertypeDes", text);
+            setResult(10109, intent);
             finish();
         }
     };
 
-    @Override
-    public void onNetChange(int netMobile) {
-
+    private void getUserType() {
+        Subscriber subscriber = new PosetSubscriber<List<CarChanelResponse>>().getSubscriber(callback_usertype);
+        UserManager.getUserType(subscriber);
     }
 
-    /**
-     * 获取渠道
-     */
-    private void getCarChannel() {
-        Subscriber subscriber = new PosetSubscriber<List<CarChanelResponse>>().getSubscriber(callback_carchannel);
-        UserManager.getCarChannel(subscriber);
-    }
-
-    /*渠道回调*/
-    ResponseResultListener callback_carchannel = new ResponseResultListener<List<CarChanelResponse>>() {
+    ResponseResultListener callback_usertype = new ResponseResultListener<List<CarChanelResponse>>() {
         @Override
         public void success(List<CarChanelResponse> returnMsg) {
             LogUtil.E("success","success");
@@ -117,4 +86,9 @@ public class ChannelActivity extends BaseActivity {
             LogUtil.E("fialed","fialed");
         }
     };
+
+    @Override
+    public void onNetChange(int netMobile) {
+
+    }
 }

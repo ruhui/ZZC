@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.zzcar.zzc.R;
+import com.zzcar.zzc.networks.requests.SearchRequest;
 import com.zzcar.zzc.networks.responses.ColorResponse;
 import com.zzcar.zzc.views.widget.CircleView;
 
@@ -28,9 +29,12 @@ public class ColorSelectAdapter extends RecyclerView.Adapter<ColorSelectAdapter.
     private ItemClickListener clickListener;
     private Context mContext;
     private HashMap<Integer, Boolean> hashMap = new HashMap<>();
+    private boolean singleselect = false;
 
-    public ColorSelectAdapter(Context mContext, List<ColorResponse> list, ItemClickListener clickListener){
+    public ColorSelectAdapter(Context mContext, List<ColorResponse> list,
+                              ItemClickListener clickListener, boolean singleselect){
         this.mContext = mContext;
+        this.singleselect = singleselect;
         mList.addAll(list);
         this.clickListener = clickListener;
     }
@@ -51,6 +55,11 @@ public class ColorSelectAdapter extends RecyclerView.Adapter<ColorSelectAdapter.
             holder.mCicleTextView.setBackgroundColor(Color.parseColor(carChanelResponse.getColor()));
         }
 
+        if (singleselect){
+            holder.checkBox.setVisibility(View.GONE);
+        }else{
+            holder.checkBox.setVisibility(View.VISIBLE);
+        }
 
         if (hashMap.containsKey(position)){
             if (hashMap.get(position)){

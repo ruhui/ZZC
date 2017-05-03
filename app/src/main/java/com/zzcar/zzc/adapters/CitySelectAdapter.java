@@ -7,6 +7,7 @@ import com.zzcar.zzc.adapters.base.BaseRecyclerAdapter;
 import com.zzcar.zzc.adapters.viewholders.ItemTextView;
 import com.zzcar.zzc.adapters.viewholders.ItemTextView_;
 import com.zzcar.zzc.models.CityModel;
+import com.zzcar.zzc.networks.requests.SearchRequest;
 
 /**
  * 描述：

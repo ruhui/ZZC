@@ -10,6 +10,7 @@ import com.zzcar.zzc.adapters.viewholders.ItemCarBrandView_;
 import com.zzcar.zzc.adapters.viewholders.ItemCityItem;
 import com.zzcar.zzc.adapters.viewholders.ItemCityItem_;
 import com.zzcar.zzc.models.CityModel;
+import com.zzcar.zzc.networks.requests.SearchRequest;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.CityResponse;
 

@@ -70,6 +70,7 @@
         android:layout_below="@+id/line2">
 
         <ImageView
+            android:id="@+id/pushCar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/nav_button_cyfb_default"

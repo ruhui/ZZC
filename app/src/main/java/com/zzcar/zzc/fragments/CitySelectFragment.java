@@ -12,6 +12,7 @@ import com.zzcar.zzc.activities.SelectCityActivity;
 import com.zzcar.zzc.adapters.CitySelectAdapter;
 import com.zzcar.zzc.fragments.base.BaseFragment;
 import com.zzcar.zzc.models.CityModel;
+import com.zzcar.zzc.networks.requests.SearchRequest;
 import com.zzcar.zzc.utils.GreenDaoUtils;
 
 import org.androidannotations.annotations.AfterViews;

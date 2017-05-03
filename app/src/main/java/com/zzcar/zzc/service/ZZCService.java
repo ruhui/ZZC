@@ -13,7 +13,6 @@ import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.networks.responses.UserMsgResponse;
-
 import java.util.List;
 import java.util.Map;
 
@@ -86,4 +85,8 @@ public interface ZZCService {
     /*颜色*/
     @GET("common/color")
     Observable<ResponseParent<List<ColorResponse>>> getcolor(@HeaderMap Map<String, String> header);
+
+    /*用途*/
+    @GET("common/use_type")
+    Observable<ResponseParent<List<CarChanelResponse>>> getusertype(@HeaderMap Map<String, String> header);
 }

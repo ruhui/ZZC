@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.zzcar.greendao.BrandListResponseDao;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.MainActivity;
+import com.zzcar.zzc.activities.PushCarActivity_;
 import com.zzcar.zzc.activities.SearchActivity_;
 import com.zzcar.zzc.adapters.HomeCarAdapter;
 import com.zzcar.zzc.constants.Constant;
@@ -57,6 +58,7 @@ import org.androidannotations.annotations.ViewById;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,6 +112,9 @@ public class CarFromFragment extends BasePullRecyclerFragment {
     TabLayout mTab;
     @ViewById(R.id.mNavbar)
     NavBarSearch mNavbar;
+    /*发布车源*/
+    @ViewById(R.id.pushCar)
+    ImageView pushCar;
 
 
     @Override
@@ -124,6 +129,7 @@ public class CarFromFragment extends BasePullRecyclerFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SearchActivity_.class);
+                intent.putExtra("searchRequest", (Serializable) searchRequest);
                 startActivityForResult(intent, 10200);
                 closePopwindow();
                 setTabDefault();
@@ -133,6 +139,7 @@ public class CarFromFragment extends BasePullRecyclerFragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), SearchActivity_.class);
+                intent.putExtra("searchRequest", (Serializable) searchRequest);
                 startActivityForResult(intent, 10200);
                 closePopwindow();
                 setTabDefault();
@@ -150,6 +157,14 @@ public class CarFromFragment extends BasePullRecyclerFragment {
                     return true;
                 }
                 return false;
+            }
+        });
+
+        pushCar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), PushCarActivity_.class);
+                startActivity(intent);
             }
         });
     }
@@ -461,8 +476,14 @@ public class CarFromFragment extends BasePullRecyclerFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null && requestCode == 10200){
+            boolean iscleardata = data.getBooleanExtra("iscleardata", false);
             SearchRequest request = (SearchRequest) data.getSerializableExtra("searchRequest");
-            searchRequest.copyData(request);
+            if (iscleardata){
+                //清空数据
+                searchRequest.resetDataHome();
+            }else{
+                searchRequest.copyData(request);
+            }
             resertChannelStatus();
             CURTURNPAGE = Constant.DEFAULTPAGE;
             mList.clear();

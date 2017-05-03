@@ -360,4 +360,19 @@ public class UserManager {
         add("getColor", subscription);
     }
 
+    /**
+     * 用途
+     */
+    public static void getUserType(Subscriber<ResponseParent<List<CarChanelResponse>>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("getUserType");
+        Map<String,String> hashmap = new HashMap<>();
+        ZZCHeaders zzcHeaders = new ZZCHeaders(hashmap);
+        Subscription subscription = ApiClient.getApiService().getusertype(zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("getUserType", subscription);
+    }
 }

@@ -317,11 +317,17 @@ public class SearchRequest implements Serializable{
     }
 
     public void resetData(){
-        sort = "";channel="";emission_ids.clear();color_ids.clear();bland_id="";series_id="";year_id="";max_mileage="";
+        sort = "1";channel="";emission_ids.clear();color_ids.clear();bland_id="";series_id="";year_id="";max_mileage="";
         spec_id="";province_id="";city_id="";price_type="";min_price="";max_price="";mileage="";min_mileage="";
         sortdes="";channeldes="";bland_iddes="";price_typedes="";emission_des = "";citydes = "";color_ids.clear();emission_ids.clear();
         colorDes = ""; emission_des = ""; mileagedes="";
+    }
 
+    public void resetDataHome(){
+        sort = "1";channel="";emission_ids.clear();color_ids.clear();bland_id="";series_id="";year_id="";max_mileage="";
+        spec_id="";province_id="";city_id="";price_type="";min_price="";max_price="";mileage="";min_mileage="";
+        sortdes="排序";channeldes="渠道";bland_iddes="品牌";price_typedes="价格";emission_des = "";citydes = "";color_ids.clear();emission_ids.clear();
+        colorDes = ""; emission_des = ""; mileagedes="";
     }
 }
 

@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.models.CityModel;
+import com.zzcar.zzc.networks.requests.SearchRequest;
+
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 

@@ -16,6 +16,7 @@ import com.zzcar.zzc.fragments.CarBrandFragment_;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.networks.PosetSubscriber;
+import com.zzcar.zzc.networks.requests.SearchRequest;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.utils.GreenDaoUtils;
@@ -39,6 +40,7 @@ public class BrandCarActivity extends BaseActivity {
     private CarBrandCopyFragment carBrandFragment;
     /*品牌列表*/
     private List<BrandListResponse> mBrandList = new ArrayList<>();
+
 
     @AfterViews
     void initView(){
@@ -87,7 +89,6 @@ public class BrandCarActivity extends BaseActivity {
             transaction.add(R.id.brandframe, carBrandFragment, CarBrandFragment.class.getName());
             transaction.commit();
         }
-        carBrandFragment.setData();
     }
 
     @Override
@@ -124,8 +125,7 @@ public class BrandCarActivity extends BaseActivity {
             //写入数据库
             BrandListResponseDao brandDao = GreenDaoUtils.getSingleTon().getmDaoSession().getBrandListResponseDao();
             brandDao.insertInTx(mBrandList);
-            showCarBrandfragment();
-
+            carBrandFragment.setData();
         }
 
         @Override
