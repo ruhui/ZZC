@@ -44,7 +44,6 @@ public class SearchActivity extends BaseActivity {
     @ViewById(R.id.sureSubmit)
     TextView sureSubmit;
 
-
     private SearchRequest searchRequest;
     private boolean iscleardata = false;
 
