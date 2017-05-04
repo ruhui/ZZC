@@ -3,26 +3,43 @@ package com.zzcar.zzc.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
+import com.zzcar.zzc.adapters.PhotoAdapte;
+import com.zzcar.zzc.constants.Permission;
+import com.zzcar.zzc.manager.PermissonManager;
 import com.zzcar.zzc.models.AddCarMiddleModle;
+import com.zzcar.zzc.models.ImageList;
+import com.zzcar.zzc.utils.ImageLoader;
 import com.zzcar.zzc.utils.KeyboardPatch;
+import com.zzcar.zzc.utils.PermissionUtili;
+import com.zzcar.zzc.utils.Tool;
 import com.zzcar.zzc.views.widget.ItemOneView;
 import com.zzcar.zzc.views.widget.ItemSecondView;
 import com.zzcar.zzc.views.widget.NavBar2;
+import com.zzcar.zzc.views.widget.dialogs.TakePhotoDialog;
+import com.zzcar.zzc.wheel.view.TimePickerView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+
+import me.iwf.photopicker.PhotoPicker;
 
 @EActivity(R.layout.activity_push_car)
 public class PushCarActivity extends BaseActivity {
@@ -61,11 +78,20 @@ public class PushCarActivity extends BaseActivity {
     @ViewById(R.id.txtSubmit)
     TextView txtSubmit;
 
+    private PhotoAdapte adapter;
+
     private  KeyboardPatch keyboard;
     private AddCarMiddleModle carMiddle;
+    private TakePhotoDialog photodialog;
+    /*获取图片列表*/
+    private ArrayList<String> photos = new ArrayList<>();
+    private TimePickerView pvTimecardTime;
+    private TimePickerView pvTimeoutComTime;
+    private TimePickerView pvTimelimitTime;
 
     @AfterViews
     void initView(){
+        initpvTime();
         //车辆id为空是新增
         String productid =getIntent().getStringExtra("product_id");
 
@@ -106,6 +132,110 @@ public class PushCarActivity extends BaseActivity {
         newcarPrice.setTxtLeft("新车指导价");newcarPrice.setTxtRight("万元");
         limitTime.setTxtLeft("强制险到期");limitTime.setHint("必填");
         useto.setTxtLeft("用途");useto.setHint("必填");
+
+        outComTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pvTimeoutComTime.setTime(new Date());
+                pvTimeoutComTime.setCyclic(false);
+                pvTimeoutComTime.setCancelable(true);
+                pvTimeoutComTime.show();
+                Tool.hideInputMethod(PushCarActivity.this,outComTime);
+            }
+        });
+
+        cardTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pvTimecardTime.setTime(new Date());
+                pvTimecardTime.setCyclic(false);
+                pvTimecardTime.setCancelable(true);
+                pvTimecardTime.show();
+                Tool.hideInputMethod(PushCarActivity.this,cardTime);
+            }
+        });
+
+        limitTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pvTimelimitTime.setTime(new Date());
+                pvTimelimitTime.setCyclic(false);
+                pvTimelimitTime.setCancelable(true);
+                pvTimelimitTime.show();
+                Tool.hideInputMethod(PushCarActivity.this,limitTime);
+            }
+        });
+
+        // 强制险到期回调
+        pvTimelimitTime.setOnTimeSelectListener(new TimePickerView.OnTimeSelectListener(){
+            @Override
+            public void onTimeSelect(Date date)
+            {
+                String time = Tool.formatSimpleDate1(date);
+                carMiddle.setSafeDes(time);
+                String birthday = Tool.formatSimpleDate(date);
+                if (!TextUtils.isEmpty(birthday)){
+                    if (birthday.indexOf("-") >= 1){
+                        String year = birthday.substring(0, birthday.indexOf("-"));
+                        carMiddle.setExp_safe_year(year);
+                        String str = birthday.substring(birthday.indexOf("-") + 1);
+                        if (str.indexOf("-") >= 1){
+                            String month = str.substring(0, str.indexOf("-"));
+                            carMiddle.setExp_safe_month(month);
+                        }
+                    }
+                }
+                resetView();
+            }
+        });
+
+
+        // 出厂时间回调
+        pvTimeoutComTime.setOnTimeSelectListener(new TimePickerView.OnTimeSelectListener(){
+            @Override
+            public void onTimeSelect(Date date)
+            {
+                String time = Tool.formatSimpleDate1(date);
+                carMiddle.setOutfactoryDes(time);
+                String birthday = Tool.formatSimpleDate(date);
+                if (!TextUtils.isEmpty(birthday)){
+                    if (birthday.indexOf("-") >= 1){
+                        String year = birthday.substring(0, birthday.indexOf("-"));
+                        carMiddle.setOut_factory_year(year);
+                        String str = birthday.substring(birthday.indexOf("-") + 1);
+                        if (str.indexOf("-") >= 1){
+                            String month = str.substring(0, str.indexOf("-"));
+                            carMiddle.setOut_factory_month(month);
+                        }
+                    }
+                }
+                resetView();
+            }
+        });
+
+        // 上牌时间回调
+        pvTimecardTime.setOnTimeSelectListener(new TimePickerView.OnTimeSelectListener(){
+            @Override
+            public void onTimeSelect(Date date)
+            {
+                String time = Tool.formatSimpleDate1(date);
+                carMiddle.setCardTimeDes(time);
+                String birthday = Tool.formatSimpleDate(date);
+                if (!TextUtils.isEmpty(birthday)){
+                    if (birthday.indexOf("-") >= 1){
+                        String year = birthday.substring(0, birthday.indexOf("-"));
+                        carMiddle.setOn_number_year(year);
+                        String str = birthday.substring(birthday.indexOf("-") + 1);
+                        if (str.indexOf("-") >= 1){
+                            String month = str.substring(0, str.indexOf("-"));
+                            carMiddle.setOn_number_month(month);
+                        }
+                    }
+                }
+                resetView();
+            }
+        });
+
 
         blandcar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,6 +287,34 @@ public class PushCarActivity extends BaseActivity {
             }
         });
 
+        mRecyclerView.setLayoutManager(new GridLayoutManager(PushCarActivity.this, 3));
+        mRecyclerView.setAdapter(adapter = new PhotoAdapte(PushCarActivity.this, photos, itemClickListener));
+
+    }
+
+
+    PhotoAdapte.ItemClickListener itemClickListener = new PhotoAdapte.ItemClickListener() {
+        @Override
+        public void itemListener() {
+            selectImage();
+        }
+
+        @Override
+        public void imgbackListener(List<String> imgList) {
+            //拿到图片，并设置图
+            List<ImageList> listPath = new ArrayList<>();
+            for (String imgPath : imgList){
+                ImageList imageList = new ImageList(imgPath);
+                listPath.add(imageList);
+            }
+            carMiddle.setImage_path(listPath);
+        }
+    };
+
+    private void initpvTime() {
+        pvTimecardTime = new TimePickerView(PushCarActivity.this, TimePickerView.Type.YEAR_MONTH);
+        pvTimeoutComTime = new TimePickerView(PushCarActivity.this, TimePickerView.Type.YEAR_MONTH);
+        pvTimelimitTime = new TimePickerView(PushCarActivity.this, TimePickerView.Type.YEAR_MONTH);
     }
 
     @Override
@@ -213,6 +371,9 @@ public class PushCarActivity extends BaseActivity {
                 String usertypeDes = data.getStringExtra("usertypeDes");
                 carMiddle.setUse_type(usertypeid);
                 carMiddle.setUsertypeDes(usertypeDes);
+            }else if (resultCode == getActivity().RESULT_OK && requestCode == PhotoPicker.REQUEST_CODE){
+                photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
+                adapter.setData(photos);
             }
             resetView();
         }
@@ -243,4 +404,41 @@ public class PushCarActivity extends BaseActivity {
             keyboard.disable();
         }
     }
+
+    private void selectImage() {
+        String[] permission = new String[]{Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE};
+        boolean checked =  PermissionUtili.checkPermission(getActivity(), permission, "需要设置手机权限",
+                "需要使用相机和读取相册权限，请到设置中设置应用权限。");
+
+        if (checked ) {
+            //弹出弹框
+            photodialog = new TakePhotoDialog(PushCarActivity.this, photoListener);
+            photodialog.show();
+        }
+    }
+
+    TakePhotoDialog.TakePhotoListener photoListener = new TakePhotoDialog.TakePhotoListener() {
+        @Override
+        public void selectCamera() {
+            //相机
+            photodialog.closedialog();
+        }
+
+        @Override
+        public void selectPhoto() {
+            photodialog.closedialog();
+            //相册
+            PermissonManager permissonManager = new PermissonManager(PushCarActivity.this);
+            permissonManager.lacksPermissions();
+            PhotoPicker.builder()
+                    .setPhotoCount(9)
+                    .setShowCamera(false)
+                    .setShowGif(false)
+                    .setPreviewEnabled(false)
+                    .setSelected(photos)
+                    .start(getActivity(), PhotoPicker.REQUEST_CODE);
+        }
+    };
+
+
 }

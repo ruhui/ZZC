@@ -110,7 +110,7 @@ public class ImageLoader {
     }
 
     public static void loadImage(String url, ImageView imageView) {
-        Glide.with(imageView.getContext()).load(url).fitCenter().diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+        Glide.with(imageView.getContext()).load(url).fitCenter().diskCacheStrategy(DiskCacheStrategy.ALL).centerCrop().into(imageView);
     }
 
     public static void loadImageRadio(String url, ImageView imageView,int radio) {

@@ -14,6 +14,9 @@ public class AddCarMiddleModle extends AddCarFrom{
     private String colorDes;//颜色描述
     private String emissionDes;//排放描述
     private String usertypeDes;//用途描述
+    private String outfactoryDes;//出厂时间描述
+    private String cardTimeDes;//上牌时间描述
+    private String safeDes;//交强险到期描述
 
     public AddCarMiddleModle(){
         super();
@@ -76,5 +79,29 @@ public class AddCarMiddleModle extends AddCarFrom{
 
     public void setUsertypeDes(String usertypeDes) {
         this.usertypeDes = usertypeDes;
+    }
+
+    public String getOutfactoryDes() {
+        return outfactoryDes;
+    }
+
+    public void setOutfactoryDes(String outfactoryDes) {
+        this.outfactoryDes = outfactoryDes;
+    }
+
+    public String getCardTimeDes() {
+        return cardTimeDes;
+    }
+
+    public void setCardTimeDes(String cardTimeDes) {
+        this.cardTimeDes = cardTimeDes;
+    }
+
+    public String getSafeDes() {
+        return safeDes;
+    }
+
+    public void setSafeDes(String safeDes) {
+        this.safeDes = safeDes;
     }
 }

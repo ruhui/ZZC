@@ -129,6 +129,15 @@ public class Tool {
     }
 
     /**
+     * @param date
+     * @return 格式化 yyyy-MM-dd
+     */
+    public static String formatSimpleDate1(Date date){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月");
+        return format.format(date);
+    }
+
+    /**
      * 格式化 2位小数
      *
      * @param number
@@ -368,6 +377,25 @@ public class Tool {
         int year = cal.get(Calendar.YEAR);//获取年份
         return year;
     }
+
+    /**
+     * 获取年
+     */
+    public static int getYear(Date date){
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.YEAR);
+    }
+
+    /**
+     * 获取月
+     */
+    public static int getMonth(Date date){
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar.get(Calendar.MONTH);
+    }
+
     /**
      * 获取月
      */

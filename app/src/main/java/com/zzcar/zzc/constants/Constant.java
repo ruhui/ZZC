@@ -24,5 +24,6 @@ public class Constant {
     /*测试时图片查看地址*/
     public static final String PICLOOKURL = "http://47.89.48.28:5002";
     /*测试图片上传地址*/
-    public static final String UPLOADURL = "http://47.89.48.28:5002/upload";
+    public static final String UPLOADURL = "http://47.89.48.28:5002/upload/";
+
 }
