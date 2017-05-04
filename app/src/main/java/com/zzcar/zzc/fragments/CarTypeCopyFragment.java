@@ -53,6 +53,7 @@ public class CarTypeCopyFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 CarTypeSpecs carTypeSpecs = mCartypeList.get(i);
+                brandiddes += " "+carTypeSpecs.getName();
                 ((BrandCarActivity)getActivity()).setBrandandType(branid+"", seriesid+"" , carTypeSpecs.getId()+"", brandiddes);
             }
 

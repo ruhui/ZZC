@@ -74,6 +74,7 @@ public class CarseriesCopyFragment extends BaseFragment {
                 String name = carfactory.getName();
                 long facrotyid = carfactory.getFactory_id();
                 long id = carfactory.getId();
+                brandiddes += ""+name;
                 //設置車型
                 showCarTypefragment(id);
             }

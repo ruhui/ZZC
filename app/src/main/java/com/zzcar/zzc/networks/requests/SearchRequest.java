@@ -124,6 +124,7 @@ public class SearchRequest implements Serializable{
     }
 
     public void setEmission_ids(List<String> emission_ids) {
+        emission_ids.clear();
         this.emission_ids = emission_ids;
     }
 
@@ -132,6 +133,7 @@ public class SearchRequest implements Serializable{
     }
 
     public void setColor_ids(List<String> color_ids) {
+        color_ids.clear();
         this.color_ids = color_ids;
     }
 

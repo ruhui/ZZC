@@ -194,7 +194,7 @@ public class UserManager {
         //排序：1最新(默认)、2销量高、3价格高到低、4价格低到高、5按车龄最小，6按里程最少
         hashmap.put("sort", props.getSort());
         //属性,属性值的组合.格式:{"key1":value1,"key2":value2,"color_ids":[1,2]};参数 如goods/cars?page=1&props={"city_id":350200,"color_ids":[1,2]}
-        hashmap.put("props ", Tool.getGson(parameters));
+        hashmap.put("props", Tool.getGson(parameters));
         //页码
         hashmap.put("page", String.valueOf(page));
         //默认一页显示行数

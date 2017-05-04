@@ -141,7 +141,7 @@
         <TextView
             android:layout_width="75dp"
             android:layout_height="30dp"
-            android:text="不限里程"
+            android:text="不限价格"
             android:textColor="@color/app_red"
             android:textSize="14sp"
             android:gravity="center"

@@ -1,5 +1,7 @@
 package com.zzcar.zzc.networks.requests;
 
+import android.text.TextUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,21 +11,21 @@ import java.util.List;
  */
 
 public class ParametersRequest {
-    private String channel="";
+    private String channel="0";
     private List<String> emission_ids = new ArrayList<>();
     private List<String> color_ids = new ArrayList<>();
-    private String bland_id="";
-    private String series_id="";
-    private String year_id="";
-    private String spec_id="";
-    private String province_id="";
-    private String city_id="";
-    private String price_type="";
-    private String min_price="";
-    private String max_price="";
-    private String mileage="";
-    private String min_mileage="";
-    private String max_mileage="";
+    private String bland_id="0";
+    private String series_id="0";
+    private String year_id="0";
+    private String spec_id="0";
+    private String province_id="0";
+    private String city_id="0";
+    private String price_type="0";
+    private String min_price="0";
+    private String max_price="0";
+    private String mileage="0";
+    private String min_mileage="0";
+    private String max_mileage="0";
 
 
     public String getChannel() {
@@ -31,6 +33,9 @@ public class ParametersRequest {
     }
 
     public void setChannel(String channel) {
+        if (TextUtils.isEmpty(channel)){
+            return;
+        }
         this.channel = channel;
     }
 
@@ -55,6 +60,9 @@ public class ParametersRequest {
     }
 
     public void setBland_id(String bland_id) {
+        if (TextUtils.isEmpty(bland_id)){
+            return;
+        }
         this.bland_id = bland_id;
     }
 
@@ -63,6 +71,9 @@ public class ParametersRequest {
     }
 
     public void setSeries_id(String series_id) {
+        if (TextUtils.isEmpty(series_id)){
+            return;
+        }
         this.series_id = series_id;
     }
 
@@ -71,6 +82,9 @@ public class ParametersRequest {
     }
 
     public void setYear_id(String year_id) {
+        if (TextUtils.isEmpty(year_id)){
+            return;
+        }
         this.year_id = year_id;
     }
 
@@ -79,6 +93,9 @@ public class ParametersRequest {
     }
 
     public void setSpec_id(String spec_id) {
+        if (TextUtils.isEmpty(spec_id)){
+            return;
+        }
         this.spec_id = spec_id;
     }
 
@@ -87,6 +104,9 @@ public class ParametersRequest {
     }
 
     public void setProvince_id(String province_id) {
+        if (TextUtils.isEmpty(province_id)){
+            return;
+        }
         this.province_id = province_id;
     }
 
@@ -95,6 +115,9 @@ public class ParametersRequest {
     }
 
     public void setCity_id(String city_id) {
+        if (TextUtils.isEmpty(city_id)){
+            return;
+        }
         this.city_id = city_id;
     }
 
@@ -103,14 +126,21 @@ public class ParametersRequest {
     }
 
     public void setPrice_type(String price_type) {
+        if (TextUtils.isEmpty(price_type)){
+            return;
+        }
         this.price_type = price_type;
     }
 
     public String getMin_price() {
+
         return min_price;
     }
 
     public void setMin_price(String min_price) {
+        if (TextUtils.isEmpty(min_price)){
+            return;
+        }
         this.min_price = min_price;
     }
 
@@ -119,6 +149,9 @@ public class ParametersRequest {
     }
 
     public void setMax_price(String max_price) {
+        if (TextUtils.isEmpty(max_price)){
+            return;
+        }
         this.max_price = max_price;
     }
 
@@ -127,6 +160,9 @@ public class ParametersRequest {
     }
 
     public void setMileage(String mileage) {
+        if (TextUtils.isEmpty(mileage)){
+            return;
+        }
         this.mileage = mileage;
     }
 
@@ -135,6 +171,9 @@ public class ParametersRequest {
     }
 
     public void setMin_mileage(String min_mileage) {
+        if (TextUtils.isEmpty(min_mileage)){
+            return;
+        }
         this.min_mileage = min_mileage;
     }
 
@@ -143,6 +182,9 @@ public class ParametersRequest {
     }
 
     public void setMax_mileage(String max_mileage) {
+        if (TextUtils.isEmpty(max_mileage)){
+            return;
+        }
         this.max_mileage = max_mileage;
     }
 }

@@ -45,13 +45,13 @@ public class SearchActivity extends BaseActivity {
     TextView sureSubmit;
 
     private SearchRequest searchRequest;
-    private SearchRequest parentreques;
     private boolean iscleardata = false;
 
     @AfterViews
     void initView(){
-        parentreques = (SearchRequest) getIntent().getSerializableExtra("searchRequest");
+        SearchRequest parentreques = (SearchRequest) getIntent().getSerializableExtra("searchRequest");
         searchRequest = new SearchRequest();
+        searchRequest.copyData(parentreques);
         mNavbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
         mNavbar.setMiddleTitle("高级筛选");
         mNavbar.setRightTxt("清空条件");
@@ -69,15 +69,21 @@ public class SearchActivity extends BaseActivity {
             itemIconTextIcon1.setRightText(parentreques.getCitydes());
             if (!parentreques.getBland_iddes().equals("品牌")){
                 itemIconTextIcon2.setRightText(parentreques.getBland_iddes());
+            }else{
+                itemIconTextIcon2.setRightText("不限品牌");
             }
             if (!parentreques.getPrice_typedes().equals("价格")){
                 itemIconTextIcon3.setRightText(parentreques.getPrice_typedes());
+            }else{
+                itemIconTextIcon3.setRightText("不限价格");
             }
             itemIconTextIcon4.setRightText(parentreques.getColorDes());
             itemIconTextIcon5.setRightText(parentreques.getMileagedes());
             itemIconTextIcon6.setRightText(parentreques.getEmission_des());
             if (!parentreques.getChanneldes().equals("渠道")){
                 itemIconTextIcon7.setRightText(parentreques.getChanneldes());
+            }else{
+                itemIconTextIcon7.setRightText("不限渠道");
             }
         }
 

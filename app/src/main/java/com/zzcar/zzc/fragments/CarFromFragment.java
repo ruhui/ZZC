@@ -232,6 +232,12 @@ public class CarFromFragment extends BasePullRecyclerFragment {
                     }
 //                    popupWindow_brand.dismiss();
 //                    carseriespop.dismiss();
+                    if (mPricelList.size() == 0){
+                        getPriceBetween();
+                    }
+                    if (mPricelList.size() == 0){
+                        getPriceBetween();
+                    }
                     popupWindow_price.showAsDropDown(view);
                 }
                 setParentShowing(true);
@@ -332,6 +338,9 @@ public class CarFromFragment extends BasePullRecyclerFragment {
                         homeTitle.setTextColor(getResources().getColor(R.color.color_333333));
                         setParentShowing(false);
                     }else{
+                        if (mPricelList.size() == 0){
+                            getPriceBetween();
+                        }
                         popupWindow_price.showAsDropDown(view);
                         imgView.setImageResource(R.drawable.nav_icon_up_selected);
                         homeTitle.setTextColor(getResources().getColor(R.color.app_red));
