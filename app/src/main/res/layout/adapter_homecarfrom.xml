@@ -109,13 +109,13 @@
             android:paddingBottom="2dp"
             android:paddingTop="2dp"
             android:paddingRight="5dp"
-            android:textColor="@color/app_red"
+            android:textColor="@color/white"
             android:textSize="10sp"
             android:layout_below="@+id/imageView8"
             android:layout_alignLeft="@+id/imageView8"
             android:layout_alignStart="@+id/imageView8"
             android:layout_marginTop="17dp"
-            android:background="@drawable/shape_radio_line_red"/>
+            android:background="@drawable/shape_red_radio"/>
 
         <TextView
             android:id="@+id/textView16"

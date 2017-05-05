@@ -74,7 +74,6 @@ public class HomeCarItemView extends LinearLayout {
             txtTuiguang.setText("已售");
             txtPrice.setText("");
         }else{
-
             ImageLoader.loadImage(Tool.getPicUrl(mContext, homeCarGet.getFirst_image(), 92, 67), bgImage, R.drawable.pic_bg_default);
             if (homeCarGet.isPromotion()){
                 //是推广

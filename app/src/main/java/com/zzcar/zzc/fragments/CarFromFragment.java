@@ -23,6 +23,8 @@ import android.widget.TextView;
 
 import com.zzcar.greendao.BrandListResponseDao;
 import com.zzcar.zzc.R;
+import com.zzcar.zzc.activities.GoodDetailActivity;
+import com.zzcar.zzc.activities.GoodDetailActivity_;
 import com.zzcar.zzc.activities.MainActivity;
 import com.zzcar.zzc.activities.PushCarActivity_;
 import com.zzcar.zzc.activities.SearchActivity_;
@@ -33,6 +35,7 @@ import com.zzcar.zzc.interfaces.BrandCarseriesAndType;
 import com.zzcar.zzc.interfaces.BrandListener;
 import com.zzcar.zzc.interfaces.CarseriesAndType;
 import com.zzcar.zzc.interfaces.FragmentClosePop;
+import com.zzcar.zzc.interfaces.HomeAdapterListener;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.HomeCarGet;
@@ -582,7 +585,7 @@ public class CarFromFragment extends BasePullRecyclerFragment {
         recyclerView.enableRefresh(true);
         recyclerView.enableLoadMore(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        carfromAdapter = new HomeCarAdapter();
+        carfromAdapter = new HomeCarAdapter(adapterListener);
         recyclerView.setAdapter(carfromAdapter);
         carfromAdapter.addAll(mList);
 
@@ -596,6 +599,16 @@ public class CarFromFragment extends BasePullRecyclerFragment {
         /*获取价格*/
         getPriceBetween();
     }
+
+    /*adapter行点击监听*/
+    HomeAdapterListener adapterListener = new HomeAdapterListener() {
+        @Override
+        public void setOnItemClckListener(int position, int productId) {
+            Intent intent = new Intent(getActivity(), GoodDetailActivity_.class);
+            intent.putExtra("productId", productId);
+            startActivity(intent);
+        }
+    };
 
     @Override
     protected void onRefresh(RecyclerView recyclerView) {

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey">
+
+    <com.zzcar.zzc.views.widget.MyscrollerView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <com.jude.rollviewpager.RollPagerView
+                android:id="@+id/mRollPagerView"
+                android:layout_width="match_parent"
+                android:layout_height="331dp"
+                app:rollviewpager_play_delay="3000"
+
+                >
+            </com.jude.rollviewpager.RollPagerView>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="115dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/textView20"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="￥4577.56"
+                    android:layout_marginTop="27dp"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/app_red"
+                    android:layout_below="@+id/textView17"
+                    android:layout_alignLeft="@+id/textView17"
+                    android:layout_alignStart="@+id/textView17" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:lines="2"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="这是比啊她就是宽带连接发生束带结发卡四大皆空国际快递返回给了看技术是大控分散点难看了反抗咯三十多分gas就比较"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/color_090909"
+                    android:id="@+id/textView17" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@drawable/shape_red_radio"
+                    android:layout_below="@+id/textView17"
+                    android:orientation="vertical"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:id="@+id/linearLayout">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:textSize="15sp"
+                        android:gravity="center"
+                        android:text="订金￥55555元"
+                        android:textColor="@color/white"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:textSize="15sp"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:text="立即购买"
+                        android:layout_weight="1"/>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@color/white">
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:scaleType="center"
+                    app:srcCompat="@drawable/nav_icon_head_default"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp" />
+
+                <TextView
+                    android:id="@+id/textView21"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textSize="13sp"
+                    android:textColor="@color/color_333333"
+                    android:layout_alignTop="@+id/imageView4"
+                    android:layout_toRightOf="@+id/imageView4"
+                    android:layout_toEndOf="@+id/imageView4"
+                    android:layout_marginLeft="13dp"
+                    android:layout_marginStart="13dp" />
+
+                <TextView
+                    android:id="@+id/textView22"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textSize="12sp"
+                    android:textColor="#909090"
+                    android:layout_marginTop="7dp"
+                    android:layout_alignBottom="@+id/imageView4"
+                    android:layout_alignLeft="@+id/textView21"
+                    android:layout_alignStart="@+id/textView21" />
+
+
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="实名认证"
+                    android:paddingLeft="5dp"
+                    android:paddingBottom="2dp"
+                    android:paddingTop="2dp"
+                    android:paddingRight="5dp"
+                    android:textColor="@color/white"
+                    android:textSize="10sp"
+                    android:background="@drawable/shape_red_radio"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_alignTop="@+id/textView21"
+                    android:layout_toRightOf="@+id/textView21"
+                    android:layout_toEndOf="@+id/textView21" />
+
+                <ImageView
+                    android:id="@+id/mid_rightImg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/nav_icon_right_default"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginRight="15dp"/>
+            </RelativeLayout>
+            
+            <include
+                layout="@layout/view_car_detial"
+                android:id="@+id/includeView"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="车况描述"
+                    android:textSize="12sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="#909090"
+                    android:layout_marginStart="15dp"
+                    android:id="@+id/textView43"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:id="@+id/textView44"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="是淡季佛圣诞节快乐赶紧的开了房结果靠克鲁塞德叫李康"
+                    android:textSize="14sp"
+                    android:textColor="@color/color_333333"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toRightOf="@+id/textView43"
+                    android:layout_toEndOf="@+id/textView43" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/mRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:background="@color/white">
+
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+    </com.zzcar.zzc.views.widget.MyscrollerView>
+
+
+</RelativeLayout>
+
