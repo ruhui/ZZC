@@ -26,6 +26,8 @@ import com.zzcar.zzc.utils.Tool;
 import com.zzcar.zzc.views.widget.ItemOneView;
 import com.zzcar.zzc.views.widget.ItemSecondView;
 import com.zzcar.zzc.views.widget.NavBar2;
+import com.zzcar.zzc.views.widget.NavBar3;
+import com.zzcar.zzc.views.widget.dialogs.MyAlertDialog;
 import com.zzcar.zzc.views.widget.dialogs.TakePhotoDialog;
 import com.zzcar.zzc.wheel.view.TimePickerView;
 
@@ -45,7 +47,7 @@ import me.iwf.photopicker.PhotoPicker;
 public class PushCarActivity extends BaseActivity {
 
     @ViewById(R.id.mNavbar)
-    NavBar2 mNavbar;
+    NavBar3 mNavbar;
     @ViewById(R.id.blandcar)
     ItemOneView blandcar;
     @ViewById(R.id.selectCity)
@@ -102,15 +104,24 @@ public class PushCarActivity extends BaseActivity {
         //设置键盘弹起
         keyboard = new KeyboardPatch(this, getView());
         keyboard.enable();
-        mNavbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
+        mNavbar.setLeftMenuText("取消");
         mNavbar.setMiddleTitle("发布车源");
         mNavbar.setRightTxt("清空条件");
 
-        mNavbar.setOnMenuClickListener(new NavBar2.OnMenuClickListener() {
+        mNavbar.setOnMenuClickListener(new NavBar3.OnMenuClickListener() {
             @Override
             public void onLeftMenuClick(View view) {
                 super.onLeftMenuClick(view);
-                finish();
+                MyAlertDialog dialog = new MyAlertDialog(PushCarActivity.this, true);
+                dialog.show();
+                dialog.setTitle("取消发布");
+                dialog.setContent("是否放弃发车");
+                dialog.setOnPositiveListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+                    }
+                });
             }
 
             @Override

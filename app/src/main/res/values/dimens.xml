@@ -24,4 +24,5 @@
     <dimen name="pickerview_topbar_paddingright">30dp</dimen>
     <dimen name="pickerview_topbar_title_textsize">21sp</dimen>
     <dimen name="dime_1_0">-10dp</dimen>
+    <dimen name="size_15">15dp</dimen>
 </resources>

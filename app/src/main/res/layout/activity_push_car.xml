@@ -8,7 +8,7 @@
     android:background="@color/windowbackcolor"
     tools:context="com.zzcar.zzc.activities.PushCarActivity">
 
-    <com.zzcar.zzc.views.widget.NavBar2_
+    <com.zzcar.zzc.views.widget.NavBar3_
         android:id="@+id/mNavbar"
         android:layout_width="match_parent"
         android:layout_height="65dp"
@@ -17,7 +17,7 @@
         android:gravity="bottom"
         android:background="@color/white"
         app:title_res="@string/tab_mine">
-    </com.zzcar.zzc.views.widget.NavBar2_>
+    </com.zzcar.zzc.views.widget.NavBar3_>
 
     <View
         android:layout_width="match_parent"
