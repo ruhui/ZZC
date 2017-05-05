@@ -1,6 +1,11 @@
 package com.zzcar.zzc.activities;
 
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -11,17 +16,23 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
 import com.zzcar.zzc.adapters.PhotoAdapte;
 import com.zzcar.zzc.constants.Permission;
+import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.PermissonManager;
+import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.AddCarMiddleModle;
 import com.zzcar.zzc.models.ImageList;
+import com.zzcar.zzc.networks.PosetSubscriber;
+import com.zzcar.zzc.networks.responses.CheckSuccessResponse;
 import com.zzcar.zzc.utils.ImageLoader;
 import com.zzcar.zzc.utils.KeyboardPatch;
 import com.zzcar.zzc.utils.PermissionUtili;
+import com.zzcar.zzc.utils.ToastUtil;
 import com.zzcar.zzc.utils.Tool;
 import com.zzcar.zzc.views.widget.ItemOneView;
 import com.zzcar.zzc.views.widget.ItemSecondView;
@@ -33,15 +44,19 @@ import com.zzcar.zzc.wheel.view.TimePickerView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.SystemService;
 import org.androidannotations.annotations.ViewById;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import me.iwf.photopicker.PhotoPicker;
+import rx.Subscriber;
 
 @EActivity(R.layout.activity_push_car)
 public class PushCarActivity extends BaseActivity {
@@ -90,6 +105,9 @@ public class PushCarActivity extends BaseActivity {
     private TimePickerView pvTimecardTime;
     private TimePickerView pvTimeoutComTime;
     private TimePickerView pvTimelimitTime;
+    private int REQ_CODE_CAMERA = 10125;
+    /*照相机返回的路径*/
+    private  File tempfile;
 
     @AfterViews
     void initView(){
@@ -301,7 +319,36 @@ public class PushCarActivity extends BaseActivity {
         mRecyclerView.setLayoutManager(new GridLayoutManager(PushCarActivity.this, 3));
         mRecyclerView.setAdapter(adapter = new PhotoAdapte(PushCarActivity.this, photos, itemClickListener));
 
+
+        /*提交*/
+        txtSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                subMitCar();
+            }
+        });
     }
+
+
+    private void subMitCar() {
+        String priceNum = priceItem.getTxtMiddle();
+        String mile = mileData.getTxtMiddle();
+        String newcarPri = newcarPrice.getTxtMiddle();
+        String cardes = carDes.getText().toString();
+        carMiddle.setContent(cardes);
+        carMiddle.setNew_car_price(newcarPri);
+        carMiddle.setMileage(mile);
+        carMiddle.setMarket_price(priceNum);
+        String alertmsg = carMiddle.alertMsg(carMiddle);
+        if (TextUtils.isEmpty(alertmsg)){
+            //添加车源
+            saveCarFrom(carMiddle);
+        }else{
+            ToastUtil.showToast(alertmsg);
+        }
+    }
+
+
 
 
     PhotoAdapte.ItemClickListener itemClickListener = new PhotoAdapte.ItemClickListener() {
@@ -313,10 +360,10 @@ public class PushCarActivity extends BaseActivity {
         @Override
         public void imgbackListener(List<String> imgList) {
             //拿到图片，并设置图
-            List<ImageList> listPath = new ArrayList<>();
+            List<String> listPath = new ArrayList<>();
             for (String imgPath : imgList){
                 ImageList imageList = new ImageList(imgPath);
-                listPath.add(imageList);
+                listPath.add(imageList.getPath());
             }
             carMiddle.setImage_path(listPath);
         }
@@ -376,7 +423,6 @@ public class PushCarActivity extends BaseActivity {
                     carMiddle.setColor(colorid);
                 }
                 carMiddle.setColorDes(colordes);
-
             }else if (requestCode == 10109){
                 String usertypeid = data.getStringExtra("usertypeid");
                 String usertypeDes = data.getStringExtra("usertypeDes");
@@ -387,18 +433,22 @@ public class PushCarActivity extends BaseActivity {
                 adapter.setData(photos);
             }
             resetView();
+        }else  if (requestCode==REQ_CODE_CAMERA) {
+            String imgPath = tempfile.getPath();
+            photos.add(imgPath);
+            adapter.setData(photos);
         }
     }
 
     void resetView(){
         blandcar.setTxtMiddle(carMiddle.getBladseriesdes());
         selectCity.setTxtMiddle(carMiddle.getBelongCityDes());
-        cardTime.setTxtMiddle("上牌时间");
+        cardTime.setTxtMiddle(carMiddle.getCardTimeDes());
         cardBelong.setTxtMiddle(carMiddle.getNumberBelongDes());
         carColor.setTxtMiddle(carMiddle.getColorDes());
-        outComTime.setTxtMiddle("出厂时间");
+        outComTime.setTxtMiddle(carMiddle.getOutfactoryDes());
         emissionSta.setTxtMiddle(carMiddle.getEmissionDes());
-        limitTime.setTxtMiddle("强制险到期");
+        limitTime.setTxtMiddle(carMiddle.getSafeDes());
         useto.setTxtMiddle(carMiddle.getUsertypeDes());
     }
 
@@ -432,6 +482,11 @@ public class PushCarActivity extends BaseActivity {
         @Override
         public void selectCamera() {
             //相机
+            tempfile = getFilePath();
+            Uri Imagefile = Uri.fromFile(tempfile);
+            Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Imagefile);
+            startActivityForResult(cameraIntent, REQ_CODE_CAMERA);
             photodialog.closedialog();
         }
 
@@ -448,6 +503,41 @@ public class PushCarActivity extends BaseActivity {
                     .setPreviewEnabled(false)
                     .setSelected(photos)
                     .start(getActivity(), PhotoPicker.REQUEST_CODE);
+        }
+    };
+
+    /*返回定义的相册路径*/
+    private File getFilePath() {
+        File DatalDir = Environment.getExternalStorageDirectory();
+        File myDir = new File(DatalDir, "/DCIM/Camera");
+        myDir.mkdirs();
+        String mDirectoryname = DatalDir.toString() + "/DCIM/Camera";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-hhmmss", Locale.SIMPLIFIED_CHINESE);
+        File tempfile = new File(mDirectoryname, sdf.format(new Date()) + ".jpg");
+        if (tempfile.isFile())
+            tempfile.delete();
+        return tempfile;
+    }
+
+    /*发布车源*/
+    private void saveCarFrom(AddCarMiddleModle carMiddle) {
+        Subscriber subscriber = new PosetSubscriber<Boolean>().getSubscriber(callback_carfrom);
+        UserManager.savecar(carMiddle, subscriber);
+    }
+
+    ResponseResultListener callback_carfrom = new ResponseResultListener<Boolean>() {
+        @Override
+        public void success(Boolean returnMsg) {
+            ToastUtil.showToast("发布成功");
+            Intent intent = new Intent();
+            intent.putExtra("isrefreshdata", true);
+            setResult(10201, intent);
+            finish();
+        }
+
+        @Override
+        public void fialed(String resCode, String message) {
+            ToastUtil.showToast("发布失败");
         }
     };
 

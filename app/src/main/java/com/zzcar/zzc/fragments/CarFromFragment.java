@@ -164,7 +164,7 @@ public class CarFromFragment extends BasePullRecyclerFragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), PushCarActivity_.class);
-                startActivity(intent);
+                startActivityForResult(intent, 10201);
             }
         });
     }
@@ -484,19 +484,28 @@ public class CarFromFragment extends BasePullRecyclerFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data != null && requestCode == 10200){
-            boolean iscleardata = data.getBooleanExtra("iscleardata", false);
-            SearchRequest request = (SearchRequest) data.getSerializableExtra("searchRequest");
-            if (iscleardata){
-                //清空数据
-                searchRequest.resetDataHome();
-            }else{
-                searchRequest.copyData(request);
+        if (data != null ){
+            if(requestCode == 10200){
+                boolean iscleardata = data.getBooleanExtra("iscleardata", false);
+                SearchRequest request = (SearchRequest) data.getSerializableExtra("searchRequest");
+                if (iscleardata){
+                    //清空数据
+                    searchRequest.resetDataHome();
+                }else{
+                    searchRequest.copyData(request);
+                }
+                resertChannelStatus();
+                CURTURNPAGE = Constant.DEFAULTPAGE;
+                mList.clear();
+                getCarsData();
+            }else if (requestCode == 10201){
+                boolean isrefreshdata = data.getBooleanExtra("isrefreshdata", false);
+                if (isrefreshdata){
+                    CURTURNPAGE = Constant.DEFAULTPAGE;
+                    mList.clear();
+                    getCarsData();
+                }
             }
-            resertChannelStatus();
-            CURTURNPAGE = Constant.DEFAULTPAGE;
-            mList.clear();
-            getCarsData();
         }
     }
 

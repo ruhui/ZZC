@@ -2,6 +2,8 @@ package com.zzcar.zzc.manager;
 
 import android.text.TextUtils;
 
+import com.zzcar.zzc.models.AddCarFrom;
+import com.zzcar.zzc.models.AddCarMiddleModle;
 import com.zzcar.zzc.models.AddressModel;
 import com.zzcar.zzc.networks.ApiClient;
 import com.zzcar.zzc.networks.ResponseParent;
@@ -13,6 +15,7 @@ import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.networks.responses.CarSeriesResponse;
 import com.zzcar.zzc.networks.responses.CarTypeResponse;
+import com.zzcar.zzc.networks.responses.CheckSuccessResponse;
 import com.zzcar.zzc.networks.responses.CityResponse;
 import com.zzcar.zzc.networks.responses.ColorResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
@@ -374,5 +377,22 @@ public class UserManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
         add("getUserType", subscription);
+    }
+
+    /**
+     * 发布修改车源
+     */
+    public static void savecar(AddCarMiddleModle middleModle, Subscriber<ResponseParent<Boolean>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("savecar");
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        AddCarFrom addCarFrom = middleModle.getAddCarFrom(middleModle);
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, addCarFrom);
+        Subscription subscription = ApiClient.getApiService().savecar(addCarFrom, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("savecar", subscription);
     }
 }

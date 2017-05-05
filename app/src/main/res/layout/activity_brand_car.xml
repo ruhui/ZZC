@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.zzcar.zzc.activities.BrandCarActivity">
 
-    <com.zzcar.zzc.views.widget.NavBar3_
+    <com.zzcar.zzc.views.widget.NavBar2_
         android:id="@+id/mNavbar"
         android:layout_width="match_parent"
         android:layout_height="65dp"
@@ -15,7 +15,7 @@
         android:gravity="bottom"
         android:background="@color/white"
         app:title_res="@string/tab_mine">
-    </com.zzcar.zzc.views.widget.NavBar3_>
+    </com.zzcar.zzc.views.widget.NavBar2_>
 
     <View
         android:id="@+id/line"

@@ -1,5 +1,6 @@
 package com.zzcar.zzc.models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -8,15 +9,15 @@ import java.util.List;
  */
 
 public class AddCarFrom {
-    private String product_id;//车辆id
-    private String market_price;//市场价格
-    private List<ImageList> image_path;//图片JSON:["",""]
-    private String content;//车况描述
-    private String bland_id;//品牌id
-    private String series_id;//车系id
-    private String year_id;//年份id
-    private String spec_id;//车型id
-    private String mileage;//里程
+    private String product_id;//车辆id 0
+    private String market_price;//市场价格 0
+    private List<String> image_path = new ArrayList<>();//图片JSON:["",""] 1
+    private String content;//车况描述 1
+    private String bland_id;//品牌id 1
+    private String series_id;//车系id 1
+    private String year_id;//年份id 1
+    private String spec_id;//车型id 1
+    private String mileage;//里程 1
     private String on_number_year;//上牌年份
     private String on_number_month;//上牌月份
     private String car_city_id;//车当前所在城市
@@ -34,7 +35,7 @@ public class AddCarFrom {
 
     public AddCarFrom() {}
 
-    public AddCarFrom(String product_id, String market_price, List<ImageList> image_path,
+    public AddCarFrom(String product_id, String market_price, List<String> image_path,
                       String content, String bland_id, String series_id, String year_id,
                       String spec_id, String mileage, String on_number_year, String on_number_month,
                       String car_city_id, String on_number_province_id, String on_number_city_id,
@@ -82,11 +83,11 @@ public class AddCarFrom {
         this.market_price = market_price;
     }
 
-    public List<ImageList> getImage_path() {
+    public List<String> getImage_path() {
         return image_path;
     }
 
-    public void setImage_path(List<ImageList> image_path) {
+    public void setImage_path(List<String> image_path) {
         this.image_path = image_path;
     }
 

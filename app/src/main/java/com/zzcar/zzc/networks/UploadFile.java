@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.interfaces.ImageUploadListener;
 import com.zzcar.zzc.utils.FileUtil;
+import com.zzcar.zzc.utils.Tool;
 import com.zzcar.zzc.views.widget.LoadingProgressImageView;
 
 import java.io.BufferedReader;
@@ -104,9 +105,10 @@ public class UploadFile extends AsyncTask<String, Integer, String> {
             BufferedReader br = new BufferedReader(isr);
             @SuppressWarnings("unused")
             String result = br.readLine();
+            ResponseParent respon = Tool.parseJsonWithGson(result, ResponseParent.class);
             dos.close();
             is.close();
-            return result;
+            return (String)respon.data;
         }catch (Exception e) {
             e.printStackTrace();
             return "上传失败";

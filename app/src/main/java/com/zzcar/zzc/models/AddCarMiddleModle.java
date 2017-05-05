@@ -1,5 +1,7 @@
 package com.zzcar.zzc.models;
 
+import android.text.TextUtils;
+
 import java.util.List;
 
 /**
@@ -22,7 +24,7 @@ public class AddCarMiddleModle extends AddCarFrom{
         super();
     }
 
-    public AddCarMiddleModle(String product_id, String market_price, List<ImageList> image_path,
+    public AddCarMiddleModle(String product_id, String market_price, List<String> image_path,
                              String content, String bland_id, String series_id, String year_id,
                              String spec_id, String mileage, String on_number_year, String on_number_month,
                              String car_city_id, String on_number_province_id, String on_number_city_id,
@@ -103,5 +105,66 @@ public class AddCarMiddleModle extends AddCarFrom{
 
     public void setSafeDes(String safeDes) {
         this.safeDes = safeDes;
+    }
+
+    /*判断是否为空*/
+    public String alertMsg(AddCarMiddleModle middleModle){
+        if (TextUtils.isEmpty(middleModle.getContent())){
+            return "请输入车况描述";
+        }else if (TextUtils.isEmpty(middleModle.getMarket_price())){
+            return "请输入价格";
+        }else if (middleModle.getImage_path().size() == 0){
+            return "请上传图片";
+        }else if(TextUtils.isEmpty(middleModle.getBland_id())){
+            return "请选择品牌";
+        }else if (TextUtils.isEmpty(middleModle.getMileage())){
+            return "请输入表显里程";
+        }else if (TextUtils.isEmpty(middleModle.getOn_number_year())){
+            return "请选择上牌时间";
+        }else if (TextUtils.isEmpty(middleModle.getOn_number_province_id())){
+            return "请选择牌照归属地";
+        }else if (TextUtils.isEmpty(middleModle.getCar_province_id())){
+            return "请选择当前车辆所在地";
+        }else if (TextUtils.isEmpty(middleModle.getColorDes())){
+            return "请选择车身颜色";
+        }else if (TextUtils.isEmpty(middleModle.getEmissionDes())){
+            return "请选择排放标准";
+        }else if (TextUtils.isEmpty(middleModle.getOut_factory_year())){
+            return "请选择出厂时间";
+        }else if (TextUtils.isEmpty(middleModle.getNew_car_price())){
+            return "请输入新车指导价格";
+        }else if (TextUtils.isEmpty(middleModle.getExp_safe_year())){
+            return "请选择强制险到期时间";
+        }else if (TextUtils.isEmpty(middleModle.getUse_type())){
+            return "请输入用途";
+        }else{
+            return "";
+        }
+    }
+
+    public AddCarFrom getAddCarFrom(AddCarMiddleModle middleModle){
+        AddCarFrom addCarFrom = new AddCarMiddleModle();
+        addCarFrom.setMarket_price(middleModle.getMarket_price());
+        addCarFrom.setImage_path(middleModle.getImage_path());
+        addCarFrom.setContent(middleModle.getContent());
+        addCarFrom.setBland_id(middleModle.getBland_id());
+        addCarFrom.setSeries_id(middleModle.getSeries_id());
+        addCarFrom.setSpec_id(middleModle.getSpec_id());
+        addCarFrom.setMileage(middleModle.getMileage());
+        addCarFrom.setOn_number_year(middleModle.getOn_number_year());
+        addCarFrom.setOn_number_month(middleModle.getOn_number_month());
+        addCarFrom.setCar_city_id(middleModle.getCar_city_id());
+        addCarFrom.setOn_number_province_id(middleModle.getOn_number_province_id());
+        addCarFrom.setOn_number_city_id(middleModle.getOn_number_city_id());
+        addCarFrom.setCar_province_id(middleModle.getCar_province_id());
+        addCarFrom.setColor(middleModle.getColor());
+        addCarFrom.setEmission(middleModle.getEmission());
+        addCarFrom.setOut_factory_year(middleModle.getOut_factory_year());
+        addCarFrom.setOut_factory_month(middleModle.getOut_factory_month());
+        addCarFrom.setNew_car_price(middleModle.getNew_car_price());
+        addCarFrom.setExp_safe_year(middleModle.getExp_safe_year());
+        addCarFrom.setExp_safe_month(middleModle.getExp_safe_month());
+        addCarFrom.setUse_type(middleModle.getUse_type());
+        return addCarFrom;
     }
 }

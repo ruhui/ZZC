@@ -1,5 +1,6 @@
 package com.zzcar.zzc.service;
 
+import com.zzcar.zzc.models.AddCarFrom;
 import com.zzcar.zzc.models.AddressModel;
 import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.requests.LoginRequest;
@@ -7,6 +8,7 @@ import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.networks.responses.CarSeriesResponse;
 import com.zzcar.zzc.networks.responses.CarTypeResponse;
+import com.zzcar.zzc.networks.responses.CheckSuccessResponse;
 import com.zzcar.zzc.networks.responses.CityResponse;
 import com.zzcar.zzc.networks.responses.ColorResponse;
 import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
@@ -89,4 +91,8 @@ public interface ZZCService {
     /*用途*/
     @GET("common/use_type")
     Observable<ResponseParent<List<CarChanelResponse>>> getusertype(@HeaderMap Map<String, String> header);
+
+    /*添加车源*/
+    @POST("goods/save_car")
+    Observable<ResponseParent<Boolean>> savecar(@Body AddCarFrom httpClient, @HeaderMap Map<String, String> header);
 }
