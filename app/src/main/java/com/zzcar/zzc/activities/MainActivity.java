@@ -16,6 +16,7 @@ import com.zzcar.zzc.fragments.CarFromFragment;
 import com.zzcar.zzc.fragments.CarFromFragment_;
 import com.zzcar.zzc.fragments.HomeFragment;
 import com.zzcar.zzc.fragments.HomeFragment_;
+import com.zzcar.zzc.fragments.MineFragment_;
 import com.zzcar.zzc.interfaces.FragmentClosePop;
 import com.zzcar.zzc.views.widget.NoScrollViewPager;
 
@@ -67,7 +68,7 @@ public class MainActivity extends BaseActivity {
         TabInfo mineTabInfo = new TabInfo(HomeFragment_.builder().build(), R.drawable.tab_home_message, R.string.tab_message);
         infos.add(mineTabInfo);
 
-        TabInfo mineTabInfos = new TabInfo(HomeFragment_.builder().build(), R.drawable.tab_home_mine, R.string.tab_mine);
+        TabInfo mineTabInfos = new TabInfo(MineFragment_.builder().build(), R.drawable.tab_home_mine, R.string.tab_mine);
         infos.add(mineTabInfos);
 
         TabFragmentAdapter adapter = new TabFragmentAdapter(infos);

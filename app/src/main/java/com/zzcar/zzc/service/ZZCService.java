@@ -6,6 +6,7 @@ import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.requests.LoginRequest;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
+import com.zzcar.zzc.networks.responses.CarDetailRespose;
 import com.zzcar.zzc.networks.responses.CarSeriesResponse;
 import com.zzcar.zzc.networks.responses.CarTypeResponse;
 import com.zzcar.zzc.networks.responses.CheckSuccessResponse;
@@ -14,7 +15,11 @@ import com.zzcar.zzc.networks.responses.ColorResponse;
 import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
+import com.zzcar.zzc.networks.responses.MineMsgResponse;
+import com.zzcar.zzc.networks.responses.MybillResponse;
 import com.zzcar.zzc.networks.responses.UserMsgResponse;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -95,4 +100,16 @@ public interface ZZCService {
     /*添加车源*/
     @POST("goods/save_car")
     Observable<ResponseParent<Boolean>> savecar(@Body AddCarFrom httpClient, @HeaderMap Map<String, String> header);
+
+    /*车源详情*/
+    @GET("goods/car_detail")
+    Observable<ResponseParent<CarDetailRespose>> getcardetail(@Query("id") int id, @HeaderMap Map<String, String> header);
+
+    /*获取用户信息*/
+    @GET("account/user")
+    Observable<ResponseParent<MineMsgResponse>> getusermsg(@HeaderMap Map<String, String> header);
+
+    /*获取钱包和积分*/
+    @GET("account/bill")
+    Observable<ResponseParent<MybillResponse>> getuserbill(@HeaderMap Map<String, String> header);
 }

@@ -433,6 +433,9 @@ public class Tool {
      * 获取图片路径
      */
     public static String getPicUrl(Context mContext, String url, int width, int heigh){
+        if (TextUtils.isEmpty(url)){
+            return "";
+        }
         int weidth = Utils.dip2px(mContext, width);
         int height = Utils.dip2px(mContext, heigh);
         if (url.contains(".jpg")){

@@ -39,6 +39,7 @@ import com.zzcar.zzc.views.widget.ItemSecondView;
 import com.zzcar.zzc.views.widget.NavBar2;
 import com.zzcar.zzc.views.widget.NavBar3;
 import com.zzcar.zzc.views.widget.dialogs.MyAlertDialog;
+import com.zzcar.zzc.views.widget.dialogs.MyAlertDialog2;
 import com.zzcar.zzc.views.widget.dialogs.TakePhotoDialog;
 import com.zzcar.zzc.wheel.view.TimePickerView;
 
@@ -130,13 +131,14 @@ public class PushCarActivity extends BaseActivity {
             @Override
             public void onLeftMenuClick(View view) {
                 super.onLeftMenuClick(view);
-                MyAlertDialog dialog = new MyAlertDialog(PushCarActivity.this, true);
+                final MyAlertDialog2 dialog = new MyAlertDialog2(PushCarActivity.this, true);
                 dialog.show();
                 dialog.setTitle("取消发布");
                 dialog.setContent("是否放弃发车");
                 dialog.setOnPositiveListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        dialog.dismiss();
                         finish();
                     }
                 });
@@ -349,7 +351,21 @@ public class PushCarActivity extends BaseActivity {
     }
 
 
-
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        final MyAlertDialog2 dialog = new MyAlertDialog2(PushCarActivity.this, true);
+        dialog.show();
+        dialog.setTitle("取消发布");
+        dialog.setContent("是否放弃发车");
+        dialog.setOnPositiveListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                finish();
+            }
+        });
+    }
 
     PhotoAdapte.ItemClickListener itemClickListener = new PhotoAdapte.ItemClickListener() {
         @Override

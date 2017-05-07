@@ -20,6 +20,8 @@ import com.zzcar.zzc.networks.responses.CityResponse;
 import com.zzcar.zzc.networks.responses.ColorResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
+import com.zzcar.zzc.networks.responses.MineMsgResponse;
+import com.zzcar.zzc.networks.responses.MybillResponse;
 import com.zzcar.zzc.utils.SecurePreferences;
 import com.zzcar.zzc.utils.Tool;
 
@@ -394,5 +396,62 @@ public class UserManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
         add("savecar", subscription);
+    }
+
+    /**
+     * 车源详情
+     * @param id
+     * @param subscriber
+     */
+    public static void getCarDetail(int id, Subscriber<ResponseParent<List<CarChanelResponse>>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("getCarDetail");
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("id", String.valueOf(id));
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        Subscription subscription = ApiClient.getApiService().getcardetail(id, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("getCarDetail", subscription);
+    }
+
+
+    /**
+     * 获取登录的用户信息
+     * @param subscriber
+     */
+    public static void getUserMsg(Subscriber<ResponseParent<MineMsgResponse>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("getUserMsg");
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        Subscription subscription = ApiClient.getApiService().getusermsg(zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("getUserMsg", subscription);
+    }
+
+    /**
+     * 获取我的财务
+     * @param subscriber
+     */
+    public static void getMyBill(Subscriber<ResponseParent<MybillResponse>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("getMyBill");
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        Subscription subscription = ApiClient.getApiService().getuserbill(zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("getMyBill", subscription);
     }
 }

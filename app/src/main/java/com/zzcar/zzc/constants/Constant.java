@@ -1,5 +1,7 @@
 package com.zzcar.zzc.constants;
 
+import com.zzcar.zzc.R;
+
 /**
  * Created by Administrator on 2017/2/21.
  */
@@ -25,5 +27,7 @@ public class Constant {
     public static final String PICLOOKURL = "http://47.89.48.28:5002";
     /*测试图片上传地址*/
     public static final String UPLOADURL = "http://47.89.48.28:5002/upload/";
+    /*默认头像*/
+    public static final int HEADIMG = R.drawable.nav_icon_head_default;
 
 }

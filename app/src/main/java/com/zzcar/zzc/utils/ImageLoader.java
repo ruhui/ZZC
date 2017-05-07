@@ -23,6 +23,7 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.zzcar.zzc.R;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,8 +31,8 @@ import java.util.concurrent.ExecutionException;
 
 public class ImageLoader {
 
-//    private final static int DEFAULT_ICON_RESID =
-//            R.drawable.ic_arrow_back;
+    private final static int DEFAULT_ICON_RESID =
+            R.drawable.nav_icon_head_default;
 
     //加载本地图片
     public static void loadLocalImage(File file, ImageView imageView, int radio){
