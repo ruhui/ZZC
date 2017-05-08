@@ -60,6 +60,9 @@
         <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
     </style>
 
-
+    <style name="style_comment_atmember">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#3178b5</item>
+    </style>
 
 </resources>

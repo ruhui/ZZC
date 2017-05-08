@@ -18,6 +18,7 @@ import com.zzcar.zzc.networks.responses.CarTypeResponse;
 import com.zzcar.zzc.networks.responses.CheckSuccessResponse;
 import com.zzcar.zzc.networks.responses.CityResponse;
 import com.zzcar.zzc.networks.responses.ColorResponse;
+import com.zzcar.zzc.networks.responses.CommentResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.networks.responses.MineMsgResponse;
@@ -453,5 +454,26 @@ public class UserManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
         add("getMyBill", subscription);
+    }
+
+    /**
+     * 获取评论列表
+     */
+    public static void getCommentList(int product_id, int page, Subscriber<ResponseParent<CommentResponse>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("getCommentList");
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("product_id", String.valueOf(product_id));
+        hashmap.put("page", String.valueOf(page));
+        hashmap.put("size", "10");
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        Subscription subscription = ApiClient.getApiService().getcomments(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("getCommentList", subscription);
     }
 }

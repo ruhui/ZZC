@@ -12,6 +12,7 @@ import com.zzcar.zzc.networks.responses.CarTypeResponse;
 import com.zzcar.zzc.networks.responses.CheckSuccessResponse;
 import com.zzcar.zzc.networks.responses.CityResponse;
 import com.zzcar.zzc.networks.responses.ColorResponse;
+import com.zzcar.zzc.networks.responses.CommentResponse;
 import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
@@ -112,4 +113,8 @@ public interface ZZCService {
     /*获取钱包和积分*/
     @GET("account/bill")
     Observable<ResponseParent<MybillResponse>> getuserbill(@HeaderMap Map<String, String> header);
+
+   /*评论列表*/
+   @GET("goods/comments")
+   Observable<ResponseParent<CommentResponse>> getcomments(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
 }

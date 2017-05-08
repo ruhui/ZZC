@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,16 +16,20 @@ import com.jude.rollviewpager.RollPagerView;
 import com.jude.rollviewpager.hintview.ColorPointHintView;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
+import com.zzcar.zzc.adapters.CommentAdapter;
 import com.zzcar.zzc.adapters.PictureAdapter;
 import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
+import com.zzcar.zzc.models.CommentModle;
 import com.zzcar.zzc.models.MemberModel;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.responses.CarDetailRespose;
+import com.zzcar.zzc.networks.responses.CommentResponse;
 import com.zzcar.zzc.utils.ImageLoader;
 import com.zzcar.zzc.utils.LogUtil;
 import com.zzcar.zzc.utils.Tool;
+import com.zzcar.zzc.views.pulltorefresh.PullToRefreshScrollView;
 import com.zzcar.zzc.views.widget.MyscrollerView;
 
 import org.androidannotations.annotations.AfterViews;
@@ -39,13 +46,13 @@ import rx.Subscriber;
  */
 
 @EActivity(R.layout.fragment_commoditydetail)
-public class GoodDetailActivity extends BaseActivity implements MyscrollerView.ScrollerListeners {
+public class GoodDetailActivity extends BaseActivity {
 
     @ViewById(R.id.mRollPagerView)
     RollPagerView mRollViewPager;
 
     @ViewById(R.id.scrollView)
-    MyscrollerView myScrollView;
+    PullToRefreshScrollView myScrollView;
     @ViewById(R.id.textView17)
     TextView content;
     @ViewById(R.id.textView20)
@@ -82,19 +89,33 @@ public class GoodDetailActivity extends BaseActivity implements MyscrollerView.S
     TextView usertypedes;
     @ViewById(R.id.textView42)
     TextView safeDes;
+    @ViewById(R.id.mRecyclerView)
+    RecyclerView mRecyclerView;
+
+    private CommentAdapter commentAdapter;
+    private List<CommentModle> mCommentList = new ArrayList<>();
 
     private Context mContext;
     private List<String> picList = new ArrayList<>();
     PictureAdapter adapter;
+    private int CURTUNPAGE = Constant.DEFAULTPAGE;
 
     @AfterViews
     void initView(){
         mContext = this;
         int productId = getIntent().getIntExtra("productId", 0);
-        myScrollView.MyscrollerView(this);
         initRollView();
         getCarDetail(productId);
+        /*获取评论*/
+        getComments(productId);
+
+        commentAdapter = new CommentAdapter();
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(GoodDetailActivity.this));
+        mRecyclerView.setAdapter(commentAdapter);
+        commentAdapter.addAll(mCommentList);
     }
+
+
 
 
     void resertView(CarDetailRespose returnMsg){
@@ -148,10 +169,6 @@ public class GoodDetailActivity extends BaseActivity implements MyscrollerView.S
 
     }
 
-    @Override
-    public void scroller(int scrollY) {
-
-    }
 
     public void setAlpha(float alpha){
 //            mToolbar.setAlpha(alpha);
@@ -161,6 +178,12 @@ public class GoodDetailActivity extends BaseActivity implements MyscrollerView.S
     private void getCarDetail(int productId) {
         Subscriber subscriber = new PosetSubscriber<CarDetailRespose>().getSubscriber(callbak_cardetail);
         UserManager.getCarDetail(productId, subscriber);
+    }
+
+    /*获取评论*/
+    private void getComments(int productId) {
+        Subscriber subscriber = new PosetSubscriber<CarDetailRespose>().getSubscriber(callbak_comments);
+        UserManager.getCommentList(productId, CURTUNPAGE, subscriber);
     }
 
     ResponseResultListener callbak_cardetail = new ResponseResultListener<CarDetailRespose>() {
@@ -175,4 +198,21 @@ public class GoodDetailActivity extends BaseActivity implements MyscrollerView.S
             LogUtil.E("fialed","fialed");
         }
     };
+
+
+    ResponseResultListener callbak_comments = new ResponseResultListener<CommentResponse>() {
+        @Override
+        public void success(CommentResponse returnMsg) {
+            LogUtil.E("success", "success");
+            mCommentList.addAll(returnMsg.getRows());
+            commentAdapter.clear();
+            commentAdapter.addAll(mCommentList);
+        }
+
+        @Override
+        public void fialed(String resCode, String message) {
+            LogUtil.E("fialed", "fialed");
+        }
+    };
+
 }
