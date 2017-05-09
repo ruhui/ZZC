@@ -9,7 +9,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jude.rollviewpager.RollPagerView;
@@ -35,6 +37,7 @@ import com.zzcar.zzc.views.widget.MyscrollerView;
 import com.zzcar.zzc.views.widget.NavBarDetail;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.greenrobot.eventbus.EventBus;
@@ -57,6 +60,13 @@ public class GoodDetailActivity extends BaseActivity {
 
     @ViewById(R.id.mToolbar)
     NavBarDetail mToolbar;
+    @ViewById(R.id.line)
+    View line;
+    @ViewById(R.id.relaBottom)
+    RelativeLayout relaBottom;
+    @ViewById(R.id.imgRightsdfsd)
+    ImageView imgRight;
+
     @ViewById(R.id.scrollView)
     PullToRefreshScrollView myScrollView;
     @ViewById(R.id.textView17)
@@ -105,6 +115,8 @@ public class GoodDetailActivity extends BaseActivity {
     private List<String> picList = new ArrayList<>();
     PictureAdapter adapter;
     private int CURTUNPAGE = Constant.DEFAULTPAGE;
+    private boolean isFavorate = false;
+
 
     @AfterViews
     void initView(){
@@ -112,6 +124,26 @@ public class GoodDetailActivity extends BaseActivity {
         setAlpha(0f);
         mToolbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
         mToolbar.setTitleName("商品详情");
+
+//        mToolbar.setOnMenuClickListener(new NavBarDetail.OnMenuClickListener() {
+//            @Override
+//            public void onLeftMenuClick(View view) {
+//                super.onLeftMenuClick(view);
+//                finish();
+//            }
+//
+//            @Override
+//            public void onRightMenuClick(View view) {
+//                super.onRightMenuClick(view);
+//                if (isFavorate){
+//                    //已收藏设置为未收藏
+//                    isFavorate = false;
+//                }else{
+//                    isFavorate = true;
+//                }
+//                setImageFavo();
+//            }
+//        });
 
         mContext = this;
         int productId = getIntent().getIntExtra("productId", 0);
@@ -142,6 +174,8 @@ public class GoodDetailActivity extends BaseActivity {
     }
 
     void resertView(CarDetailRespose returnMsg){
+        isFavorate = returnMsg.is_favorte();
+        setImageFavo();
         picList.clear();
         picList.addAll(returnMsg.getImage_path());
         adapter.setPicture(picList);
@@ -187,6 +221,18 @@ public class GoodDetailActivity extends BaseActivity {
         //mRollViewPager.setHintView(null);
     }
 
+    //设置收藏按钮
+    void setImageFavo(){
+        if (isFavorate){
+            mToolbar.setRightMenuIcon(R.drawable.nav_button_shoucang_default);
+            imgRight.setImageResource(R.drawable.nav_button_shoucang_default);
+        }else{
+            mToolbar.setRightMenuIcon(R.drawable.nav_button_shoucang_default_unselect);
+            imgRight.setImageResource(R.drawable.nav_button_shoucang_default_unselect);
+        }
+    }
+
+
     @Override
     public void onNetChange(int netMobile) {
 
@@ -200,6 +246,29 @@ public class GoodDetailActivity extends BaseActivity {
 
     public void setAlpha(float alpha){
         mToolbar.setAlpha(alpha);
+        line.setAlpha(alpha);
+        if (mToolbar.getAlpha() >= 0.8){
+            relaBottom.setVisibility(View.INVISIBLE);
+        }else{
+            relaBottom.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Click(R.id.ivMenuLeft)
+    void leftBtn(){
+        finish();
+    }
+
+    /*收藏*/
+    @Click(R.id.imgRight)
+    void setFaverate(){
+        if (isFavorate){
+            //已收藏设置为未收藏
+            isFavorate = false;
+        }else{
+            isFavorate = true;
+        }
+        setImageFavo();
     }
 
     /*获取商品详情*/

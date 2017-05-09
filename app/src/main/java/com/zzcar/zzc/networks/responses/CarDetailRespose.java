@@ -35,13 +35,14 @@ public class CarDetailRespose {
     private int exp_safe_year;
     private int exp_safe_month;
     private String use_type;
+    private boolean is_favorte;
 
     public CarDetailRespose(int product_id, String name, double market_price, double price, int stock,
                             boolean promotion, List<String> image_path, String create_time, String update_time,
                             String content, int sale_status, MemberModel member, double mileage, int on_number_year,
                             int on_number_month, String car_province_city, String on_number_province_city, String color,
                             String emission, int out_factory_year, int out_factory_month, double new_car_price,
-                            int exp_safe_year, int exp_safe_month, String use_type) {
+                            int exp_safe_year, int exp_safe_month, String use_type, boolean is_favorte) {
         this.product_id = product_id;
         this.name = name;
         this.market_price = market_price;
@@ -67,8 +68,17 @@ public class CarDetailRespose {
         this.exp_safe_year = exp_safe_year;
         this.exp_safe_month = exp_safe_month;
         this.use_type = use_type;
+        this.is_favorte = is_favorte;
     }
 
+
+    public boolean is_favorte() {
+        return is_favorte;
+    }
+
+    public void setIs_favorte(boolean is_favorte) {
+        this.is_favorte = is_favorte;
+    }
 
     public int getProduct_id() {
         return product_id;

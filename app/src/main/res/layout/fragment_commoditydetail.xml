@@ -238,6 +238,58 @@
 
     </com.zzcar.zzc.views.widget.NavBarDetail_>
 
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"
+        android:layout_below="@+id/mToolbar"/>
+
+    <RelativeLayout
+        android:id="@+id/relaBottom"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/ivMenuLeft"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:paddingRight="@dimen/spacing_small"
+            android:paddingLeft="@dimen/spacing_small"
+            android:scaleType="center"
+            android:src="@drawable/nav_icon_lift_default"
+            />
+
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:id="@+id/imgRightsdfsd"
+            android:scaleType="center"
+            android:src="@drawable/nav_button_shoucang_default_unselect"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:textIsSelectable="false"
+            android:text="商品详情"
+            android:textSize="16sp"
+            android:textColor="@color/color_333333"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
 
