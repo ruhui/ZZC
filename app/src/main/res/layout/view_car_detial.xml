@@ -84,78 +84,6 @@
             android:layout_marginLeft="5dp"
             android:background="@color/grey" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/textView27"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginStart="16dp"
-                    android:text="所在地"
-                    android:textColor="#909090"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/textView28"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/textView27"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:text=""
-                    android:textColor="@color/color_333333"
-                    android:textSize="14sp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
-
-                <TextView
-                    android:id="@+id/textView29"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginStart="16dp"
-                    android:text="牌照归属"
-                    android:textColor="#909090"
-                    android:textSize="12sp" />
-
-                <TextView
-                    android:id="@+id/textView30"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/textView29"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:text=""
-                    android:textColor="@color/color_333333"
-                    android:textSize="14sp" />
-            </RelativeLayout>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="5dp"
-            android:background="@color/grey" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -368,6 +296,77 @@
                     android:textColor="@color/color_333333"
                     android:textSize="14sp" />
             </RelativeLayout>
+
+
         </LinearLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/textView27"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:text="所在地"
+                android:textColor="#909090"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/textView28"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/textView27"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:text=""
+                android:textColor="@color/color_333333"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="5dp"
+            android:background="@color/grey" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/textView29"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
+                android:text="牌照归属"
+                android:textColor="#909090"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/textView30"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/textView29"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:text=""
+                android:textColor="@color/color_333333"
+                android:textSize="14sp" />
+        </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

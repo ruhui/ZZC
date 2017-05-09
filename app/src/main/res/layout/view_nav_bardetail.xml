@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="65dp"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/top"
+        android:layout_width="match_parent"
+        android:layout_height="20dp">
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/top">
+
+        <ImageView
+            android:id="@+id/ivMenuLeft"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:paddingRight="@dimen/spacing_small"
+            android:paddingLeft="@dimen/spacing_small"
+            android:scaleType="center"
+            android:src="@drawable/nav_icon_lift_default"
+            />
+
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:id="@+id/imgRight"
+            android:scaleType="center"
+            android:src="@drawable/nav_button_shoucang_default_unselect"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:gravity="center"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:singleLine="true"
+            android:textIsSelectable="false"
+            android:text="标题"
+            android:textSize="16sp"
+            android:textColor="@color/color_333333"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

@@ -20,6 +20,7 @@ import com.zzcar.zzc.adapters.CommentAdapter;
 import com.zzcar.zzc.adapters.PictureAdapter;
 import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
+import com.zzcar.zzc.interfaces.ShowOrHiddenListener;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.CommentModle;
 import com.zzcar.zzc.models.MemberModel;
@@ -31,10 +32,13 @@ import com.zzcar.zzc.utils.LogUtil;
 import com.zzcar.zzc.utils.Tool;
 import com.zzcar.zzc.views.pulltorefresh.PullToRefreshScrollView;
 import com.zzcar.zzc.views.widget.MyscrollerView;
+import com.zzcar.zzc.views.widget.NavBarDetail;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +55,8 @@ public class GoodDetailActivity extends BaseActivity {
     @ViewById(R.id.mRollPagerView)
     RollPagerView mRollViewPager;
 
+    @ViewById(R.id.mToolbar)
+    NavBarDetail mToolbar;
     @ViewById(R.id.scrollView)
     PullToRefreshScrollView myScrollView;
     @ViewById(R.id.textView17)
@@ -102,6 +108,11 @@ public class GoodDetailActivity extends BaseActivity {
 
     @AfterViews
     void initView(){
+        EventBus.getDefault().register(this);
+        setAlpha(0f);
+        mToolbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
+        mToolbar.setTitleName("商品详情");
+
         mContext = this;
         int productId = getIntent().getIntExtra("productId", 0);
         initRollView();
@@ -117,7 +128,18 @@ public class GoodDetailActivity extends BaseActivity {
     }
 
 
-
+    @Subscribe
+    public void onMessageEvent(ShowOrHiddenListener event){
+        int height =mToolbar.getMeasuredHeight();
+        float scrollY = event.height;
+        if (scrollY <= 0){
+            setAlpha(0);
+        }else if(scrollY >= height){
+            setAlpha(1);
+        }else{
+            setAlpha((float) scrollY/height);
+        }
+    }
 
     void resertView(CarDetailRespose returnMsg){
         picList.clear();
@@ -170,9 +192,14 @@ public class GoodDetailActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
     public void setAlpha(float alpha){
-//            mToolbar.setAlpha(alpha);
+        mToolbar.setAlpha(alpha);
     }
 
     /*获取商品详情*/
