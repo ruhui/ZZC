@@ -111,6 +111,7 @@ public class GoodDetailActivity extends BaseActivity {
 
         commentAdapter = new CommentAdapter();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(GoodDetailActivity.this));
+        mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setAdapter(commentAdapter);
         commentAdapter.addAll(mCommentList);
     }

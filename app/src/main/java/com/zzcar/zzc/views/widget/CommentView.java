@@ -70,7 +70,7 @@ public class CommentView extends LinearLayout {
 
         txtTime.setText(Tool.getTimeFormat(commentModle.getCreate_time()));
 
-        ImageStrandAdapter adapter = new ImageStrandAdapter(mContext);
+        ImageStrandAdapter adapter = new ImageStrandAdapter(mContext, commentModle.getImage_path());
         mRecyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
         mRecyclerView.setAdapter(adapter);
         adapter.addAll(commentModle.getImage_path());

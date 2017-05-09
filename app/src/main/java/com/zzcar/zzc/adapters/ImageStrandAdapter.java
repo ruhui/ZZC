@@ -12,7 +12,9 @@ import com.zzcar.zzc.utils.Tool;
 import com.zzcar.zzc.views.widget.ItemImageView;
 import com.zzcar.zzc.views.widget.ItemImageView_;
 
+import java.io.Serializable;
 import java.net.URL;
+import java.util.List;
 
 import uk.co.senab.photoview.PhotoView;
 
@@ -24,9 +26,11 @@ import uk.co.senab.photoview.PhotoView;
 public class ImageStrandAdapter extends BaseRecyclerAdapter<String, ItemImageView> {
 
     private Context mContext;
+    private List<String> imagepath;
 
-    public ImageStrandAdapter(Context mContext){
+    public ImageStrandAdapter(Context mContext, List<String> image_path){
         this.mContext = mContext;
+        this.imagepath = image_path;
     }
 
     @Override
@@ -35,16 +39,15 @@ public class ImageStrandAdapter extends BaseRecyclerAdapter<String, ItemImageVie
     }
 
     @Override
-    protected void onBindView(ItemImageView itemView, String picture, int position) {
+    protected void onBindView(ItemImageView itemView, String picture, final int position) {
         itemView.bind(picture, 100, 73);
-        final String pictureurl = Tool.getPicUrl(mContext, picture, 300, 200);
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, ShowPhotoAcitivity_.class);
-                intent.putExtra("imagePath", pictureurl);
+                intent.putExtra("imagepathList", (Serializable) imagepath);
+                intent.putExtra("position", position);
                 mContext.startActivity(intent);
-//                photoView.setImageURI(new uri(pictureurl));
             }
         });
     }
