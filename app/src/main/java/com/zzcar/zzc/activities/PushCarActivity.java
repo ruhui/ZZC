@@ -108,7 +108,7 @@ public class PushCarActivity extends BaseActivity {
     private TimePickerView pvTimelimitTime;
     private int REQ_CODE_CAMERA = 10125;
     /*照相机返回的路径*/
-    private  File tempfile;
+    private File tempfile;
 
     @AfterViews
     void initView(){

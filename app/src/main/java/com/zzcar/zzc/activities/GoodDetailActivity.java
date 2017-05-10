@@ -1,7 +1,12 @@
 package com.zzcar.zzc.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -15,22 +20,28 @@ import com.jude.rollviewpager.hintview.ColorPointHintView;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
 import com.zzcar.zzc.adapters.CommentAdapter;
+import com.zzcar.zzc.adapters.PhotoAdapte;
 import com.zzcar.zzc.adapters.PictureAdapter;
 import com.zzcar.zzc.constants.Constant;
+import com.zzcar.zzc.constants.Permission;
 import com.zzcar.zzc.interfaces.CommentListener;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.interfaces.ShowOrHiddenListener;
+import com.zzcar.zzc.manager.PermissonManager;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.CommentModle;
+import com.zzcar.zzc.models.ImageList;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.responses.CarDetailRespose;
 import com.zzcar.zzc.networks.responses.CommentResponse;
 import com.zzcar.zzc.utils.ImageLoader;
 import com.zzcar.zzc.utils.LogUtil;
+import com.zzcar.zzc.utils.PermissionUtili;
 import com.zzcar.zzc.utils.Tool;
 import com.zzcar.zzc.views.pulltorefresh.PullToRefreshScrollView;
 import com.zzcar.zzc.views.widget.NavBarDetail;
 import com.zzcar.zzc.views.widget.dialogs.CommentDialog;
+import com.zzcar.zzc.views.widget.dialogs.TakePhotoDialog;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -39,9 +50,14 @@ import org.androidannotations.annotations.ViewById;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
+import me.iwf.photopicker.PhotoPicker;
 import rx.Subscriber;
 
 /**
@@ -103,6 +119,8 @@ public class GoodDetailActivity extends BaseActivity {
     TextView safeDes;
     @ViewById(R.id.mRecyclerView)
     RecyclerView mRecyclerView;
+    @ViewById(R.id.mPictureRecycleView)
+    RecyclerView mPictureRecycleView;
 
     private CommentAdapter commentAdapter;
     private List<CommentModle> mCommentList = new ArrayList<>();
@@ -115,6 +133,12 @@ public class GoodDetailActivity extends BaseActivity {
 
     private CommentDialog dialog;
 
+    private int REQ_CODE_CAMERA = 10125;
+    /*照相机返回的路径*/
+    private File tempfile;
+    /*获取图片列表*/
+    private ArrayList<String> photos = new ArrayList<>();
+    private PhotoAdapte adapterphoto;
 
     @AfterViews
     void initView(){
@@ -122,6 +146,9 @@ public class GoodDetailActivity extends BaseActivity {
         setAlpha(0f);
         mToolbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
         mToolbar.setTitleName("商品详情");
+
+        mPictureRecycleView.setLayoutManager(new GridLayoutManager(GoodDetailActivity.this, 3));
+        mPictureRecycleView.setAdapter(adapterphoto = new PhotoAdapte(GoodDetailActivity.this, photos, itemClickListener));
 
 //        mToolbar.setOnMenuClickListener(new NavBarDetail.OnMenuClickListener() {
 //            @Override
@@ -230,6 +257,44 @@ public class GoodDetailActivity extends BaseActivity {
         }
     }
 
+    /*最终拿到的图片*/
+    PhotoAdapte.ItemClickListener itemClickListener = new PhotoAdapte.ItemClickListener() {
+        @Override
+        public void itemListener() {
+
+        }
+
+        @Override
+        public void imgbackListener(List<String> imgList) {
+            //拿到图片，并设置图
+            List<String> listPath = new ArrayList<>();
+            for (String imgPath : imgList){
+                ImageList imageList = new ImageList(imgPath);
+                listPath.add(imageList.getPath());
+            }
+            //上传评论
+
+        }
+    };
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null){
+            if (resultCode == getActivity().RESULT_OK && requestCode == PhotoPicker.REQUEST_CODE){
+                showProgress();
+                photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
+                adapterphoto.setData(photos);
+            }
+        }else  if (requestCode==REQ_CODE_CAMERA) {
+            showProgress();
+            String imgPath = tempfile.getPath();
+            photos.add(imgPath);
+            adapterphoto.setData(photos);
+        }
+    }
+
 
     @Override
     public void onNetChange(int netMobile) {
@@ -279,6 +344,16 @@ public class GoodDetailActivity extends BaseActivity {
             if (dialog != null && dialog.isShowing()){
                 dialog.dismiss();
             }
+            String[] permission = new String[]{Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE};
+            boolean checked =  PermissionUtili.checkPermission(getActivity(), permission, "需要设置手机权限",
+                    "需要使用相机和读取相册权限，请到设置中设置应用权限。");
+            if (checked){
+                tempfile = getFilePath();
+                Uri Imagefile = Uri.fromFile(tempfile);
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Imagefile);
+                startActivityForResult(cameraIntent, REQ_CODE_CAMERA);
+            }
         }
 
         @Override
@@ -287,9 +362,36 @@ public class GoodDetailActivity extends BaseActivity {
             if (dialog != null && dialog.isShowing()){
                 dialog.dismiss();
             }
+            String[] permission = new String[]{Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE};
+            boolean checked =  PermissionUtili.checkPermission(getActivity(), permission, "需要设置手机权限",
+                    "需要使用相机和读取相册权限，请到设置中设置应用权限。");
+            if (checked){
+                //相册
+                PermissonManager permissonManager = new PermissonManager(GoodDetailActivity.this);
+                permissonManager.lacksPermissions();
+                PhotoPicker.builder()
+                        .setPhotoCount(9)
+                        .setShowCamera(false)
+                        .setShowGif(false)
+                        .setPreviewEnabled(false)
+                        .setSelected(photos)
+                        .start(getActivity(), PhotoPicker.REQUEST_CODE);
+            }
         }
     };
 
+    /*返回定义的相册路径*/
+    private File getFilePath() {
+        File DatalDir = Environment.getExternalStorageDirectory();
+        File myDir = new File(DatalDir, "/DCIM/Camera");
+        myDir.mkdirs();
+        String mDirectoryname = DatalDir.toString() + "/DCIM/Camera";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-hhmmss", Locale.SIMPLIFIED_CHINESE);
+        File tempfile = new File(mDirectoryname, sdf.format(new Date()) + ".jpg");
+        if (tempfile.isFile())
+            tempfile.delete();
+        return tempfile;
+    }
 
     /*收藏*/
     @Click(R.id.imgRight)
