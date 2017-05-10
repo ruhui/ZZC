@@ -11,7 +11,9 @@
     <com.zzcar.zzc.views.pulltorefresh.PullToRefreshScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/line9"
+        android:layout_alignParentTop="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -169,7 +171,7 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginRight="15dp"/>
             </RelativeLayout>
-            
+
             <include
                 layout="@layout/view_car_detial"
                 android:id="@+id/includeView"/>
@@ -217,12 +219,57 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:saveEnabled="false"
                 android:background="@color/white">
 
             </android.support.v7.widget.RecyclerView>
+
         </LinearLayout>
     </com.zzcar.zzc.views.pulltorefresh.PullToRefreshScrollView>
 
+
+    <View
+        android:id="@+id/line9"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        android:layout_above="@+id/linearLayout3"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout3">
+
+        <TextView
+            android:id="@+id/editTextlog"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:hint="咨询点什么吧..."
+            android:paddingLeft="10dp"
+            android:textSize="13sp"
+            android:gravity="center|left"
+            android:background="@drawable/shape_grey_radio"
+            />
+
+        <TextView
+            android:id="@+id/btnBuy"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:text="购买"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:background="@drawable/shape_red_radio"/>
+
+    </LinearLayout>
 
     <com.zzcar.zzc.views.widget.NavBarDetail_
         android:id="@+id/mToolbar"
@@ -242,7 +289,7 @@
         android:id="@+id/line"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/gray"
+        android:background="@color/grey"
         android:layout_below="@+id/mToolbar"/>
 
     <RelativeLayout

@@ -1,11 +1,7 @@
 package com.zzcar.zzc.activities;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -21,11 +17,11 @@ import com.zzcar.zzc.activities.base.BaseActivity;
 import com.zzcar.zzc.adapters.CommentAdapter;
 import com.zzcar.zzc.adapters.PictureAdapter;
 import com.zzcar.zzc.constants.Constant;
+import com.zzcar.zzc.interfaces.CommentListener;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.interfaces.ShowOrHiddenListener;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.CommentModle;
-import com.zzcar.zzc.models.MemberModel;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.responses.CarDetailRespose;
 import com.zzcar.zzc.networks.responses.CommentResponse;
@@ -33,8 +29,8 @@ import com.zzcar.zzc.utils.ImageLoader;
 import com.zzcar.zzc.utils.LogUtil;
 import com.zzcar.zzc.utils.Tool;
 import com.zzcar.zzc.views.pulltorefresh.PullToRefreshScrollView;
-import com.zzcar.zzc.views.widget.MyscrollerView;
 import com.zzcar.zzc.views.widget.NavBarDetail;
+import com.zzcar.zzc.views.widget.dialogs.CommentDialog;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -116,6 +112,8 @@ public class GoodDetailActivity extends BaseActivity {
     PictureAdapter adapter;
     private int CURTUNPAGE = Constant.DEFAULTPAGE;
     private boolean isFavorate = false;
+
+    private CommentDialog dialog;
 
 
     @AfterViews
@@ -258,6 +256,40 @@ public class GoodDetailActivity extends BaseActivity {
     void leftBtn(){
         finish();
     }
+
+    @Click(R.id.editTextlog)
+    void showCommentDialog(){
+        dialog = new CommentDialog(GoodDetailActivity.this, commentListener);
+        dialog.show();
+    }
+
+
+    CommentListener commentListener = new CommentListener() {
+        @Override
+        public void send(String content) {
+            //发送消息
+            if (dialog != null && dialog.isShowing()){
+                dialog.dismiss();
+            }
+        }
+
+        @Override
+        public void camera(String content) {
+            //拍照
+            if (dialog != null && dialog.isShowing()){
+                dialog.dismiss();
+            }
+        }
+
+        @Override
+        public void photo(String content) {
+            //获取相册
+            if (dialog != null && dialog.isShowing()){
+                dialog.dismiss();
+            }
+        }
+    };
+
 
     /*收藏*/
     @Click(R.id.imgRight)

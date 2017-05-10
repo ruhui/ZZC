@@ -38,6 +38,15 @@
         <item name="android:windowExitAnimation">@anim/menuhide</item>
     </style>
 
+    <style name="MyDialogTheme3" parent="@android:style/Theme.Holo.Light">
+        <item name="android:windowFrame">@null</item><!-- 边框 -->
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item><!-- 外部变灰 -->
+        <item name="android:windowContentOverlay">@null</item><!-- 内部阴影 -->
+        <item name="android:windowAnimationStyle">@style/dialog_animation</item>
+    </style>
+
     <style name="MyDialogTheme" parent="@android:style/Theme.Holo.Light">
         <item name="android:windowFrame">@null</item><!-- 边框 -->
         <item name="android:windowNoTitle">true</item>
