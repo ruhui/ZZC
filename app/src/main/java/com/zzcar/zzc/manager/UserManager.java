@@ -10,6 +10,7 @@ import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.ZZCHeaders;
 import com.zzcar.zzc.networks.requests.LoginRequest;
 import com.zzcar.zzc.networks.requests.ParametersRequest;
+import com.zzcar.zzc.networks.requests.SaveCommentRequest;
 import com.zzcar.zzc.networks.requests.SearchRequest;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
@@ -475,5 +476,28 @@ public class UserManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
         add("getCommentList", subscription);
+    }
+
+    /**
+     * 保存评价
+     * @param product_id 商品id
+     * @param at_id
+     * @param content
+     * @param image_path
+     * @param subscriber
+     */
+    public static void saveComment(int product_id, int at_id, String content, List<String> image_path, Subscriber<ResponseParent<Boolean>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("saveComment");
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        SaveCommentRequest saveCommentRequest = new SaveCommentRequest(product_id, at_id, content, image_path);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, saveCommentRequest);
+        Subscription subscription = ApiClient.getApiService().savecomment(saveCommentRequest, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("saveComment", subscription);
     }
 }

@@ -4,6 +4,7 @@ import com.zzcar.zzc.models.AddCarFrom;
 import com.zzcar.zzc.models.AddressModel;
 import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.requests.LoginRequest;
+import com.zzcar.zzc.networks.requests.SaveCommentRequest;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.networks.responses.CarDetailRespose;
@@ -117,4 +118,8 @@ public interface ZZCService {
    /*评论列表*/
    @GET("goods/comments")
    Observable<ResponseParent<CommentResponse>> getcomments(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+
+    /*添加评论*/
+    @POST("goods/save_comment")
+    Observable<ResponseParent<Boolean>> savecomment(@Body SaveCommentRequest saveComment, @HeaderMap Map<String, String> header);
 }

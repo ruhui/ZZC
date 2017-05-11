@@ -37,6 +37,7 @@ import com.zzcar.zzc.networks.responses.CommentResponse;
 import com.zzcar.zzc.utils.ImageLoader;
 import com.zzcar.zzc.utils.LogUtil;
 import com.zzcar.zzc.utils.PermissionUtili;
+import com.zzcar.zzc.utils.ToastUtil;
 import com.zzcar.zzc.utils.Tool;
 import com.zzcar.zzc.views.pulltorefresh.PullToRefreshScrollView;
 import com.zzcar.zzc.views.widget.NavBarDetail;
@@ -122,6 +123,12 @@ public class GoodDetailActivity extends BaseActivity {
     @ViewById(R.id.mPictureRecycleView)
     RecyclerView mPictureRecycleView;
 
+    /*商品id*/
+    private int productId;
+    /*at的id*/
+    private int atid;
+    /*评论的内容*/
+    private String commentContent;
     private CommentAdapter commentAdapter;
     private List<CommentModle> mCommentList = new ArrayList<>();
 
@@ -146,7 +153,7 @@ public class GoodDetailActivity extends BaseActivity {
         setAlpha(0f);
         mToolbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
         mToolbar.setTitleName("商品详情");
-
+        mPictureRecycleView.setVisibility(View.INVISIBLE);
         mPictureRecycleView.setLayoutManager(new GridLayoutManager(GoodDetailActivity.this, 3));
         mPictureRecycleView.setAdapter(adapterphoto = new PhotoAdapte(GoodDetailActivity.this, photos, itemClickListener));
 
@@ -171,14 +178,22 @@ public class GoodDetailActivity extends BaseActivity {
 //        });
 
         mContext = this;
-        int productId = getIntent().getIntExtra("productId", 0);
+        productId = getIntent().getIntExtra("productId", 0);
         initRollView();
         getCarDetail(productId);
         /*获取评论*/
         getComments(productId);
 
         commentAdapter = new CommentAdapter();
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(GoodDetailActivity.this));
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(GoodDetailActivity.this,
+                LinearLayoutManager.VERTICAL, false) {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
+        mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setAdapter(commentAdapter);
         commentAdapter.addAll(mCommentList);
@@ -273,9 +288,11 @@ public class GoodDetailActivity extends BaseActivity {
                 listPath.add(imageList.getPath());
             }
             //上传评论
-
+            saveComment();
         }
     };
+
+
 
 
     @Override
@@ -333,14 +350,18 @@ public class GoodDetailActivity extends BaseActivity {
         @Override
         public void send(String content) {
             //发送消息
+            commentContent = content;
+            saveComment();
             if (dialog != null && dialog.isShowing()){
                 dialog.dismiss();
             }
+
         }
 
         @Override
         public void camera(String content) {
             //拍照
+            commentContent = content;
             if (dialog != null && dialog.isShowing()){
                 dialog.dismiss();
             }
@@ -358,6 +379,7 @@ public class GoodDetailActivity extends BaseActivity {
 
         @Override
         public void photo(String content) {
+            commentContent = content;
             //获取相册
             if (dialog != null && dialog.isShowing()){
                 dialog.dismiss();
@@ -417,6 +439,12 @@ public class GoodDetailActivity extends BaseActivity {
         UserManager.getCommentList(productId, CURTUNPAGE, subscriber);
     }
 
+    /*上传评论*/
+    private void saveComment() {
+        Subscriber subscriber = new PosetSubscriber<Boolean>().getSubscriber(callbak_savecomment);
+        UserManager.saveComment(productId, atid, commentContent, photos, subscriber);
+    }
+
     ResponseResultListener callbak_cardetail = new ResponseResultListener<CarDetailRespose>() {
         @Override
         public void success(CarDetailRespose returnMsg) {
@@ -435,6 +463,7 @@ public class GoodDetailActivity extends BaseActivity {
         @Override
         public void success(CommentResponse returnMsg) {
             LogUtil.E("success", "success");
+            closeProgress();
             mCommentList.addAll(returnMsg.getRows());
             commentAdapter.clear();
             commentAdapter.addAll(mCommentList);
@@ -442,7 +471,28 @@ public class GoodDetailActivity extends BaseActivity {
 
         @Override
         public void fialed(String resCode, String message) {
+            closeProgress();
             LogUtil.E("fialed", "fialed");
+        }
+    };
+
+    /*新增评论*/
+    ResponseResultListener callbak_savecomment = new ResponseResultListener<Boolean>() {
+        @Override
+        public void success(Boolean returnMsg) {
+            commentContent = "";
+            if (returnMsg){
+                ToastUtil.showToast("评论成功");
+                showProgress();
+                 /*获取评论*/
+                getComments(productId);
+            }
+        }
+
+        @Override
+        public void fialed(String resCode, String message) {
+            commentContent = "";
+            ToastUtil.showToast("评论失败");
         }
     };
 
