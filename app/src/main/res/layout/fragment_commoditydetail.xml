@@ -7,13 +7,6 @@
     android:layout_height="match_parent"
     android:background="@color/grey">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/mPictureRecycleView"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:visibility="invisible">
-
-    </android.support.v7.widget.RecyclerView>
 
     <com.zzcar.zzc.views.pulltorefresh.PullToRefreshScrollView
         android:id="@+id/scrollView"

@@ -36,14 +36,14 @@ public class CommentDialog extends Dialog {
     private Context mContext;
     private CommentListener commentListener;
     private boolean selectPhotoshow = false;
+    private String atMenber = "";
 
-
-    public CommentDialog(Context context, CommentListener commentListener) {
+    public CommentDialog(Context context, String atMenber, CommentListener commentListener) {
         super(context,  R.style.MyDialogTheme3);
         mContext = context;
         this.commentListener = commentListener;
+        this.atMenber = atMenber;
     }
-
 
 
     @Override
@@ -57,6 +57,9 @@ public class CommentDialog extends Dialog {
         editText = (EditText) findViewById(R.id.editText);
         selectPhoto = (RelativeLayout) findViewById(R.id.selectPhoto);
         selectPhoto.setVisibility(View.GONE);
+
+        editText.setText(atMenber);
+        editText.setSelection(atMenber.length());
 
         editText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +87,9 @@ public class CommentDialog extends Dialog {
                         if (TextUtils.isEmpty(content)){
                             ToastUtil.showToast("请输入内容");
                         }else{
+                            if (!TextUtils.isEmpty(atMenber)){
+                                content = content.substring(content.indexOf(atMenber)+atMenber.length());
+                            }
                             commentListener.send(content);
                             Tool.hideInputMethod(mContext, editText);
                             dismiss();
@@ -102,6 +108,9 @@ public class CommentDialog extends Dialog {
             @Override
             public void onClick(View view) {
                 String content = editText.getText().toString();
+                if (!TextUtils.isEmpty(atMenber)){
+                    content = content.substring(content.indexOf(atMenber)+atMenber.length());
+                }
                 commentListener.photo(content);
             }
         });
@@ -110,6 +119,9 @@ public class CommentDialog extends Dialog {
             @Override
             public void onClick(View view) {
                 String content = editText.getText().toString();
+                if (!TextUtils.isEmpty(atMenber)){
+                    content = content.substring(content.indexOf(atMenber)+atMenber.length());
+                }
                 commentListener.camera(content);
             }
         });

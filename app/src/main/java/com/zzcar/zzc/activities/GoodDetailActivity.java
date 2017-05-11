@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.jude.rollviewpager.RollPagerView;
@@ -24,7 +26,9 @@ import com.zzcar.zzc.adapters.PhotoAdapte;
 import com.zzcar.zzc.adapters.PictureAdapter;
 import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.constants.Permission;
+import com.zzcar.zzc.interfaces.AdapterListener;
 import com.zzcar.zzc.interfaces.CommentListener;
+import com.zzcar.zzc.interfaces.ImageUploadListener;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.interfaces.ShowOrHiddenListener;
 import com.zzcar.zzc.manager.PermissonManager;
@@ -32,6 +36,8 @@ import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.CommentModle;
 import com.zzcar.zzc.models.ImageList;
 import com.zzcar.zzc.networks.PosetSubscriber;
+import com.zzcar.zzc.networks.UploadFile;
+import com.zzcar.zzc.networks.UploadFileWithoutLoding;
 import com.zzcar.zzc.networks.responses.CarDetailRespose;
 import com.zzcar.zzc.networks.responses.CommentResponse;
 import com.zzcar.zzc.utils.ImageLoader;
@@ -39,6 +45,7 @@ import com.zzcar.zzc.utils.LogUtil;
 import com.zzcar.zzc.utils.PermissionUtili;
 import com.zzcar.zzc.utils.ToastUtil;
 import com.zzcar.zzc.utils.Tool;
+import com.zzcar.zzc.views.pulltorefresh.PullToRefreshBase;
 import com.zzcar.zzc.views.pulltorefresh.PullToRefreshScrollView;
 import com.zzcar.zzc.views.widget.NavBarDetail;
 import com.zzcar.zzc.views.widget.dialogs.CommentDialog;
@@ -120,13 +127,11 @@ public class GoodDetailActivity extends BaseActivity {
     TextView safeDes;
     @ViewById(R.id.mRecyclerView)
     RecyclerView mRecyclerView;
-    @ViewById(R.id.mPictureRecycleView)
-    RecyclerView mPictureRecycleView;
 
     /*商品id*/
     private int productId;
     /*at的id*/
-    private int atid;
+    private String atid = null;
     /*评论的内容*/
     private String commentContent;
     private CommentAdapter commentAdapter;
@@ -137,7 +142,8 @@ public class GoodDetailActivity extends BaseActivity {
     PictureAdapter adapter;
     private int CURTUNPAGE = Constant.DEFAULTPAGE;
     private boolean isFavorate = false;
-
+    /*保存返回的图片路径*/
+    private List<String> successPath = new ArrayList<>();
     private CommentDialog dialog;
 
     private int REQ_CODE_CAMERA = 10125;
@@ -145,37 +151,15 @@ public class GoodDetailActivity extends BaseActivity {
     private File tempfile;
     /*获取图片列表*/
     private ArrayList<String> photos = new ArrayList<>();
-    private PhotoAdapte adapterphoto;
 
     @AfterViews
     void initView(){
+        myScrollView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
+
         EventBus.getDefault().register(this);
         setAlpha(0f);
         mToolbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
         mToolbar.setTitleName("商品详情");
-        mPictureRecycleView.setVisibility(View.INVISIBLE);
-        mPictureRecycleView.setLayoutManager(new GridLayoutManager(GoodDetailActivity.this, 3));
-        mPictureRecycleView.setAdapter(adapterphoto = new PhotoAdapte(GoodDetailActivity.this, photos, itemClickListener));
-
-//        mToolbar.setOnMenuClickListener(new NavBarDetail.OnMenuClickListener() {
-//            @Override
-//            public void onLeftMenuClick(View view) {
-//                super.onLeftMenuClick(view);
-//                finish();
-//            }
-//
-//            @Override
-//            public void onRightMenuClick(View view) {
-//                super.onRightMenuClick(view);
-//                if (isFavorate){
-//                    //已收藏设置为未收藏
-//                    isFavorate = false;
-//                }else{
-//                    isFavorate = true;
-//                }
-//                setImageFavo();
-//            }
-//        });
 
         mContext = this;
         productId = getIntent().getIntExtra("productId", 0);
@@ -184,7 +168,7 @@ public class GoodDetailActivity extends BaseActivity {
         /*获取评论*/
         getComments(productId);
 
-        commentAdapter = new CommentAdapter();
+        commentAdapter = new CommentAdapter(adapterListener);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(GoodDetailActivity.this,
                 LinearLayoutManager.VERTICAL, false) {
@@ -194,10 +178,30 @@ public class GoodDetailActivity extends BaseActivity {
             }
         };
         mRecyclerView.setLayoutManager(linearLayoutManager);
-        mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setAdapter(commentAdapter);
         commentAdapter.addAll(mCommentList);
+
+        myScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
+            @Override
+            public void onRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                if (refreshView.getMode() == PullToRefreshBase.Mode.PULL_FROM_END){
+                    CURTUNPAGE++;
+                    getComments(productId);
+                }
+            }
+        });
     }
+
+    /*评论的点击行*/
+    AdapterListener adapterListener = new AdapterListener<CommentModle>() {
+        @Override
+        public void setOnItemListener(CommentModle commentModle, int position) {
+            //如果是自己的评论，则删除
+            atid = commentModle.getUser_id() + "";
+            dialog = new CommentDialog(GoodDetailActivity.this, "@"+commentModle.getMember().getNick(), commentListener);
+            dialog.show();
+        }
+    };
 
 
     @Subscribe
@@ -272,29 +276,6 @@ public class GoodDetailActivity extends BaseActivity {
         }
     }
 
-    /*最终拿到的图片*/
-    PhotoAdapte.ItemClickListener itemClickListener = new PhotoAdapte.ItemClickListener() {
-        @Override
-        public void itemListener() {
-
-        }
-
-        @Override
-        public void imgbackListener(List<String> imgList) {
-            //拿到图片，并设置图
-            List<String> listPath = new ArrayList<>();
-            for (String imgPath : imgList){
-                ImageList imageList = new ImageList(imgPath);
-                listPath.add(imageList.getPath());
-            }
-            //上传评论
-            saveComment();
-        }
-    };
-
-
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -302,15 +283,32 @@ public class GoodDetailActivity extends BaseActivity {
             if (resultCode == getActivity().RESULT_OK && requestCode == PhotoPicker.REQUEST_CODE){
                 showProgress();
                 photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
-                adapterphoto.setData(photos);
             }
         }else  if (requestCode==REQ_CODE_CAMERA) {
             showProgress();
             String imgPath = tempfile.getPath();
             photos.add(imgPath);
-            adapterphoto.setData(photos);
+        }
+        if (photos.size() > 0){
+            for (String imgpath : photos){
+                new UploadFileWithoutLoding(uploadListener).execute(imgpath);
+            }
         }
     }
+
+    ImageUploadListener uploadListener = new ImageUploadListener(){
+
+        @Override
+        public void finishLoading(String imgPath) {
+            successPath.add(imgPath);
+            if (photos.size() <= successPath.size()){
+                //上传评论
+                CURTUNPAGE = Constant.DEFAULTPAGE;
+                mCommentList.clear();
+                saveComment();
+            }
+        }
+    };
 
 
     @Override
@@ -341,7 +339,7 @@ public class GoodDetailActivity extends BaseActivity {
 
     @Click(R.id.editTextlog)
     void showCommentDialog(){
-        dialog = new CommentDialog(GoodDetailActivity.this, commentListener);
+        dialog = new CommentDialog(GoodDetailActivity.this, "", commentListener);
         dialog.show();
     }
 
@@ -351,6 +349,8 @@ public class GoodDetailActivity extends BaseActivity {
         public void send(String content) {
             //发送消息
             commentContent = content;
+            CURTUNPAGE = Constant.DEFAULTPAGE;
+            mCommentList.clear();
             saveComment();
             if (dialog != null && dialog.isShowing()){
                 dialog.dismiss();
@@ -424,6 +424,7 @@ public class GoodDetailActivity extends BaseActivity {
         }else{
             isFavorate = true;
         }
+        saveFavorite();
         setImageFavo();
     }
 
@@ -439,10 +440,16 @@ public class GoodDetailActivity extends BaseActivity {
         UserManager.getCommentList(productId, CURTUNPAGE, subscriber);
     }
 
+    /*取消或者添加收藏*/
+    private void saveFavorite() {
+        Subscriber subscriber = new PosetSubscriber<Integer>().getSubscriber(callbak_savefavorte);
+        UserManager.savefavorte(productId, subscriber);
+    }
+
     /*上传评论*/
     private void saveComment() {
         Subscriber subscriber = new PosetSubscriber<Boolean>().getSubscriber(callbak_savecomment);
-        UserManager.saveComment(productId, atid, commentContent, photos, subscriber);
+        UserManager.saveComment(productId, atid, commentContent, successPath, subscriber);
     }
 
     ResponseResultListener callbak_cardetail = new ResponseResultListener<CarDetailRespose>() {
@@ -464,6 +471,7 @@ public class GoodDetailActivity extends BaseActivity {
         public void success(CommentResponse returnMsg) {
             LogUtil.E("success", "success");
             closeProgress();
+            myScrollView.onRefreshComplete();
             mCommentList.addAll(returnMsg.getRows());
             commentAdapter.clear();
             commentAdapter.addAll(mCommentList);
@@ -481,6 +489,8 @@ public class GoodDetailActivity extends BaseActivity {
         @Override
         public void success(Boolean returnMsg) {
             commentContent = "";
+            successPath.clear();
+            atid = null;
             if (returnMsg){
                 ToastUtil.showToast("评论成功");
                 showProgress();
@@ -492,7 +502,35 @@ public class GoodDetailActivity extends BaseActivity {
         @Override
         public void fialed(String resCode, String message) {
             commentContent = "";
+            successPath.clear();
+            atid = null;
+            closeProgress();
             ToastUtil.showToast("评论失败");
+        }
+    };
+
+    /*收藏*/
+    ResponseResultListener callbak_savefavorte = new ResponseResultListener<Integer>() {
+        @Override
+        public void success(Integer returnMsg) {
+            LogUtil.E("success", "success");
+            if (isFavorate){
+                ToastUtil.showToast("收藏成功");
+            }else{
+                ToastUtil.showToast("取消成功");
+            }
+
+        }
+
+        @Override
+        public void fialed(String resCode, String message) {
+            LogUtil.E("success", "success");
+            if (isFavorate){
+                ToastUtil.showToast("收藏失败");
+            }else{
+                ToastUtil.showToast("取消失败");
+            }
+
         }
     };
 

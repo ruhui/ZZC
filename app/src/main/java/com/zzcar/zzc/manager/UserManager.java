@@ -10,6 +10,7 @@ import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.ZZCHeaders;
 import com.zzcar.zzc.networks.requests.LoginRequest;
 import com.zzcar.zzc.networks.requests.ParametersRequest;
+import com.zzcar.zzc.networks.requests.ProduceIdResquest;
 import com.zzcar.zzc.networks.requests.SaveCommentRequest;
 import com.zzcar.zzc.networks.requests.SearchRequest;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
@@ -486,7 +487,7 @@ public class UserManager {
      * @param image_path
      * @param subscriber
      */
-    public static void saveComment(int product_id, int at_id, String content, List<String> image_path, Subscriber<ResponseParent<Boolean>> subscriber){
+    public static void saveComment(int product_id, String at_id, String content, List<String> image_path, Subscriber<ResponseParent<Boolean>> subscriber){
          /* 防止多次点击 */
         cancelTagandRemove("saveComment");
         String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
@@ -500,4 +501,24 @@ public class UserManager {
                 .subscribe(subscriber);
         add("saveComment", subscription);
     }
+
+
+    /**
+     * 取消或者添加收藏
+     * @param product_id
+     * @param subscriber
+     */
+    public static void savefavorte(int product_id, Subscriber<ResponseParent<Integer>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        ProduceIdResquest saveCommentRequest = new ProduceIdResquest(product_id);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, saveCommentRequest);
+        Subscription subscription = ApiClient.getApiService().savefavorte(saveCommentRequest, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+
 }

@@ -22,16 +22,11 @@ import java.util.List;
  * 作者：黄如辉  时间 2017/5/4.
  */
 
-public class UploadFile extends AsyncTask<String, Integer, String> {
+public class UploadFileWithoutLoding extends AsyncTask<String, Integer, String> {
 
-    private LoadingProgressImageView progressView;
-    private List<String> successPath;
     private ImageUploadListener uploadListener;
 
-    public UploadFile(LoadingProgressImageView progressView, List<String> successPath,
-                      ImageUploadListener uploadListener) {
-        this.progressView = progressView;
-        this.successPath = successPath;
+    public UploadFileWithoutLoding(ImageUploadListener uploadListener) {
         this.uploadListener = uploadListener;
     }
 
@@ -49,7 +44,6 @@ public class UploadFile extends AsyncTask<String, Integer, String> {
     @Override
     protected void onProgressUpdate(Integer... values) {
         //显示进度
-        progressView.setProgress(values[0]);
     }
 
     @Override

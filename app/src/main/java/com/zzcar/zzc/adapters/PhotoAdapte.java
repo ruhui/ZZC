@@ -58,8 +58,8 @@ public class PhotoAdapte extends RecyclerView.Adapter<PhotoAdapte.ViewHold> {
                 String imgpath = mList.get(position);
                 holder.progressView.setVisibility(View.VISIBLE);
                 ImageLoader.loadImage(imgpath, holder.picImg);
-//                UploadFile uploadimg = new UploadFile(holder.progressView, successPath, uploadListener);
-//                uploadimg.execute(imgpath);
+                UploadFile uploadimg = new UploadFile(holder.progressView, successPath, uploadListener);
+                uploadimg.execute(imgpath);
             }else{
                 if (position == mList.size()){
                     holder.picImg.setImageResource(R.drawable.ic_image);
@@ -68,8 +68,8 @@ public class PhotoAdapte extends RecyclerView.Adapter<PhotoAdapte.ViewHold> {
                     String imgpath = mList.get(position);
                     ImageLoader.loadImage(imgpath, holder.picImg);
                     holder.progressView.setVisibility(View.VISIBLE);
-//                    UploadFile uploadimg = new UploadFile(holder.progressView, successPath, uploadListener);
-//                    uploadimg.execute(imgpath);
+                    UploadFile uploadimg = new UploadFile(holder.progressView, successPath, uploadListener);
+                    uploadimg.execute(imgpath);
                 }
             }
         }
