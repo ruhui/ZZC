@@ -12,6 +12,7 @@ import com.zzcar.zzc.R;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.networks.PosetSubscriber;
+import com.zzcar.zzc.networks.UploadFileWithoutLoding;
 import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.utils.ToastUtil;
 import com.zzcar.zzc.views.widget.NavBar2;
@@ -37,8 +38,9 @@ public class NickChangeAcitivity extends AppCompatActivity {
     @AfterViews
     void initView(){
         value = getIntent().getStringExtra("value");
+        String titlebar = getIntent().getStringExtra("titleBar");
         mNavbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
-        mNavbar.setMiddleTitle("修改昵称");
+        mNavbar.setMiddleTitle(titlebar);
         edtNick.setText(value);
 
         mNavbar.setOnMenuClickListener(new NavBar2.OnMenuClickListener() {
@@ -49,47 +51,26 @@ public class NickChangeAcitivity extends AppCompatActivity {
             }
         });
 
+
+
         saveValue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String nick = edtNick.getText().toString();
                 if (TextUtils.isEmpty(nick)){
-                    ToastUtil.showToast("请输入昵称");
+                    ToastUtil.showToast("请输入内容");
                 }else{
                     if (nick.equals(value)){
                         finish();
                     }else{
-                        //调用修改昵称接口
-                        Subscriber subscriber =  new PosetSubscriber<Boolean>().getSubscriber(callback_nick);
-                        UserManager.saveNick(nick, subscriber);
+                        Intent intent = new Intent();
+                        intent.putExtra("value", nick);
+                        setResult(20171, intent);
+                        finish();
                     }
                 }
             }
         });
 
     }
-
-
-    ResponseResultListener callback_nick = new ResponseResultListener<Boolean>() {
-        @Override
-        public void success(Boolean returnMsg) {
-            if (returnMsg){
-                ToastUtil.showToast("修改成功");
-                String nick = edtNick.getText().toString();
-                Intent intent = new Intent();
-                intent.putExtra("nick", nick);
-                setResult(20171, intent);
-                finish();
-            }else{
-                ToastUtil.showToast("修改失败");
-            }
-        }
-
-        @Override
-        public void fialed(String resCode, String message) {
-            ToastUtil.showToast("修改失败");
-        }
-    };
-
-
 }

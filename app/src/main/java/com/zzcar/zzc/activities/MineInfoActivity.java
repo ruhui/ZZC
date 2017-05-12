@@ -66,6 +66,8 @@ public class MineInfoActivity extends BaseActivity {
     private ArrayList<String> photos = new ArrayList<>();
     /*缓存的头像*/
     private String imgpathMemery;
+    /*昵称*/
+    private String nickName = "";
 
     @Override
     public void onNetChange(int netMobile) {
@@ -115,6 +117,7 @@ public class MineInfoActivity extends BaseActivity {
     @Click(R.id.relaNick)
     void setNick(){
         Intent intent = new Intent(MineInfoActivity.this, NickChangeAcitivity_.class);
+        intent.putExtra("titleBar", "修改昵称");
         intent.putExtra("value", minemessage.getNick());
         startActivityForResult(intent, 20171);
     }
@@ -173,9 +176,13 @@ public class MineInfoActivity extends BaseActivity {
                 showProgress();
                 photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
             }else if (requestCode == 20171){
-                String nick = data.getStringExtra("nick");
+                String nick = data.getStringExtra("value");
+                nickName = nick;
                 minemessage.setNick(nick);
                 resetView();
+                //调用修改昵称接口
+                Subscriber subscriber =  new PosetSubscriber<Boolean>().getSubscriber(callback_nick);
+                UserManager.saveNick(nick, subscriber);
             }
         }else  if (requestCode==REQ_CODE_CAMERA) {
             showProgress();
@@ -218,6 +225,26 @@ public class MineInfoActivity extends BaseActivity {
         public void fialed(String resCode, String message) {
             closeProgress();
             ToastUtil.showToast("保存失败");
+        }
+    };
+
+
+    /*修改昵称*/
+    ResponseResultListener callback_nick = new ResponseResultListener<Boolean>() {
+        @Override
+        public void success(Boolean returnMsg) {
+            nickName = "";
+            if (returnMsg){
+                ToastUtil.showToast("修改成功");
+            }else{
+                ToastUtil.showToast("修改失败");
+            }
+        }
+
+        @Override
+        public void fialed(String resCode, String message) {
+            nickName = "";
+            ToastUtil.showToast("修改失败");
         }
     };
 }

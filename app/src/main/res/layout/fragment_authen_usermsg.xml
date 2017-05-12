@@ -51,10 +51,12 @@
 
     </com.zzcar.zzc.views.widget.ItemIconTextIcon_>
 
-    <com.zzcar.zzc.views.widget.ItemIconTextIcon_
+    <com.zzcar.zzc.views.widget.ItemTextEditView_
         android:id="@+id/carcomDetailAddress"
         android:layout_width="match_parent"
-        android:layout_height="45dp">
+        android:layout_height="45dp"
+        >
 
-    </com.zzcar.zzc.views.widget.ItemIconTextIcon_>
+    </com.zzcar.zzc.views.widget.ItemTextEditView_>
+
 </LinearLayout>

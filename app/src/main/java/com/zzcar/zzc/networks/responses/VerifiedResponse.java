@@ -27,6 +27,8 @@ public class VerifiedResponse implements Serializable{
     private String license_no;//营业执照号码
     private String code;//手机验证码
 
+    public VerifiedResponse(){}
+
     public VerifiedResponse(String account_name, int type, String id_card, int province_id, int city_id, int area_id,String region_name,
                            String address, String card_positive, String card_negative, String card_handheld,
                            String shop_head, String shop_checkout, String shop_space, String legal_person, String license, String license_no, String code) {

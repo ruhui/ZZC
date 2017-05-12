@@ -2,6 +2,7 @@ package com.zzcar.zzc.views.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -47,5 +48,8 @@ public class ItemTextEditView extends LinearLayout {
 
     public void setEdtRightHint(String hinttext){
         edtRight.setHint(hinttext);
+    }
+    public void setInputNumber(){
+        edtRight.setInputType(EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
     }
 }

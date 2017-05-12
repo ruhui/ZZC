@@ -37,7 +37,6 @@
         <EditText
             android:layout_width="200dp"
             android:layout_height="match_parent"
-            android:inputType="textPersonName"
             android:text="Name"
             android:ems="10"
             android:gravity="right|center"

@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -46,8 +47,19 @@ public class ChannelActivity extends BaseActivity {
     @AfterViews
     void initView(){
 
+        String actionTitle = getIntent().getStringExtra("actionTitle");
+        /*不显示不限，true为不显示*/
+        boolean dismisbuxian =  getIntent().getBooleanExtra("dismisbuxian", false);
         mNavbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
-        mNavbar.setMiddleTitle("渠道");
+        if (!TextUtils.isEmpty(actionTitle)){
+            mNavbar.setMiddleTitle(actionTitle);
+        }else{
+            mNavbar.setMiddleTitle("渠道");
+        }
+
+        if (dismisbuxian){
+            relaItem.setVisibility(View.GONE);
+        }
         mNavbar.setRightTxtColor(R.color.color_959595);
         getCarChannel();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

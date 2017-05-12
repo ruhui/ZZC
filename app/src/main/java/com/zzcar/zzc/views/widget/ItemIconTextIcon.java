@@ -58,4 +58,8 @@ public class ItemIconTextIcon extends LinearLayout {
         txtRight.setGravity(gravity);
     }
 
+    public void setRightTextColor(){
+        txtRight.setTextColor(getResources().getColor(R.color.color_333333));
+    }
+
 }
