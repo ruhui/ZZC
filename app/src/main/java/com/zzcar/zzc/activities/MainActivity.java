@@ -1,5 +1,6 @@
 package com.zzcar.zzc.activities;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -18,6 +19,7 @@ import com.zzcar.zzc.fragments.HomeFragment;
 import com.zzcar.zzc.fragments.HomeFragment_;
 import com.zzcar.zzc.fragments.MineFragment_;
 import com.zzcar.zzc.interfaces.FragmentClosePop;
+import com.zzcar.zzc.utils.LogUtil;
 import com.zzcar.zzc.views.widget.NoScrollViewPager;
 
 import org.androidannotations.annotations.AfterViews;
@@ -38,6 +40,9 @@ public class MainActivity extends BaseActivity {
 
     @ViewById(R.id.networkState)
     TextView networkState;
+
+
+
 
     public boolean popisShowing = false;
 
@@ -167,5 +172,11 @@ public class MainActivity extends BaseActivity {
         }else{
             networkState.setVisibility(View.INVISIBLE);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        LogUtil.E("onActivityResult", "onActivityResult");
     }
 }

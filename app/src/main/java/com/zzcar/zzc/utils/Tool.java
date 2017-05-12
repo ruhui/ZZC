@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -14,12 +15,14 @@ import com.google.gson.Gson;
 import com.zzcar.zzc.MyApplication;
 import com.zzcar.zzc.constants.Constant;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -452,5 +455,20 @@ public class Tool {
      */
     public static String getPicUrl(Context mContext, String url){
         return Constant.PICLOOKURL + url;
+    }
+
+    /**
+     * 返回定义的相册路径
+     */
+    public static File getFilePath() {
+        File DatalDir = Environment.getExternalStorageDirectory();
+        File myDir = new File(DatalDir, "/DCIM/Camera");
+        myDir.mkdirs();
+        String mDirectoryname = DatalDir.toString() + "/DCIM/Camera";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-hhmmss", Locale.SIMPLIFIED_CHINESE);
+        File tempfile = new File(mDirectoryname, sdf.format(new Date()) + ".jpg");
+        if (tempfile.isFile())
+            tempfile.delete();
+        return tempfile;
     }
 }

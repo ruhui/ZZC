@@ -4,6 +4,8 @@ import com.zzcar.zzc.models.AddCarFrom;
 import com.zzcar.zzc.models.AddressModel;
 import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.requests.LoginRequest;
+import com.zzcar.zzc.networks.requests.NickRequest;
+import com.zzcar.zzc.networks.requests.PhotoRequest;
 import com.zzcar.zzc.networks.requests.ProduceIdResquest;
 import com.zzcar.zzc.networks.requests.SaveCommentRequest;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
@@ -11,7 +13,6 @@ import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.networks.responses.CarDetailRespose;
 import com.zzcar.zzc.networks.responses.CarSeriesResponse;
 import com.zzcar.zzc.networks.responses.CarTypeResponse;
-import com.zzcar.zzc.networks.responses.CheckSuccessResponse;
 import com.zzcar.zzc.networks.responses.CityResponse;
 import com.zzcar.zzc.networks.responses.ColorResponse;
 import com.zzcar.zzc.networks.responses.CommentResponse;
@@ -21,8 +22,8 @@ import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.networks.responses.MybillResponse;
 import com.zzcar.zzc.networks.responses.UserMsgResponse;
+import com.zzcar.zzc.networks.responses.VerifiedResponse;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -128,4 +129,15 @@ public interface ZZCService {
     @POST("goods/save_favorte")
     Observable<ResponseParent<Integer>> savefavorte(@Body ProduceIdResquest savefavorte, @HeaderMap Map<String, String> header);
 
+    /*上传用户头像*/
+    @POST("account/photo")
+    Observable<ResponseParent<Boolean>> photo(@Body PhotoRequest photo, @HeaderMap Map<String, String> header);
+
+    /*修改昵称*/
+    @POST("account/name")
+    Observable<ResponseParent<Boolean>> savenick(@Body NickRequest nick, @HeaderMap Map<String, String> header);
+
+    /*获取实名认证GET */
+    @GET("account/verified")
+    Observable<ResponseParent<VerifiedResponse>> getverified(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
 }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp">
+
+        <TextView
+            android:text="TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/textView68"
+            android:textSize="14sp"
+            android:layout_marginLeft="22dp"
+            android:textColor="@color/color_333333"/>
+
+
+
+        <ImageView
+            android:id="@+id/mid_rightImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/nav_icon_right_default"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="15dp"
+            android:visibility="invisible"/>
+
+        <EditText
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:inputType="textPersonName"
+            android:text="Name"
+            android:ems="10"
+            android:gravity="right|center"
+            android:layout_marginRight="@dimen/dp_10"
+            android:textSize="14sp"
+            android:background="@null"
+            android:textColor="@color/color_333333"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/mid_rightImg"
+            android:layout_toStartOf="@+id/mid_rightImg"
+            android:id="@+id/editText4" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/grey"
+            android:layout_alignParentBottom="true"
+            android:layout_alignLeft="@+id/textView68"
+            android:layout_alignStart="@+id/textView68"
+            android:layout_marginRight="@dimen/dp_10"
+            android:id="@+id/view4" />
+    </RelativeLayout>
+
+
+
+</LinearLayout>

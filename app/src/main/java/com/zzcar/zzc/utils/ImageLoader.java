@@ -134,10 +134,11 @@ public class ImageLoader {
     }
 
     //现实圆形图片
-    public static void loadCircleImage(String url, ImageView imageView) {
+    public static void loadCircleImage(String url, ImageView imageView, int defaultdrable) {
         Context context = imageView.getContext();
         BitmapPool pool = Glide.get(context).getBitmapPool();
-        Glide.with(context).load(trim(url)).fitCenter().bitmapTransform(new CropCircleTransformation(pool)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
+        Glide.with(context).load(trim(url)).placeholder(defaultdrable).fitCenter()
+                .bitmapTransform(new CropCircleTransformation(pool)).diskCacheStrategy(DiskCacheStrategy.ALL).into(imageView);
     }
 
     //获取网络图片返回Bitmap

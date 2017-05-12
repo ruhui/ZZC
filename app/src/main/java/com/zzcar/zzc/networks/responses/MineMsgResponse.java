@@ -1,11 +1,13 @@
 package com.zzcar.zzc.networks.responses;
 
+import java.io.Serializable;
+
 /**
  * 描述：登录用户信息
  * 创建作者： 黄如辉
  * 创建时间： 2017/4/18 17:14
  **/
-public class MineMsgResponse {
+public class MineMsgResponse implements Serializable{
     private int auth_status;
     private String mobile;
     private String nick;

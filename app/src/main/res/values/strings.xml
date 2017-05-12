@@ -39,4 +39,7 @@
     <string name="pickerview_minutes">分</string>
     <string name="pickerview_seconds">秒</string>
 
+    <string name="authen_usermsg">商户信息</string>
+    <string name="authen_photo">上传照片</string>
+
 </resources>

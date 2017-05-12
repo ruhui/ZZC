@@ -2,6 +2,7 @@ package com.zzcar.zzc.views.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -52,6 +53,9 @@ public class ItemIconTextIcon extends LinearLayout {
 
     public void setOnitemClickListener(OnClickListener listener){
         relaItem.setOnClickListener(listener);
+    }
+    public void setRightGravity(int gravity){
+        txtRight.setGravity(gravity);
     }
 
 }

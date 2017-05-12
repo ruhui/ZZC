@@ -1,7 +1,5 @@
 package com.zzcar.zzc.manager;
 
-import android.text.TextUtils;
-
 import com.zzcar.zzc.models.AddCarFrom;
 import com.zzcar.zzc.models.AddCarMiddleModle;
 import com.zzcar.zzc.models.AddressModel;
@@ -9,7 +7,9 @@ import com.zzcar.zzc.networks.ApiClient;
 import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.ZZCHeaders;
 import com.zzcar.zzc.networks.requests.LoginRequest;
+import com.zzcar.zzc.networks.requests.NickRequest;
 import com.zzcar.zzc.networks.requests.ParametersRequest;
+import com.zzcar.zzc.networks.requests.PhotoRequest;
 import com.zzcar.zzc.networks.requests.ProduceIdResquest;
 import com.zzcar.zzc.networks.requests.SaveCommentRequest;
 import com.zzcar.zzc.networks.requests.SearchRequest;
@@ -17,7 +17,6 @@ import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.networks.responses.CarSeriesResponse;
 import com.zzcar.zzc.networks.responses.CarTypeResponse;
-import com.zzcar.zzc.networks.responses.CheckSuccessResponse;
 import com.zzcar.zzc.networks.responses.CityResponse;
 import com.zzcar.zzc.networks.responses.ColorResponse;
 import com.zzcar.zzc.networks.responses.CommentResponse;
@@ -25,6 +24,7 @@ import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.networks.responses.MybillResponse;
+import com.zzcar.zzc.networks.responses.VerifiedResponse;
 import com.zzcar.zzc.utils.SecurePreferences;
 import com.zzcar.zzc.utils.Tool;
 
@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -513,11 +514,62 @@ public class UserManager {
         ProduceIdResquest saveCommentRequest = new ProduceIdResquest(product_id);
 
         ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, saveCommentRequest);
-        Subscription subscription = ApiClient.getApiService().savefavorte(saveCommentRequest, zzcHeaders.getHashMap())
+        ApiClient.getApiService().savefavorte(saveCommentRequest, zzcHeaders.getHashMap())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
+    }
+
+    /**
+     * 上传图片
+     * @param photo
+     * @param subscriber
+     */
+    public static void savePhoto(String photo, Subscriber<ResponseParent<Boolean>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        PhotoRequest photoClass = new PhotoRequest(photo);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, photoClass);
+         ApiClient.getApiService().photo(photoClass, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 修改昵称
+     * @param nick
+     * @param subscriber
+     */
+    public static void saveNick(String nick, Subscriber<ResponseParent<Boolean>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        NickRequest nickRequest = new NickRequest(nick);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, nickRequest);
+        ApiClient.getApiService().savenick(nickRequest, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+    /**
+     * 获取实名认证
+     */
+    public static void getVerified(Subscriber<ResponseParent<VerifiedResponse>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("getVerified");
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        Subscription subscription = ApiClient.getApiService().getverified(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("getVerified", subscription);
     }
 
 

@@ -12,11 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.umeng.analytics.MobclickAgent;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.interfaces.NetEvevt;
 import com.zzcar.zzc.manager.UserManager;
+import com.zzcar.zzc.utils.LogUtil;
 import com.zzcar.zzc.utils.NetUtil;
 import com.zzcar.zzc.views.widget.ProgressDialog;
 import com.zzcar.zzc.views.widget.ProgressDialog_;
@@ -47,6 +49,8 @@ public abstract class BaseFragment extends Fragment implements NetEvevt {
         super.setUserVisibleHint(isVisibleToUser);
 
     }
+
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -151,12 +155,21 @@ public abstract class BaseFragment extends Fragment implements NetEvevt {
 
    @Override
    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//       List<Fragment> fragments = getChildFragmentManager().getFragments();
-//       if (fragments != null) {
-//           for (Fragment fragment : fragments) {
-//               fragment.onActivityResult(requestCode, resultCode, data);
-//           }
-//       }
+       List<Fragment> fragments = getChildFragmentManager().getFragments();
+       if (fragments != null) {
+           for (Fragment fragment : fragments) {
+               fragment.onActivityResult(requestCode, resultCode, data);
+           }
+       }
+   }
+
+    public String getmLastStackName() {
+        return mLastStackName;
+    }
+
+
+    public void setmLastStackName(String mLastStackName) {
+       this.mLastStackName = mLastStackName;
    }
 
    @Override
@@ -199,5 +212,7 @@ public abstract class BaseFragment extends Fragment implements NetEvevt {
       getFragmentManager().popBackStackImmediate(mLastStackName,
               FragmentManager.POP_BACK_STACK_INCLUSIVE);
   }
+
+
 
 }

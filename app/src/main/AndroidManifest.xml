@@ -45,7 +45,10 @@
             android:name="me.iwf.photopicker.PhotoPickerActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".activities.GoodDetailActivity_" />
-        <activity android:name=".activities.ShowPhotoAcitivity_"></activity>
+        <activity android:name=".activities.ShowPhotoAcitivity_" />
+        <activity android:name=".activities.MineInfoActivity_" />
+        <activity android:name=".activities.NickChangeAcitivity_" />
+        <activity android:name=".activities.AuthenticationActivity_"></activity>
     </application>
 
 </manifest>

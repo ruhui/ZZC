@@ -55,7 +55,7 @@
             android:id="@+id/txtRight"
             android:singleLine="true"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginRight="25dp"
             android:layout_alignBottom="@+id/txt_title"
             android:layout_toLeftOf="@+id/mid_rightImg"
             android:layout_toRightOf="@+id/txt_title"

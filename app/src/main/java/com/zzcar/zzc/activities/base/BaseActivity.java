@@ -3,11 +3,14 @@ package com.zzcar.zzc.activities.base;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import com.umeng.analytics.MobclickAgent;
+import com.zzcar.zzc.R;
+import com.zzcar.zzc.fragments.base.BaseFragment;
 import com.zzcar.zzc.interfaces.NetEvevt;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.utils.NetUtil;
@@ -179,6 +182,15 @@ public abstract class BaseActivity extends AppCompatActivity implements NetEvevt
     public void onBackPressed() {
         super.onBackPressed();
         closeProgress();
+    }
+
+    public void showFragment(BaseFragment fragment){
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(0, 0, 0, 0);
+        transaction.add(R.id.container, fragment, fragment.getClass().getName());
+        fragment.setmLastStackName("" + System.currentTimeMillis() + hashCode());
+        transaction.addToBackStack(fragment.getmLastStackName());
+        transaction.commitAllowingStateLoss();
     }
 
     public int getNetMobile() {
