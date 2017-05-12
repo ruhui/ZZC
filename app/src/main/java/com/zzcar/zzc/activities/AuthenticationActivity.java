@@ -44,7 +44,6 @@ import rx.Subscriber;
 @EActivity(R.layout.activity_authentication)
 public class AuthenticationActivity extends BaseActivity {
 
-
     @ViewById(R.id.mNavbar)
     NavBar2 mNavbar;
     @ViewById(R.id.tabLayout)
