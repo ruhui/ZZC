@@ -25,6 +25,7 @@ import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.responses.VerifiedResponse;
 import com.zzcar.zzc.utils.LogUtil;
+import com.zzcar.zzc.utils.ToastUtil;
 import com.zzcar.zzc.views.widget.NavBar2;
 import com.zzcar.zzc.views.widget.NoScrollViewPager;
 
@@ -184,7 +185,11 @@ public class AuthenticationActivity extends BaseActivity {
         public void success(VerifiedResponse returnMsg) {
             LogUtil.E("success","success");
             verifiedResponse = returnMsg;
-            setup();
+            if (verifiedResponse == null){
+                ToastUtil.showToast("数据异常");
+            }else{
+                setup();
+            }
             closeProgress();
         }
 

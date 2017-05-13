@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.zzcar.zzc.R;
+import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.interfaces.ImageUploadListener;
 import com.zzcar.zzc.networks.UploadFile;
 import com.zzcar.zzc.utils.ImageLoader;
@@ -59,7 +60,7 @@ public class PhotoAdapte extends RecyclerView.Adapter<PhotoAdapte.ViewHold> {
                 holder.progressView.setVisibility(View.VISIBLE);
                 ImageLoader.loadImage(imgpath, holder.picImg);
                 UploadFile uploadimg = new UploadFile(holder.progressView, successPath, uploadListener);
-                uploadimg.execute(imgpath);
+                uploadimg.execute(imgpath, Constant.UPLOADGOODSURL);
             }else{
                 if (position == mList.size()){
                     holder.picImg.setImageResource(R.drawable.ic_image);
@@ -69,7 +70,7 @@ public class PhotoAdapte extends RecyclerView.Adapter<PhotoAdapte.ViewHold> {
                     ImageLoader.loadImage(imgpath, holder.picImg);
                     holder.progressView.setVisibility(View.VISIBLE);
                     UploadFile uploadimg = new UploadFile(holder.progressView, successPath, uploadListener);
-                    uploadimg.execute(imgpath);
+                    uploadimg.execute(imgpath, Constant.UPLOADGOODSURL);
                 }
             }
         }

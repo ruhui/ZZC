@@ -6,19 +6,19 @@ import android.view.ViewGroup;
 import com.zzcar.zzc.adapters.base.BaseRecyclerAdapter;
 import com.zzcar.zzc.adapters.viewholders.ItemTextView;
 import com.zzcar.zzc.adapters.viewholders.ItemTextView_;
-import com.zzcar.zzc.models.CityModel;
-import com.zzcar.zzc.networks.requests.SearchRequest;
+import com.zzcar.zzc.models.CityModelCountry;
+import com.zzcar.zzc.models.CountyMode;
 
 /**
- * 描述：
+ * 描述：地区
  * 创建作者： 黄如辉
  * 创建时间： 2017/5/2 16:05
  **/
-public class CitySelectAdapter extends BaseRecyclerAdapter<CityModel, ItemTextView> {
+public class CountrySelectAdapter extends BaseRecyclerAdapter<CountyMode, ItemTextView> {
 
     CitySelectListener mListener;
 
-    public CitySelectAdapter(CitySelectListener listener){
+    public CountrySelectAdapter(CitySelectListener listener){
         this.mListener = listener;
     }
 
@@ -28,7 +28,7 @@ public class CitySelectAdapter extends BaseRecyclerAdapter<CityModel, ItemTextVi
     }
 
     @Override
-    protected void onBindView(ItemTextView itemView, final CityModel cityModel, int position) {
+    protected void onBindView(ItemTextView itemView, final CountyMode cityModel, int position) {
         itemView.bind(cityModel.getName());
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -39,6 +39,6 @@ public class CitySelectAdapter extends BaseRecyclerAdapter<CityModel, ItemTextVi
     }
 
     public interface CitySelectListener{
-        public void setlectCity(int provinceid, int cityid, String citydes);
+        public void setlectCity(int provinceid, int cityid, String region_name);
     }
 }

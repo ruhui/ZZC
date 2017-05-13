@@ -2,6 +2,8 @@ package com.zzcar.zzc.models;
 
 import org.greenrobot.greendao.annotation.Entity;
 
+import java.util.List;
+
 /**
  * 描述：
  * 创建作者： 黄如辉
@@ -14,6 +16,7 @@ public class CityChild {
     private int id;
     private String name;
     private String region_name;
+    private List<CountyMode> children;
 
     public CityChild(String first_letter, String full_name, int id, String name, String region_name) {
         this.first_letter = first_letter;
@@ -21,6 +24,14 @@ public class CityChild {
         this.id = id;
         this.name = name;
         this.region_name = region_name;
+    }
+
+    public List<CountyMode> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<CountyMode> children) {
+        this.children = children;
     }
 
     public String getFirst_letter() {

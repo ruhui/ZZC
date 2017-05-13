@@ -50,6 +50,6 @@ public class ItemTextEditView extends LinearLayout {
         edtRight.setHint(hinttext);
     }
     public void setInputNumber(){
-        edtRight.setInputType(EditorInfo.TYPE_NUMBER_FLAG_DECIMAL);
+        edtRight.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
     }
 }

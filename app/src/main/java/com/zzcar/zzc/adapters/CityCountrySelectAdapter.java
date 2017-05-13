@@ -7,18 +7,18 @@ import com.zzcar.zzc.adapters.base.BaseRecyclerAdapter;
 import com.zzcar.zzc.adapters.viewholders.ItemTextView;
 import com.zzcar.zzc.adapters.viewholders.ItemTextView_;
 import com.zzcar.zzc.models.CityModel;
-import com.zzcar.zzc.networks.requests.SearchRequest;
+import com.zzcar.zzc.models.CityModelCountry;
 
 /**
- * 描述：
+ * 描述：地区
  * 创建作者： 黄如辉
  * 创建时间： 2017/5/2 16:05
  **/
-public class CitySelectAdapter extends BaseRecyclerAdapter<CityModel, ItemTextView> {
+public class CityCountrySelectAdapter extends BaseRecyclerAdapter<CityModelCountry, ItemTextView> {
 
     CitySelectListener mListener;
 
-    public CitySelectAdapter(CitySelectListener listener){
+    public CityCountrySelectAdapter(CitySelectListener listener){
         this.mListener = listener;
     }
 
@@ -28,17 +28,17 @@ public class CitySelectAdapter extends BaseRecyclerAdapter<CityModel, ItemTextVi
     }
 
     @Override
-    protected void onBindView(ItemTextView itemView, final CityModel cityModel, int position) {
+    protected void onBindView(ItemTextView itemView, final CityModelCountry cityModel, final int position) {
         itemView.bind(cityModel.getName());
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListener.setlectCity(cityModel.getParentid(), cityModel.getId(), cityModel.getRegion_name());
+                mListener.setlectCity(cityModel.getParentid(), cityModel.getId());
             }
         });
     }
 
     public interface CitySelectListener{
-        public void setlectCity(int provinceid, int cityid, String citydes);
+        public void setlectCity(int provinceid, int cityid);
     }
 }

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
+import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.constants.Permission;
 import com.zzcar.zzc.interfaces.ImageUploadListener;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
@@ -190,7 +191,7 @@ public class MineInfoActivity extends BaseActivity {
             photos.add(imgPath);
         }
         if (photos.size() > 0){
-            new UploadFileWithoutLoding(uploadListener).execute(photos.get(0));
+            new UploadFileWithoutLoding(uploadListener).execute(photos.get(0), Constant.UPLOADHEADURL);
         }else{
             closeProgress();
         }

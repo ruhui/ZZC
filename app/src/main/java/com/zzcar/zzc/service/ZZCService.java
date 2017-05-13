@@ -93,6 +93,10 @@ public interface ZZCService {
     @GET("common/province_city")
     Observable<ResponseParent<List<CityResponse>>> getprovincecity(@HeaderMap Map<String, String> header);
 
+   /*城市  到县区*/
+   @GET("common/regions")
+   Observable<ResponseParent<List<CityResponse>>> getregions(@HeaderMap Map<String, String> header);
+
     /*颜色*/
     @GET("common/color")
     Observable<ResponseParent<List<ColorResponse>>> getcolor(@HeaderMap Map<String, String> header);

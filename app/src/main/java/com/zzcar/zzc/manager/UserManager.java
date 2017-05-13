@@ -353,6 +353,25 @@ public class UserManager {
         add("getProvincecity", subscription);
     }
 
+
+
+    /**
+     * 获取县
+     */
+    public static void getRegions(Subscriber<ResponseParent<List<CityResponse>>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("getRegions");
+        Map<String,String> hashmap = new HashMap<>();
+        ZZCHeaders zzcHeaders = new ZZCHeaders(hashmap);
+        Subscription subscription = ApiClient.getApiService().getregions(zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("getRegions", subscription);
+    }
+
+
     /**
      * 颜色
      */

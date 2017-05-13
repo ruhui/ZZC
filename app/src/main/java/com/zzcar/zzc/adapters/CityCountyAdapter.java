@@ -3,26 +3,21 @@ package com.zzcar.zzc.adapters;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.zzcar.zzc.activities.SelectCityActivity;
 import com.zzcar.zzc.adapters.base.BaseRecyclerAdapter;
-import com.zzcar.zzc.adapters.viewholders.ItemCarBrandView;
-import com.zzcar.zzc.adapters.viewholders.ItemCarBrandView_;
 import com.zzcar.zzc.adapters.viewholders.ItemCityItem;
 import com.zzcar.zzc.adapters.viewholders.ItemCityItem_;
 import com.zzcar.zzc.models.CityModel;
-import com.zzcar.zzc.networks.requests.SearchRequest;
-import com.zzcar.zzc.networks.responses.BrandListResponse;
-import com.zzcar.zzc.networks.responses.CityResponse;
+import com.zzcar.zzc.models.CityModelCountry;
 
 /**
  * Created by asus-pc on 2017/4/28.
  */
 
-public class CityAdapter extends BaseRecyclerAdapter<CityModel, ItemCityItem> {
+public class CityCountyAdapter extends BaseRecyclerAdapter<CityModelCountry, ItemCityItem> {
 
     private CitySelectListener citySelectListener;
 
-    public CityAdapter(CitySelectListener citySelectListener){
+    public CityCountyAdapter(CitySelectListener citySelectListener){
         this.citySelectListener = citySelectListener;
     }
 
@@ -32,8 +27,8 @@ public class CityAdapter extends BaseRecyclerAdapter<CityModel, ItemCityItem> {
     }
 
     @Override
-    protected void onBindView(ItemCityItem itemView, final CityModel cityModel, int position) {
-        itemView.bind(cityModel.getName() );
+    protected void onBindView(ItemCityItem itemView, final CityModelCountry cityModel, int position) {
+        itemView.bind(cityModel.getName());
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

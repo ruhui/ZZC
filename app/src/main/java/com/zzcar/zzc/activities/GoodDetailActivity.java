@@ -291,7 +291,7 @@ public class GoodDetailActivity extends BaseActivity {
         }
         if (photos.size() > 0){
             for (String imgpath : photos){
-                new UploadFileWithoutLoding(uploadListener).execute(imgpath);
+                new UploadFileWithoutLoding(uploadListener).execute(imgpath, Constant.UPLOADCOMMENTURL);
             }
         }
     }

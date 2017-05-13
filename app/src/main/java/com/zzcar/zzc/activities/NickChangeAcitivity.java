@@ -9,11 +9,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.zzcar.zzc.R;
-import com.zzcar.zzc.interfaces.ResponseResultListener;
-import com.zzcar.zzc.manager.UserManager;
-import com.zzcar.zzc.networks.PosetSubscriber;
-import com.zzcar.zzc.networks.UploadFileWithoutLoding;
-import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.utils.ToastUtil;
 import com.zzcar.zzc.views.widget.NavBar2;
 

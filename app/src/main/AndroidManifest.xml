@@ -48,7 +48,8 @@
         <activity android:name=".activities.ShowPhotoAcitivity_" />
         <activity android:name=".activities.MineInfoActivity_" />
         <activity android:name=".activities.NickChangeAcitivity_" />
-        <activity android:name=".activities.AuthenticationActivity_"></activity>
+        <activity android:name=".activities.AuthenticationActivity_" />
+        <activity android:name=".activities.SelectCountryActivity_"></activity>
     </application>
 
 </manifest>

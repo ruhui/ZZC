@@ -29,5 +29,15 @@ public class Constant {
     public static final String UPLOADURL = "http://47.89.48.28:5002/upload/";
     /*默认头像*/
     public static final int HEADIMG = R.drawable.nav_icon_head_default;
+    /*上传头像图片路径*/
+    public static final String UPLOADHEADURL = UPLOADURL + "profile";
+    /*上传商品图片路径*/
+    public static final String UPLOADGOODSURL = UPLOADURL + "goods";
+    /*上传供应图片路径*/
+    public static final String UPLOADINFOURL = UPLOADURL + "info";
+    /*上传评论图片路径*/
+    public static final String UPLOADCOMMENTURL = UPLOADURL + "comment";
+    /*上传聊天图片路径*/
+    public static final String UPLOADCHATURL = UPLOADURL + "chat";
 
 }

@@ -59,7 +59,7 @@ public class UploadFile extends AsyncTask<String, Integer, String> {
 
         String newfilePath = FileUtil.scal(filePath);
 
-        String uploadUrl = Constant.UPLOADURL + "goods";
+        String uploadUrl = params[1];
         //下面即手机端上传文件的代码
         String end = "\r\n";
         String twoHyphens = "--";

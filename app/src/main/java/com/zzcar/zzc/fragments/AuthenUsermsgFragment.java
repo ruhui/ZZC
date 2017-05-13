@@ -8,6 +8,8 @@ import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.ChannelActivity_;
 import com.zzcar.zzc.activities.NickChangeAcitivity_;
 import com.zzcar.zzc.activities.SearchActivity;
+import com.zzcar.zzc.activities.SelectCityActivity_;
+import com.zzcar.zzc.activities.SelectCountryActivity_;
 import com.zzcar.zzc.fragments.base.BaseFragment;
 import com.zzcar.zzc.networks.responses.VerifiedResponse;
 import com.zzcar.zzc.views.widget.ItemIconTextIcon;
@@ -48,7 +50,7 @@ public class AuthenUsermsgFragment extends BaseFragment {
     /*详细地址*/
     @ViewById(R.id.carcomDetailAddress)
     ItemTextEditView carcomDetailAddress;
-
+    //做完删掉
     private  VerifiedResponse verifiedResponse;
 
     @Override
@@ -65,18 +67,20 @@ public class AuthenUsermsgFragment extends BaseFragment {
         personCard.setLeftValue("身份证号");personCard.setEdtRightHint("身份证上的15位或18位号码");personCard.setInputNumber();
         BusinesLicense.setLeftValue("营业执照");BusinesLicense.setEdtRightHint("请填写营业执照号码");BusinesLicense.setInputNumber();
         carcomAddress.setTitle("所在地");carcomAddress.setRightGravity(Gravity.RIGHT);carcomAddress.setRightTextColor();
-        carcomDetailAddress.setLeftValue("详细地址");
+        carcomDetailAddress.setLeftValue("详细地址");carcomDetailAddress.setEdtRightHint("请填输入详细地址");
         resetView();
     }
 
     void resetView(){
-        carcomName.setRightText(verifiedResponse.getAccount_name());
-        carcomType.setRightText(verifiedResponse.getCarType());
-        legalPerson.setRightValue(verifiedResponse.getLegal_person());
-        personCard.setRightValue(verifiedResponse.getId_card());
-        BusinesLicense.setRightValue(verifiedResponse.getLicense_no());
-        carcomAddress.setRightText(verifiedResponse.getRegion_name());
-        carcomDetailAddress.setRightValue(verifiedResponse.getAddress());
+        if (verifiedResponse != null){
+            carcomName.setRightText(verifiedResponse.getAccount_name());
+            carcomType.setRightText(verifiedResponse.getCarType());
+            legalPerson.setRightValue(verifiedResponse.getLegal_person());
+            personCard.setRightValue(verifiedResponse.getId_card());
+            BusinesLicense.setRightValue(verifiedResponse.getLicense_no());
+            carcomAddress.setRightText(verifiedResponse.getRegion_name());
+            carcomDetailAddress.setRightValue(verifiedResponse.getAddress());
+        }
     }
 
     /*车行名称*/
@@ -97,6 +101,12 @@ public class AuthenUsermsgFragment extends BaseFragment {
         startActivityForResult(intent, 20172);
     }
 
+    @Click(R.id.carcomAddress)
+    void selectCity(){
+        Intent intent = new Intent(getActivity(), SelectCountryActivity_.class);
+        startActivityForResult(intent, 20173);
+    }
+
     @Override
     public void onNetChange(int netMobile) {
 
@@ -110,13 +120,22 @@ public class AuthenUsermsgFragment extends BaseFragment {
             if (requestCode == 20171){
                 String value = data.getStringExtra("value");
                 verifiedResponse.setAccount_name(value);
-                resetView();
             }else  if (requestCode == 20172){
                 String channelid = data.getStringExtra("channelid");
                 String channeldes = data.getStringExtra("channeldes");
                 verifiedResponse.setType(Integer.valueOf(channelid));
                 carcomType.setRightText(channeldes);
+            }else if(requestCode == 20173){
+                int province_id = data.getIntExtra("province_id", 0);
+                int city_id = data.getIntExtra("city_id", 0);
+                int contryId = data.getIntExtra("contryId", 0);
+                String region_name = data.getStringExtra("region_name");
+                verifiedResponse.setProvince_id(province_id);
+                verifiedResponse.setCity_id(city_id);
+                verifiedResponse.setArea_id(contryId);
+                verifiedResponse.setRegion_name(region_name);
             }
         }
+        resetView();
     }
 }

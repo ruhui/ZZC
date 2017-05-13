@@ -32,7 +32,7 @@ public class ItemTextView extends RelativeLayout {
         super(context, attrs);
     }
 
-    public void bind(CityModel cityModel){
-        allcity.setText(cityModel.getName());
+    public void bind(String cityModel){
+        allcity.setText(cityModel);
     }
 }
