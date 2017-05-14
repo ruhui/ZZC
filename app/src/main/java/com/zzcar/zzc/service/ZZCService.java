@@ -8,6 +8,7 @@ import com.zzcar.zzc.networks.requests.NickRequest;
 import com.zzcar.zzc.networks.requests.PhotoRequest;
 import com.zzcar.zzc.networks.requests.ProduceIdResquest;
 import com.zzcar.zzc.networks.requests.SaveCommentRequest;
+import com.zzcar.zzc.networks.requests.SendRegsmsRequest;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.networks.responses.CarDetailRespose;
@@ -144,4 +145,8 @@ public interface ZZCService {
     /*获取实名认证GET */
     @GET("account/verified")
     Observable<ResponseParent<VerifiedResponse>> getverified(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+
+    /*获取验证码*/
+    @POST("common/regsms")
+    Observable<ResponseParent<Boolean>> getregsms(@Body SendRegsmsRequest sendCode, @HeaderMap Map<String, String> header);
 }

@@ -2,6 +2,8 @@ package com.zzcar.zzc.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.Gravity;
 
 import com.zzcar.zzc.R;
@@ -59,14 +61,30 @@ public class AuthenUsermsgFragment extends BaseFragment {
         verifiedResponse = (VerifiedResponse) getArguments().getSerializable("verifiedResponse");
     }
 
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putSerializable("verifiedResponse", verifiedResponse);
+    }
+
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null){
+            verifiedResponse = (VerifiedResponse) savedInstanceState.getSerializable("verifiedResponse");
+        }
+    }
+
     @AfterViews
     void initView(){
-        carcomName.setTitle("车行名称");carcomName.setRightGravity(Gravity.RIGHT);carcomName.setRightTextColor();
-        carcomType.setTitle("车行类型");carcomType.setRightGravity(Gravity.RIGHT);carcomType.setRightTextColor();
+        carcomName.setTitle("车行名称");carcomName.setRightGravity(Gravity.RIGHT);carcomName.setRightTextColor();carcomName.setRightHint("请输入车行名称");
+        carcomType.setTitle("车行类型");carcomType.setRightGravity(Gravity.RIGHT);carcomType.setRightTextColor();carcomType.setRightHint("请选择车行类型");
         legalPerson.setLeftValue("法人姓名");legalPerson.setEdtRightHint("请填写营业执照上的法人姓名");
         personCard.setLeftValue("身份证号");personCard.setEdtRightHint("身份证上的15位或18位号码");personCard.setInputNumber();
         BusinesLicense.setLeftValue("营业执照");BusinesLicense.setEdtRightHint("请填写营业执照号码");BusinesLicense.setInputNumber();
-        carcomAddress.setTitle("所在地");carcomAddress.setRightGravity(Gravity.RIGHT);carcomAddress.setRightTextColor();
+        carcomAddress.setTitle("所在地");carcomAddress.setRightGravity(Gravity.RIGHT);carcomAddress.setRightTextColor();carcomAddress.setRightHint("请选择车辆所在地");
         carcomDetailAddress.setLeftValue("详细地址");carcomDetailAddress.setEdtRightHint("请填输入详细地址");
         resetView();
     }

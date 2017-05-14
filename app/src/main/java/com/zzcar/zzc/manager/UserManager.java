@@ -3,6 +3,7 @@ package com.zzcar.zzc.manager;
 import com.zzcar.zzc.models.AddCarFrom;
 import com.zzcar.zzc.models.AddCarMiddleModle;
 import com.zzcar.zzc.models.AddressModel;
+import com.zzcar.zzc.models.EnumSendUserType;
 import com.zzcar.zzc.networks.ApiClient;
 import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.ZZCHeaders;
@@ -13,6 +14,7 @@ import com.zzcar.zzc.networks.requests.PhotoRequest;
 import com.zzcar.zzc.networks.requests.ProduceIdResquest;
 import com.zzcar.zzc.networks.requests.SaveCommentRequest;
 import com.zzcar.zzc.networks.requests.SearchRequest;
+import com.zzcar.zzc.networks.requests.SendRegsmsRequest;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.networks.responses.CarSeriesResponse;
@@ -592,4 +594,21 @@ public class UserManager {
     }
 
 
+    /**
+     * 获取验证码
+     * getregsms
+     */
+    public static void getRegsms(String mobile, EnumSendUserType  userType, Subscriber<ResponseParent<VerifiedResponse>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("getRegsms");
+        SendRegsmsRequest sandCode = new SendRegsmsRequest(mobile, userType);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders( sandCode);
+        Subscription subscription = ApiClient.getApiService().getregsms(sandCode, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("getRegsms", subscription);
+    }
 }

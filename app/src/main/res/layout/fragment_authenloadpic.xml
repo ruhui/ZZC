@@ -1,6 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/windowbackcolor">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:background="@color/white"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/textView69"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="13dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/color_333333"
+                    android:text="营业执照" />
+
+                <ImageView
+                    android:id="@+id/imageView14"
+                    android:layout_width="154dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_alignLeft="@+id/textView69"
+                    android:layout_alignStart="@+id/textView69"
+                    android:layout_below="@+id/textView69"
+                    app:srcCompat="@drawable/nav_image_ad_yingyezhizhao" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/grey"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="184dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/textView70"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginStart="16dp"
+                    android:textSize="16sp"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/color_333333"
+                    android:text="身份证照片" />
+
+                <ImageView
+                    android:id="@+id/imageView15"
+                    android:layout_width="154dp"
+                    android:layout_height="100dp"
+                    android:layout_alignLeft="@+id/textView70"
+                    android:layout_alignStart="@+id/textView70"
+                    android:layout_below="@+id/textView70"
+                    android:layout_marginTop="12dp"
+                    app:srcCompat="@drawable/nav_image_ad_shenfenzheng_a" />
+
+                <ImageView
+                    android:id="@+id/imageView16"
+                    android:layout_width="154dp"
+                    android:layout_height="100dp"
+                    android:layout_marginLeft="32dp"
+                    app:srcCompat="@drawable/nav_image_ad_shenfenzheng_b"
+                    android:layout_alignTop="@+id/imageView15"
+                    android:layout_toRightOf="@+id/imageView15"
+                    android:layout_toEndOf="@+id/imageView15" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp">
+
+                <TextView
+                    android:id="@+id/textView71"
+                    android:layout_width="127dp"
+                    android:layout_height="match_parent"
+                    android:text="获取验证码"
+                    android:textSize="16sp"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:background="@color/app_red"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+
+                <EditText
+                    android:id="@+id/editText5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:ems="10"
+                    android:background="@color/white"
+                    android:inputType="number"
+                    android:gravity="center|left"
+                    android:hint="请输入短信验证码"
+                    android:paddingLeft="15dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_toLeftOf="@+id/textView71"
+                    android:layout_toStartOf="@+id/textView71" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/textView72"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_14"
+                android:text="短信验证码将会发送到" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="54dp"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:textColor="@color/app_red"
+                android:text="预计在3个工作日完成人工审核"/>
+
+            <TextView
+                android:id="@+id/txtSave"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:text="保存"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:background="@drawable/shape_red_radio"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="30dp" />
+        </LinearLayout>
+
+    </ScrollView>
 </LinearLayout>

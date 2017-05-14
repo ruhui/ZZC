@@ -54,7 +54,7 @@ public class LoginAcitivty extends BaseActivity {
         public void success(LoginResponse returnMsg) {
             Log.e("success","success");
             SecurePreferences.getInstance().edit().putString("Authorization", returnMsg.access_token).commit();
-            SecurePreferences.getInstance().edit().putString("USERID", "13600001113").commit();
+            SecurePreferences.getInstance().edit().putString("USERMOBILE", "13600001113").commit();
             SecurePreferences.getInstance().edit().putString("USERPASSWORD", "123456").commit();
             SecurePreferences.getInstance().edit().putString("EXPIRESDATE", returnMsg.expires_date).commit();
 

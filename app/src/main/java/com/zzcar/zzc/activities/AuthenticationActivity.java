@@ -1,5 +1,6 @@
 package com.zzcar.zzc.activities;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -34,7 +35,9 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 import java.io.Serializable;
+import java.lang.ref.ReferenceQueue;
 import java.util.ArrayList;
+import java.util.List;
 
 import rx.Subscriber;
 
@@ -53,6 +56,9 @@ public class AuthenticationActivity extends BaseActivity {
     NoScrollViewPager mPager;
 
     private VerifiedResponse verifiedResponse;
+
+    private AuthenUsermsgFragment authenUsermsgFragment;
+    private AuthenLoadPhotoFragment loadPhotoFragment;
 
     @Override
     public void onNetChange(int netMobile) {
@@ -86,12 +92,12 @@ public class AuthenticationActivity extends BaseActivity {
         mPager.setNoScroll(true);
         ArrayList<TabInfo> infos = new ArrayList<>();
 
-        AuthenUsermsgFragment authenUsermsgFragment = AuthenUsermsgFragment_.builder().build();
+        authenUsermsgFragment = AuthenUsermsgFragment_.builder().build();
         Bundle bundle = new Bundle();
         bundle.putSerializable("verifiedResponse", (Serializable) verifiedResponse);
         authenUsermsgFragment.setArguments(bundle);
 
-        AuthenLoadPhotoFragment loadPhotoFragment = AuthenLoadPhotoFragment_.builder().build();
+        loadPhotoFragment = AuthenLoadPhotoFragment_.builder().build();
         Bundle bundle_photo = new Bundle();
         bundle_photo.putSerializable("verifiedResponse", (Serializable) verifiedResponse);
         loadPhotoFragment.setArguments(bundle_photo);
@@ -199,4 +205,12 @@ public class AuthenticationActivity extends BaseActivity {
             closeProgress();
         }
     };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        LogUtil.E("fialed","fialed");
+        authenUsermsgFragment.onActivityResult(requestCode, resultCode, data);
+        loadPhotoFragment.onActivityResult(requestCode, resultCode, data);
+    }
 }

@@ -62,4 +62,8 @@ public class ItemIconTextIcon extends LinearLayout {
         txtRight.setTextColor(getResources().getColor(R.color.color_333333));
     }
 
+    public void setRightHint(String hint){
+        txtRight.setHint(hint);
+    }
+
 }
