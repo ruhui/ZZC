@@ -180,6 +180,23 @@ public class AuthenticationActivity extends BaseActivity {
         }
     }
 
+    /*点击保存时调用*/
+    public void saveVerified(VerifiedResponse verifiedPhoto){
+        VerifiedResponse verifiedMsg = authenUsermsgFragment.getBasicData();
+        verifiedMsg.setCode(verifiedPhoto.getCode());
+        verifiedMsg.setLicense(verifiedPhoto.getLicense());
+        verifiedMsg.setCard_positive(verifiedPhoto.getCard_positive());
+        verifiedMsg.setCard_negative(verifiedPhoto.getCard_negative());
+        boolean checked = verifiedMsg.chekMsgDetail(verifiedMsg);
+        if (checked){
+            //去认证
+            showProgress();
+            Subscriber subscriber =  new PosetSubscriber<VerifiedResponse>().getSubscriber(callback_saveverified);
+            UserManager.saveVerified(verifiedMsg, subscriber);
+        }
+    }
+
+
     /*获取认证*/
     private void getVerified() {
         Subscriber subscriber =  new PosetSubscriber<VerifiedResponse>().getSubscriber(callback_verified);
@@ -213,4 +230,24 @@ public class AuthenticationActivity extends BaseActivity {
         authenUsermsgFragment.onActivityResult(requestCode, resultCode, data);
         loadPhotoFragment.onActivityResult(requestCode, resultCode, data);
     }
+
+    /*实名认证保存*/
+    ResponseResultListener callback_saveverified = new ResponseResultListener<Boolean>() {
+        @Override
+        public void success(Boolean returnMsg) {
+            closeProgress();
+            if (returnMsg){
+                ToastUtil.showToast("提交成功");
+                finish();
+            }else{
+                ToastUtil.showToast("提交失败");
+            }
+        }
+
+        @Override
+        public void fialed(String resCode, String message) {
+            closeProgress();
+            ToastUtil.showToast("提交失败");
+        }
+    };
 }

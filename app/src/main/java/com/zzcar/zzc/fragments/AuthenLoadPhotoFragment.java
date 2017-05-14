@@ -5,10 +5,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.CountDownTimer;
 import android.provider.MediaStore;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zzcar.zzc.R;
+import com.zzcar.zzc.activities.AuthenticationActivity;
 import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.constants.Permission;
 import com.zzcar.zzc.fragments.base.BaseFragment;
@@ -20,11 +22,13 @@ import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.UploadFileWithoutLoding;
 import com.zzcar.zzc.networks.responses.VerifiedResponse;
 import com.zzcar.zzc.utils.ImageLoader;
+import com.zzcar.zzc.utils.KeyboardPatch;
 import com.zzcar.zzc.utils.PermissionUtili;
 import com.zzcar.zzc.utils.SecurePreferences;
 import com.zzcar.zzc.utils.ToastUtil;
 import com.zzcar.zzc.utils.Tool;
 import com.zzcar.zzc.views.widget.dialogs.ShowPhotoDialog;
+import com.zzcar.zzc.views.widget.dialogs.ShowPhotoRenzhengDialog;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -56,11 +60,13 @@ public class AuthenLoadPhotoFragment extends BaseFragment {
     TextView txtSubmitCOde;
     @ViewById(R.id.textView72)
     TextView sendtoPhone;
+    @ViewById(R.id.editText5)
+    EditText edtCode;
 
     private boolean timerstart = false;
     private int SELECTPOSITION = 1;//1为营业执照 2为身份证正面照  3为身份证反面照
     private CountDownTimer myCount;
-    private ShowPhotoDialog dialog;
+    private ShowPhotoRenzhengDialog dialog;
     private int REQ_CODE_CAMERA = 10125;
 
     /*照相机返回的路径*/
@@ -73,6 +79,7 @@ public class AuthenLoadPhotoFragment extends BaseFragment {
     private ArrayList<String> photosShenfenzf = new ArrayList<>();
 
     private VerifiedResponse verifiedResponse;
+    private KeyboardPatch keyboard;
 
     @Override
     public void onAttach(Context context) {
@@ -82,6 +89,9 @@ public class AuthenLoadPhotoFragment extends BaseFragment {
 
     @AfterViews
     void initView(){
+        //设置键盘弹起
+        keyboard = new KeyboardPatch(getActivity(), getView());
+        keyboard.enable();
         String mobile = SecurePreferences.getInstance().getString("USERMOBILE", "");
         sendtoPhone.setText("短信验证码将会发送到"+ mobile.substring(0, 4)+"****"+mobile.substring(mobile.length()-4, mobile.length()));
     }
@@ -91,14 +101,6 @@ public class AuthenLoadPhotoFragment extends BaseFragment {
 
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (myCount != null){
-            myCount.onFinish();
-            myCount.cancel();
-        }
-    }
 
     /*获取验证码*/
     @Click(R.id.textView71)
@@ -120,9 +122,10 @@ public class AuthenLoadPhotoFragment extends BaseFragment {
         if (dialog != null){
             dialog.show();
         }else{
-            dialog = new ShowPhotoDialog(getActivity(), mListener);
+            dialog = new ShowPhotoRenzhengDialog(getActivity(), mListener);
             dialog.show();
         }
+        dialog.setDemoPic(R.drawable.bg_demo_yingye);
     }
 
     /*身份证正面*/
@@ -132,9 +135,10 @@ public class AuthenLoadPhotoFragment extends BaseFragment {
         if (dialog != null){
             dialog.show();
         }else{
-            dialog = new ShowPhotoDialog(getActivity(), mListener);
+            dialog = new ShowPhotoRenzhengDialog(getActivity(), mListener);
             dialog.show();
         }
+        dialog.setDemoPic(R.drawable.bg_demo_shenfenz);
     }
 
     /*身份证反面*/
@@ -144,19 +148,22 @@ public class AuthenLoadPhotoFragment extends BaseFragment {
         if (dialog != null){
             dialog.show();
         }else{
-            dialog = new ShowPhotoDialog(getActivity(), mListener);
+            dialog = new ShowPhotoRenzhengDialog(getActivity(), mListener);
             dialog.show();
         }
+        dialog.setDemoPic(R.drawable.bg_demo_shenfenf);
     }
 
     /*保存*/
     @Click(R.id.txtSave)
     void saveVertifi(){
-
+        String code = edtCode.getText().toString();
+        verifiedResponse.setCode(code);
+        ((AuthenticationActivity)getActivity()).saveVerified(verifiedResponse);
     }
 
 
-    ShowPhotoDialog.ListListener mListener = new ShowPhotoDialog.ListListener() {
+    ShowPhotoRenzhengDialog.ListListener mListener = new ShowPhotoRenzhengDialog.ListListener() {
         @Override
         public void setOnItemClickListener(int type) {
             dialog.dismiss();
@@ -330,4 +337,16 @@ public class AuthenLoadPhotoFragment extends BaseFragment {
             ToastUtil.showToast("获取失败");
         }
     };
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (keyboard != null){
+            keyboard.disable();
+        }
+        if (myCount != null){
+            myCount.onFinish();
+            myCount.cancel();
+        }
+    }
 }

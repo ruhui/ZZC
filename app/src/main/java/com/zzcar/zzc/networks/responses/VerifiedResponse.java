@@ -1,5 +1,9 @@
 package com.zzcar.zzc.networks.responses;
 
+import android.text.TextUtils;
+
+import com.zzcar.zzc.utils.ToastUtil;
+
 import java.io.Serializable;
 
 /**
@@ -73,6 +77,42 @@ public class VerifiedResponse implements Serializable{
                 break;
         }
         return  carType;
+    }
+
+    /*验证数据是否完整*/
+    public boolean chekMsgDetail(VerifiedResponse verifi){
+        if (TextUtils.isEmpty(verifi.getAccount_name())){
+            ToastUtil.showToast("请输入车行名称");
+            return false;
+        }else if (TextUtils.isEmpty(verifi.getId_card()) || verifi.getId_card().length() < 15 ||verifi.getId_card().length() > 18){
+            ToastUtil.showToast("请输入正确的身份证号码");
+            return false;
+        }else if (verifi.getArea_id()==0){
+            ToastUtil.showToast("请选择所在地");
+            return false;
+        }else if (TextUtils.isEmpty(verifi.getAddress())){
+            ToastUtil.showToast("请输入详细地址");
+            return false;
+        }else if (TextUtils.isEmpty(verifi.getCard_positive())){
+            ToastUtil.showToast("请上传身份证正面照");
+            return false;
+        }else if (TextUtils.isEmpty(verifi.getCard_negative())){
+            ToastUtil.showToast("请上传身份证反面照");
+            return false;
+        }else if (TextUtils.isEmpty(verifi.getLegal_person())){
+            ToastUtil.showToast("请输入法人姓名");
+            return false;
+        }else if (TextUtils.isEmpty(verifi.getLicense())){
+            ToastUtil.showToast("请上传营业执照");
+            return false;
+        }else if (TextUtils.isEmpty(verifi.getLicense_no())){
+            ToastUtil.showToast("请输入营业执照号码");
+            return false;
+        }else if (TextUtils.isEmpty(verifi.getCode())){
+            ToastUtil.showToast("请输入手机验证码");
+            return false;
+        }
+        return true;
     }
 
     public String getAccount_name() {

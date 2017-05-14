@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.Gravity;
 
 import com.zzcar.zzc.R;
@@ -14,6 +15,7 @@ import com.zzcar.zzc.activities.SelectCityActivity_;
 import com.zzcar.zzc.activities.SelectCountryActivity_;
 import com.zzcar.zzc.fragments.base.BaseFragment;
 import com.zzcar.zzc.networks.responses.VerifiedResponse;
+import com.zzcar.zzc.utils.KeyboardPatch;
 import com.zzcar.zzc.views.widget.ItemIconTextIcon;
 import com.zzcar.zzc.views.widget.ItemTextEditView;
 
@@ -54,6 +56,7 @@ public class AuthenUsermsgFragment extends BaseFragment {
     ItemTextEditView carcomDetailAddress;
     //做完删掉
     private  VerifiedResponse verifiedResponse;
+    private KeyboardPatch keyboard;
 
     @Override
     public void onAttach(Context context) {
@@ -79,6 +82,9 @@ public class AuthenUsermsgFragment extends BaseFragment {
 
     @AfterViews
     void initView(){
+        //设置键盘弹起
+        keyboard = new KeyboardPatch(getActivity(), getView());
+        keyboard.enable();
         carcomName.setTitle("车行名称");carcomName.setRightGravity(Gravity.RIGHT);carcomName.setRightTextColor();carcomName.setRightHint("请输入车行名称");
         carcomType.setTitle("车行类型");carcomType.setRightGravity(Gravity.RIGHT);carcomType.setRightTextColor();carcomType.setRightHint("请选择车行类型");
         legalPerson.setLeftValue("法人姓名");legalPerson.setEdtRightHint("请填写营业执照上的法人姓名");
@@ -93,11 +99,19 @@ public class AuthenUsermsgFragment extends BaseFragment {
         if (verifiedResponse != null){
             carcomName.setRightText(verifiedResponse.getAccount_name());
             carcomType.setRightText(verifiedResponse.getCarType());
-            legalPerson.setRightValue(verifiedResponse.getLegal_person());
-            personCard.setRightValue(verifiedResponse.getId_card());
-            BusinesLicense.setRightValue(verifiedResponse.getLicense_no());
             carcomAddress.setRightText(verifiedResponse.getRegion_name());
-            carcomDetailAddress.setRightValue(verifiedResponse.getAddress());
+            if (!TextUtils.isEmpty(verifiedResponse.getLegal_person())){
+                legalPerson.setRightValue(verifiedResponse.getLegal_person());
+            }
+            if (!TextUtils.isEmpty(verifiedResponse.getId_card())){
+                personCard.setRightValue(verifiedResponse.getId_card());
+            }
+            if (!TextUtils.isEmpty(verifiedResponse.getLicense_no())){
+                BusinesLicense.setRightValue(verifiedResponse.getLicense_no());
+            }
+            if (!TextUtils.isEmpty(verifiedResponse.getAddress())){
+                carcomDetailAddress.setRightValue(verifiedResponse.getAddress());
+            }
         }
     }
 
@@ -123,6 +137,20 @@ public class AuthenUsermsgFragment extends BaseFragment {
     void selectCity(){
         Intent intent = new Intent(getActivity(), SelectCountryActivity_.class);
         startActivityForResult(intent, 20173);
+    }
+
+
+    /*获取填写的相关信息*/
+    public VerifiedResponse getBasicData(){
+        String legal_person = legalPerson.getRightValue();
+        verifiedResponse.setLegal_person(legal_person);
+        String idcard = personCard.getRightValue();
+        verifiedResponse.setId_card(idcard);
+        String license_no = BusinesLicense.getRightValue();
+        verifiedResponse.setLicense_no(license_no);
+        String addressdetail = carcomDetailAddress.getRightValue();
+        verifiedResponse.setAddress(addressdetail);
+        return verifiedResponse;
     }
 
     @Override
@@ -155,5 +183,14 @@ public class AuthenUsermsgFragment extends BaseFragment {
             }
         }
         resetView();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (keyboard != null){
+            keyboard.disable();
+
+        }
     }
 }

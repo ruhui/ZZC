@@ -4,59 +4,70 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.zzcar.zzc.views.widget.ItemIconTextIcon_
-        android:id="@+id/carcomName"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="45dp">
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
 
-    </com.zzcar.zzc.views.widget.ItemIconTextIcon_>
+            <com.zzcar.zzc.views.widget.ItemIconTextIcon_
+                android:id="@+id/carcomName"
+                android:layout_width="match_parent"
+                android:layout_height="45dp">
 
-    <com.zzcar.zzc.views.widget.ItemIconTextIcon_
-        android:id="@+id/carcomType"
-        android:layout_width="match_parent"
-        android:layout_height="45dp">
+            </com.zzcar.zzc.views.widget.ItemIconTextIcon_>
 
-    </com.zzcar.zzc.views.widget.ItemIconTextIcon_>
+            <com.zzcar.zzc.views.widget.ItemIconTextIcon_
+                android:id="@+id/carcomType"
+                android:layout_width="match_parent"
+                android:layout_height="45dp">
 
-    <com.zzcar.zzc.views.widget.ItemTextEditView_
-        android:id="@+id/legalPerson"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        >
+            </com.zzcar.zzc.views.widget.ItemIconTextIcon_>
 
-    </com.zzcar.zzc.views.widget.ItemTextEditView_>
+            <com.zzcar.zzc.views.widget.ItemTextEditView_
+                android:id="@+id/legalPerson"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                >
 
-    <com.zzcar.zzc.views.widget.ItemTextEditView_
-        android:id="@+id/personCard"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        >
+            </com.zzcar.zzc.views.widget.ItemTextEditView_>
 
-    </com.zzcar.zzc.views.widget.ItemTextEditView_>
+            <com.zzcar.zzc.views.widget.ItemTextEditView_
+                android:id="@+id/personCard"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                >
+
+            </com.zzcar.zzc.views.widget.ItemTextEditView_>
 
 
-    <com.zzcar.zzc.views.widget.ItemTextEditView_
-        android:id="@+id/BusinesLicense"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        >
+            <com.zzcar.zzc.views.widget.ItemTextEditView_
+                android:id="@+id/BusinesLicense"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                >
 
-    </com.zzcar.zzc.views.widget.ItemTextEditView_>
+            </com.zzcar.zzc.views.widget.ItemTextEditView_>
 
-    <com.zzcar.zzc.views.widget.ItemIconTextIcon_
-        android:id="@+id/carcomAddress"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginTop="5dp">
+            <com.zzcar.zzc.views.widget.ItemIconTextIcon_
+                android:id="@+id/carcomAddress"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginTop="5dp">
 
-    </com.zzcar.zzc.views.widget.ItemIconTextIcon_>
+            </com.zzcar.zzc.views.widget.ItemIconTextIcon_>
 
-    <com.zzcar.zzc.views.widget.ItemTextEditView_
-        android:id="@+id/carcomDetailAddress"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        >
+            <com.zzcar.zzc.views.widget.ItemTextEditView_
+                android:id="@+id/carcomDetailAddress"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                >
 
-    </com.zzcar.zzc.views.widget.ItemTextEditView_>
+            </com.zzcar.zzc.views.widget.ItemTextEditView_>
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

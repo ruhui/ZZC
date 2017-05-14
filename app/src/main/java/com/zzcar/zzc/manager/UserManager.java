@@ -611,4 +611,25 @@ public class UserManager {
                 .subscribe(subscriber);
         add("getRegsms", subscription);
     }
+
+    /**
+     * 车行实名认证
+     * @param verifiedResponse
+     * @param subscriber
+     */
+    public static void saveVerified(VerifiedResponse verifiedResponse, Subscriber<ResponseParent<VerifiedResponse>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("saveVerified");
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, verifiedResponse);
+        Subscription subscription = ApiClient.getApiService().saveverified(verifiedResponse, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("saveVerified", subscription);
+    }
+
+
 }

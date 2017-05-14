@@ -149,4 +149,8 @@ public interface ZZCService {
     /*获取验证码*/
     @POST("common/regsms")
     Observable<ResponseParent<Boolean>> getregsms(@Body SendRegsmsRequest sendCode, @HeaderMap Map<String, String> header);
+
+    /*车行认证*/
+    @POST("account/save_verified")
+    Observable<ResponseParent<Boolean>> saveverified(@Body VerifiedResponse verfied, @HeaderMap Map<String, String> header);
 }
