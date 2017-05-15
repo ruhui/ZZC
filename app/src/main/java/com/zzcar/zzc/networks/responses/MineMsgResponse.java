@@ -8,6 +8,7 @@ import java.io.Serializable;
  * 创建时间： 2017/4/18 17:14
  **/
 public class MineMsgResponse implements Serializable{
+    private String qrcode;//二维码
     private int auth_status;
     private String mobile;
     private String nick;
@@ -16,8 +17,12 @@ public class MineMsgResponse implements Serializable{
     private String remark;
     private String shop_name;
     private String emp_name;
+    private boolean security;//是否担保交易
 
-    public MineMsgResponse(int auth_status, String mobile, String nick, String photo, String auth_status_name, String remark, String shop_name, String emp_name) {
+    public MineMsgResponse(int auth_status, String mobile, String nick, String photo,
+                           String auth_status_name, String remark, String shop_name,
+                           String emp_name, String qrcode, boolean security) {
+        this.qrcode = qrcode;
         this.auth_status = auth_status;
         this.mobile = mobile;
         this.nick = nick;
@@ -26,6 +31,23 @@ public class MineMsgResponse implements Serializable{
         this.remark = remark;
         this.shop_name = shop_name;
         this.emp_name = emp_name;
+        this.security = security;
+    }
+
+    public String getQrcode() {
+        return qrcode;
+    }
+
+    public void setQrcode(String qrcode) {
+        this.qrcode = qrcode;
+    }
+
+    public boolean isSecurity() {
+        return security;
+    }
+
+    public void setSecurity(boolean security) {
+        this.security = security;
     }
 
     public int getAuth_status() {
@@ -93,11 +115,13 @@ public class MineMsgResponse implements Serializable{
     }
 }
 
-//"auth_status": 0,
-//        "mobile": "sample string 3",
-//        "nick": "sample string 4",
-//        "photo": "sample string 5",
-//        "auth_status_name": "未认证",
-//        "remark": "sample string 6",
-//        "shop_name": "sample string 7",
-//        "emp_name": "员工"
+// "qrcode": "sample string 3",
+//         "auth_status": 0,
+//         "mobile": "sample string 4",
+//         "nick": "sample string 5",
+//         "photo": "sample string 6",
+//         "auth_status_name": "未认证",
+//         "remark": "sample string 7",
+//         "shop_name": "sample string 8",
+//         "emp_name": "员工",
+//         "security": true

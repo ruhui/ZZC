@@ -94,6 +94,10 @@ public class AuthenLoadPhotoFragment extends BaseFragment {
         keyboard.enable();
         String mobile = SecurePreferences.getInstance().getString("USERMOBILE", "");
         sendtoPhone.setText("短信验证码将会发送到"+ mobile.substring(0, 4)+"****"+mobile.substring(mobile.length()-4, mobile.length()));
+
+        ImageLoader.loadImage(Tool.getPicUrl(getActivity(), verifiedResponse.getLicense(), 154, 100), imgYingye);
+        ImageLoader.loadImage(Tool.getPicUrl(getActivity(), verifiedResponse.getCard_positive(), 154, 100), shenfenzz);
+        ImageLoader.loadImage(Tool.getPicUrl(getActivity(), verifiedResponse.getCard_negative(), 154, 100), shenfenzf);
     }
 
     @Override

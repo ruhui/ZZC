@@ -19,6 +19,7 @@ import com.zzcar.zzc.networks.responses.ColorResponse;
 import com.zzcar.zzc.networks.responses.CommentResponse;
 import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
+import com.zzcar.zzc.networks.responses.IntegralDetailResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.networks.responses.MybillResponse;
@@ -153,4 +154,9 @@ public interface ZZCService {
     /*车行认证*/
     @POST("account/save_verified")
     Observable<ResponseParent<Boolean>> saveverified(@Body VerifiedResponse verfied, @HeaderMap Map<String, String> header);
+
+    /*获取积分明细*/
+    @GET("account/integral_detail")
+    Observable<ResponseParent<IntegralDetailResponse>> getintegraldetail(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+
 }

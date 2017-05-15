@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/windowbackcolor">
+
+
+    <com.zzcar.zzc.views.widget.NavBar2_
+        android:id="@+id/mNavbar"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:gravity="bottom"
+        android:background="@color/white"
+        app:title_res="@string/tab_mine">
+    </com.zzcar.zzc.views.widget.NavBar2_>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="175dp"
+        android:background="@drawable/nav_pic_jifen">
+
+        <TextView
+            android:id="@+id/textView82"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="25dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="30dp"
+            android:text="余额（元）"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView83"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView82"
+            android:layout_alignStart="@+id/textView82"
+            android:layout_below="@+id/textView82"
+            android:layout_marginTop="23dp"
+            android:text="0.00"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textView84"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView83"
+            android:layout_alignStart="@+id/textView83"
+            android:layout_below="@+id/textView83"
+            android:layout_marginTop="25dp"
+            android:text="冻结金额"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/textView85"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textView84"
+            android:layout_toEndOf="@+id/textView84"
+            android:layout_toRightOf="@+id/textView84"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/white"
+            android:text="0.0" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/txtTixian"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="提现"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/color_333333"/>
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:background="@color/grey"/>
+
+        <TextView
+            android:id="@+id/txtShouzhiDetail"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="收支明细"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/color_333333"
+            />
+    </LinearLayout>
+    
+    <com.zzcar.zzc.views.widget.ItemIconTextIcon_
+        android:id="@+id/shoukuanItem"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="5dp">
+
+    </com.zzcar.zzc.views.widget.ItemIconTextIcon_>
+    <com.zzcar.zzc.views.widget.ItemIconTextIcon_
+        android:id="@+id/tixianItem"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="2dp">
+
+    </com.zzcar.zzc.views.widget.ItemIconTextIcon_>
+
+</LinearLayout>

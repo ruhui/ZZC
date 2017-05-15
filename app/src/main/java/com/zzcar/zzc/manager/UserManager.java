@@ -23,6 +23,7 @@ import com.zzcar.zzc.networks.responses.CityResponse;
 import com.zzcar.zzc.networks.responses.ColorResponse;
 import com.zzcar.zzc.networks.responses.CommentResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
+import com.zzcar.zzc.networks.responses.IntegralDetailResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.networks.responses.MybillResponse;
@@ -631,5 +632,26 @@ public class UserManager {
         add("saveVerified", subscription);
     }
 
+    /**
+     * 获取积分详情
+     * @param page
+     * @param subscriber
+     */
+    public static void getIntegraldetail(int page, Subscriber<ResponseParent<IntegralDetailResponse>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("getIntegraldetail");
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("page", String.valueOf(page));
+        hashmap.put("size", "10");
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        Subscription subscription = ApiClient.getApiService().getintegraldetail(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("getIntegraldetail", subscription);
+    }
 
 }

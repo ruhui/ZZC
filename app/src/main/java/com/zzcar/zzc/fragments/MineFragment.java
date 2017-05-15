@@ -2,6 +2,7 @@ package com.zzcar.zzc.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -88,6 +89,38 @@ public class MineFragment extends BaseFragment {
         orderingItem.setNameText("订阅");orderingItem.setImgResouse(R.drawable.nav_icon_dingyue);
         mysaveItem.setNameText("我的收藏");mysaveItem.setImgResouse(R.drawable.nav_icon_head_shoucang);
         settingItem.setNameText("设置");settingItem.setImgResouse(R.drawable.nav_icon_shezhi);
+
+        /*我的积分*/
+        relaMinePoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showFragment(getActivity(), IntegralFragment_.builder().build());
+            }
+        });
+
+        /*二维码*/
+        relaMineMark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mineMsgResponse == null){
+                    return;
+                }
+                String qrcode = mineMsgResponse.getQrcode();
+                QrcodeFragment qrcodeFragment = QrcodeFragment_.builder().build();
+                Bundle bundle = new Bundle();
+                bundle.putString("qrcode",qrcode);
+                qrcodeFragment.setArguments(bundle);
+                showFragment(getActivity(), qrcodeFragment);
+            }
+        });
+
+        /*钱包*/
+        relaMineMoney.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showFragment(getActivity(), BalanceFragment_.builder().build());
+            }
+        });
     }
 
     /*我的资料*/

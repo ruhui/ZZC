@@ -182,7 +182,7 @@
                     android:id="@+id/imageView6"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="15dp"
                     app:srcCompat="@drawable/nav_icon_erweima"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true" />
