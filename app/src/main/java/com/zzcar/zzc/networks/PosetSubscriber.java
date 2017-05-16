@@ -1,6 +1,7 @@
 package com.zzcar.zzc.networks;
 
 import com.zzcar.zzc.interfaces.ResponseResultListener;
+import com.zzcar.zzc.utils.ToastUtil;
 
 import rx.Subscriber;
 
@@ -27,6 +28,7 @@ public class PosetSubscriber<T> {
                     //成功
                     listener.success(httpResult.data);
                 }else{
+                    ToastUtil.showToast(httpResult.result_msg);
                     listener.fialed(httpResult.result_code, httpResult.result_msg);
                 }
             }

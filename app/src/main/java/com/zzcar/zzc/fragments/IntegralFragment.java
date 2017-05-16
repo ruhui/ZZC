@@ -123,9 +123,9 @@ public class IntegralFragment extends BasePullRecyclerFragment{
         public void success(IntegralDetailResponse returnMsg) {
             closeProgress();
             if (returnMsg.getTotal_pages() <= CURTURNPAGE){
-                finishLoad(true);
-            }else{
                 finishLoad(false);
+            }else{
+                finishLoad(true);
             }
             List<IntegralDetail> list = returnMsg.getRows();
             mList.addAll(list);

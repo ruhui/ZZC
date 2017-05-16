@@ -3,6 +3,7 @@ package com.zzcar.zzc.service;
 import com.zzcar.zzc.models.AddCarFrom;
 import com.zzcar.zzc.models.AddressModel;
 import com.zzcar.zzc.networks.ResponseParent;
+import com.zzcar.zzc.networks.requests.ApplyDepositRequest;
 import com.zzcar.zzc.networks.requests.LoginRequest;
 import com.zzcar.zzc.networks.requests.NickRequest;
 import com.zzcar.zzc.networks.requests.PhotoRequest;
@@ -17,6 +18,7 @@ import com.zzcar.zzc.networks.responses.CarTypeResponse;
 import com.zzcar.zzc.networks.responses.CityResponse;
 import com.zzcar.zzc.networks.responses.ColorResponse;
 import com.zzcar.zzc.networks.responses.CommentResponse;
+import com.zzcar.zzc.networks.responses.DepositResponse;
 import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
 import com.zzcar.zzc.networks.responses.IntegralDetailResponse;
@@ -24,6 +26,7 @@ import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.networks.responses.MybillResponse;
 import com.zzcar.zzc.networks.responses.UserMsgResponse;
+import com.zzcar.zzc.networks.responses.ValueTextResponse;
 import com.zzcar.zzc.networks.responses.VerifiedResponse;
 
 import java.util.List;
@@ -158,5 +161,21 @@ public interface ZZCService {
     /*获取积分明细*/
     @GET("account/integral_detail")
     Observable<ResponseParent<IntegralDetailResponse>> getintegraldetail(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+
+    /*获取体现方式*/
+    @GET("account/deposit")
+    Observable<ResponseParent<DepositResponse>> getdeposit(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+
+    /*获取提现银行*/
+    @GET("common/bank")
+    Observable<ResponseParent<List<ValueTextResponse>>> getbank(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+
+    /*保存提现账户*/
+    @POST("account/save_deposit")
+    Observable<ResponseParent<Boolean>> savedeposit(@Body DepositResponse response, @HeaderMap Map<String, String> header);
+
+    /*申请提现*/
+    @POST("account/apply_deposit")
+    Observable<ResponseParent<Boolean>> applydeposit(@Body ApplyDepositRequest response, @HeaderMap Map<String, String> header);
 
 }

@@ -2,6 +2,7 @@ package com.zzcar.zzc.adapters.viewholders;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,5 +35,10 @@ public class ItemTextView extends RelativeLayout {
 
     public void bind(String cityModel){
         allcity.setText(cityModel);
+    }
+
+    public void bindcenter(String text){
+        allcity.setText(text);
+        allcity.setGravity(Gravity.CENTER);
     }
 }

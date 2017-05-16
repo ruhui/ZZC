@@ -7,6 +7,7 @@ import com.zzcar.zzc.models.EnumSendUserType;
 import com.zzcar.zzc.networks.ApiClient;
 import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.ZZCHeaders;
+import com.zzcar.zzc.networks.requests.ApplyDepositRequest;
 import com.zzcar.zzc.networks.requests.LoginRequest;
 import com.zzcar.zzc.networks.requests.NickRequest;
 import com.zzcar.zzc.networks.requests.ParametersRequest;
@@ -22,11 +23,13 @@ import com.zzcar.zzc.networks.responses.CarTypeResponse;
 import com.zzcar.zzc.networks.responses.CityResponse;
 import com.zzcar.zzc.networks.responses.ColorResponse;
 import com.zzcar.zzc.networks.responses.CommentResponse;
+import com.zzcar.zzc.networks.responses.DepositResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
 import com.zzcar.zzc.networks.responses.IntegralDetailResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.networks.responses.MybillResponse;
+import com.zzcar.zzc.networks.responses.ValueTextResponse;
 import com.zzcar.zzc.networks.responses.VerifiedResponse;
 import com.zzcar.zzc.utils.SecurePreferences;
 import com.zzcar.zzc.utils.Tool;
@@ -653,5 +656,92 @@ public class UserManager {
                 .subscribe(subscriber);
         add("getIntegraldetail", subscription);
     }
+
+    /**
+     * 获取提现方式
+     * @param subscriber
+     */
+    public static void getdeposit(Subscriber<ResponseParent<DepositResponse>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("getdeposit");
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        Subscription subscription = ApiClient.getApiService().getdeposit(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("getdeposit", subscription);
+    }
+
+
+    /**
+     * 获取可提现银行
+     * @param subscriber
+     */
+    public static void getBank(Subscriber<ResponseParent<List<ValueTextResponse>>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("getBank");
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(hashmap);
+        Subscription subscription = ApiClient.getApiService().getbank(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("getBank", subscription);
+    }
+
+    /**
+     * 保存提现账号
+     * @param bankcode
+     * @param bankname
+     * @param bankcard
+     * @param accountname
+     * @param code
+     * @param subscriber
+     */
+    public static void saveDeposit(String bankcode,String bankname, String bankcard, String accountname, String code,
+                               Subscriber<ResponseParent<Boolean>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("saveDeposit");
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        DepositResponse response = new DepositResponse(bankcode, bankname, bankcard, accountname, 2, code);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, response);
+        Subscription subscription = ApiClient.getApiService().savedeposit(response, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("saveDeposit", subscription);
+    }
+
+    /**
+     * 申请提现
+     * @param amount
+     * @param settle_type 结算类型：oneday,fast
+     * @param type 提现类型：1收款，2交易
+     * @param subscriber
+     */
+    public static void applyDeposit(double amount, String settle_type, int type, Subscriber<ResponseParent<Boolean>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("applyDeposit");
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        ApplyDepositRequest response = new ApplyDepositRequest(amount, settle_type, type);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, response);
+        Subscription subscription = ApiClient.getApiService().applydeposit(response, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("applyDeposit", subscription);
+    }
+
 
 }

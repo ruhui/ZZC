@@ -89,6 +89,9 @@ public class AuthenLoadPhotoFragment extends BaseFragment {
 
     @AfterViews
     void initView(){
+        ImageLoader.loadImage(Tool.getPicUrl(getActivity(), verifiedResponse.getLicense(), 154, 100), imgYingye, R.drawable.nav_image_ad_yingyezhizhao);
+        ImageLoader.loadImage(Tool.getPicUrl(getActivity(), verifiedResponse.getCard_positive(), 154, 100), shenfenzz, R.drawable.nav_image_ad_shenfenzheng_a);
+        ImageLoader.loadImage(Tool.getPicUrl(getActivity(), verifiedResponse.getCard_negative(), 154, 100), shenfenzf, R.drawable.nav_image_ad_shenfenzheng_b);
         //设置键盘弹起
         keyboard = new KeyboardPatch(getActivity(), getView());
         keyboard.enable();
