@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f7f8f9"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.zzcar.zzc.activities.LoginAcitivty">
 
@@ -20,7 +21,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/__picker_camera"
+        app:srcCompat="@drawable/default_login"
         android:layout_below="@+id/mNavbar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="37dp"
@@ -80,7 +81,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/nav_icon_number"
+            app:srcCompat="@drawable/nav_icon_lock"
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:id="@+id/imageView23"
@@ -118,4 +119,32 @@
         android:layout_alignStart="@+id/relativeLayout6"
         android:layout_alignRight="@+id/relativeLayout6"
         android:layout_alignEnd="@+id/relativeLayout6" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="36dp"
+        android:text="注册"
+        android:background="@drawable/shape_red_radio"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:layout_alignLeft="@+id/button2"
+        android:layout_alignStart="@+id/button2"
+        android:layout_alignRight="@+id/button2"
+        android:layout_alignEnd="@+id/button2" />
+
+    <TextView
+        android:id="@+id/textView101"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:gravity="right"
+        android:layout_alignEnd="@+id/button2"
+        android:layout_alignRight="@+id/button2"
+        android:layout_below="@+id/button2"
+        android:textSize="16sp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/app_red"
+        android:text="忘记密码" />
 </RelativeLayout>

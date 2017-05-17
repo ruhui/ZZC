@@ -1,7 +1,16 @@
 package com.zzcar.zzc.networks;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.utils.ToastUtil;
+import com.zzcar.zzc.utils.Tool;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import rx.Subscriber;
 
@@ -36,4 +45,14 @@ public class PosetSubscriber<T> {
         return subscriber;
     }
 
+
+    <T> ArrayList<T> fromJsonList(String json, Class<T> cls) {
+        ArrayList<T> mList = new ArrayList<T>();
+        JsonArray array = new JsonParser().parse(json).getAsJsonArray();
+        for(final JsonElement elem : array){
+            Gson mGson = new Gson();
+            mList.add(mGson.fromJson(elem, cls));
+        }
+        return mList;
+    }
 }

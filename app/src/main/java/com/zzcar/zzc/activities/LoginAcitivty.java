@@ -3,7 +3,9 @@ package com.zzcar.zzc.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.widget.EditText;
 
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
@@ -14,10 +16,12 @@ import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.networks.responses.UserMsgResponse;
 import com.zzcar.zzc.utils.SecurePreferences;
+import com.zzcar.zzc.utils.ToastUtil;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
@@ -26,6 +30,10 @@ import rx.Subscriber;
 @EActivity(R.layout.activity_login_acitivty)
 public class LoginAcitivty extends BaseActivity {
 
+    @ViewById(R.id.editText8)
+    EditText edtPhone;
+    @ViewById(R.id.editText9)
+    EditText edtPassword;
 
     @AfterViews
     void initView(){
@@ -34,8 +42,30 @@ public class LoginAcitivty extends BaseActivity {
 
     @Click(R.id.button2)
     void buttonsecond(){
+        String phonenum = edtPhone.getText().toString();
+        String password = edtPassword.getText().toString();
+
+        if (TextUtils.isEmpty(phonenum)){
+            ToastUtil.showToast("请输入手机号码");
+            return;
+        }
+        if (TextUtils.isEmpty(password)){
+            ToastUtil.showToast("请输入密码");
+            return;
+        }
+
         showProgress();
-        getData();
+        getData(phonenum, password);
+    }
+
+    @Click(R.id.button3)
+    void regist(){
+        //注册
+    }
+
+    @Click(R.id.textView101)
+    void forgetpassword(){
+        //忘记密码
     }
 
     @Override
@@ -44,9 +74,9 @@ public class LoginAcitivty extends BaseActivity {
     }
 
 
-    private void getData(){
+    private void getData(String phonenum, String password){
         Subscriber subscriber = new PosetSubscriber<LoginResponse>().getSubscriber(callback);
-        UserManager.loginzzc("13600001113","123456", subscriber);
+        UserManager.loginzzc(phonenum, password, subscriber);
     }
 
     ResponseResultListener callback = new ResponseResultListener<LoginResponse>() {
