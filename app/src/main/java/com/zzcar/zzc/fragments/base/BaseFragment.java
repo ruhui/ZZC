@@ -158,7 +158,9 @@ public abstract class BaseFragment extends Fragment implements NetEvevt {
        List<Fragment> fragments = getChildFragmentManager().getFragments();
        if (fragments != null) {
            for (Fragment fragment : fragments) {
-               fragment.onActivityResult(requestCode, resultCode, data);
+               if (fragment != null){
+                   fragment.onActivityResult(requestCode, resultCode, data);
+               }
            }
        }
    }
