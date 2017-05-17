@@ -25,6 +25,7 @@ import com.zzcar.zzc.networks.responses.IntegralDetailResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.networks.responses.MybillResponse;
+import com.zzcar.zzc.networks.responses.ShouzhiDetailResponse;
 import com.zzcar.zzc.networks.responses.UserMsgResponse;
 import com.zzcar.zzc.networks.responses.ValueTextResponse;
 import com.zzcar.zzc.networks.responses.VerifiedResponse;
@@ -177,5 +178,9 @@ public interface ZZCService {
     /*申请提现*/
     @POST("account/apply_deposit")
     Observable<ResponseParent<Boolean>> applydeposit(@Body ApplyDepositRequest response, @HeaderMap Map<String, String> header);
+
+    /*收支明细*/
+    @GET("account/bills")
+    Observable<ResponseParent<ShouzhiDetailResponse>> getbills(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
 
 }

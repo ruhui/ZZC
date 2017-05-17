@@ -743,5 +743,27 @@ public class UserManager {
         add("applyDeposit", subscription);
     }
 
+    public static void getBills(int product_id, int page, Subscriber<ResponseParent<CommentResponse>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("getCommentList");
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("order_no", String.valueOf(product_id));
+        hashmap.put("bill_type", String.valueOf(page));
+        hashmap.put("status", "10");
+        hashmap.put("start_date", "10");
+        hashmap.put("end_date", "10");
+        hashmap.put("page", "10");
+        hashmap.put("size", "10");
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        Subscription subscription = ApiClient.getApiService().getbills(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("getCommentList", subscription);
+    }
+
 
 }
