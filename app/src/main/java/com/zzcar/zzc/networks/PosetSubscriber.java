@@ -36,6 +36,7 @@ public class PosetSubscriber<T> {
                 if (httpResult.result_code.equals("1000")){
                     //成功
                     listener.success(httpResult.data);
+
                 }else{
                     ToastUtil.showToast(httpResult.result_msg);
                     listener.fialed(httpResult.result_code, httpResult.result_msg);
