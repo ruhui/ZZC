@@ -1,7 +1,16 @@
 package com.zzcar.zzc.networks;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
+import com.google.gson.stream.JsonWriter;
 import com.zzcar.zzc.service.ZZCService;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -36,7 +45,7 @@ public class ApiClient {
 
         retrofit = new Retrofit.Builder()
                 .client(httpClientBuilder.build())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(buildGson()))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .baseUrl(BASE_URL_TEST)
                 .build();
@@ -44,6 +53,15 @@ public class ApiClient {
         apiService = retrofit.create(ZZCService.class);
     }
 
+
+    public Gson buildGson() {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapterFactory(new NullStringToEmptyAdapterFactory())
+//                .registerTypeAdapter(String.class, new IntegerDefault0Adapter())
+//                .registerTypeAdapter(String.class, new IntegerDefault0Adapter())
+                .create();
+        return gson;
+    }
 
     public static ZZCService getApiService() {
 
@@ -53,6 +71,35 @@ public class ApiClient {
 
     private static class ApiClientHolder {
         public static ApiClient INSTANCE = new ApiClient();
+    }
+
+
+    public static class NullStringToEmptyAdapterFactory<T> implements TypeAdapterFactory {
+        public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+
+            Class<T> rawType = (Class<T>) type.getRawType();
+            if (rawType != String.class) {
+                return null;
+            }
+            return (TypeAdapter<T>) new StringAdapter();
+        }
+    }
+
+    public static class StringAdapter extends TypeAdapter<String> {
+        public String read(JsonReader reader) throws IOException {
+            if (reader.peek() == JsonToken.NULL) {
+                reader.nextNull();
+                return "";
+            }
+            return reader.nextString();
+        }
+        public void write(JsonWriter writer, String value) throws IOException {
+            if (value == null) {
+                writer.nullValue();
+                return;
+            }
+            writer.value(value);
+        }
     }
 
 }

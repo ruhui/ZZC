@@ -44,15 +44,4 @@ public class PosetSubscriber<T> {
         };
         return subscriber;
     }
-
-
-    <T> ArrayList<T> fromJsonList(String json, Class<T> cls) {
-        ArrayList<T> mList = new ArrayList<T>();
-        JsonArray array = new JsonParser().parse(json).getAsJsonArray();
-        for(final JsonElement elem : array){
-            Gson mGson = new Gson();
-            mList.add(mGson.fromJson(elem, cls));
-        }
-        return mList;
-    }
 }
