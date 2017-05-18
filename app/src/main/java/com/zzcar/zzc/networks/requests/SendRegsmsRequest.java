@@ -28,11 +28,11 @@ public class SendRegsmsRequest {
                 userType = "register";
                 break;
             case FORGET:
-                //找回密码
+                //忘记密码
                 userType = "forget";
                 break;
             case CHANGEMOBILE:
-                //找回密码
+                //修改密码
                 userType = "change_mobile";
                 break;
             case REMOVEMOBILE:

@@ -202,7 +202,7 @@
     <TextView
         android:id="@+id/txtSubmit"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         android:text="确认提交"
         android:textSize="16sp"
         android:gravity="center"

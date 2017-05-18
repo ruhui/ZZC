@@ -4,6 +4,7 @@ import com.zzcar.zzc.models.AddCarFrom;
 import com.zzcar.zzc.models.AddressModel;
 import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.requests.ApplyDepositRequest;
+import com.zzcar.zzc.networks.requests.ForgetPwdResquest;
 import com.zzcar.zzc.networks.requests.LoginRequest;
 import com.zzcar.zzc.networks.requests.NickRequest;
 import com.zzcar.zzc.networks.requests.PhotoRequest;
@@ -182,5 +183,14 @@ public interface ZZCService {
     /*收支明细*/
     @GET("account/bills")
     Observable<ResponseParent<ShouzhiDetailResponse>> getbills(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+
+    /*忘记密码*/
+    @POST("account/forget")
+    Observable<ResponseParent<Boolean>> forgetpassword(@Body ForgetPwdResquest request, @HeaderMap Map<String, String> header);
+
+    /*注册*/
+    @POST("account/register")
+    Observable<ResponseParent<Boolean>> register(@Body ForgetPwdResquest request, @HeaderMap Map<String, String> header);
+
 
 }

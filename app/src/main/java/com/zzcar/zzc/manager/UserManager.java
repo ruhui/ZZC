@@ -8,6 +8,7 @@ import com.zzcar.zzc.networks.ApiClient;
 import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.ZZCHeaders;
 import com.zzcar.zzc.networks.requests.ApplyDepositRequest;
+import com.zzcar.zzc.networks.requests.ForgetPwdResquest;
 import com.zzcar.zzc.networks.requests.LoginRequest;
 import com.zzcar.zzc.networks.requests.NickRequest;
 import com.zzcar.zzc.networks.requests.ParametersRequest;
@@ -765,5 +766,49 @@ public class UserManager {
         add("getCommentList", subscription);
     }
 
+    /**
+     * 修改密码
+     * @param mobile
+     * @param password
+     * @param re_password
+     * @param code
+     * @param subscriber
+     */
+    public static void forgetPassword(String mobile, String password, String re_password, String code, Subscriber<Boolean> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("forgetPassword");
+        ForgetPwdResquest request = new ForgetPwdResquest(mobile, password, re_password, code);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders( request);
+        Subscription subscription = ApiClient.getApiService().forgetpassword(request, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("forgetPassword", subscription);
+    }
+
+
+    /**
+     * 注册
+     * @param mobile
+     * @param password
+     * @param re_password
+     * @param code
+     * @param subscriber
+     */
+    public static void regiestUser(String mobile, String password, String re_password, String code,String nick, Subscriber<Boolean> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("regiestUser");
+        ForgetPwdResquest request = new ForgetPwdResquest(mobile, password, re_password, code, nick);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders( request);
+        Subscription subscription = ApiClient.getApiService().register(request, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("regiestUser", subscription);
+    }
 
 }

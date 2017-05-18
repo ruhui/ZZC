@@ -37,7 +37,10 @@ public class LoginAcitivty extends BaseActivity {
 
     @AfterViews
     void initView(){
-
+        String phonenumber = SecurePreferences.getInstance().getString("USERMOBILE", "");
+        String password = SecurePreferences.getInstance().getString("USERPASSWORD", "");
+        edtPhone.setText(phonenumber);
+        edtPassword.setText(password);
     }
 
     @Click(R.id.button2)
@@ -61,11 +64,15 @@ public class LoginAcitivty extends BaseActivity {
     @Click(R.id.button3)
     void regist(){
         //注册
+        Intent intent = new Intent(LoginAcitivty.this, RegistActivity_.class);
+        startActivity(intent);
     }
 
     @Click(R.id.textView101)
     void forgetpassword(){
         //忘记密码
+        Intent intent = new Intent(LoginAcitivty.this, ForgetPasswordActivity_.class);
+        startActivity(intent);
     }
 
     @Override
@@ -83,15 +90,15 @@ public class LoginAcitivty extends BaseActivity {
         @Override
         public void success(LoginResponse returnMsg) {
             Log.e("success","success");
+            String phonenum = edtPhone.getText().toString();
+            String password = edtPassword.getText().toString();
             SecurePreferences.getInstance().edit().putString("Authorization", returnMsg.access_token).commit();
-            SecurePreferences.getInstance().edit().putString("USERMOBILE", "13600001113").commit();
-            SecurePreferences.getInstance().edit().putString("USERPASSWORD", "123456").commit();
+            SecurePreferences.getInstance().edit().putString("USERMOBILE", phonenum).commit();
+            SecurePreferences.getInstance().edit().putString("USERPASSWORD", password).commit();
             SecurePreferences.getInstance().edit().putString("EXPIRESDATE", returnMsg.expires_date).commit();
 
             Intent intent = new Intent(LoginAcitivty.this, MainActivity_.class);
             startActivity(intent);
-//            getusermsg(returnMsg.access_token);
-//            getAddress(returnMsg.access_token);
         }
 
         @Override

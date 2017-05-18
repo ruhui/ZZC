@@ -92,9 +92,9 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:inputType="phone"
+            android:inputType="textPassword"
             android:ems="10"
-            android:hint="请输入电话号码"
+            android:hint="请输入密码"
             android:textColor="@color/color_333333"
             android:textSize="@dimen/sp_14"
             android:background="@null"
@@ -108,7 +108,7 @@
     <Button
         android:text="登录"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         android:id="@+id/button2"
         android:textColor="@color/white"
         android:textSize="@dimen/sp_16"
@@ -123,7 +123,7 @@
     <Button
         android:id="@+id/button3"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="36dp"
         android:text="注册"
