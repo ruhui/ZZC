@@ -2,6 +2,7 @@ package com.zzcar.zzc.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.*;
 import com.zzcar.zzc.fragments.base.BaseFragment;
+import com.zzcar.zzc.interfaces.RefreshFragment;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.networks.PosetSubscriber;
@@ -25,6 +27,8 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.Serializable;
 
@@ -76,6 +80,12 @@ public class MineFragment extends BaseFragment {
 
     private MineMsgResponse mineMsgResponse;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
     @AfterViews
     void initView(){
         getUserMsg();
@@ -121,6 +131,21 @@ public class MineFragment extends BaseFragment {
                 showFragment(getActivity(), BalanceFragment_.builder().build());
             }
         });
+    }
+
+    @Subscribe
+    public void refreshData(RefreshFragment refresh){
+        if (refresh.refresh){
+            //刷新数据
+            getUserMsg();
+            getUserBill();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     /*我的资料*/

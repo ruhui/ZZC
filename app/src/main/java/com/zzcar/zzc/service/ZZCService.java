@@ -4,6 +4,7 @@ import com.zzcar.zzc.models.AddCarFrom;
 import com.zzcar.zzc.models.AddressModel;
 import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.requests.ApplyDepositRequest;
+import com.zzcar.zzc.networks.requests.BuyIntegraRequest;
 import com.zzcar.zzc.networks.requests.ForgetPwdResquest;
 import com.zzcar.zzc.networks.requests.LoginRequest;
 import com.zzcar.zzc.networks.requests.NickRequest;
@@ -192,5 +193,8 @@ public interface ZZCService {
     @POST("account/register")
     Observable<ResponseParent<Boolean>> register(@Body ForgetPwdResquest request, @HeaderMap Map<String, String> header);
 
+    /*购买积分*/
+    @POST("account/buy_integral")
+    Observable<ResponseParent<String>> buyintegral(@Body BuyIntegraRequest request, @HeaderMap Map<String, String> header);
 
 }

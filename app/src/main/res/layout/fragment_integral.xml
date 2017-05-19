@@ -18,6 +18,7 @@
     </com.zzcar.zzc.views.widget.NavBar2_>
 
     <RelativeLayout
+        android:id="@+id/relaBuyintegra"
         android:layout_width="match_parent"
         android:layout_height="92dp"
         android:background="@drawable/nav_pic_jifen"

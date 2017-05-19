@@ -1,5 +1,8 @@
 package com.zzcar.zzc.fragments;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,6 +13,7 @@ import com.zzcar.zzc.adapters.IntegralAdapter;
 import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.fragments.base.BaseFragment;
 import com.zzcar.zzc.fragments.base.BasePullRecyclerFragment;
+import com.zzcar.zzc.interfaces.RefreshFragment;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.IntegralDetail;
@@ -21,8 +25,11 @@ import com.zzcar.zzc.views.widget.NavBar2;
 import com.zzcar.zzc.views.widget.pullview.PullRecyclerView;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +59,11 @@ public class IntegralFragment extends BasePullRecyclerFragment{
 
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     /*获取积分明细*/
     private void getIntegralDetail() {
@@ -66,7 +78,6 @@ public class IntegralFragment extends BasePullRecyclerFragment{
     }
 
 
-
     @Override
     protected void initView(PullRecyclerView recyclerView) {
         mNavbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
@@ -78,14 +89,15 @@ public class IntegralFragment extends BasePullRecyclerFragment{
                 finishFragment();
             }
         });
-        getUserBill();
-        //获取积分明细
-        getIntegralDetail();
+
         recyclerView.enableRefresh(true);
         recyclerView.enableLoadMore(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter = new IntegralAdapter());
         adapter.addAll(mList);
+        getUserBill();
+        //获取积分明细
+        getIntegralDetail();
     }
 
     @Override
@@ -102,7 +114,26 @@ public class IntegralFragment extends BasePullRecyclerFragment{
         showProgress();
     }
 
+    @Click(R.id.relaBuyintegra)
+    void buyIntegral(){
+        showFragment(getActivity(), BuyIntegralFragment_.builder().build());
+    }
 
+    @Subscribe
+    public void refreshData(RefreshFragment refresh){
+        if (refresh.refresh){
+            //刷新数据
+            getUserBill();
+            //获取积分明细
+            getIntegralDetail();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
     ResponseResultListener callback_userbill = new ResponseResultListener<MybillResponse>() {
         @Override

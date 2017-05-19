@@ -8,6 +8,7 @@ import com.zzcar.zzc.networks.ApiClient;
 import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.ZZCHeaders;
 import com.zzcar.zzc.networks.requests.ApplyDepositRequest;
+import com.zzcar.zzc.networks.requests.BuyIntegraRequest;
 import com.zzcar.zzc.networks.requests.ForgetPwdResquest;
 import com.zzcar.zzc.networks.requests.LoginRequest;
 import com.zzcar.zzc.networks.requests.NickRequest;
@@ -473,7 +474,6 @@ public class UserManager {
      */
     public static void getMyBill(Subscriber<ResponseParent<MybillResponse>> subscriber){
          /* 防止多次点击 */
-        cancelTagandRemove("getMyBill");
         String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
         Map<String, String> hashmap = new HashMap<>();
         ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
@@ -482,7 +482,6 @@ public class UserManager {
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
-        add("getMyBill", subscription);
     }
 
     /**
@@ -643,7 +642,6 @@ public class UserManager {
      */
     public static void getIntegraldetail(int page, Subscriber<ResponseParent<IntegralDetailResponse>> subscriber){
          /* 防止多次点击 */
-        cancelTagandRemove("getIntegraldetail");
         String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
         Map<String, String> hashmap = new HashMap<>();
         hashmap.put("page", String.valueOf(page));
@@ -655,7 +653,6 @@ public class UserManager {
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
-        add("getIntegraldetail", subscription);
     }
 
     /**
@@ -809,6 +806,27 @@ public class UserManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
         add("regiestUser", subscription);
+    }
+
+    /**
+     * 购买积分
+     * @param amount
+     * @param pay_code
+     * @param subscriber
+     */
+    public static void buyIntegral(String amount, String pay_code, Subscriber<Boolean> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("buyIntegral");
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        BuyIntegraRequest request = new BuyIntegraRequest(amount, pay_code);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, request);
+        Subscription subscription = ApiClient.getApiService().buyintegral(request, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("buyIntegral", subscription);
     }
 
 }

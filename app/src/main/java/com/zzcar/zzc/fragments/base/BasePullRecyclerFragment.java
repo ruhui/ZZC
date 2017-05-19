@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.manager.UserManager;
+import com.zzcar.zzc.utils.LogUtil;
 import com.zzcar.zzc.views.widget.pullview.PullRecyclerView;
 import com.zzcar.zzc.views.widget.pullview.core.HeaderAndFooterRecyclerViewAdapter;
 
@@ -76,6 +77,7 @@ public abstract class BasePullRecyclerFragment extends BaseFragment {
     public HeaderAndFooterRecyclerViewAdapter getRealAdapter() {
         return mPullRecyclerView.getRealAdapter();
     }
+
 
     public RecyclerView.Adapter getInnerAdapter() {
         if (getRealAdapter() != null) {
