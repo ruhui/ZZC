@@ -8,6 +8,7 @@ import java.io.Serializable;
  * 创建时间： 2017/4/18 17:14
  **/
 public class MineMsgResponse implements Serializable{
+    private int id;//环信id，密码固定 car123456
     private String qrcode;//二维码
     private int auth_status;
     private String mobile;
@@ -19,9 +20,10 @@ public class MineMsgResponse implements Serializable{
     private String emp_name;
     private boolean security;//是否担保交易
 
-    public MineMsgResponse(int auth_status, String mobile, String nick, String photo,
+    public MineMsgResponse(int id, int auth_status, String mobile, String nick, String photo,
                            String auth_status_name, String remark, String shop_name,
                            String emp_name, String qrcode, boolean security) {
+        this.id = id;
         this.qrcode = qrcode;
         this.auth_status = auth_status;
         this.mobile = mobile;
@@ -32,6 +34,14 @@ public class MineMsgResponse implements Serializable{
         this.shop_name = shop_name;
         this.emp_name = emp_name;
         this.security = security;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getQrcode() {

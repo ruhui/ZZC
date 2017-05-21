@@ -200,7 +200,7 @@ public class MineInfoActivity extends BaseActivity {
     ImageUploadListener uploadListener = new ImageUploadListener(){
 
         @Override
-        public void finishLoading(String imgPath) {
+        public void finishLoading(String imgPath, int position) {
             //去上传头像
             imgpathMemery = imgPath;
             Subscriber subscriber = new PosetSubscriber<Boolean>().getSubscriber(callback_headphoto);

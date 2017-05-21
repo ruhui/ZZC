@@ -13,9 +13,16 @@
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp"
         android:gravity="bottom"
-        android:background="?colorPrimary"
+        android:background="@color/white"
         app:title_res="@string/tab_mine">
     </com.zzcar.zzc.views.widget.NavBar2_>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        android:layout_below="@+id/mNavbar"/>
 
     <com.zzcar.zzc.views.widget.pullview.PullRecyclerView_
         android:id="@+id/pull_recycler_view"
@@ -24,7 +31,7 @@
         android:divider="@color/color_999999"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/mNavbar" />
+        android:layout_below="@+id/line" />
 
     <FrameLayout
         android:layout_width="match_parent"

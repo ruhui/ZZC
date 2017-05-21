@@ -12,14 +12,25 @@ public class MemberModel {
     private int auth_status;
     private String auth_status_name;
     private String shop_name;
+    private boolean security;
 
-    public MemberModel(String nick, String photo, String remark, int auth_status, String auth_status_name, String shop_name) {
+    public MemberModel(String nick, String photo, String remark, int auth_status,
+                       String auth_status_name, String shop_name,boolean security) {
         this.nick = nick;
         this.photo = photo;
         this.remark = remark;
         this.auth_status = auth_status;
         this.auth_status_name = auth_status_name;
         this.shop_name = shop_name;
+        this.security = security;
+    }
+
+    public boolean isSecurity() {
+        return security;
+    }
+
+    public void setSecurity(boolean security) {
+        this.security = security;
     }
 
     public String getNick() {
@@ -87,3 +98,5 @@ public class MemberModel {
 //        "auth_status": 0,
 //        "auth_status_name": "未认证",
 //        "shop_name": "sample string 4"
+
+//          "security": true

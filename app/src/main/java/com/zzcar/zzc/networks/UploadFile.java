@@ -1,6 +1,7 @@
 package com.zzcar.zzc.networks;
 
 import android.os.AsyncTask;
+import android.view.View;
 
 import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.interfaces.ImageUploadListener;
@@ -27,18 +28,20 @@ public class UploadFile extends AsyncTask<String, Integer, String> {
     private LoadingProgressImageView progressView;
     private List<String> successPath;
     private ImageUploadListener uploadListener;
+    private int position;
 
     public UploadFile(LoadingProgressImageView progressView, List<String> successPath,
-                      ImageUploadListener uploadListener) {
+                      ImageUploadListener uploadListener, int position) {
         this.progressView = progressView;
         this.successPath = successPath;
         this.uploadListener = uploadListener;
+        this.position = position;
     }
 
     @Override
     protected void onPostExecute(String result) {
         //最终结果的显示
-        uploadListener.finishLoading(result);
+        uploadListener.finishLoading(result, position);
     }
 
     @Override
@@ -49,7 +52,11 @@ public class UploadFile extends AsyncTask<String, Integer, String> {
     @Override
     protected void onProgressUpdate(Integer... values) {
         //显示进度
-        progressView.setProgress(values[0]);
+        if (values[0] == 100){
+            progressView.setVisibility(View.GONE);
+        }else{
+            progressView.setProgress(values[0]);
+        }
     }
 
     @Override

@@ -7,8 +7,10 @@ package com.zzcar.zzc.interfaces;
 
 public class RefreshFragment {
     public boolean refresh = false;
+    public String TAG;
 
-    public RefreshFragment(boolean refresh ){
+    public RefreshFragment(boolean refresh, String tag ){
         this.refresh = refresh;
+        this.TAG =tag;
     }
 }

@@ -144,6 +144,7 @@ public class AddCarMiddleModle extends AddCarFrom{
 
     public AddCarFrom getAddCarFrom(AddCarMiddleModle middleModle){
         AddCarFrom addCarFrom = new AddCarMiddleModle();
+        addCarFrom.setProduct_id(middleModle.getProduct_id());
         addCarFrom.setMarket_price(middleModle.getMarket_price());
         addCarFrom.setImage_path(middleModle.getImage_path());
         addCarFrom.setContent(middleModle.getContent());
@@ -166,5 +167,42 @@ public class AddCarMiddleModle extends AddCarFrom{
         addCarFrom.setExp_safe_month(middleModle.getExp_safe_month());
         addCarFrom.setUse_type(middleModle.getUse_type());
         return addCarFrom;
+    }
+
+    public void setAddCarFrom(SinglecarModel addCarFrom){
+        SingleCarDes singleCarDes = addCarFrom.getProps_name();
+        setBladseriesdes(singleCarDes.getName());
+        setBelongCityDes(singleCarDes.getCar_province_city());
+        setNumberBelongDes(singleCarDes.getOn_number_province_city());
+        setColorDes(singleCarDes.getColor());
+        setEmissionDes(singleCarDes.getEmission());
+        setUsertypeDes(singleCarDes.getUse_type());
+        setOutfactoryDes(addCarFrom.getOut_factory_year()+"年"+addCarFrom.getOut_factory_month()+"月");
+        setCardTimeDes(addCarFrom.getOn_number_year()+"年"+addCarFrom.getOn_number_month()+"月");
+        setSafeDes(addCarFrom.getExp_safe_year()+"年"+addCarFrom.getExp_safe_month()+"月");
+
+        setProduct_id(addCarFrom.getProduct_id());
+        setMarket_price(addCarFrom.getMarket_price());
+        setImage_path(addCarFrom.getImage_path());
+        setContent(addCarFrom.getContent());
+        setBland_id(addCarFrom.getBland_id());
+        setSeries_id(addCarFrom.getSeries_id());
+        setYear_id(addCarFrom.getYear_id());
+        setSpec_id( addCarFrom.getSpec_id());
+        setMileage(addCarFrom.getMileage());
+        setOn_number_year(addCarFrom.getOn_number_year());
+        setOn_number_month(addCarFrom.getOn_number_month());
+        setCar_city_id(addCarFrom.getCar_city_id());
+        setOn_number_province_id(addCarFrom.getOn_number_province_id());
+        setOn_number_city_id(addCarFrom.getOn_number_city_id());
+        setCar_province_id(addCarFrom.getCar_province_id());
+        setColor(addCarFrom.getColor());
+        setEmissionDes(addCarFrom.getEmission());
+        setOut_factory_year(addCarFrom.getOut_factory_year());
+        setOut_factory_month(addCarFrom.getOut_factory_month());
+        setNew_car_price(addCarFrom.getNew_car_price());
+        setExp_safe_year(addCarFrom.getExp_safe_year());
+        setExp_safe_month(addCarFrom.getExp_safe_month());
+        setUse_type(addCarFrom.getUse_type());
     }
 }

@@ -104,7 +104,7 @@ public class BuyIntegralFragment extends BaseFragment {
         public void success(String returnMsg) {
             if (!TextUtils.isEmpty(returnMsg)){
                 ToastUtil.showToast("购买成功");
-                EventBus.getDefault().post(new RefreshFragment(true));
+                EventBus.getDefault().post(new RefreshFragment(true, ""));
                 finishFragment();
             }else{
                 ToastUtil.showToast("购买失败");

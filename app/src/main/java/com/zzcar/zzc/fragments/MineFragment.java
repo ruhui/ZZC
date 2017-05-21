@@ -130,6 +130,31 @@ public class MineFragment extends BaseFragment {
             public void onClick(View view) {
                 showFragment(getActivity(), BalanceFragment_.builder().build());
             }
+
+        });
+
+        /*我的收藏*/
+        mysaveItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showFragment(getActivity(), MyfavcarFragment_.builder().build());
+            }
+        });
+
+        /*我的车源*/
+        mycarItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), MycarFromActivity_.class);
+                startActivity(intent);
+            }
+        });
+
+        settingItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showFragment(getActivity(), SettingFragment_.builder().build());
+            }
         });
     }
 

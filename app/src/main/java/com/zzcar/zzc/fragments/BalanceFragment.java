@@ -82,6 +82,21 @@ public class BalanceFragment extends BaseFragment{
                 showFragment(getActivity(), fragment);
             }
         });
+
+        /*收支明细*/
+        txtShouzhiDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showFragment(getActivity(), BalanceDetaillFragment_.builder().build());
+            }
+        });
+        /*店铺收款*/
+        shoukuanItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                showFragment(getActivity(), ComplanyMoneyFragment_.builder().build());
+            }
+        });
     }
 
     @Override

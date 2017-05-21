@@ -2,6 +2,7 @@ package com.zzcar.zzc.service;
 
 import com.zzcar.zzc.models.AddCarFrom;
 import com.zzcar.zzc.models.AddressModel;
+import com.zzcar.zzc.models.SinglecarModel;
 import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.requests.ApplyDepositRequest;
 import com.zzcar.zzc.networks.requests.BuyIntegraRequest;
@@ -27,6 +28,8 @@ import com.zzcar.zzc.networks.responses.IntegralDetailResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.networks.responses.MybillResponse;
+import com.zzcar.zzc.networks.responses.MyfavcarResponse;
+import com.zzcar.zzc.networks.responses.RefundOrderResponse;
 import com.zzcar.zzc.networks.responses.ShouzhiDetailResponse;
 import com.zzcar.zzc.networks.responses.UserMsgResponse;
 import com.zzcar.zzc.networks.responses.ValueTextResponse;
@@ -197,4 +200,23 @@ public interface ZZCService {
     @POST("account/buy_integral")
     Observable<ResponseParent<String>> buyintegral(@Body BuyIntegraRequest request, @HeaderMap Map<String, String> header);
 
+    /*退款详情*/
+    @GET("account/refund_order")
+    Observable<ResponseParent<RefundOrderResponse>> getrefundorder(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+
+    /*我的收藏*/
+    @GET("goods/my_fav_car")
+    Observable<ResponseParent<MyfavcarResponse>> getmyfavcar(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+
+    /*我的车源*/
+    @GET("goods/my_car")
+    Observable<ResponseParent<MyfavcarResponse>> getmycar(@QueryMap Map<String, Object> hashMap, @HeaderMap Map<String, String> header);
+
+    /*上下架*/
+    @POST("goods/up_down")
+    Observable<ResponseParent<Integer>> updown(@Body ProduceIdResquest request, @HeaderMap Map<String, String> header);
+
+    /*获取单条车源信息*/
+    @GET(" goods/car")
+    Observable<ResponseParent<SinglecarModel>> getcar(@Query("id") String id, @HeaderMap Map<String, String> header);
 }

@@ -4,6 +4,7 @@ import com.zzcar.zzc.models.AddCarFrom;
 import com.zzcar.zzc.models.AddCarMiddleModle;
 import com.zzcar.zzc.models.AddressModel;
 import com.zzcar.zzc.models.EnumSendUserType;
+import com.zzcar.zzc.models.SinglecarModel;
 import com.zzcar.zzc.networks.ApiClient;
 import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.ZZCHeaders;
@@ -31,6 +32,9 @@ import com.zzcar.zzc.networks.responses.IntegralDetailResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.networks.responses.MybillResponse;
+import com.zzcar.zzc.networks.responses.MyfavcarResponse;
+import com.zzcar.zzc.networks.responses.RefundOrderResponse;
+import com.zzcar.zzc.networks.responses.ShouzhiDetailResponse;
 import com.zzcar.zzc.networks.responses.ValueTextResponse;
 import com.zzcar.zzc.networks.responses.VerifiedResponse;
 import com.zzcar.zzc.utils.SecurePreferences;
@@ -741,17 +745,17 @@ public class UserManager {
         add("applyDeposit", subscription);
     }
 
-    public static void getBills(int product_id, int page, Subscriber<ResponseParent<CommentResponse>> subscriber){
+    /**
+     * 收支明细
+     * @param page
+     * @param subscriber
+     */
+    public static void getBills(int page, Subscriber<ResponseParent<ShouzhiDetailResponse>> subscriber){
          /* 防止多次点击 */
         cancelTagandRemove("getCommentList");
         String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
         Map<String, String> hashmap = new HashMap<>();
-        hashmap.put("order_no", String.valueOf(product_id));
-        hashmap.put("bill_type", String.valueOf(page));
-        hashmap.put("status", "10");
-        hashmap.put("start_date", "10");
-        hashmap.put("end_date", "10");
-        hashmap.put("page", "10");
+        hashmap.put("page", String.valueOf(page));
         hashmap.put("size", "10");
 
         ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
@@ -827,6 +831,107 @@ public class UserManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
         add("buyIntegral", subscription);
+    }
+
+    /**
+     * 退款详情
+     * @param id
+     * @param subscriber
+     */
+    public static void getRefundorder(int id, Subscriber<ResponseParent<RefundOrderResponse>> subscriber){
+         /* 防止多次点击 */
+        cancelTagandRemove("getRefundorder");
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("id", String.valueOf(id));
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        Subscription subscription = ApiClient.getApiService().getrefundorder(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+        add("getRefundorder", subscription);
+    }
+
+    /**
+     * 我的收藏
+     * @param page
+     * @param subscriber
+     */
+    public static void getMyfavcar(int page, Subscriber<ResponseParent<MyfavcarResponse>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("page", String.valueOf(page));
+        hashmap.put("size", "10");
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        ApiClient.getApiService().getmyfavcar(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 我的车源
+     * @param page
+     * @param subscriber
+     */
+    public static void getMycar(int page, String tag, Subscriber<ResponseParent<MyfavcarResponse>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, Object> hashmap = new HashMap<>();
+        if (tag.equals("0")){
+            //在售
+        }else if (tag.equals("1")){
+            //已售
+            hashmap.put("sell_out", "true");
+        }else if(tag.equals("2")){
+            //未上架
+            hashmap.put("saleStatus", "1");
+        }
+        hashmap.put("page", String.valueOf(page));
+        hashmap.put("size", "10");
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        ApiClient.getApiService().getmycar(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 上下架
+     * @param product_id
+     * @param subscriber
+     */
+    public static void updown(int product_id, Subscriber<Boolean> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        ProduceIdResquest request = new ProduceIdResquest(product_id);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, request);
+        ApiClient.getApiService().updown(request, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 编辑车源时，获取车源信息
+     */
+    public static void getSingleCar(String id,  Subscriber<ResponseParent<SinglecarModel>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("id", id);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        ApiClient.getApiService().getcar(id, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
     }
 
 }

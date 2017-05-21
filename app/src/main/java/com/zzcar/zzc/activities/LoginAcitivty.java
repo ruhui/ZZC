@@ -14,6 +14,7 @@ import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.AddressModel;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.responses.LoginResponse;
+import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.networks.responses.UserMsgResponse;
 import com.zzcar.zzc.utils.SecurePreferences;
 import com.zzcar.zzc.utils.ToastUtil;
@@ -89,7 +90,6 @@ public class LoginAcitivty extends BaseActivity {
     ResponseResultListener callback = new ResponseResultListener<LoginResponse>() {
         @Override
         public void success(LoginResponse returnMsg) {
-            Log.e("success","success");
             String phonenum = edtPhone.getText().toString();
             String password = edtPassword.getText().toString();
             SecurePreferences.getInstance().edit().putString("Authorization", returnMsg.access_token).commit();
@@ -97,8 +97,10 @@ public class LoginAcitivty extends BaseActivity {
             SecurePreferences.getInstance().edit().putString("USERPASSWORD", password).commit();
             SecurePreferences.getInstance().edit().putString("EXPIRESDATE", returnMsg.expires_date).commit();
 
-            Intent intent = new Intent(LoginAcitivty.this, MainActivity_.class);
-            startActivity(intent);
+
+            /*查看用户是否认证，未认证则跳转到认证界面*/
+            getUserMsg();
+
         }
 
         @Override
@@ -108,45 +110,32 @@ public class LoginAcitivty extends BaseActivity {
         }
     };
 
-    /*获取地址*/
-    private void getAddress(String accesstoken) {
-        Subscriber subscriber = new PosetSubscriber<List<AddressModel>>().getSubscriber(callback_address);
-        UserManager.getaddress(accesstoken, subscriber);
+    /*获取用户信息*/
+    public void getUserMsg() {
+        Subscriber subscriber = new PosetSubscriber<MineMsgResponse>().getSubscriber(callback_usermsg);
+        UserManager.getUserMsg(subscriber);
     }
-    ResponseResultListener callback_address = new ResponseResultListener<List<AddressModel>>() {
+
+
+    ResponseResultListener callback_usermsg = new ResponseResultListener<MineMsgResponse>() {
         @Override
-        public void success(List<AddressModel> returnMsg) {
-            Log.e("success","success测试修改");
-            closeProgress();
+        public void success(MineMsgResponse returnMsg) {
+            if (returnMsg.getAuth_status() == 3){
+                Intent intent = new Intent(LoginAcitivty.this, MainActivity_.class);
+                startActivity(intent);
+                finish();
+            }else{
+                //未认证
+                Intent intent = new Intent(LoginAcitivty.this, AuthenticationActivity_.class);
+                startActivity(intent);
+                finish();
+            }
         }
 
         @Override
         public void fialed(String resCode, String message) {
-            Log.e("fialed",message);
-            closeProgress();
+
         }
     };
 
-
-
-
-    //获取用户信息
-    void getusermsg(String accesstoken){
-        Subscriber subscriber = new PosetSubscriber<UserMsgResponse>().getSubscriber(callback_usermsg);
-        UserManager.getusermsg(accesstoken, subscriber);
-    }
-
-    ResponseResultListener callback_usermsg = new ResponseResultListener<UserMsgResponse>() {
-        @Override
-        public void success(UserMsgResponse returnMsg) {
-            Log.e("success","success大煞风景；佛挡杀佛收到");
-            closeProgress();
-        }
-
-        @Override
-        public void fialed(String resCode, String message) {
-            Log.e("fialed",message);
-            closeProgress();
-        }
-    };
 }

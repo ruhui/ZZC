@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -22,15 +23,19 @@ import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
 import com.zzcar.zzc.adapters.PhotoAdapte;
 import com.zzcar.zzc.constants.Permission;
+import com.zzcar.zzc.interfaces.RefreshFragment;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.PermissonManager;
 import com.zzcar.zzc.manager.UserManager;
+import com.zzcar.zzc.models.AddCarFrom;
 import com.zzcar.zzc.models.AddCarMiddleModle;
 import com.zzcar.zzc.models.ImageList;
+import com.zzcar.zzc.models.SinglecarModel;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.responses.CheckSuccessResponse;
 import com.zzcar.zzc.utils.ImageLoader;
 import com.zzcar.zzc.utils.KeyboardPatch;
+import com.zzcar.zzc.utils.LogUtil;
 import com.zzcar.zzc.utils.PermissionUtili;
 import com.zzcar.zzc.utils.ToastUtil;
 import com.zzcar.zzc.utils.Tool;
@@ -47,6 +52,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.SystemService;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -117,8 +123,13 @@ public class PushCarActivity extends BaseActivity {
         String productid =getIntent().getStringExtra("product_id");
 
         carMiddle = new AddCarMiddleModle();
+
         if (TextUtils.isEmpty(productid)){
             carMiddle.setProduct_id("0");
+        }else{
+            //获取车源信息
+            showProgress();
+            getSingeleCar(productid);
         }
         //设置键盘弹起
         keyboard = new KeyboardPatch(this, getView());
@@ -332,6 +343,12 @@ public class PushCarActivity extends BaseActivity {
     }
 
 
+    /*获取车源信息*/
+    void getSingeleCar(String productid){
+        Subscriber subscriber = new PosetSubscriber<SinglecarModel>().getSubscriber(callback_singlecar);
+        UserManager.getSingleCar(productid, subscriber);
+    }
+
     private void subMitCar() {
         String priceNum = priceItem.getTxtMiddle();
         String mile = mileData.getTxtMiddle();
@@ -341,6 +358,15 @@ public class PushCarActivity extends BaseActivity {
         carMiddle.setNew_car_price(newcarPri);
         carMiddle.setMileage(mile);
         carMiddle.setMarket_price(priceNum);
+        /*设置图片*/
+        List<String> upimglist = new ArrayList<>();
+        for (int i=0;i<photos.size(); i++){
+            String imgpath = photos.get(i);
+            if (!imgpath.contains("/storage/emulated")){
+                upimglist.add(imgpath);
+            }
+        }
+        carMiddle.setImage_path(upimglist);
         String alertmsg = carMiddle.alertMsg(carMiddle);
         if (TextUtils.isEmpty(alertmsg)){
             //添加车源
@@ -369,19 +395,36 @@ public class PushCarActivity extends BaseActivity {
 
     PhotoAdapte.ItemClickListener itemClickListener = new PhotoAdapte.ItemClickListener() {
         @Override
+        public void deleteimg(int position) {
+            //删除图片
+            photos.remove(position);
+            adapter.removePosition(position);
+        }
+
+        @Override
         public void itemListener() {
             selectImage();
         }
 
         @Override
-        public void imgbackListener(List<String> imgList) {
+        public void imgbackListener(List<String> imgList, int position) {
             //拿到图片，并设置图
-            List<String> listPath = new ArrayList<>();
             for (String imgPath : imgList){
-                ImageList imageList = new ImageList(imgPath);
-                listPath.add(imageList.getPath());
+                if (!photos.contains(imgPath)){
+                    photos.addAll(imgList);
+                }
             }
-            carMiddle.setImage_path(listPath);
+
+            List<String> newphoto = new ArrayList<>();
+            for (int i=0;i<photos.size(); i++){
+                String imgpath = photos.get(i);
+                if (!imgpath.contains("/storage/emulated")){
+                    newphoto.add(imgpath);
+                }
+            }
+            photos.clear();
+            photos.addAll(newphoto);
+            adapter.setData(photos);
         }
     };
 
@@ -446,13 +489,17 @@ public class PushCarActivity extends BaseActivity {
                 carMiddle.setUsertypeDes(usertypeDes);
             }else if (resultCode == getActivity().RESULT_OK && requestCode == PhotoPicker.REQUEST_CODE){
                 photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
-                adapter.setData(photos);
+                if (photos.size() != 0){
+                    adapter.setData(photos);
+                }
             }
             resetView();
         }else  if (requestCode==REQ_CODE_CAMERA) {
             String imgPath = tempfile.getPath();
             photos.add(imgPath);
-            adapter.setData(photos);
+            if (photos.size() != 0){
+                adapter.setData(photos);
+            }
         }
     }
 
@@ -545,6 +592,7 @@ public class PushCarActivity extends BaseActivity {
         @Override
         public void success(Boolean returnMsg) {
             ToastUtil.showToast("发布成功");
+            EventBus.getDefault().post(new RefreshFragment(true, "Mycar"));
             Intent intent = new Intent();
             intent.putExtra("isrefreshdata", true);
             setResult(10201, intent);
@@ -557,5 +605,29 @@ public class PushCarActivity extends BaseActivity {
         }
     };
 
+
+    /*获取单条车源*/
+    ResponseResultListener callback_singlecar = new ResponseResultListener<SinglecarModel>() {
+        @Override
+        public void success(SinglecarModel returnMsg) {
+            closeProgress();
+            carMiddle.setAddCarFrom(returnMsg);
+            resetView();
+
+            priceItem.setTxtMiddle(carMiddle.getMarket_price());
+            mileData.setTxtMiddle(carMiddle.getMileage());
+            newcarPrice.setTxtMiddle(carMiddle.getNew_car_price());
+            carDes.setText(carMiddle.getContent());
+
+            photos.addAll(carMiddle.getImage_path());
+            adapter.setData(photos);
+        }
+
+        @Override
+        public void fialed(String resCode, String message) {
+            closeProgress();
+            LogUtil.E("fialed", "fialed");
+        }
+    };
 
 }

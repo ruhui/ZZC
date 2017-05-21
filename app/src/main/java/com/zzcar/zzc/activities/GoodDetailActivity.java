@@ -6,8 +6,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -22,7 +20,6 @@ import com.jude.rollviewpager.hintview.ColorPointHintView;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
 import com.zzcar.zzc.adapters.CommentAdapter;
-import com.zzcar.zzc.adapters.PhotoAdapte;
 import com.zzcar.zzc.adapters.PictureAdapter;
 import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.constants.Permission;
@@ -34,9 +31,7 @@ import com.zzcar.zzc.interfaces.ShowOrHiddenListener;
 import com.zzcar.zzc.manager.PermissonManager;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.CommentModle;
-import com.zzcar.zzc.models.ImageList;
 import com.zzcar.zzc.networks.PosetSubscriber;
-import com.zzcar.zzc.networks.UploadFile;
 import com.zzcar.zzc.networks.UploadFileWithoutLoding;
 import com.zzcar.zzc.networks.responses.CarDetailRespose;
 import com.zzcar.zzc.networks.responses.CommentResponse;
@@ -49,7 +44,6 @@ import com.zzcar.zzc.views.pulltorefresh.PullToRefreshBase;
 import com.zzcar.zzc.views.pulltorefresh.PullToRefreshScrollView;
 import com.zzcar.zzc.views.widget.NavBarDetail;
 import com.zzcar.zzc.views.widget.dialogs.CommentDialog;
-import com.zzcar.zzc.views.widget.dialogs.TakePhotoDialog;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -299,7 +293,7 @@ public class GoodDetailActivity extends BaseActivity {
     ImageUploadListener uploadListener = new ImageUploadListener(){
 
         @Override
-        public void finishLoading(String imgPath) {
+        public void finishLoading(String imgPath, int position) {
             successPath.add(imgPath);
             if (photos.size() <= successPath.size()){
                 //上传评论

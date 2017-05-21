@@ -6,5 +6,5 @@ package com.zzcar.zzc.interfaces;
  */
 
 public interface ImageUploadListener {
-    public void finishLoading(String imgPath);
+    public void finishLoading(String imgPath, int position);
 }

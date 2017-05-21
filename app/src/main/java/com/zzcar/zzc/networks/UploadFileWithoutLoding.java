@@ -2,11 +2,9 @@ package com.zzcar.zzc.networks;
 
 import android.os.AsyncTask;
 
-import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.interfaces.ImageUploadListener;
 import com.zzcar.zzc.utils.FileUtil;
 import com.zzcar.zzc.utils.Tool;
-import com.zzcar.zzc.views.widget.LoadingProgressImageView;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -15,7 +13,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
 
 /**
  * 描述：
@@ -33,7 +30,7 @@ public class UploadFileWithoutLoding extends AsyncTask<String, Integer, String> 
     @Override
     protected void onPostExecute(String result) {
         //最终结果的显示
-        uploadListener.finishLoading(result);
+        uploadListener.finishLoading(result, 0);
     }
 
     @Override

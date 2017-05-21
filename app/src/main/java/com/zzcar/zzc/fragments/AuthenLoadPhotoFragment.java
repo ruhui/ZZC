@@ -27,7 +27,6 @@ import com.zzcar.zzc.utils.PermissionUtili;
 import com.zzcar.zzc.utils.SecurePreferences;
 import com.zzcar.zzc.utils.ToastUtil;
 import com.zzcar.zzc.utils.Tool;
-import com.zzcar.zzc.views.widget.dialogs.ShowPhotoDialog;
 import com.zzcar.zzc.views.widget.dialogs.ShowPhotoRenzhengDialog;
 
 import org.androidannotations.annotations.AfterViews;
@@ -308,7 +307,7 @@ public class AuthenLoadPhotoFragment extends BaseFragment {
     ImageUploadListener uploadListener = new ImageUploadListener(){
 
         @Override
-        public void finishLoading(String imgPath) {
+        public void finishLoading(String imgPath, int position) {
             closeProgress();
             //去上传头像
             switch (SELECTPOSITION){
