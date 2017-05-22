@@ -65,16 +65,20 @@ public class HomeCarItemView extends LinearLayout {
     }
 
     public void bind(HomeCarGet homeCarGet, int position) {
+        txtCompany.setText(homeCarGet.getHomeCarMember().getShop_name());
+        txtContent.setText(homeCarGet.getName());
+        txtAddress.setText(homeCarGet.getCar_province_city());
+        txtYear.setText(homeCarGet.getOn_number_year()+"");
+        txtMilie.setText(""+homeCarGet.getMileage()+"万公里");
+        txtPrice.setText(homeCarGet.getMarket_price()+"万");
+        txtTime.setText(Tool.getTimeFormat(homeCarGet.getUpdate_time()));
+        ImageLoader.loadImage(Tool.getPicUrl(mContext, homeCarGet.getFirst_image(), 92, 67), bgImage, R.drawable.pic_bg_default);
+        txtRenzheng.setText(homeCarGet.getHomeCarMember().getAuth_status_name() );
+
         if (homeCarGet.getStock() == 0){
-            bgImage.setImageResource(R.drawable.pic_bg_default);
-            txtContent.setText("");
-            relativeLayout.setVisibility(INVISIBLE);
-            txtCompany.setText("");
-            txtTime.setText("");
+            txtTuiguang.setVisibility(VISIBLE);
             txtTuiguang.setText("已售");
-            txtPrice.setText("");
         }else{
-            ImageLoader.loadImage(Tool.getPicUrl(mContext, homeCarGet.getFirst_image(), 92, 67), bgImage, R.drawable.pic_bg_default);
             if (homeCarGet.isPromotion()){
                 //是推广
                 txtTuiguang.setVisibility(VISIBLE);
@@ -83,15 +87,6 @@ public class HomeCarItemView extends LinearLayout {
                 txtTuiguang.setVisibility(INVISIBLE);
                 txtTuiguang.setText("");
             }
-            relativeLayout.setVisibility(VISIBLE);
-            txtCompany.setText(homeCarGet.getHomeCarMember().getShop_name());
-            txtContent.setText(homeCarGet.getName());
-            txtAddress.setText(homeCarGet.getCar_province_city());
-            txtYear.setText(homeCarGet.getOn_number_year()+"");
-            txtMilie.setText(""+homeCarGet.getMileage()+"万公里");
-            txtPrice.setText(homeCarGet.getMarket_price()+"万");
-            txtTime.setText(Tool.getTimeFormat(homeCarGet.getUpdate_time()));
         }
-        txtRenzheng.setText(homeCarGet.getHomeCarMember().getAuth_status_name() );
     }
 }

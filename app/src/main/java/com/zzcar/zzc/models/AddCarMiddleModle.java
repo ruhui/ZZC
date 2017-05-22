@@ -143,7 +143,7 @@ public class AddCarMiddleModle extends AddCarFrom{
     }
 
     public AddCarFrom getAddCarFrom(AddCarMiddleModle middleModle){
-        AddCarFrom addCarFrom = new AddCarMiddleModle();
+        AddCarFrom addCarFrom = new AddCarFrom();
         addCarFrom.setProduct_id(middleModle.getProduct_id());
         addCarFrom.setMarket_price(middleModle.getMarket_price());
         addCarFrom.setImage_path(middleModle.getImage_path());

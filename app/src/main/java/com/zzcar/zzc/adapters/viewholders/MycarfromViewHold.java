@@ -60,26 +60,23 @@ public class MycarfromViewHold extends LinearLayout {
     }
 
     public void bind(final MyfavcarModle homeCarGet, final int position, final AdapterListener adapterListener, String tag) {
-        if (homeCarGet.getStock() == 0){
-            bgImage.setImageResource(R.drawable.pic_bg_default);
-            txtContent.setText("");
-            relativeLayout.setVisibility(INVISIBLE);
-            txtTuiguang.setText("已售");
-            txtPrice.setText("");
-            if (tag.equals("2")){
-                //未上架
-                imgShangjia.setImageResource(R.drawable.nav_icon_xiajia_up);
-            }else{
-                imgShangjia.setImageResource(R.drawable.nav_icon_xiajia_down);
-            }
+        txtContent.setText(homeCarGet.getName());
+        txtAddress.setText(homeCarGet.getCar_province_city());
+        txtYear.setText(homeCarGet.getOn_number_year()+"");
+        txtMilie.setText(""+homeCarGet.getMileage()+"万公里");
+        txtPrice.setText(homeCarGet.getMarket_price()+"万");
+        ImageLoader.loadImage(Tool.getPicUrl(mContext, homeCarGet.getFirst_image(), 92, 67), bgImage, R.drawable.pic_bg_default);
+        if (tag.equals("2")){
+            //未上架
+            imgShangjia.setImageResource(R.drawable.nav_icon_xiajia_up);
         }else{
-            ImageLoader.loadImage(Tool.getPicUrl(mContext, homeCarGet.getFirst_image(), 92, 67), bgImage, R.drawable.pic_bg_default);
-            relativeLayout.setVisibility(VISIBLE);
-            txtContent.setText(homeCarGet.getName());
-            txtAddress.setText(homeCarGet.getCar_province_city());
-            txtYear.setText(homeCarGet.getOn_number_year()+"");
-            txtMilie.setText(""+homeCarGet.getMileage()+"万公里");
-            txtPrice.setText(homeCarGet.getMarket_price()+"万");
+            imgShangjia.setImageResource(R.drawable.nav_icon_xiajia_down);
+        }
+
+        if (homeCarGet.getStock() == 0){
+            txtTuiguang.setText("已售");
+            txtTuiguang.setVisibility(VISIBLE);
+        }else{
             if (homeCarGet.getPromotion()){
                 //是推广
                 txtTuiguang.setVisibility(VISIBLE);
@@ -88,14 +85,7 @@ public class MycarfromViewHold extends LinearLayout {
                 txtTuiguang.setVisibility(INVISIBLE);
                 txtTuiguang.setText("");
             }
-            if (tag.equals("2")){
-                //未上架
-                imgShangjia.setImageResource(R.drawable.nav_icon_xiajia_up);
-            }else{
-                imgShangjia.setImageResource(R.drawable.nav_icon_xiajia_down);
-            }
         }
-
         /*删除*/
         imgShangjia.setOnClickListener(new OnClickListener() {
             @Override

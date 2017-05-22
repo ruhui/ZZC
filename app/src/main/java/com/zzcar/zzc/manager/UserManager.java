@@ -883,6 +883,7 @@ public class UserManager {
         Map<String, Object> hashmap = new HashMap<>();
         if (tag.equals("0")){
             //在售
+            hashmap.put("sell_out", "false");
         }else if (tag.equals("1")){
             //已售
             hashmap.put("sell_out", "true");
