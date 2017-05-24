@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.hyphenate.chat.EMClient;
 import com.zzcar.greendao.BrandListResponseDao;
 import com.zzcar.greendao.CarSeriesResponseDao;
 import com.zzcar.greendao.CarfactoryDtoDao;
@@ -71,7 +72,8 @@ public class SettingFragment extends BaseFragment {
     void exitApp(){
         SecurePreferences.getInstance().edit().putString("Authorization", "").commit();
         SecurePreferences.getInstance().edit().putString("EXPIRESDATE","").commit();
-
+        /*退出环信*/
+        EMClient.getInstance().logout(true);
         Intent intent = new Intent(getActivity(), LoginAcitivty_.class);
         startActivity(intent);
         getActivity().finish();

@@ -460,16 +460,14 @@ public class UserManager {
      */
     public static void getUserMsg(Subscriber<ResponseParent<MineMsgResponse>> subscriber){
          /* 防止多次点击 */
-        cancelTagandRemove("getUserMsg");
         String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
         Map<String, String> hashmap = new HashMap<>();
         ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
-        Subscription subscription = ApiClient.getApiService().getusermsg(zzcHeaders.getHashMap())
+        ApiClient.getApiService().getusermsg(zzcHeaders.getHashMap())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
-        add("getUserMsg", subscription);
     }
 
     /**
