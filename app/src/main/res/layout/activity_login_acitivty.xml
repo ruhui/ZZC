@@ -15,7 +15,7 @@
         app:contentInsetStart="0dp"
         android:gravity="bottom"
         android:background="@color/white"
-        app:title_res="@string/tab_mine">
+        app:title_res="@string/app_login">
     </com.zzcar.zzc.views.widget.NavBar2_>
 
     <ImageView

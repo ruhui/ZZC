@@ -27,9 +27,11 @@ import com.zzcar.zzc.networks.responses.CityResponse;
 import com.zzcar.zzc.networks.responses.ColorResponse;
 import com.zzcar.zzc.networks.responses.CommentResponse;
 import com.zzcar.zzc.networks.responses.DepositResponse;
+import com.zzcar.zzc.networks.responses.FridendListResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
 import com.zzcar.zzc.networks.responses.IntegralDetailResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
+import com.zzcar.zzc.networks.responses.MessageListResponse;
 import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.networks.responses.MybillResponse;
 import com.zzcar.zzc.networks.responses.MyfavcarResponse;
@@ -933,4 +935,31 @@ public class UserManager {
                 .subscribe(subscriber);
     }
 
+    /*获取好友列表*/
+    public static void getFriendList(String name,  Subscriber<ResponseParent<List<FridendListResponse>>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("name", name);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        ApiClient.getApiService().getfriendlist(name, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+
+    /*获取消息列表*/
+    public static void getMssageList(Subscriber<ResponseParent<List<MessageListResponse>>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        ApiClient.getApiService().getmessagelist(zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
 }

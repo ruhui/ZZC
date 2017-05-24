@@ -22,10 +22,12 @@ import com.zzcar.zzc.networks.responses.CityResponse;
 import com.zzcar.zzc.networks.responses.ColorResponse;
 import com.zzcar.zzc.networks.responses.CommentResponse;
 import com.zzcar.zzc.networks.responses.DepositResponse;
+import com.zzcar.zzc.networks.responses.FridendListResponse;
 import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
 import com.zzcar.zzc.networks.responses.IntegralDetailResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
+import com.zzcar.zzc.networks.responses.MessageListResponse;
 import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.networks.responses.MybillResponse;
 import com.zzcar.zzc.networks.responses.MyfavcarResponse;
@@ -219,4 +221,12 @@ public interface ZZCService {
     /*获取单条车源信息*/
     @GET(" goods/car")
     Observable<ResponseParent<SinglecarModel>> getcar(@Query("id") String id, @HeaderMap Map<String, String> header);
+
+    /*获取好友列表*/
+    @GET("friend/friend")
+    Observable<ResponseParent<List<FridendListResponse>>> getfriendlist(@Query("name") String name, @HeaderMap Map<String, String> header);
+
+    /*消息列表数据*/
+    @GET("msg/news_msg")
+    Observable<ResponseParent<List<MessageListResponse>>> getmessagelist(@HeaderMap Map<String, String> header);
 }
