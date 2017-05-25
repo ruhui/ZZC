@@ -39,7 +39,9 @@ public class NetBroadcastReceiver extends BroadcastReceiver {
             if (evevt_activity != null){
                 evevt_activity.onNetChange(netWorkState);
             }
-            evevt_activity.onNetChange(netWorkState);
+            if (evevt_activity != null){
+                evevt_activity.onNetChange(netWorkState);
+            }
 //            evevt_fragment.onNetChange(netWorkState);
         }
     }
