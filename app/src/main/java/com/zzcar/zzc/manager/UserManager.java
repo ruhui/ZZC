@@ -9,6 +9,7 @@ import com.zzcar.zzc.networks.ApiClient;
 import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.ZZCHeaders;
 import com.zzcar.zzc.networks.requests.ApplyDepositRequest;
+import com.zzcar.zzc.networks.requests.ApplyFriendRequest;
 import com.zzcar.zzc.networks.requests.BuyIntegraRequest;
 import com.zzcar.zzc.networks.requests.ForgetPwdResquest;
 import com.zzcar.zzc.networks.requests.LoginRequest;
@@ -232,6 +233,34 @@ public class UserManager {
                 .subscribe(subscriber);
         add("getHomeCarFrom", subscription);
     }
+
+
+
+    /**
+     * 获取用户的车源数据
+     */
+    public static void getUserCarFrom(String userid, int page, String sellout,
+                                      Subscriber<ResponseParent<HomeCarPushResponse>> subscriber){
+        /* 防止多次点击 */
+
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String,String> hashmap = new HashMap<>();
+        hashmap.put("user_id", userid);
+        hashmap.put("sell_out", sellout);
+        //页码
+        hashmap.put("page", String.valueOf(page));
+        //默认一页显示行数
+        hashmap.put("size", "10");
+
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        ApiClient.getApiService().getcars(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
 
     /**
      * 获取车源渠道
@@ -962,4 +991,26 @@ public class UserManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
+
+
+    /**
+     * 请求加为好友或者关注
+     * @param friendid 朋友id
+     * @param type 1朋友，2关注
+     * @param msg
+     * @param subscriber
+     */
+    public static void applyFriend(int friendid, int type,String msg, Subscriber<Boolean> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        ApplyFriendRequest request = new ApplyFriendRequest(friendid, type, msg);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, request);
+        ApiClient.getApiService().applyfriend(request, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+
 }

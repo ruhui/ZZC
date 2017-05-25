@@ -124,6 +124,8 @@ public class GoodDetailActivity extends BaseActivity {
 
     /*商品id*/
     private int productId;
+    /*返回的详情数据*/
+    CarDetailRespose cardetail;
     /*at的id*/
     private String atid = null;
     /*评论的内容*/
@@ -223,7 +225,7 @@ public class GoodDetailActivity extends BaseActivity {
         ImageLoader.loadImage(Tool.getPicUrl(GoodDetailActivity.this,returnMsg.getMember().getPhoto(), 30, 30), headMember, Constant.HEADIMG);
         memNick.setText(returnMsg.getMember().getNick());
         carCompany.setText(returnMsg.getMember().getShop_name());
-        isCheck.setText(returnMsg.getMember().getAuth_status());
+        isCheck.setText(returnMsg.getMember().getAuth_status_name());
         descripe.setText(returnMsg.getContent());
         onnumberdes.setText(returnMsg.getOn_number_year()+"年" +returnMsg.getOn_number_month()+"月");
         outFactorydes.setText(returnMsg.getOut_factory_year()+"年"+returnMsg.getOut_factory_month()+"月");
@@ -307,6 +309,21 @@ public class GoodDetailActivity extends BaseActivity {
 
     @Override
     public void onNetChange(int netMobile) {
+
+    }
+
+    @Click(R.id.userMember)
+    void intentMenberMsg(){
+        //跳转到用户界面
+        if (cardetail != null){
+            Intent intent = new Intent(GoodDetailActivity.this,MemberMsgActivity_.class);
+            intent.putExtra("userid", cardetail.getUser_id());
+            intent.putExtra("nick", cardetail.getMember().getNick());
+            intent.putExtra("photo", cardetail.getMember().getPhoto());
+            intent.putExtra("shopname", cardetail.getMember().getShop_name());
+            intent.putExtra("statuname", cardetail.getMember().getAuth_status_name());
+            startActivity(intent);
+        }
 
     }
 
@@ -451,6 +468,7 @@ public class GoodDetailActivity extends BaseActivity {
         public void success(CarDetailRespose returnMsg) {
             LogUtil.E("success","success");
             resertView(returnMsg);
+            cardetail = returnMsg;
         }
 
         @Override

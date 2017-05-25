@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/windowbackcolor">
+
+    <com.zzcar.zzc.views.widget.NavBar3_
+        android:id="@+id/mNavbar"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:gravity="bottom"
+        android:background="@color/white"
+        app:title_res="@string/tab_mine">
+    </com.zzcar.zzc.views.widget.NavBar3_>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:textSize="14sp"
+        android:textColor="#9c9898"
+        android:text="您需要发送验证申请，对方通过后即添加成为好友"
+        android:gravity="center|left"
+        android:paddingLeft="20dp"
+        
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        >
+
+        <EditText
+            android:id="@+id/edtMsg"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@null"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/color_333333"
+            android:hint="请输入验证消息"
+            android:paddingLeft="20dp"
+            android:layout_toLeftOf="@+id/imageView28"
+            android:layout_toStartOf="@+id/imageView28" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:scaleType="center"
+            android:src="@drawable/nav_icon_delete_def"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/imageView28" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

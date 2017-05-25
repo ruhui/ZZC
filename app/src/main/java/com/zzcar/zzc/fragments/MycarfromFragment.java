@@ -16,6 +16,7 @@ import com.zzcar.zzc.fragments.base.BasePullRecyclerFragment;
 import com.zzcar.zzc.interfaces.AdapterListener;
 import com.zzcar.zzc.interfaces.RefreshFragment;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
+import com.zzcar.zzc.interfaces.TablayoutTitle;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.MyfavcarModle;
 import com.zzcar.zzc.networks.PosetSubscriber;

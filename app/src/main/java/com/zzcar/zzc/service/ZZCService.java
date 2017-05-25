@@ -5,6 +5,7 @@ import com.zzcar.zzc.models.AddressModel;
 import com.zzcar.zzc.models.SinglecarModel;
 import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.requests.ApplyDepositRequest;
+import com.zzcar.zzc.networks.requests.ApplyFriendRequest;
 import com.zzcar.zzc.networks.requests.BuyIntegraRequest;
 import com.zzcar.zzc.networks.requests.ForgetPwdResquest;
 import com.zzcar.zzc.networks.requests.LoginRequest;
@@ -229,4 +230,9 @@ public interface ZZCService {
     /*消息列表数据*/
     @GET("msg/news_msg")
     Observable<ResponseParent<List<MessageListResponse>>> getmessagelist(@HeaderMap Map<String, String> header);
+
+    /*请求加为好友*/
+    @POST("friend/apply_friend")
+    Observable<ResponseParent<Boolean>> applyfriend(@Body ApplyFriendRequest request, @HeaderMap Map<String, String> header);
+
 }

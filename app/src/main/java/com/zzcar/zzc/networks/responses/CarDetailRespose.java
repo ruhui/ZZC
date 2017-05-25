@@ -11,6 +11,7 @@ import java.util.List;
 
 public class CarDetailRespose {
     private int product_id;
+    private int user_id;
     private String name;
     private double market_price;
     private double price;
@@ -42,7 +43,7 @@ public class CarDetailRespose {
                             String content, int sale_status, MemberModel member, double mileage, int on_number_year,
                             int on_number_month, String car_province_city, String on_number_province_city, String color,
                             String emission, int out_factory_year, int out_factory_month, double new_car_price,
-                            int exp_safe_year, int exp_safe_month, String use_type, boolean is_favorte) {
+                            int exp_safe_year, int exp_safe_month, String use_type, boolean is_favorte, int user_id) {
         this.product_id = product_id;
         this.name = name;
         this.market_price = market_price;
@@ -69,8 +70,16 @@ public class CarDetailRespose {
         this.exp_safe_month = exp_safe_month;
         this.use_type = use_type;
         this.is_favorte = is_favorte;
+        this.user_id = user_id;
     }
 
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
 
     public boolean is_favorte() {
         return is_favorte;
