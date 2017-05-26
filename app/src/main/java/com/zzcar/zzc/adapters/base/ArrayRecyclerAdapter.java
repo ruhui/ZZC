@@ -281,4 +281,50 @@ public abstract class ArrayRecyclerAdapter<E, VH extends RecyclerView.ViewHolder
             }
         }
     }
+
+    public void replaceWithNew(List<E> data) {
+        if (list.isEmpty() && data.isEmpty()) {
+            return;
+        }
+
+        if (list.isEmpty()) {
+            addAll(data);
+            return;
+        }
+
+        if (data.isEmpty()) {
+            clear();
+            return;
+        }
+
+//        if (list.equals(data)) {
+//            return;
+//        }
+
+        // 首先将旧列表有、新列表没有的从旧列表去除
+        retainAll(data);
+
+        // 如果列表被完全清空了，那就直接全部插入好了
+        if (list.isEmpty()) {
+            addAll(data);
+            return;
+        }
+
+        // 然后遍历新列表，对旧列表的数据更新、移动、增加
+        for (int indexNew = 0; indexNew < data.size(); indexNew++) {
+            E item = data.get(indexNew);
+
+            int indexOld = indexOf(item);
+
+            if (indexOld == -1) {
+                add(indexNew, item);
+            } else if (indexOld == indexNew) {
+                set(indexNew, item);
+            } else {
+                list.remove(indexOld);
+                list.add(indexNew, item);
+                notifyItemMoved(indexOld, indexNew);
+            }
+        }
+    }
 }

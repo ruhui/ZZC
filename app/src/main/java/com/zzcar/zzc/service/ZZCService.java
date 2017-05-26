@@ -14,6 +14,7 @@ import com.zzcar.zzc.networks.requests.PhotoRequest;
 import com.zzcar.zzc.networks.requests.ProduceIdResquest;
 import com.zzcar.zzc.networks.requests.SaveCommentRequest;
 import com.zzcar.zzc.networks.requests.SendRegsmsRequest;
+import com.zzcar.zzc.networks.responses.ApplyFriendResponse;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.networks.responses.CarDetailRespose;
@@ -235,4 +236,11 @@ public interface ZZCService {
     @POST("friend/apply_friend")
     Observable<ResponseParent<Boolean>> applyfriend(@Body ApplyFriendRequest request, @HeaderMap Map<String, String> header);
 
+    /*好友验证消息 */
+    @GET("msg/friend")
+    Observable<ResponseParent<ApplyFriendResponse>> getapplyfriend(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+
+    /*添加好友*/
+    @POST("friend/add_friend")
+    Observable<ResponseParent<Boolean>> addfriend(@Body ApplyFriendRequest request, @HeaderMap Map<String, String> header);
 }

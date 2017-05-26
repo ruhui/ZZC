@@ -4,7 +4,7 @@
     android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="@dimen/activityTitleHeight"
-    android:background="@color/colorPrimary"
+    android:background="@color/white"
     android:orientation="horizontal">
 
     <ImageView
@@ -16,12 +16,11 @@
         android:paddingLeft="@dimen/spacing_small"
         android:paddingRight="@dimen/spacing_small"
         android:scaleType="center"
-        tools:src="@drawable/back_icon" />
+        tools:src="@drawable/nav_icon_lift_default" />
 
 
     <TextView
         android:id="@+id/tv_title"
-        style="@style/TextTitle"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -29,6 +28,8 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:gravity="center"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/sp_14"
         android:marqueeRepeatLimit="marquee_forever"
         android:singleLine="true"
         android:textIsSelectable="false"

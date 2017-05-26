@@ -62,7 +62,6 @@ public abstract class BasePullRecyclerFragment extends BaseFragment {
         mPullRecyclerView.finishLoad(hasMore);
     }
 
-
     public RecyclerView getRecyclerView() {
         return mPullRecyclerView.getRecyclerView();
     }

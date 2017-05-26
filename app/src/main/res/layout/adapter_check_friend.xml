@@ -3,12 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white">
+    android:layout_height="wrap_content">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        android:layout_marginLeft="20dp"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="66dp">
+        android:layout_height="60dp"
+        android:background="@color/white">
+
 
         <ImageView
             android:id="@+id/imageView26"
@@ -31,60 +38,38 @@
             android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/imageView26"
             android:layout_toRightOf="@+id/imageView26"
-            android:text="sdfds"
+            android:text="TextView"
             android:textColor="@color/color_333333"
             android:textSize="@dimen/sp_14" />
 
         <TextView
             android:id="@+id/textView135"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/textView134"
             android:layout_alignParentBottom="true"
             android:layout_alignStart="@+id/textView134"
             android:layout_marginBottom="10dp"
-            android:layout_marginRight="20dp"
-            android:singleLine="true"
             android:text="TextView"
             android:textColor="#BEBBBB"
             android:textSize="@dimen/sp_14" />
 
         <TextView
-            android:id="@+id/textView137"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            android:layout_alignBaseline="@+id/textView134"
-            android:layout_alignBottom="@+id/textView134"
+            android:id="@+id/textView136"
+            android:layout_width="50dp"
+            android:layout_height="20dp"
+            android:background="@drawable/shape_red_radio"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:text="接受"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:gravity="center"
+            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp"
-            android:textSize="@dimen/sp_14"
-            android:textColor="#BEBBBB"/>
-
-        <TextView
-            android:id="@+id/textView138"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:minWidth="25dp"
-            android:layout_alignBottom="@+id/textView134"
-            android:layout_toEndOf="@+id/textView134"
-            android:layout_toRightOf="@+id/textView134"
-            android:background="@drawable/shape_cicle"
-            android:gravity="center"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:text="12"
-            android:textColor="@color/white"
-            android:textSize="@dimen/sp_12" />
-
+            android:layout_marginRight="19dp"
+            android:layout_marginEnd="19dp" />
     </RelativeLayout>
-    
-    
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="20dp"
-        android:background="@color/grey"/>
-    
+
 </LinearLayout>

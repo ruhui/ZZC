@@ -91,6 +91,7 @@
         <activity android:name=".activities.MycarFromActivity_"></activity>
         <activity android:name=".activities.MemberMsgActivity_" android:launchMode="singleTask"></activity>
         <activity android:name=".activities.SendFriendActivity_"/>
+        <activity android:name=".activities.ECChatActivity" android:launchMode="singleTask" />
     </application>
 
 </manifest>

@@ -39,5 +39,7 @@ public class Constant {
     public static final String UPLOADCOMMENTURL = UPLOADURL + "comment";
     /*上传聊天图片路径*/
     public static final String UPLOADCHATURL = UPLOADURL + "chat";
+    /*环信密码*/
+    public static final String EMCHATPASSWORD = "car123456";
 
 }

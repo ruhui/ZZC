@@ -1,5 +1,7 @@
 package com.zzcar.zzc.manager;
 
+import android.text.TextUtils;
+
 import com.zzcar.zzc.models.AddCarFrom;
 import com.zzcar.zzc.models.AddCarMiddleModle;
 import com.zzcar.zzc.models.AddressModel;
@@ -20,6 +22,7 @@ import com.zzcar.zzc.networks.requests.ProduceIdResquest;
 import com.zzcar.zzc.networks.requests.SaveCommentRequest;
 import com.zzcar.zzc.networks.requests.SearchRequest;
 import com.zzcar.zzc.networks.requests.SendRegsmsRequest;
+import com.zzcar.zzc.networks.responses.ApplyFriendResponse;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.networks.responses.CarSeriesResponse;
@@ -1012,5 +1015,45 @@ public class UserManager {
                 .subscribe(subscriber);
     }
 
+    /**
+     * 获取申请添加的好友列表
+     * @param objectid
+     * @param page
+     * @param subscriber
+     */
+    public static void getApplyFriend(String objectid, int page, Subscriber<ResponseParent<ApplyFriendResponse>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        if (!TextUtils.isEmpty(objectid)){
+            hashmap.put("object_id", String.valueOf(objectid));
+        }
+        hashmap.put("page", String.valueOf(page));
+        hashmap.put("size", "20");
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        ApiClient.getApiService().getapplyfriend(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 加为好友或者关注
+     * @param friendid 朋友id
+     * @param type 1朋友，2关注
+     * @param subscriber
+     */
+    public static void addFriend(int friendid, int type, Subscriber<Boolean> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        ApplyFriendRequest request = new ApplyFriendRequest(friendid, type, "");
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, request);
+        ApiClient.getApiService().addfriend(request, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
 
 }

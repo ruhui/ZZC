@@ -59,10 +59,8 @@ public class MyFriendFragment extends BaseFragment {
 
     @AfterViews
     void initView(){
-
         /*获取好友列表*/
         getFriendList();
-
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setAdapter(adapter = new FriendAdapter());
         adapter.addAll(mList);
@@ -95,8 +93,7 @@ public class MyFriendFragment extends BaseFragment {
         public void success(List<FridendListResponse> returnMsg) {
             mList.clear();
             mList.addAll(returnMsg);
-            adapter.clear();
-            adapter.addAll(mList);
+            adapter.replaceWithNew(mList);
             if (returnMsg.size() == 0){
                 txtNofriend.setVisibility(View.VISIBLE);
             }else{

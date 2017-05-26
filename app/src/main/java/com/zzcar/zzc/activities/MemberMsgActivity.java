@@ -11,6 +11,8 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.viewpagerindicator.IconPagerAdapter;
@@ -25,7 +27,9 @@ import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
 import com.zzcar.zzc.utils.ImageLoader;
+import com.zzcar.zzc.utils.SecurePreferences;
 import com.zzcar.zzc.utils.Tool;
+import com.zzcar.zzc.views.widget.NavBar;
 import com.zzcar.zzc.views.widget.NavBar2;
 import com.zzcar.zzc.views.widget.NoScrollViewPager;
 
@@ -50,7 +54,7 @@ public class MemberMsgActivity extends BaseActivity {
     @ViewById(R.id.imageView26)
     ImageView imgHeadView;
     @ViewById(R.id.mNavbar)
-    NavBar2 mNavbar;
+    NavBar mNavbar;
     @ViewById(R.id.mTab)
     TabLayout mTab;
     @ViewById(R.id.mViewPager)
@@ -61,9 +65,12 @@ public class MemberMsgActivity extends BaseActivity {
     TextView txtshopName;
     @ViewById(R.id.textView136)
     TextView txtStatus;
-
+    @ViewById(R.id.linearLayout4)
+    LinearLayout linearLayout4;
 
     private int userid;
+    //我的环信用户名
+    private String echatmyname;
     
     @Override
     public void onNetChange(int netMobile) {
@@ -73,6 +80,7 @@ public class MemberMsgActivity extends BaseActivity {
 
     @AfterViews
     void initView(){
+        echatmyname = SecurePreferences.getInstance().getString("EMChatUsername","");
         EventBus.getDefault().register(this);
         userid = getIntent().getIntExtra("userid", 0);
         String photo = getIntent().getStringExtra("photo");
@@ -83,13 +91,17 @@ public class MemberMsgActivity extends BaseActivity {
         txtName.setText(nickname);
         txtshopName.setText(shopname);
         txtStatus.setText(statuname);
+        if (Integer.valueOf(echatmyname) == userid){
+            //自己
+            linearLayout4.setVisibility(View.GONE);
+        }
+
 
         initTab();
         mNavbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
-        mNavbar.setMiddleTitle("众众车");
-        mNavbar.setRightTxt("。。。");
-        mNavbar.setRightTxtColor(R.color.app_red);
-        mNavbar.setOnMenuClickListener(new NavBar2.OnMenuClickListener() {
+        mNavbar.setTitle("众众车");
+        mNavbar.setRightMenuIcon(R.drawable.nav_icon_more);
+        mNavbar.setOnMenuClickListener(new NavBar.OnMenuClickListener() {
             @Override
             public void onLeftMenuClick(View view) {
                 super.onLeftMenuClick(view);
@@ -101,6 +113,8 @@ public class MemberMsgActivity extends BaseActivity {
                 super.onRightMenuClick(view);
             }
         });
+
+
     }
 
     @Subscribe
@@ -113,7 +127,9 @@ public class MemberMsgActivity extends BaseActivity {
     /*发送消息*/
     @Click(R.id.relaSendmsg)
     void sendmsg(){
-
+        Intent intent = new Intent(this, ECChatActivity.class);
+        intent.putExtra("ec_chat_id", userid+"");
+        startActivity(intent);
     }
 
     /*添加好友*/

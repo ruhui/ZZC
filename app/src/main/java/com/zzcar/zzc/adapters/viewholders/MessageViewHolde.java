@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zzcar.zzc.R;
+import com.zzcar.zzc.interfaces.AdapterListener;
 import com.zzcar.zzc.networks.responses.MessageListResponse;
 import com.zzcar.zzc.utils.ImageLoader;
 import com.zzcar.zzc.utils.Tool;
@@ -46,26 +47,35 @@ public class MessageViewHolde extends LinearLayout {
         mContext = context;
     }
 
-    public void bind(MessageListResponse message){
+    public void bind(MessageListResponse message, int position){
 //        1业务消息，2新朋友（验证朋友），3聊天,4群聊
         switch (message.getType()){
             case 1:
+                ImageLoader.loadResourceImage(R.drawable.iconmsg_yewu, imgHeadView, 0);
                 break;
             case 2:
+                ImageLoader.loadResourceImage(R.drawable.nav_icon_head_haoyou, imgHeadView, 0);
                 break;
             case 3:
+                ImageLoader.loadImage(Tool.getPicUrl(mContext, message.getPhoto(), 40, 40), imgHeadView);
                 break;
             case 4:
+                ImageLoader.loadImage(Tool.getPicUrl(mContext, message.getPhoto(), 40, 40), imgHeadView);
                 break;
         }
-        ImageLoader.loadImage(Tool.getPicUrl(mContext, message.getPhoto(), 40, 40), imgHeadView);
         txtName.setText(message.getName());
         txtContent.setText(message.getShort_content());
         txTime.setText(Tool.getTimeFormat(message.getCreate_time()));
         if (message.getNew_count() > 99){
             unRedCount.setText("99+");
+            unRedCount.setVisibility(VISIBLE);
         }else{
-            unRedCount.setText(message.getNew_count());
+            if (message.getNew_count() == 0){
+                unRedCount.setVisibility(INVISIBLE);
+            }else{
+                unRedCount.setVisibility(VISIBLE);
+            }
+            unRedCount.setText(message.getNew_count()+"");
         }
     }
 }

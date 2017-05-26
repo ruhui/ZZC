@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.hyphenate.EMCallBack;
+import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
+import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.AddressModel;
@@ -18,6 +21,7 @@ import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.networks.responses.UserMsgResponse;
+import com.zzcar.zzc.utils.LogUtil;
 import com.zzcar.zzc.utils.SecurePreferences;
 import com.zzcar.zzc.utils.ToastUtil;
 
@@ -124,7 +128,8 @@ public class LoginAcitivty extends BaseActivity {
         public void success(MineMsgResponse returnMsg) {
             if (returnMsg.getAuth_status() == 3){
                 //登录环信
-                loginEM(String.valueOf(returnMsg.getId()), "car123456");
+                SecurePreferences.getInstance().edit().putString("EMChatUsername", String.valueOf(returnMsg.getId())).commit();
+                loginEM(String.valueOf(returnMsg.getId()), Constant.EMCHATPASSWORD);
                 Intent intent = new Intent(LoginAcitivty.this, MainActivity_.class);
                 startActivity(intent);
                 finish();
@@ -159,7 +164,47 @@ public class LoginAcitivty extends BaseActivity {
 
             @Override
             public void onError(int code, String message) {
-                Log.d("main", "登录聊天服务器失败！");
+                switch (code) {
+                    // 网络异常 2
+                    case EMError.NETWORK_ERROR:
+                        LogUtil.E("网络错误 code: " + code , " message:" + message);
+                        break;
+                    // 无效的用户名 101
+                    case EMError.INVALID_USER_NAME:
+                        LogUtil.E("无效的用户名 code: " + code , " message:" + message);
+                        break;
+                    // 无效的密码 102
+                    case EMError.INVALID_PASSWORD:
+                        LogUtil.E("无效的密码  code: " + code , " message:" + message);
+                        break;
+                    // 用户认证失败，用户名或密码错误 202
+                    case EMError.USER_AUTHENTICATION_FAILED:
+                        LogUtil.E("用户认证失败，用户名或密码错误  code: " + code , " message:" + message);
+                        break;
+                    // 用户不存在 204
+                    case EMError.USER_NOT_FOUND:
+                        LogUtil.E("用户不存在  code: " + code , " message:" + message);
+                        break;
+                    // 无法访问到服务器 300
+                    case EMError.SERVER_NOT_REACHABLE:
+                        LogUtil.E("无法访问到服务器  code: " + code , " message:" + message);
+                        break;
+                    // 等待服务器响应超时 301
+                    case EMError.SERVER_TIMEOUT:
+                        LogUtil.E("等待服务器响应超时  code: " + code , " message:" + message);
+                        break;
+                    // 服务器繁忙 302
+                    case EMError.SERVER_BUSY:
+                        LogUtil.E("服务器繁忙 code: " + code , " message:" + message);
+                        break;
+                    // 未知 Server 异常 303 一般断网会出现这个错误
+                    case EMError.SERVER_UNKNOWN_ERROR:
+                        LogUtil.E("未知的服务器异常 code: " + code , " message:" + message);
+                        break;
+                    default:
+                        LogUtil.E("ml_sign_in_failed code code: " + code , " message:" + message);
+                        break;
+                }
             }
         });
     }
