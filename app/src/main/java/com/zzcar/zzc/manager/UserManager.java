@@ -5,11 +5,13 @@ import android.text.TextUtils;
 import com.zzcar.zzc.models.AddCarFrom;
 import com.zzcar.zzc.models.AddCarMiddleModle;
 import com.zzcar.zzc.models.AddressModel;
+import com.zzcar.zzc.models.CarFromModel;
 import com.zzcar.zzc.models.EnumSendUserType;
 import com.zzcar.zzc.models.SinglecarModel;
 import com.zzcar.zzc.networks.ApiClient;
 import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.ZZCHeaders;
+import com.zzcar.zzc.networks.requests.AddMsgRequest;
 import com.zzcar.zzc.networks.requests.ApplyDepositRequest;
 import com.zzcar.zzc.networks.requests.ApplyFriendRequest;
 import com.zzcar.zzc.networks.requests.BuyIntegraRequest;
@@ -19,6 +21,7 @@ import com.zzcar.zzc.networks.requests.NickRequest;
 import com.zzcar.zzc.networks.requests.ParametersRequest;
 import com.zzcar.zzc.networks.requests.PhotoRequest;
 import com.zzcar.zzc.networks.requests.ProduceIdResquest;
+import com.zzcar.zzc.networks.requests.RefreshLoginRequest;
 import com.zzcar.zzc.networks.requests.SaveCommentRequest;
 import com.zzcar.zzc.networks.requests.SearchRequest;
 import com.zzcar.zzc.networks.requests.SendRegsmsRequest;
@@ -41,6 +44,7 @@ import com.zzcar.zzc.networks.responses.MybillResponse;
 import com.zzcar.zzc.networks.responses.MyfavcarResponse;
 import com.zzcar.zzc.networks.responses.RefundOrderResponse;
 import com.zzcar.zzc.networks.responses.ShouzhiDetailResponse;
+import com.zzcar.zzc.networks.responses.UserMessageResponse;
 import com.zzcar.zzc.networks.responses.ValueTextResponse;
 import com.zzcar.zzc.networks.responses.VerifiedResponse;
 import com.zzcar.zzc.utils.SecurePreferences;
@@ -1050,6 +1054,60 @@ public class UserManager {
 
         ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, request);
         ApiClient.getApiService().addfriend(request, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 获取用户信息
+     * @param userid
+     * @param subscriber
+     */
+    public static void getUserMessage(int userid, Subscriber<ResponseParent<UserMessageResponse>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("user_id", userid+"");
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        ApiClient.getApiService().getUserMessage(userid, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 刷新数据
+     * @param subscriber
+     */
+    public static void refreshLogin(Subscriber<LoginResponse> subscriber){
+        String accessToken = SecurePreferences.getInstance().getString("Authorization", "");
+        RefreshLoginRequest request = new RefreshLoginRequest(accessToken);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(request);
+        ApiClient.getApiService().refreshlogin(request, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 聊天保存数据
+     * @param toid
+     * @param content
+     * @param imgpath
+     * @param carFromModel
+     * @param subscriber
+     */
+    public static void addChatMessage(String toid, String content, String imgpath, CarFromModel carFromModel, Subscriber<Boolean> subscriber){
+        String accessToken = SecurePreferences.getInstance().getString("Authorization", "");
+        AddMsgRequest request = new AddMsgRequest(toid, content, imgpath, carFromModel);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(accessToken, request);
+        ApiClient.getApiService().addchatmessage(request, zzcHeaders.getHashMap())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

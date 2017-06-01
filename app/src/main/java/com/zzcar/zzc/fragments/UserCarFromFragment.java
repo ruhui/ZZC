@@ -2,10 +2,7 @@ package com.zzcar.zzc.fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,8 +10,6 @@ import android.widget.TextView;
 
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.GoodDetailActivity_;
-import com.zzcar.zzc.activities.MemberMsgActivity;
-import com.zzcar.zzc.adapters.HomeCarAdapter;
 import com.zzcar.zzc.adapters.UserCarAdapter;
 import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.fragments.base.BasePullRecyclerFragment;
@@ -26,7 +21,6 @@ import com.zzcar.zzc.models.HomeCarGet;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
 import com.zzcar.zzc.utils.LogUtil;
-import com.zzcar.zzc.views.widget.NavBar2;
 import com.zzcar.zzc.views.widget.pullview.PullRecyclerView;
 
 import org.androidannotations.annotations.EFragment;
@@ -138,7 +132,7 @@ public class UserCarFromFragment extends BasePullRecyclerFragment {
     /*adapter行点击监听*/
     HomeAdapterListener adapterListener = new HomeAdapterListener() {
         @Override
-        public void setOnItemClckListener(int position, int productId) {
+        public void setOnItemClckListener(int position, int productId, HomeCarGet homeCarGet) {
             Intent intent = new Intent(getActivity(), GoodDetailActivity_.class);
             intent.putExtra("productId", productId);
             startActivity(intent);

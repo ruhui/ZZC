@@ -7,11 +7,12 @@
 
     <TextView
         android:id="@+id/homeTitle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/font_xlarge"
+        android:gravity="center"
         android:text="@string/paixu"
-        android:maxLength="4"
+        android:singleLine="true"
         android:textColor="@color/text_color_select_red_black"
         android:layout_marginRight="5dp"/>
 

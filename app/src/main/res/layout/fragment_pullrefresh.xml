@@ -5,7 +5,6 @@
     android:layout_height="match_parent">
 
 
-
     <com.zzcar.zzc.views.widget.pullview.PullRecyclerView_
         android:id="@+id/pull_recycler_view"
         android:layout_width="match_parent"

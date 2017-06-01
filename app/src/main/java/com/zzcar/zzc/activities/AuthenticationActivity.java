@@ -1,6 +1,7 @@
 package com.zzcar.zzc.activities;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -33,6 +34,8 @@ import com.zzcar.zzc.views.widget.NoScrollViewPager;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.Serializable;
 import java.lang.ref.ReferenceQueue;
@@ -250,4 +253,8 @@ public class AuthenticationActivity extends BaseActivity {
             ToastUtil.showToast("提交失败");
         }
     };
+
+
+
+
 }

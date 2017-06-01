@@ -57,7 +57,7 @@
         android:paddingRight="@dimen/spacing_small"
         android:scaleType="center"
         tools:src="@drawable/refresh"
-        android:layout_alignTop="@+id/tv_title"
+        android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/ivMenuRight"
         android:layout_toStartOf="@+id/ivMenuRight" />
 </RelativeLayout>

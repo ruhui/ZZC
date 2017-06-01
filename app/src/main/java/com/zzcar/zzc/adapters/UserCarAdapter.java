@@ -37,7 +37,7 @@ public class UserCarAdapter extends BaseRecyclerAdapter<HomeCarGet, UserCarItemV
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                adapterListener.setOnItemClckListener(position, homeCarGet.getProduct_id());
+                adapterListener.setOnItemClckListener(position, homeCarGet.getProduct_id(), homeCarGet);
             }
         });
     }

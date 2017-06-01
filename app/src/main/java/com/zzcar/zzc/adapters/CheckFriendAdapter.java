@@ -1,5 +1,6 @@
 package com.zzcar.zzc.adapters;
 
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.zzcar.zzc.adapters.base.BaseRecyclerAdapter;
@@ -30,7 +31,13 @@ public class CheckFriendAdapter extends BaseRecyclerAdapter<ApplyFriendModel, Ch
     }
 
     @Override
-    protected void onBindView(CheckFriendViewHold itemView, ApplyFriendModel fridendListResponse, int position) {
+    protected void onBindView(CheckFriendViewHold itemView, final ApplyFriendModel fridendListResponse, int position) {
         itemView.bind(fridendListResponse, adapterListener, position);
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                adapterListener.setOnItemListener(fridendListResponse, 10000);
+            }
+        });
     }
 }

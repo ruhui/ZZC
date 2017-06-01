@@ -42,5 +42,7 @@
     <string name="authen_usermsg">商户信息</string>
     <string name="authen_photo">上传照片</string>
     <string name="app_login_getcode">获取验证码</string>
+    <string name="attach_voice_carform">车源</string>
+
 
 </resources>

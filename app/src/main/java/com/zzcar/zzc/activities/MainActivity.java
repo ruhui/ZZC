@@ -1,6 +1,9 @@
 package com.zzcar.zzc.activities;
 
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -10,16 +13,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMContactListener;
 import com.hyphenate.EMError;
 import com.hyphenate.EMMessageListener;
+import com.hyphenate.chat.EMChatManager;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.EaseConstant;
+import com.hyphenate.easeui.EaseUI;
+import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.easeui.model.EaseNotifier;
+import com.hyphenate.easeui.utils.EaseCommonUtils;
 import com.hyphenate.util.NetUtils;
 import com.viewpagerindicator.IconPagerAdapter;
+import com.zzcar.greendao.MyEaseUserDao;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
 import com.zzcar.zzc.constants.Constant;
@@ -29,7 +40,14 @@ import com.zzcar.zzc.fragments.HomeFragment;
 import com.zzcar.zzc.fragments.HomeFragment_;
 import com.zzcar.zzc.fragments.MessageFragment_;
 import com.zzcar.zzc.fragments.MineFragment_;
+import com.zzcar.zzc.interfaces.ActivityFinish;
 import com.zzcar.zzc.interfaces.FragmentClosePop;
+import com.zzcar.zzc.interfaces.ResponseResultListener;
+import com.zzcar.zzc.manager.UserManager;
+import com.zzcar.zzc.models.MyEaseUser;
+import com.zzcar.zzc.networks.PosetSubscriber;
+import com.zzcar.zzc.networks.responses.LoginResponse;
+import com.zzcar.zzc.utils.GreenDaoUtils;
 import com.zzcar.zzc.utils.LogUtil;
 import com.zzcar.zzc.utils.SecurePreferences;
 import com.zzcar.zzc.views.widget.NoScrollViewPager;
@@ -41,6 +59,10 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import rx.Subscriber;
+
+import static com.hyphenate.easeui.EaseConstant.CHATTYPE_SINGLE;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends BaseActivity {
@@ -54,10 +76,8 @@ public class MainActivity extends BaseActivity {
     @ViewById(R.id.networkState)
     TextView networkState;
 
-
-
-
     public boolean popisShowing = false;
+
 
     @AfterViews
     void initView(){
@@ -80,6 +100,9 @@ public class MainActivity extends BaseActivity {
             String emchatusername = SecurePreferences.getInstance().getString("EMChatUsername", "");
             loginEM(emchatusername, Constant.EMCHATPASSWORD);
         }
+
+        /*开启倒计时*/
+        restart();
     }
 
 
@@ -228,9 +251,20 @@ public class MainActivity extends BaseActivity {
         }
 
         @Override
-        public void onContactDeleted(String username) {
+        public void onContactDeleted(final String username) {
             //被删除时回调此方法
             LogUtil.E("onContactInvited", "onContactInvited");
+            runOnUiThread(new Runnable() {
+                public void run() {
+                    if (ChatActivity.activityInstance != null && ChatActivity.activityInstance.toChatUsername != null &&
+                            username.equals(ChatActivity.activityInstance.toChatUsername)) {
+                        String st10 = getResources().getString(R.string.have_you_removed);
+                        Toast.makeText(MainActivity.this, ChatActivity.activityInstance.getToChatUsername() + st10, Toast.LENGTH_LONG)
+                                .show();
+                        ChatActivity.activityInstance.finish();
+                    }
+                }
+            });
         }
 
 
@@ -247,8 +281,80 @@ public class MainActivity extends BaseActivity {
 
         @Override
         public void onMessageReceived(List<EMMessage> messages) {
+
             //收到消息  收到消息，刷新列表，并且获取未读的条数
-            LogUtil.E("onMessageReceived","onMessageReceived");
+            if (messages.size()>0){
+                EMMessage newMessage = messages.get(0);
+                EaseUI.getInstance().getNotifier().onNewMsg(newMessage);
+
+                EaseUI.getInstance().getNotifier().setNotificationInfoProvider(new EaseNotifier.EaseNotificationInfoProvider() {
+
+                    @Override
+                    public String getTitle(EMMessage message) {
+                        //修改标题,这里使用默认
+                        return message.getUserName();
+                    }
+
+                    @Override
+                    public int getSmallIcon(EMMessage message) {
+                        //设置小图标，这里为默认
+                        return R.mipmap.ic_launcher;
+                    }
+
+                    @Override
+                    public String getDisplayedText(EMMessage message) {
+                        // 设置状态栏的消息提示，可以根据message的类型做相应提示
+                        String ticker = EaseCommonUtils.getMessageDigest(message, MainActivity.this);
+                        if(message.getType() == EMMessage.Type.TXT){
+                            ticker = ticker.replaceAll("\\[.{2,3}\\]", "[表情]");
+                        }
+//                        EaseUser user = getUserInfo(message.getFrom());
+//                        if(user != null){
+//                            return getUserInfo(message.getFrom()).getNick() + ": " + ticker;
+//                        }else{
+                        return message.getFrom() + ": " + ticker;
+//                        }
+                    }
+
+                    @Override
+                    public String getLatestText(EMMessage message, int fromUsersNum, int messageNum) {
+                        MyEaseUserDao easeUserDao = GreenDaoUtils.getSingleTon().getmDaoSession().getMyEaseUserDao();
+                        List<MyEaseUser> listmyEaseUser = easeUserDao.queryBuilder().where(MyEaseUserDao.Properties.Id.eq(fromUsersNum+"")).list();
+                        String nick = "";
+                        if (listmyEaseUser.size() > 0){
+                            nick = listmyEaseUser.get(0).getNick();
+                        }
+                        return nick + "发来了" + messageNum + "条消息";
+                    }
+
+                    @Override
+                    public Intent getLaunchIntent(EMMessage message) {
+                        //设置点击通知栏跳转事件
+                        Intent intent = new Intent(MainActivity.this, ChatActivity.class);
+                        //有电话时优先跳转到通话页面
+//                if(isVideoCalling){
+//                    intent = new Intent(appContext, VideoCallActivity.class);
+//                }else if(isVoiceCalling){
+//                    intent = new Intent(appContext, VoiceCallActivity.class);
+//                }else{
+                        EMMessage.ChatType chatType = message.getChatType();
+                        if (chatType == EMMessage.ChatType.Chat) { // 单聊信息
+                            intent.putExtra("userId", message.getFrom());
+                            intent.putExtra("chatType", CHATTYPE_SINGLE);
+                        } else { // 群聊信息
+                            // message.getTo()为群聊id
+                            intent.putExtra("userId", message.getTo());
+                            if(chatType == EMMessage.ChatType.GroupChat){
+                                intent.putExtra("chatType", EaseConstant.CHATTYPE_GROUP);
+                            }else{
+                                intent.putExtra("chatType", EaseConstant.CHATTYPE_CHATROOM);
+                            }
+                        }
+//                }
+                        return intent;
+                    }
+                });
+            }
         }
 
         @Override
@@ -274,6 +380,9 @@ public class MainActivity extends BaseActivity {
             LogUtil.E("onMessageChanged","onMessageChanged");
         }
     };
+
+
+
 
     //实现ConnectionListener接口 链接状态
     private class MyConnectionListener implements EMConnectionListener {
@@ -329,5 +438,51 @@ public class MainActivity extends BaseActivity {
         super.onDestroy();
          /*移除监听*/
         EMClient.getInstance().chatManager().removeMessageListener(msgListener);
+        if (timer != null){
+            timer.cancel();
+            timer.onFinish();
+        }
     }
+
+    /*开启倒计时，当为8分钟的时候自动刷新token*/
+    public void restart() {
+        timer.start();
+    }
+
+    private CountDownTimer timer = new CountDownTimer(480000, 1000) {
+
+        @Override
+        public void onTick(long millisUntilFinished) {
+        }
+
+        @Override
+        public void onFinish() {
+            //刷新数据
+            refreshlogin();
+        }
+    };
+
+    //刷新数据
+    private void refreshlogin() {
+        Subscriber subscriber = new PosetSubscriber<LoginResponse>().getSubscriber(callback_refhresh);
+        UserManager.refreshLogin(subscriber);
+    }
+
+    //刷新数据回调
+    ResponseResultListener callback_refhresh = new ResponseResultListener<LoginResponse>() {
+        @Override
+        public void success(LoginResponse returnMsg) {
+            SecurePreferences.getInstance().edit().putString("Authorization", returnMsg.access_token).commit();
+            SecurePreferences.getInstance().edit().putString("EXPIRESDATE", returnMsg.expires_date).commit();
+            restart();
+        }
+
+        @Override
+        public void fialed(String resCode, String message) {
+            EventBus.getDefault().post(new ActivityFinish(true));
+            Intent intent = new Intent(MainActivity.this, LoginAcitivty_.class);
+            startActivity(intent);
+            finish();
+        }
+    };
 }

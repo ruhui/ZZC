@@ -152,7 +152,6 @@ public class GoodDetailActivity extends BaseActivity {
     void initView(){
         myScrollView.setMode(PullToRefreshBase.Mode.PULL_FROM_END);
 
-        EventBus.getDefault().register(this);
         setAlpha(0f);
         mToolbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
         mToolbar.setTitleName("商品详情");
@@ -325,12 +324,6 @@ public class GoodDetailActivity extends BaseActivity {
             startActivity(intent);
         }
 
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
     public void setAlpha(float alpha){

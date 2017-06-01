@@ -1,5 +1,6 @@
 package com.zzcar.zzc.adapters;
 
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.zzcar.zzc.adapters.base.BaseRecyclerAdapter;
@@ -32,7 +33,15 @@ public class MycarfromAdapter extends BaseRecyclerAdapter<MyfavcarModle, Mycarfr
     }
 
     @Override
-    protected void onBindView(MycarfromViewHold itemView, MyfavcarModle myfavcarModle, int position) {
+    protected void onBindView(MycarfromViewHold itemView, final MyfavcarModle myfavcarModle, final int position) {
         itemView.bind(myfavcarModle, position, adapterListener, tag);
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (tag.equals("011")){
+                    adapterListener.setOnItemListener(myfavcarModle, position);
+                }
+            }
+        });
     }
 }

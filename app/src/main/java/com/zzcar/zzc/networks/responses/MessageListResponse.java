@@ -13,8 +13,9 @@ public class MessageListResponse {
     private String create_time;
     private String short_content;
     private int new_count;
+    private boolean is_friend;
 
-    public MessageListResponse(int object_id, String name, String photo, int type, String create_time, String short_content, int new_count) {
+    public MessageListResponse(int object_id, String name, String photo, int type, String create_time, String short_content, int new_count,boolean is_friend) {
         this.object_id = object_id;
         this.name = name;
         this.photo = photo;
@@ -22,6 +23,15 @@ public class MessageListResponse {
         this.create_time = create_time;
         this.short_content = short_content;
         this.new_count = new_count;
+        this.is_friend = is_friend;
+    }
+
+    public boolean is_friend() {
+        return is_friend;
+    }
+
+    public void setIs_friend(boolean is_friend) {
+        this.is_friend = is_friend;
     }
 
     public int getObject_id() {

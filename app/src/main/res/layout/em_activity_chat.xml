@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+
+    <com.zzcar.zzc.views.widget.NavBar_
+        android:id="@+id/mNavbar"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:gravity="bottom"
+        android:background="@color/white"
+        app:title_res="@string/tab_mine">
+    </com.zzcar.zzc.views.widget.NavBar_>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"/>
+
+    <RelativeLayout
+        android:id="@+id/addFriend"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:background="#fad0d0"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40"
+            android:text="加个好友，以后联系更方便哦"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/app_red"
+            android:gravity="center|left"
+            android:paddingLeft="20dp"
+            />
+
+        <ImageView
+            android:id="@+id/mid_rightImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/nav_icon_right_default_red"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="15dp"/>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/container"
+        >
+
+    </FrameLayout>
+
+</LinearLayout>

@@ -5,14 +5,11 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -23,7 +20,6 @@ import android.widget.TextView;
 
 import com.zzcar.greendao.BrandListResponseDao;
 import com.zzcar.zzc.R;
-import com.zzcar.zzc.activities.GoodDetailActivity;
 import com.zzcar.zzc.activities.GoodDetailActivity_;
 import com.zzcar.zzc.activities.MainActivity;
 import com.zzcar.zzc.activities.PushCarActivity_;
@@ -46,10 +42,7 @@ import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
 import com.zzcar.zzc.utils.GreenDaoUtils;
 import com.zzcar.zzc.utils.LogUtil;
-import com.zzcar.zzc.utils.ToastUtil;
 import com.zzcar.zzc.utils.Tool;
-import com.zzcar.zzc.views.widget.BrandPopwindow;
-import com.zzcar.zzc.views.widget.CarSeriesPopwindow;
 import com.zzcar.zzc.views.widget.PriceBetweenPopwindow;
 import com.zzcar.zzc.views.widget.ChannelPopwindow;
 import com.zzcar.zzc.views.widget.NavBarSearch;
@@ -603,7 +596,7 @@ public class CarFromFragment extends BasePullRecyclerFragment {
     /*adapter行点击监听*/
     HomeAdapterListener adapterListener = new HomeAdapterListener() {
         @Override
-        public void setOnItemClckListener(int position, int productId) {
+        public void setOnItemClckListener(int position, int productId, HomeCarGet homeCarGet) {
             Intent intent = new Intent(getActivity(), GoodDetailActivity_.class);
             intent.putExtra("productId", productId);
             startActivity(intent);

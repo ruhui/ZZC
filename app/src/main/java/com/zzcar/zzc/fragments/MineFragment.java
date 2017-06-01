@@ -8,16 +8,20 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.zzcar.greendao.MyEaseUserDao;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.*;
 import com.zzcar.zzc.fragments.base.BaseFragment;
 import com.zzcar.zzc.interfaces.RefreshFragment;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
+import com.zzcar.zzc.models.MyEaseUser;
 import com.zzcar.zzc.networks.PosetSubscriber;
+import com.zzcar.zzc.networks.responses.FridendListResponse;
 import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.networks.responses.MybillResponse;
 import com.zzcar.zzc.networks.responses.UserMsgResponse;
+import com.zzcar.zzc.utils.GreenDaoUtils;
 import com.zzcar.zzc.utils.ImageLoader;
 import com.zzcar.zzc.utils.LogUtil;
 import com.zzcar.zzc.utils.Tool;
@@ -210,6 +214,15 @@ public class MineFragment extends BaseFragment {
         public void success(MineMsgResponse returnMsg) {
             mineMsgResponse = returnMsg;
             resetMineData();
+
+            MyEaseUserDao easeUserDao = GreenDaoUtils.getSingleTon().getmDaoSession().getMyEaseUserDao();
+            MyEaseUser easeUser = new MyEaseUser(returnMsg.getId()+"", returnMsg.getPhoto(), returnMsg.getNick());
+            long count = easeUserDao.queryBuilder().where(MyEaseUserDao.Properties.Id.eq(easeUser.getId())).count();
+            if (count == 0){
+                easeUserDao.insert(easeUser);
+            }else{
+                easeUserDao.update(easeUser);
+            }
         }
 
         @Override

@@ -66,11 +66,22 @@ public class MycarfromViewHold extends LinearLayout {
         txtMilie.setText(""+homeCarGet.getMileage()+"万公里");
         txtPrice.setText(homeCarGet.getMarket_price()+"万");
         ImageLoader.loadImage(Tool.getPicUrl(mContext, homeCarGet.getFirst_image(), 92, 67), bgImage, R.drawable.pic_bg_default);
-        if (tag.equals("2")){
-            //未上架
-            imgShangjia.setImageResource(R.drawable.nav_icon_xiajia_up);
+
+
+
+        //聊天选择我的车源
+        if (tag.equals("011")){
+            imgShangjia.setVisibility(GONE);
+            imgEdit.setVisibility(GONE);
         }else{
-            imgShangjia.setImageResource(R.drawable.nav_icon_xiajia_down);
+            imgShangjia.setVisibility(VISIBLE);
+            imgEdit.setVisibility(VISIBLE);
+            if (tag.equals("2")){
+                //未上架
+                imgShangjia.setImageResource(R.drawable.nav_icon_xiajia_up);
+            }else{
+                imgShangjia.setImageResource(R.drawable.nav_icon_xiajia_down);
+            }
         }
 
         if (homeCarGet.getStock() == 0){
@@ -86,7 +97,8 @@ public class MycarfromViewHold extends LinearLayout {
                 txtTuiguang.setText("");
             }
         }
-        /*删除*/
+
+        /*上下架*/
         imgShangjia.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {

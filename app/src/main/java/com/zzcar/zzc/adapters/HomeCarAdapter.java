@@ -2,16 +2,12 @@ package com.zzcar.zzc.adapters;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 
-import com.zzcar.zzc.R;
 import com.zzcar.zzc.adapters.base.BaseRecyclerAdapter;
 import com.zzcar.zzc.adapters.viewholders.HomeCarItemView;
 import com.zzcar.zzc.adapters.viewholders.HomeCarItemView_;
 import com.zzcar.zzc.interfaces.HomeAdapterListener;
 import com.zzcar.zzc.models.HomeCarGet;
-
-import org.androidannotations.annotations.EViewGroup;
 
 /**
  * 描述：
@@ -39,7 +35,7 @@ public class HomeCarAdapter extends BaseRecyclerAdapter<HomeCarGet, HomeCarItemV
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                adapterListener.setOnItemClckListener(position, homeCarGet.getProduct_id());
+                adapterListener.setOnItemClckListener(position, homeCarGet.getProduct_id(), homeCarGet);
             }
         });
     }

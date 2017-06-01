@@ -1,11 +1,13 @@
 package com.zzcar.zzc.models;
 
+import java.io.Serializable;
+
 /**
  * 描述：
  * 作者：黄如辉  时间 2017/5/6.
  */
 
-public class MemberModel {
+public class MemberModel implements Serializable{
     private String nick;
     private String photo;
     private String remark;

@@ -1,5 +1,6 @@
 package com.zzcar.zzc.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -7,7 +8,7 @@ import java.util.List;
  * 作者：黄如辉  时间 2017/5/21.
  */
 
-public class MyfavcarModle {
+public class MyfavcarModle implements Serializable{
     private int product_id;
     private String name;
     private String market_price;

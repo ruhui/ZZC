@@ -58,17 +58,17 @@ public class PullRecyclerView extends LinearLayout {
         mPtrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout ptrFrameLayout, View content, View header) {
-                RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
-                //判断是当前layoutManager是否为LinearLayoutManager
-                // 只有LinearLayoutManager才有查找第一个和最后一个可见view位置的方法
-                if (layoutManager instanceof LinearLayoutManager) {
-                    LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
-                    //获取最后一个可见view的位置
-                    int lastItemPosition = linearManager.findLastVisibleItemPosition();
-                    //获取第一个可见view的位置
-                    int firstItemPosition = linearManager.findFirstVisibleItemPosition();
-                    return  mRecyclerView.getChildCount() == 0 || mRecyclerView.getChildAt(firstItemPosition).getTop() == 0;
-                }
+//                RecyclerView.LayoutManager layoutManager = mRecyclerView.getLayoutManager();
+//                //判断是当前layoutManager是否为LinearLayoutManager
+//                // 只有LinearLayoutManager才有查找第一个和最后一个可见view位置的方法
+//                if (layoutManager instanceof LinearLayoutManager) {
+//                    LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
+//                    //获取最后一个可见view的位置
+//                    int lastItemPosition = linearManager.findLastVisibleItemPosition();
+//                    //获取第一个可见view的位置
+//                    int firstItemPosition = linearManager.findFirstVisibleItemPosition();
+//                    return  mRecyclerView.getChildCount() == 0 || mRecyclerView.getChildAt(firstItemPosition).getTop() == 0;
+//                }
                 return mRecyclerView.getChildCount() == 0 || mRecyclerView.getChildAt(0).getTop() == 0;
             }
 

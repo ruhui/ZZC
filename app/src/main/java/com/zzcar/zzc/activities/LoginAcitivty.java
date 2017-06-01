@@ -1,6 +1,7 @@
 package com.zzcar.zzc.activities;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -41,6 +42,21 @@ public class LoginAcitivty extends BaseActivity {
     EditText edtPhone;
     @ViewById(R.id.editText9)
     EditText edtPassword;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (!this.isTaskRoot()) {
+            Intent intent = getIntent();
+            if (intent != null) {
+                String action = intent.getAction();
+                if (intent.hasCategory(Intent.CATEGORY_LAUNCHER) && Intent.ACTION_MAIN.equals(action)) {
+                    finish();
+                    return;
+                }
+            }
+        }
+    }
 
     @AfterViews
     void initView(){

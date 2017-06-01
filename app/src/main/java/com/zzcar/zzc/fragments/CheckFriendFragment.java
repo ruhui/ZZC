@@ -1,15 +1,21 @@
 package com.zzcar.zzc.fragments;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.zzcar.zzc.R;
+import com.zzcar.zzc.activities.GoodDetailActivity;
+import com.zzcar.zzc.activities.MemberMsgActivity_;
 import com.zzcar.zzc.adapters.CheckFriendAdapter;
 import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.fragments.base.BaseFragment;
 import com.zzcar.zzc.fragments.base.BasePullRecyclerFragment;
 import com.zzcar.zzc.interfaces.AdapterListener;
+import com.zzcar.zzc.interfaces.RefreshFragment;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.ApplyFriendModel;
@@ -21,6 +27,7 @@ import com.zzcar.zzc.views.widget.pullview.PullRecyclerView;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,8 +50,10 @@ public class CheckFriendFragment extends BasePullRecyclerFragment{
     private List<ApplyFriendModel> mList = new ArrayList<>();
     private int userid = 0;
 
+
     @Override
     protected void initView(PullRecyclerView recyclerView) {
+        mNavbar.setMiddleTitle("成员管理");
         mNavbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
         mNavbar.setOnMenuClickListener(new NavBar2.OnMenuClickListener() {
             @Override
@@ -63,11 +72,18 @@ public class CheckFriendFragment extends BasePullRecyclerFragment{
     AdapterListener adapterListener = new AdapterListener<ApplyFriendModel>() {
         @Override
         public void setOnItemListener(ApplyFriendModel o, int position) {
-            //添加好有
-            addFriend(o.getUser_id());
-            userid = o.getUser_id();
+            if (position == 10000){
+                Intent intent = new Intent(getActivity(), MemberMsgActivity_.class);
+                intent.putExtra("userid", o.getUser_id());
+                startActivity(intent);
+            }else{
+                //添加好有
+                addFriend(o.getUser_id());
+                userid = o.getUser_id();
+            }
         }
     };
+
 
     private void addFriend(int user_id) {
         Subscriber subscirbe = new PosetSubscriber<Boolean>().getSubscriber(callback_addfriend);
@@ -76,12 +92,15 @@ public class CheckFriendFragment extends BasePullRecyclerFragment{
 
     @Override
     protected void onRefresh(RecyclerView recyclerView) {
-
+        CURTURNPAGE = Constant.DEFAULTPAGE;
+        mList.clear();
+        getFriendList();
     }
 
     @Override
     protected void onLoadMore(RecyclerView recyclerView) {
-
+        CURTURNPAGE++;
+        getFriendList();
     }
 
     @Override
@@ -121,13 +140,14 @@ public class CheckFriendFragment extends BasePullRecyclerFragment{
         public void success(Boolean returnMsg) {
             if (returnMsg){
                 ToastUtil.showToast("添加成功");
+                EventBus.getDefault().post(new RefreshFragment(true, "ADDFRIENDSUCCESS"));
                 for (ApplyFriendModel friend : mList){
                     if (userid == friend.getUser_id()){
                         friend.setIs_friend(true);
                         break;
                     }
                 }
-                adapter.replaceWith(mList);
+                adapter.replaceWithNew(mList);
             }else{
                 ToastUtil.showToast("添加失败");
             }

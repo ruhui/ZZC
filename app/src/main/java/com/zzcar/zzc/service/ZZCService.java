@@ -4,6 +4,7 @@ import com.zzcar.zzc.models.AddCarFrom;
 import com.zzcar.zzc.models.AddressModel;
 import com.zzcar.zzc.models.SinglecarModel;
 import com.zzcar.zzc.networks.ResponseParent;
+import com.zzcar.zzc.networks.requests.AddMsgRequest;
 import com.zzcar.zzc.networks.requests.ApplyDepositRequest;
 import com.zzcar.zzc.networks.requests.ApplyFriendRequest;
 import com.zzcar.zzc.networks.requests.BuyIntegraRequest;
@@ -12,6 +13,7 @@ import com.zzcar.zzc.networks.requests.LoginRequest;
 import com.zzcar.zzc.networks.requests.NickRequest;
 import com.zzcar.zzc.networks.requests.PhotoRequest;
 import com.zzcar.zzc.networks.requests.ProduceIdResquest;
+import com.zzcar.zzc.networks.requests.RefreshLoginRequest;
 import com.zzcar.zzc.networks.requests.SaveCommentRequest;
 import com.zzcar.zzc.networks.requests.SendRegsmsRequest;
 import com.zzcar.zzc.networks.responses.ApplyFriendResponse;
@@ -35,6 +37,7 @@ import com.zzcar.zzc.networks.responses.MybillResponse;
 import com.zzcar.zzc.networks.responses.MyfavcarResponse;
 import com.zzcar.zzc.networks.responses.RefundOrderResponse;
 import com.zzcar.zzc.networks.responses.ShouzhiDetailResponse;
+import com.zzcar.zzc.networks.responses.UserMessageResponse;
 import com.zzcar.zzc.networks.responses.UserMsgResponse;
 import com.zzcar.zzc.networks.responses.ValueTextResponse;
 import com.zzcar.zzc.networks.responses.VerifiedResponse;
@@ -243,4 +246,16 @@ public interface ZZCService {
     /*添加好友*/
     @POST("friend/add_friend")
     Observable<ResponseParent<Boolean>> addfriend(@Body ApplyFriendRequest request, @HeaderMap Map<String, String> header);
+
+    /*获取某个用户的信息*/
+    @GET("account/user")
+    Observable<ResponseParent<UserMessageResponse>> getUserMessage(@Query("user_id") int user_id, @HeaderMap Map<String, String> header);
+
+    /*刷新数据*/
+    @POST(" account/refresh")
+    Observable<ResponseParent<LoginResponse>> refreshlogin(@Body RefreshLoginRequest access_token, @HeaderMap Map<String, String> header);
+
+    /*IM保存数据*/
+    @POST("msg/add_chat_message")
+    Observable<ResponseParent<Boolean>> addchatmessage(@Body AddMsgRequest request, @HeaderMap Map<String, String> header);
 }

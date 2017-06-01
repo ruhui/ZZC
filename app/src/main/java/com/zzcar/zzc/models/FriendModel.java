@@ -11,9 +11,9 @@ public class FriendModel {
     private String auth_status_name;
     private String remark;
     private String shop_name;
-    private String security;
+    private boolean security;
 
-    public FriendModel(String nick, String photo, String auth_status_name, String remark, String shop_name, String security) {
+    public FriendModel(String nick, String photo, String auth_status_name, String remark, String shop_name, boolean security) {
         this.nick = nick;
         this.photo = photo;
         this.auth_status_name = auth_status_name;
@@ -62,11 +62,11 @@ public class FriendModel {
         this.shop_name = shop_name;
     }
 
-    public String getSecurity() {
+    public boolean getSecurity() {
         return security;
     }
 
-    public void setSecurity(String security) {
+    public void setSecurity(boolean security) {
         this.security = security;
     }
 }

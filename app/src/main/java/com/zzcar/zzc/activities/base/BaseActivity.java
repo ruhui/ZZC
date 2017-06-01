@@ -11,11 +11,15 @@ import android.widget.LinearLayout;
 import com.umeng.analytics.MobclickAgent;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.fragments.base.BaseFragment;
+import com.zzcar.zzc.interfaces.ActivityFinish;
 import com.zzcar.zzc.interfaces.NetEvevt;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.utils.NetUtil;
 import com.zzcar.zzc.views.widget.ProgressDialog;
 import com.zzcar.zzc.views.widget.ProgressDialog_;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 /**
     * 基类
@@ -39,6 +43,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NetEvevt
         super.onCreate(savedInstanceState);
         evevt = this;
         inspectNet();
+        EventBus.getDefault().register(this);
     }
 
     /**
@@ -176,6 +181,7 @@ public abstract class BaseActivity extends AppCompatActivity implements NetEvevt
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -195,5 +201,13 @@ public abstract class BaseActivity extends AppCompatActivity implements NetEvevt
 
     public int getNetMobile() {
         return netMobile;
+    }
+
+
+    @Subscribe
+    public void finishPage(ActivityFinish activityFinish){
+        if (activityFinish.isfinish){
+            finish();
+        }
     }
 }

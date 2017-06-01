@@ -41,5 +41,11 @@ public class Constant {
     public static final String UPLOADCHATURL = UPLOADURL + "chat";
     /*环信密码*/
     public static final String EMCHATPASSWORD = "car123456";
+    /*环信用户头像*/
+//    public static final String USER_NAME = "USERNAME";
+//    /*环信用户头像图片*/
+//    public static final String HEAD_IMAGE_URL = "HEADIMAGEURL";
+//    /*环信用户ID*/
+//    public static final String USER_ID = "USERID";
 
 }

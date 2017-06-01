@@ -1,11 +1,13 @@
 package com.zzcar.zzc.models;
 
+import java.io.Serializable;
+
 /**
  * 描述：
  * 创建作者： 黄如辉
  * 创建时间： 2017/4/22 18:40
  **/
-public class HomeCarMember {
+public class HomeCarMember implements Serializable{
     private String nick;
     private String photo;
     private int auth_status;

@@ -1,11 +1,13 @@
 package com.zzcar.zzc.models;
 
+import java.io.Serializable;
+
 /**
  * 描述：
  * 创建作者： 黄如辉
  * 创建时间： 2017/4/22 18:32
  **/
-public class HomeCarGet {
+public class HomeCarGet implements Serializable{
     private int product_id;
     private String name;
     private double market_price;
