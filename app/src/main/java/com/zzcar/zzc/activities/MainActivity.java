@@ -312,7 +312,14 @@ public class MainActivity extends BaseActivity {
 //                        if(user != null){
 //                            return getUserInfo(message.getFrom()).getNick() + ": " + ticker;
 //                        }else{
-                        return message.getFrom() + ": " + ticker;
+                        MyEaseUserDao easeUserDao = GreenDaoUtils.getSingleTon().getmDaoSession().getMyEaseUserDao();
+                        List<MyEaseUser> listmyEaseUser = easeUserDao.queryBuilder().where(MyEaseUserDao.Properties.Id.eq(message.getFrom()+"")).list();
+                        String nick = "";
+                        if (listmyEaseUser.size() > 0){
+                            nick = listmyEaseUser.get(0).getNick();
+                        }
+
+                        return nick + ": " + ticker;
 //                        }
                     }
 

@@ -492,7 +492,6 @@ public class ChatFragment extends EaseChatFragment implements EaseChatFragmentHe
         if (message.getType() == EMMessage.Type.TXT){
             if (message.getStringAttribute("type","").equals("project")){
                 //自定义
-                ToastUtil.showToast(message.getFrom());
                 String type = message.getStringAttribute("type", "");
                 String product_id = message.getStringAttribute("product_id", "");
                 String first_image = message.getStringAttribute("first_image", "");
