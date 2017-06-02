@@ -7,6 +7,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hyphenate.chat.EMChatManager;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMConversation;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.interfaces.AdapterListener;
 import com.zzcar.zzc.networks.responses.MessageListResponse;
@@ -57,20 +60,26 @@ public class MessageViewHolde extends LinearLayout {
                 ImageLoader.loadResourceImage(R.drawable.nav_icon_head_haoyou, imgHeadView, 0);
                 break;
             case 3:
-                ImageLoader.loadImage(Tool.getPicUrl(mContext, message.getPhoto(), 40, 40), imgHeadView);
+                ImageLoader.loadImage(Tool.getPicUrl(mContext, message.getPhoto(), 40, 40), imgHeadView, R.drawable.nav_icon_head_default);
                 break;
             case 4:
-                ImageLoader.loadImage(Tool.getPicUrl(mContext, message.getPhoto(), 40, 40), imgHeadView);
+                ImageLoader.loadImage(Tool.getPicUrl(mContext, message.getPhoto(), 40, 40), imgHeadView, R.drawable.nav_icon_head_default);
                 break;
         }
         txtName.setText(message.getName());
         txtContent.setText(message.getShort_content());
         txTime.setText(Tool.getTimeFormat(message.getCreate_time()));
-        if (message.getNew_count() > 99){
+        EMChatManager emChatManager = EMClient.getInstance().chatManager();
+        int unread = 0;
+        EMConversation conversation = emChatManager.getConversation(Integer.valueOf((int) message.getObject_id())+"");
+        if (conversation !=null){
+            unread = conversation.getUnreadMsgCount();
+        }
+        if (unread > 99){
             unRedCount.setText("99+");
             unRedCount.setVisibility(VISIBLE);
         }else{
-            if (message.getNew_count() == 0){
+            if (unread == 0){
                 unRedCount.setVisibility(INVISIBLE);
             }else{
                 unRedCount.setVisibility(VISIBLE);

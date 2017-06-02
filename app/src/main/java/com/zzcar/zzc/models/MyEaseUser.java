@@ -2,6 +2,7 @@ package com.zzcar.zzc.models;
 
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.annotation.Id;
 
 /**
  * 描述：
@@ -11,6 +12,7 @@ import org.greenrobot.greendao.annotation.Generated;
 
 @Entity
 public class MyEaseUser {
+    @Id
     private String id;
     private String avatar;//头像
     private String nick;

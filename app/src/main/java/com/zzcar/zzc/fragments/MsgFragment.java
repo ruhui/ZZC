@@ -3,7 +3,6 @@ package com.zzcar.zzc.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -11,21 +10,15 @@ import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.EaseConstant;
-import com.hyphenate.easeui.ui.EaseChatFragment;
-import com.zzcar.greendao.MyEaseUserDao;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.ChatActivity;
-import com.zzcar.zzc.activities.ECChatActivity;
-import com.zzcar.zzc.activities.MainActivity;
 import com.zzcar.zzc.adapters.MsgListAdapter;
 import com.zzcar.zzc.fragments.base.BaseFragment;
 import com.zzcar.zzc.interfaces.AdapterListener;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
-import com.zzcar.zzc.models.MyEaseUser;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.responses.MessageListResponse;
-import com.zzcar.zzc.utils.GreenDaoUtils;
 import com.zzcar.zzc.utils.LogUtil;
 
 import org.androidannotations.annotations.AfterViews;
@@ -57,11 +50,6 @@ public class MsgFragment extends BaseFragment{
 
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
 
 
     @AfterViews
@@ -98,20 +86,16 @@ public class MsgFragment extends BaseFragment{
                     intent.putExtra("isfriend", o.is_friend());
                     intent.putExtra("chatType", CHATTYPE_SINGLE);
                     startActivity(intent);
-
-                    //聊天
-//                    EaseChatFragment chatFragment = new EaseChatFragment();
-//                    Bundle args = new Bundle();
-//                    args.putInt(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_SINGLE);
-//                    args.putString(EaseConstant.EXTRA_USER_ID, o.getObject_id()+"");
-//                    chatFragment.setArguments(args);
-//                    FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//                    transaction.add(R.id.container, chatFragment, chatFragment.getClass().getName());
-//                    transaction.addToBackStack(chatFragment.getClass().getName());
-//                    transaction.commitAllowingStateLoss();
                     break;
                 case 4:
                     //群聊
+                    Intent intent_group = new Intent(getActivity(), ChatActivity.class);
+                    intent_group.putExtra("chatType", EaseConstant.CHATTYPE_GROUP);
+                    intent_group.putExtra("userId", o.getObject_id()+"");
+                    intent_group.putExtra("nick", o.getName());
+                    intent_group.putExtra("headImg", o.getPhoto());
+                    intent_group.putExtra("isfriend", true);
+                    startActivity(intent_group);
                     break;
             }
         }
@@ -121,8 +105,6 @@ public class MsgFragment extends BaseFragment{
         Subscriber subscriber = new PosetSubscriber<List<MessageListResponse>>().getSubscriber(callback_message);
         UserManager.getMssageList(subscriber);
     }
-
-
 
 
 

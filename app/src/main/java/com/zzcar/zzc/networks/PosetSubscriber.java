@@ -33,6 +33,7 @@ public class PosetSubscriber<T> {
 
             @Override
             public void onNext(ResponseParent<T> httpResult) {
+                String sdt = httpResult.data.toString();
                 if (httpResult.result_code.equals("1000")){
                     //成功
                     listener.success(httpResult.data);

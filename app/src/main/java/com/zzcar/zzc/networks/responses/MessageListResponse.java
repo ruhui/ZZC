@@ -6,7 +6,7 @@ package com.zzcar.zzc.networks.responses;
  */
 
 public class MessageListResponse {
-    private int object_id;
+    private long object_id;
     private String name;
     private String photo;
     private int type;
@@ -34,11 +34,11 @@ public class MessageListResponse {
         this.is_friend = is_friend;
     }
 
-    public int getObject_id() {
+    public long getObject_id() {
         return object_id;
     }
 
-    public void setObject_id(int object_id) {
+    public void setObject_id(long object_id) {
         this.object_id = object_id;
     }
 

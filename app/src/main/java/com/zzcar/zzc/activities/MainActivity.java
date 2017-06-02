@@ -129,7 +129,7 @@ public class MainActivity extends BaseActivity {
 
         for (int i = 0; i < adapter.getCount(); i++) {
             //i == 0设置为可点击
-            mTab.addTab(mTab.newTab().setCustomView(createTabView(adapter.getIconResId(i), adapter.getTitleResId(i))), i == 0);
+            mTab.addTab(mTab.newTab().setCustomView(createTabView(adapter.getIconResId(i), adapter.getTitleResId(i), i)), i == 0);
         }
 
         mTab.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(mPager));
@@ -142,10 +142,20 @@ public class MainActivity extends BaseActivity {
         });
     }
 
-    private View createTabView(int iconResId, int titelResId) {
+    private View createTabView(int iconResId, int titelResId, int i) {
         View view = getLayoutInflater().inflate(R.layout.item_home, null);
         ((ImageView) view.findViewById(R.id.homeIcon)).setImageResource(iconResId);
         ((TextView) view.findViewById(R.id.homeTitle)).setText(titelResId);
+        view.findViewById(R.id.imageView29).setVisibility(View.GONE);
+        if (i == 3){
+            int unread = EMClient.getInstance().chatManager().getUnreadMessageCount();
+            if (unread > 0 && mTab.getChildCount() > 0){
+                view.findViewById(R.id.imageView29).setVisibility(View.VISIBLE);
+            }else if ( mTab.getChildCount() > 0){
+                view.findViewById(R.id.imageView29).setVisibility(View.GONE);
+            }
+        }
+
         return view;
     }
 
@@ -361,6 +371,17 @@ public class MainActivity extends BaseActivity {
                         return intent;
                     }
                 });
+
+                //获取未读数，并设置tab
+                int unread = EMClient.getInstance().chatManager().getUnreadMessageCount();
+                if (unread > 0 && mTab.getChildCount() > 0){
+                    View view = mTab.getChildAt(3);
+                    view.findViewById(R.id.imageView29).setVisibility(View.VISIBLE);
+                }else if ( mTab.getChildCount() > 0){
+                    View view = mTab.getChildAt(3);
+                    view.findViewById(R.id.imageView29).setVisibility(View.GONE);
+                }
+
             }
         }
 
@@ -447,7 +468,6 @@ public class MainActivity extends BaseActivity {
         EMClient.getInstance().chatManager().removeMessageListener(msgListener);
         if (timer != null){
             timer.cancel();
-            timer.onFinish();
         }
     }
 
@@ -492,4 +512,7 @@ public class MainActivity extends BaseActivity {
             finish();
         }
     };
+
+
+
 }
