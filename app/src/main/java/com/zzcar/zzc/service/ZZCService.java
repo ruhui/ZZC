@@ -27,8 +27,10 @@ import com.zzcar.zzc.networks.responses.ColorResponse;
 import com.zzcar.zzc.networks.responses.CommentResponse;
 import com.zzcar.zzc.networks.responses.DepositResponse;
 import com.zzcar.zzc.networks.responses.FridendListResponse;
+import com.zzcar.zzc.networks.responses.HomeAdverResponse;
 import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
+import com.zzcar.zzc.networks.responses.HomeLivemsgResponse;
 import com.zzcar.zzc.networks.responses.IntegralDetailResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.networks.responses.MessageListResponse;
@@ -258,4 +260,12 @@ public interface ZZCService {
     /*IM保存数据*/
     @POST("msg/add_chat_message")
     Observable<ResponseParent<Boolean>> addchatmessage(@Body AddMsgRequest request, @HeaderMap Map<String, String> header);
+
+    /*首页广告图片*/
+    @GET("index/car_ad")
+    Observable<ResponseParent<List<HomeAdverResponse>>> getHomeAd(@HeaderMap Map<String, String> header);
+
+    /*首页实况*/
+    @GET("index/livemsg")
+    Observable<ResponseParent<HomeLivemsgResponse>> getHomeLivemsg(@QueryMap Map<String, String> hashMap , @HeaderMap Map<String, String> header);
 }

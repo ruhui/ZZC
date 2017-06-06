@@ -95,6 +95,8 @@
         <activity android:name=".activities.ChatActivity" />
         <activity android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"/>
         <activity android:name=".activities.MycarFromSelectActivity_"/>
+        <activity android:name=".activities.WebActivity_"/>
+
     </application>
 
 </manifest>

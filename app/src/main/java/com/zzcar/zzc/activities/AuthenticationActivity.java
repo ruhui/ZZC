@@ -64,9 +64,7 @@ public class AuthenticationActivity extends BaseActivity {
     private AuthenLoadPhotoFragment loadPhotoFragment;
 
     @Override
-    public void onNetChange(int netMobile) {
-
-    }
+    public void onNetChange(int netMobile) {}
 
     @AfterViews
     void initView(){

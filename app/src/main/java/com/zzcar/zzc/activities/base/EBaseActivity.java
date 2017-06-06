@@ -15,6 +15,7 @@
 package com.zzcar.zzc.activities.base;
 
 import android.annotation.SuppressLint;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import com.hyphenate.easeui.ui.EaseBaseActivity;
 import com.umeng.analytics.MobclickAgent;
@@ -29,6 +30,12 @@ public class EBaseActivity extends EaseBaseActivity {
 
     @Override
     protected void onResume() {
+        /**
+         * 设置为横屏
+         */
+        if(getRequestedOrientation()!= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT){
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
         super.onResume();
         // umeng
         MobclickAgent.onResume(this);

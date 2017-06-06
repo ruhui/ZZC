@@ -1,5 +1,6 @@
 package com.zzcar.zzc.activities.base;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -73,6 +74,12 @@ public abstract class BaseActivity extends AppCompatActivity implements NetEvevt
 
     @Override
     protected void onResume() {
+        /**
+         * 设置为横屏
+         */
+        if(getRequestedOrientation()!= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT){
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
         super.onResume();
         // 缺少权限时, 进入权限配置页面
         MobclickAgent.onResume(this);
