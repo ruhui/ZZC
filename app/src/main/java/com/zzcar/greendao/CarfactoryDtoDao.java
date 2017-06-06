@@ -21,7 +21,6 @@ import com.zzcar.zzc.models.CarfactoryDto;
 public class CarfactoryDtoDao extends AbstractDao<CarfactoryDto, Long> {
 
     public static final String TABLENAME = "CARFACTORY_DTO";
-
     /**
      * Properties of entity CarfactoryDto.<br/>
      * Can be used for QueryBuilder and for referencing column names.
