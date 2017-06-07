@@ -51,8 +51,6 @@ public class HomeFragment extends BaseFragment implements ScrollBanner.ScrollerB
     /*图片集合*/
     private List<HomeAdverResponse> picList = new ArrayList<>();
     private HomePictureAdapter adapter_adv;
-    /*公告*/
-    private HomeLivemsgResponse homeLivemsg;
 
     @Override
     public void onNetChange(int netMobile) {
@@ -137,12 +135,7 @@ public class HomeFragment extends BaseFragment implements ScrollBanner.ScrollerB
     ResponseResultListener callback_shikuang = new ResponseResultListener<HomeLivemsgResponse>() {
         @Override
         public void success(HomeLivemsgResponse returnMsg) {
-            homeLivemsg = returnMsg;
-            List<String> liststr = new ArrayList<>();
-            for (HomeLiveMode response : returnMsg.getRows()){
-                liststr.add(response.getContent());
-            }
-            mScrollBanner.setList(liststr);
+            mScrollBanner.setList(returnMsg.getRows());
             mScrollBanner.startScroll();
         }
 
@@ -154,9 +147,16 @@ public class HomeFragment extends BaseFragment implements ScrollBanner.ScrollerB
 
     /*广告条实况点击*/
     @Override
-    public void setClickListener(int position) {
-        if (homeLivemsg != null){
-            HomeLiveMode homeLiveMode = homeLivemsg.getRows().get(position-2);
+    public void setClickListener(HomeLiveMode model) {
+        LogUtil.E("setClickListener", model.getContent());
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mScrollBanner != null){
+            mScrollBanner.stopScroll();
         }
     }
 }

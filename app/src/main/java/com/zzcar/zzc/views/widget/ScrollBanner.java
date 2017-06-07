@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zzcar.zzc.R;
+import com.zzcar.zzc.models.HomeLiveMode;
+import com.zzcar.zzc.utils.LogUtil;
 
 import java.util.List;
 
@@ -28,10 +30,11 @@ public class ScrollBanner extends LinearLayout {
     private boolean isShow;
     private int startY1, endY1, startY2, endY2;
     private Runnable runnable;
-    private List<String> list;
+    private  List<HomeLiveMode> list;
     private int position = 0;
     private int offsetY = 100;
     private ScrollerBannerListener listener;
+    private HomeLiveMode homeLiveMode;
 
 
     public ScrollBanner(Context context) {
@@ -44,10 +47,9 @@ public class ScrollBanner extends LinearLayout {
 
     public ScrollBanner(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        View view = LayoutInflater.from(context).inflate(R.layout.view_scroll_banner, this);
+        final View view = LayoutInflater.from(context).inflate(R.layout.view_scroll_banner, this);
         mBannerTV1 = (TextView) view.findViewById(R.id.tv_banner1);
         mBannerTV2 = (TextView) view.findViewById(R.id.tv_banner2);
-
         handler = new Handler();
 
         runnable = new Runnable() {
@@ -57,12 +59,20 @@ public class ScrollBanner extends LinearLayout {
 
                 if (position == list.size())
                     position = 0;
-
                 if (isShow) {
-                    mBannerTV1.setText(list.get(position++));
+                    homeLiveMode = list.get(position);
+                    mBannerTV1.setText("1"+position+homeLiveMode.getContent());
                 } else {
-                    mBannerTV2.setText(list.get(position++));
+                    homeLiveMode = list.get(position);
+                    mBannerTV2.setText("2"+position+homeLiveMode.getContent());
                 }
+                view.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        listener.setClickListener(homeLiveMode);
+                    }
+                });
+
 
                 startY1 = isShow ? 0 : offsetY;
                 endY1 = isShow ? -offsetY : 0;
@@ -74,25 +84,22 @@ public class ScrollBanner extends LinearLayout {
                 endY2 = isShow ? 0 : -offsetY;
                 ObjectAnimator.ofFloat(mBannerTV2, "translationY", startY2, endY2).setDuration(300).start();
 
+                position++;
+
                 handler.postDelayed(runnable, 3000);
             }
         };
 
-        view.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.setClickListener(position);
-            }
-        });
+
 
     }
 
 
-    public List<String> getList() {
+    public  List<HomeLiveMode> getList() {
         return list;
     }
 
-    public void setList(List<String> list) {
+    public void setList( List<HomeLiveMode> list) {
         this.list = list;
     }
 
@@ -109,6 +116,6 @@ public class ScrollBanner extends LinearLayout {
     }
 
     public interface ScrollerBannerListener{
-        public void setClickListener(int position);
+        public void setClickListener(HomeLiveMode model);
     }
 }
