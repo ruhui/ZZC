@@ -268,4 +268,13 @@ public interface ZZCService {
     /*首页实况*/
     @GET("index/livemsg")
     Observable<ResponseParent<HomeLivemsgResponse>> getHomeLivemsg(@QueryMap Map<String, String> hashMap , @HeaderMap Map<String, String> header);
+
+    /*首页推荐车源*/
+    @GET("index/car_push")
+    Observable<ResponseParent<List<HomeCarPushResponse>>> getCarpush(@HeaderMap Map<String, String> header);
+
+    /*首页获取订阅列表*/
+    @GET("goods/sub_cars")
+    Observable<ResponseParent<HomeCarGetResponse>> getsSubcars(@QueryMap Map<String, String> hashMap , @HeaderMap Map<String, String> header);
+
 }

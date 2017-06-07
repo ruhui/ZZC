@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.jude.rollviewpager.adapter.StaticPagerAdapter;
+import com.zzcar.zzc.R;
 import com.zzcar.zzc.interfaces.AdapterListener;
 import com.zzcar.zzc.networks.responses.HomeAdverResponse;
 import com.zzcar.zzc.utils.ImageLoader;
@@ -44,7 +45,6 @@ public class HomePictureAdapter extends StaticPagerAdapter {
     @Override
     public View getView(ViewGroup container, final int position) {
         ImageView view = new ImageView(container.getContext());
-        String str = Tool.getPicUrl(mContext, mList.get(position).getImage_path(), windowWidth, 160);
         ImageLoader.loadImage(Tool.getPicUrl(mContext, mList.get(position).getImage_path(), windowWidth, 160), view);
         view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         view.setScaleType(ImageView.ScaleType.CENTER);

@@ -140,6 +140,7 @@ public class MainActivity extends BaseActivity {
                 mTab.getTabAt(position).select();
             }
         });
+
     }
 
     private View createTabView(int iconResId, int titelResId, int i) {
@@ -514,5 +515,8 @@ public class MainActivity extends BaseActivity {
     };
 
 
+    public void setPageCurturPage(int page){
+        mPager.setCurrentItem(page);
+    }
 
 }

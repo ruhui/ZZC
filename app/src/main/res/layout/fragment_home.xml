@@ -1,189 +1,314 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:background="@color/windowbackcolor">
 
-        <com.jude.rollviewpager.RollPagerView
-            android:id="@+id/mRollPagerView"
+
+    <com.zzcar.zzc.views.pulltorefresh.PullToRefreshScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        >
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:rollviewpager_play_delay="3000"
+            android:orientation="vertical">
 
-            >
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:background="@color/windowbackcolor">
 
-        </com.jude.rollviewpager.RollPagerView>
+                <com.jude.rollviewpager.RollPagerView
+                    android:id="@+id/mRollPagerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:rollviewpager_play_delay="3000"
+                    >
+
+                    <RelativeLayout
+                        android:id="@+id/relaSearch"
+                        android:layout_width="match_parent"
+                        android:layout_height="26dp"
+                        android:layout_marginTop="25dp"
+                        android:layout_marginLeft="@dimen/size_15"
+                        android:layout_marginRight="@dimen/size_15"
+                        android:background="@drawable/nav_bg_search"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:gravity="center">
+
+                        <ImageView
+                            android:id="@+id/imageView36"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:srcCompat="@drawable/nav_icon_seach"
+                            android:layout_centerVertical="true"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true" />
+
+                        <TextView
+                            android:id="@+id/textView154"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="搜索品牌 / 车型"
+                            android:textSize="@dimen/dp_14"
+                            android:layout_marginLeft="10dp"
+                            android:textColor="@color/white"
+                            android:layout_alignTop="@+id/imageView36"
+                            android:layout_toRightOf="@+id/imageView36"
+                            android:layout_toEndOf="@+id/imageView36" />
+
+                    </RelativeLayout>
+
+                </com.jude.rollviewpager.RollPagerView>
 
 
-    </RelativeLayout>
+            </RelativeLayout>
 
-    <View
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="#e7e8e9"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="114dp"
+                android:orientation="horizontal"
+                android:background="@color/white">
+
+                <RelativeLayout
+                    android:id="@+id/relaJiaoyi"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/nav_icon_jiaoyidanbao"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="14dp"
+                        android:id="@+id/imageView30" />
+
+                    <TextView
+                        android:id="@+id/textView142"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="交易担保"
+                        android:textSize="14sp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/color_333333"
+                        android:layout_below="@+id/imageView30"
+                        android:layout_alignRight="@+id/imageView30"
+                        android:layout_alignEnd="@+id/imageView30" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relaOrder"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/nav_icon_dingdan"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="14dp"
+                        android:id="@+id/imageView31" />
+
+                    <TextView
+                        android:id="@+id/textView143"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="订单"
+                        android:textSize="14sp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/color_333333"
+                        android:layout_below="@+id/imageView31"
+                        android:layout_centerHorizontal="true" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relaWallet"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/nav_icon_qianbao"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="14dp"
+                        android:id="@+id/imageView32" />
+
+                    <TextView
+                        android:id="@+id/textView145"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="钱包"
+                        android:textSize="14sp"
+                        android:layout_marginTop="10dp"
+                        android:textColor="@color/color_333333"
+                        android:layout_below="@+id/imageView32"
+                        android:layout_centerHorizontal="true" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relaRecord"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/nav_icon_jilu"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="14dp"
+                        android:id="@+id/imageView33" />
+
+                    <TextView
+                        android:id="@+id/textView144"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="记录"
+                        android:textSize="14sp"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:textColor="@color/color_333333"
+                        android:layout_below="@+id/imageView33"
+                        android:layout_centerHorizontal="true" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="#e7e8e9"/>
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/white">
+
+                <com.zzcar.zzc.views.widget.ScrollBanner
+                    android:id="@+id/mScrollBanner"
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_toLeftOf="@+id/textView146"
+                    android:layout_toStartOf="@+id/textView146">
+
+                </com.zzcar.zzc.views.widget.ScrollBanner>
+
+                <TextView
+                    android:id="@+id/textView146"
+                    android:layout_width="40dp"
+                    android:layout_height="match_parent"
+                    android:text="更多"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:layout_marginRight="20dp"
+                    android:textColor="#FF4040"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true" />
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="#e7e8e9"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/mRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="177dp">
+
+            </android.support.v7.widget.RecyclerView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:background="#e7e8e9"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:id="@+id/textView152"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:text="我的订阅"
+                    android:textSize="15sp"
+                    android:layout_marginLeft="@dimen/size_15"
+                    android:textColor="@color/color_333333"
+                    />
+
+                <TextView
+                    android:id="@+id/textView153"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:textSize="15sp"
+                    android:textColor="@color/color_333333"
+                    android:text="更多"
+                    />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/color_dddddd"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerview_subcars"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+    </com.zzcar.zzc.views.pulltorefresh.PullToRefreshScrollView>>
+
+    <com.zzcar.zzc.views.widget.NavBarHomeSearch_
+        android:id="@+id/mToolbar"
         android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:background="#e7e8e9"/>
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="114dp"
-        android:orientation="horizontal"
-        android:background="@color/white">
+    </com.zzcar.zzc.views.widget.NavBarHomeSearch_>
 
-        <RelativeLayout
-            android:id="@+id/relaJiaoyi"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/nav_icon_jiaoyidanbao"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="14dp"
-                android:id="@+id/imageView30" />
-
-            <TextView
-                android:id="@+id/textView142"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="交易担保"
-                android:textSize="14sp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/color_333333"
-                android:layout_below="@+id/imageView30"
-                android:layout_alignRight="@+id/imageView30"
-                android:layout_alignEnd="@+id/imageView30" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/relaOrder"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/nav_icon_dingdan"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="14dp"
-                android:id="@+id/imageView31" />
-
-            <TextView
-                android:id="@+id/textView143"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="订单"
-                android:textSize="14sp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/color_333333"
-                android:layout_below="@+id/imageView31"
-                android:layout_centerHorizontal="true" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/relaWallet"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/nav_icon_qianbao"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="14dp"
-                android:id="@+id/imageView32" />
-
-            <TextView
-                android:id="@+id/textView145"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="钱包"
-                android:textSize="14sp"
-                android:layout_marginTop="10dp"
-                android:textColor="@color/color_333333"
-                android:layout_below="@+id/imageView32"
-                android:layout_centerHorizontal="true" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/relaRecord"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/nav_icon_jilu"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="14dp"
-                android:id="@+id/imageView33" />
-
-            <TextView
-                android:id="@+id/textView144"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="记录"
-                android:textSize="14sp"
-                android:layout_marginTop="@dimen/dp_10"
-                android:textColor="@color/color_333333"
-                android:layout_below="@+id/imageView33"
-                android:layout_centerHorizontal="true" />
-        </RelativeLayout>
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:background="#e7e8e9"/>
-
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/white">
-
-        <com.zzcar.zzc.views.widget.ScrollBanner
-            android:id="@+id/mScrollBanner"
-            android:layout_width="100dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_toLeftOf="@+id/textView146"
-            android:layout_toStartOf="@+id/textView146">
-
-        </com.zzcar.zzc.views.widget.ScrollBanner>
-
-        <TextView
-            android:id="@+id/textView146"
-            android:layout_width="40dp"
-            android:layout_height="match_parent"
-            android:text="更多"
-            android:gravity="center"
-            android:textSize="16sp"
-            android:layout_marginRight="20dp"
-            android:textColor="#FF4040"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-
-    </RelativeLayout>
-
-</LinearLayout>
+</RelativeLayout>
