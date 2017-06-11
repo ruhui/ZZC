@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/windowbackcolor">
+
+    <com.zzcar.zzc.views.widget.NavBar2_
+        android:id="@+id/mNavbar"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:gravity="bottom"
+        android:background="@color/white"
+        app:title_res="@string/tab_mine">
+    </com.zzcar.zzc.views.widget.NavBar2_>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"/>
+
+    <com.zzcar.zzc.views.widget.ItemOneView_
+        android:id="@+id/txtBland"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+    </com.zzcar.zzc.views.widget.ItemOneView_>
+
+    <com.zzcar.zzc.views.widget.ItemOneView_
+        android:id="@+id/txtShangpai"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+    </com.zzcar.zzc.views.widget.ItemOneView_>
+
+    <com.zzcar.zzc.views.widget.ItemOneView_
+        android:id="@+id/txtPaifang"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+    </com.zzcar.zzc.views.widget.ItemOneView_>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/textView159"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:text="价格"
+            android:textSize="16sp"
+            android:textColor="@color/color_333333"/>
+
+        <TextView
+            android:id="@+id/textView160"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/textView159"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
+            android:text="万"
+            android:textColor="@color/app_red"
+            android:textSize="@dimen/dp_14"/>
+
+        <EditText
+            android:id="@+id/editText17"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:ems="10"
+            android:gravity="center"
+            android:textSize="@dimen/sp_14"
+            android:layout_marginRight="10dp"
+            android:inputType="numberDecimal"
+            android:background="@drawable/shape_line_radio_grey"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/textView160"
+            android:layout_toStartOf="@+id/textView160" />
+
+        <EditText
+            android:id="@+id/editText18"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:ems="10"
+            android:gravity="center"
+            android:textSize="@dimen/sp_14"
+            android:background="@drawable/shape_line_radio_grey"
+            android:inputType="numberDecimal"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/textView161"
+            android:layout_toStartOf="@+id/textView161" />
+
+        <TextView
+            android:id="@+id/textView161"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/textView160"
+            android:layout_toLeftOf="@+id/editText17"
+            android:layout_toStartOf="@+id/editText17"
+            android:text="——" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/txtSaveSub"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="@dimen/size_15"
+        android:layout_marginRight="@dimen/size_15"
+        android:layout_marginTop="@dimen/size_15"
+        android:background="@drawable/shape_red_radio"
+        android:textSize="16sp"
+        android:text="保存订阅"
+        android:gravity="center"
+        android:textColor="@color/white"/>
+</LinearLayout>

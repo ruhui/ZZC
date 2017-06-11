@@ -34,6 +34,7 @@
             android:layout_marginLeft="10dp"
             android:textColor="@color/color_959595"
             android:text=""
+            android:gravity="right"
             android:layout_toLeftOf="@+id/mid_rightImg"
             android:layout_toRightOf="@+id/txtLeft"
             android:layout_toEndOf="@+id/txtLeft" />

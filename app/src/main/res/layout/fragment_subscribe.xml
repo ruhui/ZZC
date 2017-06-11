@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/windowbackcolor">
 
-    <com.zzcar.zzc.views.widget.NavBarSearch_
+    <com.zzcar.zzc.views.widget.NavBar2_
         android:id="@+id/mNavbar"
         android:layout_width="match_parent"
         android:layout_height="65dp"
@@ -14,24 +15,15 @@
         android:gravity="bottom"
         android:background="@color/white"
         app:title_res="@string/tab_mine">
-    </com.zzcar.zzc.views.widget.NavBarSearch_>
-    
-    <View
-        android:id="@+id/line"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/grey"
-        android:layout_below="@+id/mNavbar"
-        />
+    </com.zzcar.zzc.views.widget.NavBar2_>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/mTab"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@color/white"
-        app:tabIndicatorHeight="0dp"
         app:tabMode="fixed"
-        android:layout_below="@+id/line"
+        android:layout_marginTop="2dp"
         />
 
     <View
@@ -47,32 +39,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/line2"
+        android:layout_marginTop="5dp"
         >
 
     </com.zzcar.zzc.views.widget.pullview.PullRecyclerView_>
-
-
-
-    <FrameLayout
-        android:id="@+id/rootLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/line2">
-
-        <ImageView
-            android:id="@+id/pushCar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/nav_button_cyfb_default"
-            android:layout_gravity="bottom|right"
-            android:layout_marginBottom="5dp"
-            android:layout_marginRight="@dimen/dp_14"
-            />
-
-    </FrameLayout>
-
-
-
-
-
-</RelativeLayout>
+</LinearLayout>

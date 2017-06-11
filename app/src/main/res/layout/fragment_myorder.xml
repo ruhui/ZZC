@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/windowbackcolor">
+
+    <com.zzcar.zzc.views.widget.NavBar2_
+        android:id="@+id/mNavbar"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:gravity="bottom"
+        android:background="@color/white"
+        app:title_res="@string/tab_mine">
+    </com.zzcar.zzc.views.widget.NavBar2_>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray"
+        android:shadowDy="5"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="109dp"
+        android:background="@color/white"
+        >
+
+        <ImageView
+            android:id="@+id/imageView37"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/nav_bg_dingdan"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            />
+
+        <TextView
+            android:id="@+id/textView155"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="订单"
+            android:textColor="@color/app_red"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/imageView37"
+            android:layout_alignLeft="@+id/imageView37"
+            android:layout_alignStart="@+id/imageView37" />
+
+        <TextView
+            android:id="@+id/textView156"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="66dp"
+            android:text="看车"
+            android:textColor="@color/app_red"
+            android:layout_marginStart="66dp"
+            android:layout_alignBaseline="@+id/textView155"
+            android:layout_alignBottom="@+id/textView155"
+            android:layout_toRightOf="@+id/textView155"
+            android:layout_toEndOf="@+id/textView155" />
+
+        <TextView
+            android:id="@+id/textView157"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="双方确认"
+            android:textColor="@color/app_red"
+            android:layout_marginRight="31dp"
+            android:layout_marginEnd="31dp"
+            android:layout_alignBaseline="@+id/textView156"
+            android:layout_alignBottom="@+id/textView156"
+            android:layout_toLeftOf="@+id/textView158"
+            android:layout_toStartOf="@+id/textView158" />
+
+        <TextView
+            android:id="@+id/textView158"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="交易完成"
+            android:textColor="@color/app_red"
+            android:layout_alignBaseline="@+id/textView157"
+            android:layout_alignBottom="@+id/textView157"
+            android:layout_alignRight="@+id/imageView37"
+            android:layout_alignEnd="@+id/imageView37" />
+    </RelativeLayout>
+
+    <com.zzcar.zzc.views.widget.ItemViewThird_
+        android:id="@+id/mybuyItem"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="12dp">
+
+    </com.zzcar.zzc.views.widget.ItemViewThird_>
+    <com.zzcar.zzc.views.widget.ItemViewThird_
+        android:id="@+id/mysaleItem"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+    </com.zzcar.zzc.views.widget.ItemViewThird_>
+
+</LinearLayout>

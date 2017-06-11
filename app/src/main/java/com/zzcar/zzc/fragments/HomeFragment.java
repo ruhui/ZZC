@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -63,7 +64,7 @@ import rx.Subscriber;
  **/
 
 @EFragment(R.layout.fragment_home)
-public class HomeFragment extends BaseFragment implements ScrollBanner.ScrollerBannerListener {
+public class HomeFragment extends BaseFragment{
 
     @ViewById(R.id.mRollPagerView)
     RollPagerView mRollViewPager;
@@ -80,6 +81,8 @@ public class HomeFragment extends BaseFragment implements ScrollBanner.ScrollerB
     TextView subcarMore;
     @ViewById(R.id.mToolbar)
     NavBarHomeSearch mToolbar;
+    @ViewById(R.id.relaSearch)
+    RelativeLayout relaSearch;
 
     /*图片集合*/
     private List<HomeAdverResponse> picList = new ArrayList<>();
@@ -139,7 +142,7 @@ public class HomeFragment extends BaseFragment implements ScrollBanner.ScrollerB
         subcarMore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                showFragment(getActivity(), SubscribeFragment_.builder().build());
             }
         });
 
@@ -161,8 +164,12 @@ public class HomeFragment extends BaseFragment implements ScrollBanner.ScrollerB
         getCarpush();
         /*获取订阅列表*/
         getsSubcars();
+    }
 
-        mScrollBanner.setScrolItemClickListener(this);
+    /*订单*/
+    @Click(R.id.relaOrder)
+    void sendOrder(){
+        showFragment(getActivity(), MyOrderFragment_.builder().build());
     }
 
     /*钱包*/
@@ -198,9 +205,12 @@ public class HomeFragment extends BaseFragment implements ScrollBanner.ScrollerB
         float scrollY = event.height;
         if (scrollY <= 0){
             setAlpha(0);
+            relaSearch.setAlpha(1);
         }else if(scrollY >= height){
             setAlpha(1);
+            relaSearch.setAlpha(0);
         }else{
+            relaSearch.setAlpha(0);
             setAlpha((float) scrollY/height);
         }
     }
@@ -346,13 +356,6 @@ public class HomeFragment extends BaseFragment implements ScrollBanner.ScrollerB
             myScrollView.onRefreshComplete();
         }
     };
-
-
-    /*广告条实况点击*/
-    @Override
-    public void setClickListener(HomeLiveMode model) {
-        LogUtil.E("setClickListener", model.getContent());
-    }
 
 
     @Override

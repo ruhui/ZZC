@@ -6,6 +6,8 @@ import android.view.View;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.adapters.wheel.NumericWheelAdapter;
 import com.zzcar.zzc.interfaces.OnItemSelectedListener;
+import com.zzcar.zzc.models.StartAndEndYear;
+import com.zzcar.zzc.utils.Tool;
 import com.zzcar.zzc.wheel.lib.WheelView;
 import com.zzcar.zzc.wheel.view.TimePickerView.Type;
 
@@ -26,7 +28,7 @@ public class WheelTime
 
 	private Type type;
 	public static final int DEFULT_START_YEAR = 1917;
-	public static final int DEFULT_END_YEAR = 2017;
+	public static int DEFULT_END_YEAR = 2017;
 	private int startYear = DEFULT_START_YEAR;
 	private int endYear = DEFULT_END_YEAR;
 
@@ -41,6 +43,7 @@ public class WheelTime
 	public WheelTime(View view, Type type)
 	{
 		super();
+        DEFULT_END_YEAR = Tool.getYear();
 		this.view = view;
 		this.type = type;
 		setView(view);
@@ -66,17 +69,32 @@ public class WheelTime
 		final List<String> list_little = Arrays.asList(months_little);
 
 		Context context = view.getContext();
-		// 年
-		wv_year = (WheelView) view.findViewById(R.id.year);
-		wv_year.setAdapter(new NumericWheelAdapter(startYear, endYear));// 设置"年"的显示数据
-		wv_year.setLabel(context.getString(R.string.pickerview_year));// 添加文字
-		wv_year.setCurrentItem(year - startYear);// 初始化时显示的数据
 
-		// 月
-		wv_month = (WheelView) view.findViewById(R.id.month);
-		wv_month.setAdapter(new NumericWheelAdapter(1, 12, "%02d"));
-		wv_month.setLabel(context.getString(R.string.pickerview_month));
-		wv_month.setCurrentItem(month);
+
+        if (type == Type.YEAR_YEAR){
+			// 年
+			wv_year = (WheelView) view.findViewById(R.id.year);
+			wv_year.setAdapter(new NumericWheelAdapter(startYear, endYear));// 设置"年"的显示数据
+			wv_year.setLabel("开始");// 添加文字
+			wv_year.setCurrentItem(year - startYear);// 初始化时显示的数据
+            // 年
+            wv_month = (WheelView) view.findViewById(R.id.month);
+            wv_month.setAdapter(new NumericWheelAdapter(DEFULT_START_YEAR, DEFULT_END_YEAR, "%02d"));
+            wv_month.setLabel("结束");
+            wv_month.setCurrentItem(year - startYear);
+        }else{
+			// 年
+			wv_year = (WheelView) view.findViewById(R.id.year);
+			wv_year.setAdapter(new NumericWheelAdapter(startYear, endYear));// 设置"年"的显示数据
+			wv_year.setLabel(context.getString(R.string.pickerview_year));// 添加文字
+			wv_year.setCurrentItem(year - startYear);// 初始化时显示的数据
+            // 月
+            wv_month = (WheelView) view.findViewById(R.id.month);
+            wv_month.setAdapter(new NumericWheelAdapter(1, 12, "%02d"));
+            wv_month.setLabel(context.getString(R.string.pickerview_month));
+            wv_month.setCurrentItem(month);
+        }
+
 
 		// 日
 		wv_day = (WheelView) view.findViewById(R.id.day);
@@ -192,6 +210,12 @@ public class WheelTime
 		case ALL:
 			textSize = 16;
 			break;
+		case YEAR_YEAR:
+			textSize = 22;
+			wv_day.setVisibility(View.GONE);
+			wv_hours.setVisibility(View.GONE);
+			wv_mins.setVisibility(View.GONE);
+			break;
 		case YEAR_MONTH_DAY:
 			textSize = 22;
 			wv_hours.setVisibility(View.GONE);
@@ -244,6 +268,11 @@ public class WheelTime
 		// 1)).append(" ").append(wv_hours.getCurrentItem()).append(":").append(wv_mins.getCurrentItem());
 		sb.append((wv_year.getCurrentItem())).append("-").append((wv_month.getCurrentItem())).append("-").append((wv_day.getCurrentItem())).append(" ").append(wv_hours.getCurrentItem()).append(":").append(wv_mins.getCurrentItem());
 		return sb.toString();
+	}
+
+	public StartAndEndYear getStartAndEndYear(){
+		StartAndEndYear endYear = new StartAndEndYear(wv_year.getCurrentItem()+"", wv_month.getCurrentItem()+"");
+		return endYear;
 	}
 
 	public View getView()

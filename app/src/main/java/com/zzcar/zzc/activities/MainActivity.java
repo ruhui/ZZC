@@ -219,7 +219,11 @@ public class MainActivity extends BaseActivity {
                 moveTaskToBack(true);
             }
         }else{
-            super.onBackPressed();
+            if (popisShowing){
+                EventBus.getDefault().post(new FragmentClosePop(true));
+            }else{
+                super.onBackPressed();
+            }
         }
     }
 

@@ -141,6 +141,15 @@ public class Tool {
     }
 
     /**
+     * @param date
+     * @return 获取年
+     */
+    public static String formatGetyear(Date date){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy");
+        return format.format(date);
+    }
+
+    /**
      * 格式化 2位小数
      *
      * @param number

@@ -45,6 +45,7 @@ import com.zzcar.zzc.networks.responses.MessageListResponse;
 import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.networks.responses.MybillResponse;
 import com.zzcar.zzc.networks.responses.MyfavcarResponse;
+import com.zzcar.zzc.networks.responses.MysubscribeResponse;
 import com.zzcar.zzc.networks.responses.RefundOrderResponse;
 import com.zzcar.zzc.networks.responses.ShouzhiDetailResponse;
 import com.zzcar.zzc.networks.responses.UserMessageResponse;
@@ -1185,6 +1186,22 @@ public class UserManager {
 
         ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
         ApiClient.getApiService().getsSubcars(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 获取订阅信息
+     * @param subscriber
+     */
+    public static void getMysubscribe(Subscriber<ResponseParent<MysubscribeResponse>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        ApiClient.getApiService().getmysubscribe(zzcHeaders.getHashMap())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

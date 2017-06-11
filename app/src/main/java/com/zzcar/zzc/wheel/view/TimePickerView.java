@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.zzcar.zzc.R;
+import com.zzcar.zzc.models.StartAndEndYear;
 
 import java.text.ParseException;
 import java.util.Calendar;
@@ -15,9 +16,10 @@ public class TimePickerView extends BasePickerView implements View.OnClickListen
 {
 	public enum Type
 	{
-		ALL, YEAR_MONTH_DAY, HOURS_MINS, MONTH_DAY_HOUR_MIN, YEAR_MONTH
+		ALL, YEAR_MONTH_DAY, HOURS_MINS, MONTH_DAY_HOUR_MIN, YEAR_MONTH, YEAR_YEAR
 	}// 四种选择模式，年月日时分，年月日，时分，月日时分
 
+	private Type type;
 	WheelTime wheelTime;
 	private View btnSubmit, btnCancel;
 	private TextView tvTitle;
@@ -28,6 +30,7 @@ public class TimePickerView extends BasePickerView implements View.OnClickListen
 	public TimePickerView(Context context, Type type)
 	{
 		super(context);
+		this.type = type;
 
 		LayoutInflater.from(context).inflate(R.layout.pickerview_time, contentContainer);
 		// -----确定和取消按钮
@@ -131,8 +134,13 @@ public class TimePickerView extends BasePickerView implements View.OnClickListen
 			{
 				try
 				{
-					Date date = WheelTime.dateFormat.parse(wheelTime.getTime());
-					timeSelectListener.onTimeSelect(date);
+					if (type == Type.YEAR_YEAR){
+						StartAndEndYear startAndEndYear = wheelTime.getStartAndEndYear();
+						timeSelectListener.onTimeSelectStartEndYear(startAndEndYear);
+					}else{
+						Date date = WheelTime.dateFormat.parse(wheelTime.getTime());
+						timeSelectListener.onTimeSelect(date);
+					}
 				} catch (ParseException e)
 				{
 					e.printStackTrace();
@@ -146,6 +154,8 @@ public class TimePickerView extends BasePickerView implements View.OnClickListen
 	public interface OnTimeSelectListener
 	{
 		public void onTimeSelect(Date date);
+
+		void onTimeSelectStartEndYear(StartAndEndYear startAndEndYear);
 	}
 
 	public void setOnTimeSelectListener(OnTimeSelectListener timeSelectListener)

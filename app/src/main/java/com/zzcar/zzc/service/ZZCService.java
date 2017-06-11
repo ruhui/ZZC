@@ -37,12 +37,15 @@ import com.zzcar.zzc.networks.responses.MessageListResponse;
 import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.networks.responses.MybillResponse;
 import com.zzcar.zzc.networks.responses.MyfavcarResponse;
+import com.zzcar.zzc.networks.responses.MysubscribeResponse;
 import com.zzcar.zzc.networks.responses.RefundOrderResponse;
 import com.zzcar.zzc.networks.responses.ShouzhiDetailResponse;
 import com.zzcar.zzc.networks.responses.UserMessageResponse;
 import com.zzcar.zzc.networks.responses.UserMsgResponse;
 import com.zzcar.zzc.networks.responses.ValueTextResponse;
 import com.zzcar.zzc.networks.responses.VerifiedResponse;
+
+import org.androidannotations.annotations.rest.Get;
 
 import java.util.List;
 import java.util.Map;
@@ -277,4 +280,7 @@ public interface ZZCService {
     @GET("goods/sub_cars")
     Observable<ResponseParent<HomeCarGetResponse>> getsSubcars(@QueryMap Map<String, String> hashMap , @HeaderMap Map<String, String> header);
 
+    /*查询订阅*/
+    @GET("account/get_subscribe")
+    Observable<ResponseParent<MysubscribeResponse>> getmysubscribe(@HeaderMap Map<String, String> header);
 }

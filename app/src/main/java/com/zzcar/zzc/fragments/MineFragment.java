@@ -160,6 +160,15 @@ public class MineFragment extends BaseFragment {
                 showFragment(getActivity(), SettingFragment_.builder().build());
             }
         });
+
+        //订阅
+        orderingItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SubscriberSettingActivity_.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Subscribe

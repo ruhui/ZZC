@@ -33,7 +33,6 @@ public class ScrollBanner extends LinearLayout {
     private  List<HomeLiveMode> list;
     private int position = 0;
     private int offsetY = 100;
-    private ScrollerBannerListener listener;
     private HomeLiveMode homeLiveMode;
 
 
@@ -59,20 +58,12 @@ public class ScrollBanner extends LinearLayout {
 
                 if (position == list.size())
                     position = 0;
-                if (isShow) {
-                    homeLiveMode = list.get(position);
-                    mBannerTV1.setText("1"+position+homeLiveMode.getContent());
-                } else {
-                    homeLiveMode = list.get(position);
-                    mBannerTV2.setText("2"+position+homeLiveMode.getContent());
-                }
-                view.setOnClickListener(new OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        listener.setClickListener(homeLiveMode);
-                    }
-                });
 
+                if (isShow) {
+                    mBannerTV1.setText(list.get(position++).getContent());
+                } else {
+                    mBannerTV2.setText(list.get(position++).getContent());
+                }
 
                 startY1 = isShow ? 0 : offsetY;
                 endY1 = isShow ? -offsetY : 0;
@@ -83,8 +74,6 @@ public class ScrollBanner extends LinearLayout {
                 startY2 = isShow ? offsetY : 0;
                 endY2 = isShow ? 0 : -offsetY;
                 ObjectAnimator.ofFloat(mBannerTV2, "translationY", startY2, endY2).setDuration(300).start();
-
-                position++;
 
                 handler.postDelayed(runnable, 3000);
             }
@@ -111,11 +100,4 @@ public class ScrollBanner extends LinearLayout {
         handler.removeCallbacks(runnable);
     }
 
-    public void setScrolItemClickListener(ScrollerBannerListener listener){
-        this.listener = listener;
-    }
-
-    public interface ScrollerBannerListener{
-        public void setClickListener(HomeLiveMode model);
-    }
 }

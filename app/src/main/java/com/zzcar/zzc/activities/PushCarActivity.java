@@ -31,6 +31,7 @@ import com.zzcar.zzc.models.AddCarFrom;
 import com.zzcar.zzc.models.AddCarMiddleModle;
 import com.zzcar.zzc.models.ImageList;
 import com.zzcar.zzc.models.SinglecarModel;
+import com.zzcar.zzc.models.StartAndEndYear;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.responses.CheckSuccessResponse;
 import com.zzcar.zzc.utils.ImageLoader;
@@ -229,6 +230,11 @@ public class PushCarActivity extends BaseActivity {
                 }
                 resetView();
             }
+
+            @Override
+            public void onTimeSelectStartEndYear(StartAndEndYear startAndEndYear) {
+
+            }
         });
 
 
@@ -253,6 +259,11 @@ public class PushCarActivity extends BaseActivity {
                 }
                 resetView();
             }
+
+            @Override
+            public void onTimeSelectStartEndYear(StartAndEndYear startAndEndYear) {
+
+            }
         });
 
         // 上牌时间回调
@@ -275,6 +286,11 @@ public class PushCarActivity extends BaseActivity {
                     }
                 }
                 resetView();
+            }
+
+            @Override
+            public void onTimeSelectStartEndYear(StartAndEndYear startAndEndYear) {
+
             }
         });
 
