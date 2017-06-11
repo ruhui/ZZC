@@ -9,22 +9,32 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.zzcar.zzc.R;
+import com.zzcar.zzc.models.BlandModle;
 import com.zzcar.zzc.models.CarfactoryDto;
+import com.zzcar.zzc.models.SeriesItemsModel;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class CarseriesSubscribeAdapter extends BaseAdapter{
 	private List<CarfactoryDto> list = null;
 	private Context mContext;
+	private BlandModle blandModle;
 
-	public CarseriesSubscribeAdapter(Context mContext, List<CarfactoryDto> list) {
+	public CarseriesSubscribeAdapter(Context mContext, List<CarfactoryDto> list, BlandModle blandModle) {
 		this.mContext = mContext;
 		this.list = list;
+		this.blandModle = blandModle;
 	}
 	
 
 	public void updateListView(List<CarfactoryDto> list){
 		this.list = list;
+		notifyDataSetChanged();
+	}
+
+	public void updateView( BlandModle blandModle){
+		this.blandModle = blandModle;
 		notifyDataSetChanged();
 	}
 
@@ -72,6 +82,25 @@ public class CarseriesSubscribeAdapter extends BaseAdapter{
 			viewHolder.tvTitle.setVisibility(View.VISIBLE);
 			viewHolder.imageView38.setVisibility(View.VISIBLE);
 			viewHolder.tvLetter.setVisibility(View.GONE);
+
+			if (blandModle != null){
+				boolean hascontain = false;
+				List<SeriesItemsModel> listmodel = blandModle.getSeries_items();
+				for (SeriesItemsModel model : listmodel){
+					if (model.getId() == mContent.getId()){
+						hascontain = true;
+						break;
+					}
+				}
+				if (hascontain){
+					viewHolder.imageView38.setImageResource(R.drawable.icon_red_checked);
+				}else{
+					viewHolder.imageView38.setImageResource(R.drawable.icon_red_unchecked);
+				}
+			}else{
+				viewHolder.imageView38.setImageResource(R.drawable.icon_red_unchecked);
+			}
+
 		}
 
 		viewHolder.tvTitle.setText(this.list.get(position).getName());

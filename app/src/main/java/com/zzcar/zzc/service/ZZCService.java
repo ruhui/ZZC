@@ -283,4 +283,8 @@ public interface ZZCService {
     /*查询订阅*/
     @GET("account/get_subscribe")
     Observable<ResponseParent<MysubscribeResponse>> getmysubscribe(@HeaderMap Map<String, String> header);
+
+    /*保存订阅*/
+    @POST("account/save_subscribe")
+    Observable<ResponseParent<Boolean>> savesubscribe(@Body MysubscribeResponse request, @HeaderMap Map<String, String> header);
 }

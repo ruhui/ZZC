@@ -6,11 +6,15 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.baidu.mapapi.map.Text;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
 import com.zzcar.zzc.fragments.base.BaseFragment;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
+import com.zzcar.zzc.models.BlandMiddelModel;
+import com.zzcar.zzc.models.BlandModle;
+import com.zzcar.zzc.models.SeriesItemsModel;
 import com.zzcar.zzc.models.StartAndEndYear;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.responses.MysubscribeResponse;
@@ -25,8 +29,12 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import rx.Subscriber;
 
@@ -54,10 +62,15 @@ public class SubscriberSettingActivity extends BaseActivity {
     @ViewById(R.id.txtSaveSub)
     TextView txtSaveSub;
 
+    /*缓存记录品牌车系*/
+    private HashMap<Integer, BlandModle> hashBland = new HashMap<>();
+
     private TimePickerView shangpaiStartTime;
 
     /*保存数据缓存*/
     private MysubscribeResponse mysubscriber = new MysubscribeResponse();
+    /*品牌描述*/
+    private String bland_series_text = "";
 
     @Override
     public void onNetChange(int netMobile) {
@@ -83,11 +96,13 @@ public class SubscriberSettingActivity extends BaseActivity {
 
         getMysubscribe();
 
+        /*品牌*/
         txtBland.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(SubscriberSettingActivity.this, SubscriberBrandCarActivity_.class);
-                startActivity(intent);
+                intent.putExtra("hashBland", hashBland);
+                startActivityForResult(intent, 10103);
             }
         });
 
@@ -132,6 +147,13 @@ public class SubscriberSettingActivity extends BaseActivity {
             }
         });
 
+        txtSaveSub.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveSubscriber();
+            }
+        });
+
     }
 
     private void initpvTime() {
@@ -148,6 +170,17 @@ public class SubscriberSettingActivity extends BaseActivity {
                 mysubscriber.setEmission(emissionids);
                 mysubscriber.setEmission_text(emissiones);
                 txtPaifang.setTxtMiddle(emissiones);
+            }else if(requestCode == 10103){
+                hashBland = (HashMap<Integer, BlandModle>) data.getSerializableExtra("hashBland");
+                Iterator iterator = hashBland.entrySet().iterator();
+                if (iterator.hasNext()){
+                    Map.Entry entry = (Map.Entry) iterator.next();
+                    BlandModle val = (BlandModle) entry.getValue();
+                    for (SeriesItemsModel modle : val.getSeries_items()){
+                        bland_series_text += modle.getName();
+                    }
+                }
+                txtBland.setTxtMiddle(bland_series_text);
             }
         }
     }
@@ -158,6 +191,39 @@ public class SubscriberSettingActivity extends BaseActivity {
         Subscriber subscriber = new PosetSubscriber<MysubscribeResponse>().getSubscriber(callback_mysubscriber);
         UserManager.getMysubscribe(subscriber);
     }
+
+    /*保存订阅*/
+    private void saveSubscriber(){
+        List<BlandModle> bland = new ArrayList<>();
+
+        showProgress();
+        Iterator iterator = hashBland.entrySet().iterator();
+        while (iterator.hasNext()){
+            Map.Entry entry = (Map.Entry) iterator.next();
+            Integer key = (Integer) entry.getKey();
+            BlandModle val = (BlandModle) entry.getValue();
+            bland.add(val);
+        }
+
+        String startPrice = edtStarprice.getText().toString();
+        String endPrice = edtEndprice.getText().toString();
+        if (TextUtils.isEmpty(startPrice)){
+            startPrice = "0";
+        }
+        if (TextUtils.isEmpty(endPrice)){
+            endPrice = "0";
+        }
+
+        mysubscriber.setBland(bland);
+        mysubscriber.setBland_series_text(bland_series_text);
+        mysubscriber.setStart_price(Double.valueOf(startPrice));
+        mysubscriber.setEnd_price(Double.valueOf(endPrice));
+
+        Subscriber subscriber = new PosetSubscriber<Boolean>().getSubscriber(callback_saveSubscribe);
+        UserManager.saveSubscribe(mysubscriber, subscriber);
+
+    }
+
 
     /* 我的订阅回调*/
     ResponseResultListener callback_mysubscriber = new ResponseResultListener<MysubscribeResponse>() {
@@ -175,6 +241,23 @@ public class SubscriberSettingActivity extends BaseActivity {
             if (returnMsg.getEnd_price() != 0){
                 edtEndprice.setText(returnMsg.getEnd_price() + "");
             }
+            hashBland.clear();
+            for (BlandModle modle : returnMsg.getBland()){
+                hashBland.put(modle.getId(), modle);
+            }
+        }
+
+        @Override
+        public void fialed(String resCode, String message) {
+            closeProgress();
+        }
+    };
+
+    ResponseResultListener callback_saveSubscribe = new ResponseResultListener<Boolean>() {
+        @Override
+        public void success(Boolean returnMsg) {
+            closeProgress();
+            getMysubscribe();
         }
 
         @Override

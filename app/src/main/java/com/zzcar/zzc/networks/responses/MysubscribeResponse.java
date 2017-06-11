@@ -11,14 +11,14 @@ import java.util.List;
  */
 
 public class MysubscribeResponse {
-    private List<BlandModle> bland;
-    private String bland_series_text;
-    private int start_year;
-    private int end_year;
-    private List<String> emission;
-    private String emission_text;
-    private double start_price;
-    private double end_price;
+    public List<BlandModle> bland;
+    public String bland_series_text;
+    public int start_year;
+    public int end_year;
+    public List<String> emission;
+    public String emission_text;
+    public double start_price;
+    public double end_price;
 
     public MysubscribeResponse(){}
 

@@ -1,5 +1,7 @@
 package com.zzcar.zzc.fragments;
 
+import android.content.Context;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
@@ -16,7 +18,9 @@ import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.BrandCarActivity;
 import com.zzcar.zzc.adapters.CarBrandAdapter;
 import com.zzcar.zzc.adapters.SortAdapter;
+import com.zzcar.zzc.adapters.SortSubscribeAdapter;
 import com.zzcar.zzc.fragments.base.BaseFragment;
+import com.zzcar.zzc.models.BlandModle;
 import com.zzcar.zzc.models.PinyinComparator;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.utils.GreenDaoUtils;
@@ -29,6 +33,7 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -41,7 +46,7 @@ public class CarBrandSubsribeFragment extends BaseFragment {
     private List<BrandListResponse> mBrandList = new ArrayList<>();
 
     private CarseriesSubscribeFragment carseriesFragment = CarseriesSubscribeFragment_.builder().build();
-    private SortAdapter sortAdapter;
+    private SortSubscribeAdapter sortAdapter;
     private PinyinComparator pinyinComparator;
 
     @ViewById(R.id.country_lvcountry)
@@ -55,7 +60,13 @@ public class CarBrandSubsribeFragment extends BaseFragment {
     private int mListViewFirstItem = 0;
     //listView中第一项的在屏幕中的位置
     private int mScreenY = 0;
+    private HashMap<Integer, BlandModle> hashBland = new HashMap<>();
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        hashBland = (HashMap<Integer, BlandModle>) getArguments().getSerializable("hashBland");
+    }
 
     @AfterViews
     void initView(){
@@ -85,7 +96,7 @@ public class CarBrandSubsribeFragment extends BaseFragment {
             }
         });
         Collections.sort(mBrandList, pinyinComparator);
-        sortAdapter = new SortAdapter(getActivity(), mBrandList);
+        sortAdapter = new SortSubscribeAdapter(getActivity(), mBrandList, hashBland);
         sortListView.setAdapter(sortAdapter);
 
         //取消
@@ -149,14 +160,6 @@ public class CarBrandSubsribeFragment extends BaseFragment {
 
     }
 
-    CarBrandAdapter.BrandAdapterListener brandadapterListener = new CarBrandAdapter.BrandAdapterListener() {
-        @Override
-        public void setSelect(String title, String value) {
-            showCarSeriesfragment(Integer.valueOf(value), title);
-        }
-    };
-
-
     public void setData(){
         BrandListResponseDao brandDao = GreenDaoUtils.getSingleTon().getmDaoSession().getBrandListResponseDao();
         List<BrandListResponse> listbrand = brandDao.loadAll();
@@ -183,6 +186,6 @@ public class CarBrandSubsribeFragment extends BaseFragment {
             transaction.addToBackStack("CarseriesCopyFragment");
             transaction.commit();
         }
-        carseriesFragment.setBrand(brandid, branddes);
+        carseriesFragment.setBrand(brandid, branddes, hashBland);
     }
 }

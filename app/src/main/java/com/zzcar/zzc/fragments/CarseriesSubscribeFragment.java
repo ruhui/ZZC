@@ -1,5 +1,6 @@
 package com.zzcar.zzc.fragments;
 
+import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -14,8 +15,11 @@ import com.zzcar.zzc.adapters.CarseriesAdapter;
 import com.zzcar.zzc.adapters.CarseriesSubscribeAdapter;
 import com.zzcar.zzc.fragments.base.BaseFragment;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
+import com.zzcar.zzc.interfaces.SubscribBland;
 import com.zzcar.zzc.manager.UserManager;
+import com.zzcar.zzc.models.BlandModle;
 import com.zzcar.zzc.models.CarfactoryDto;
+import com.zzcar.zzc.models.SeriesItemsModel;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.networks.responses.CarSeriesResponse;
@@ -24,10 +28,12 @@ import com.zzcar.zzc.utils.LogUtil;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import rx.Subscriber;
@@ -53,11 +59,13 @@ public class CarseriesSubscribeFragment extends BaseFragment {
 
     private String brandiddes;
     private int brandid;
+    private HashMap<Integer, BlandModle> hashBland = new HashMap<>();
+
 
     @AfterViews
     void initView(){
         pinyinComparato = new PinyinComparator();
-        carseriaAdapter = new CarseriesSubscribeAdapter(getActivity(), mCarseriesList);
+        carseriaAdapter = new CarseriesSubscribeAdapter(getActivity(), mCarseriesList, hashBland.get(brandid));
         mListView.setAdapter(carseriaAdapter);
 
         textView6.setOnClickListener(new View.OnClickListener() {
@@ -72,9 +80,38 @@ public class CarseriesSubscribeFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 CarfactoryDto carfactory = mCarseriesList.get(i);
                 String name = carfactory.getName();
-                long facrotyid = carfactory.getFactory_id();
                 long id = carfactory.getId();
-                brandiddes += ""+name;
+                if (hashBland.containsKey(brandid)){
+                    BlandModle blandModle = hashBland.get(brandid);
+                    List<SeriesItemsModel> series_items = blandModle.getSeries_items();
+                    boolean iscontain = false;
+                    int position = 0;
+                    for (int j =0; j<series_items.size(); j++){
+                        SeriesItemsModel model = series_items.get(j);
+                        if (model.getId() == id){
+                            iscontain = true;
+                            position = j;
+                            break;
+                        }
+                    }
+                    if (iscontain){
+                        series_items.remove(position);
+                    }else{
+                        SeriesItemsModel seriesItemsModel = new SeriesItemsModel(id, name);
+                        series_items.add(seriesItemsModel);
+                    }
+                    hashBland.put(brandid, blandModle);
+                }else{
+                    List<SeriesItemsModel> series_items = new ArrayList<SeriesItemsModel>();
+                    SeriesItemsModel seriesItemsModel = new SeriesItemsModel(id, name);
+                    series_items.add(seriesItemsModel);
+                    BlandModle blandModle = new BlandModle(brandid, series_items, brandiddes);
+                    hashBland.put(brandid, blandModle);
+                }
+                /*反回到上级*/
+                EventBus.getDefault().post(new SubscribBland(hashBland));
+                carseriaAdapter.updateView(hashBland.get(brandid));
+                carseriaAdapter.notifyDataSetChanged();
             }
         });
 
@@ -105,7 +142,8 @@ public class CarseriesSubscribeFragment extends BaseFragment {
 
 
 
-    public void setBrand(int brandid, String branddes) {
+    public void setBrand(int brandid, String branddes, HashMap<Integer, BlandModle> hashBland ) {
+        this.hashBland = hashBland;
         this.brandid = brandid;
         this.brandiddes = branddes;
         getCarSeries(brandid);

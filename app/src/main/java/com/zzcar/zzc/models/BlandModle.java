@@ -1,5 +1,6 @@
 package com.zzcar.zzc.models;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +9,7 @@ import java.util.List;
  * 功能描述：
  */
 
-public class BlandModle {
+public class BlandModle implements Serializable{
     private int id;
     private List<SeriesItemsModel> series_items;
     private String name;

@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.zzcar.zzc.models.AddCarFrom;
 import com.zzcar.zzc.models.AddCarMiddleModle;
 import com.zzcar.zzc.models.AddressModel;
+import com.zzcar.zzc.models.BlandModle;
 import com.zzcar.zzc.models.CarFromModel;
 import com.zzcar.zzc.models.EnumSendUserType;
 import com.zzcar.zzc.models.SinglecarModel;
@@ -1202,6 +1203,21 @@ public class UserManager {
 
         ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
         ApiClient.getApiService().getmysubscribe(zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 保存订阅
+     * @param subscriber
+     */
+    public static void saveSubscribe(MysubscribeResponse request, Subscriber<Boolean> subscriber){
+        String accessToken = SecurePreferences.getInstance().getString("Authorization", "");
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(accessToken, request);
+        ApiClient.getApiService().savesubscribe(request, zzcHeaders.getHashMap())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
