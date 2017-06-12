@@ -166,6 +166,12 @@ public class HomeFragment extends BaseFragment{
         getsSubcars();
     }
 
+    /*交易担保*/
+    @Click(R.id.relaJiaoyi)
+    void sendJiaoyi(){
+        showFragment(getActivity(), JiaoyiFragment_.builder().build());
+    }
+
     /*订单*/
     @Click(R.id.relaOrder)
     void sendOrder(){

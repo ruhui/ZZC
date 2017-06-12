@@ -8,6 +8,7 @@ import com.zzcar.zzc.networks.requests.AddMsgRequest;
 import com.zzcar.zzc.networks.requests.ApplyDepositRequest;
 import com.zzcar.zzc.networks.requests.ApplyFriendRequest;
 import com.zzcar.zzc.networks.requests.BuyIntegraRequest;
+import com.zzcar.zzc.networks.requests.BuysecurityRequest;
 import com.zzcar.zzc.networks.requests.ForgetPwdResquest;
 import com.zzcar.zzc.networks.requests.LoginRequest;
 import com.zzcar.zzc.networks.requests.NickRequest;
@@ -26,6 +27,7 @@ import com.zzcar.zzc.networks.responses.CityResponse;
 import com.zzcar.zzc.networks.responses.ColorResponse;
 import com.zzcar.zzc.networks.responses.CommentResponse;
 import com.zzcar.zzc.networks.responses.DepositResponse;
+import com.zzcar.zzc.networks.responses.EmptyResponse;
 import com.zzcar.zzc.networks.responses.FridendListResponse;
 import com.zzcar.zzc.networks.responses.HomeAdverResponse;
 import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
@@ -287,4 +289,12 @@ public interface ZZCService {
     /*保存订阅*/
     @POST("account/save_subscribe")
     Observable<ResponseParent<Boolean>> savesubscribe(@Body MysubscribeResponse request, @HeaderMap Map<String, String> header);
+
+    /*申请交易担保金*/
+    @POST("account/buy_security")
+    Observable<ResponseParent<String>> buysecurity(@Body BuysecurityRequest request, @HeaderMap Map<String, String> header);
+
+    /*退交易担保金*/
+    @POST("account/refund_security")
+    Observable<ResponseParent<Boolean>> refundsecurity(@HeaderMap Map<String, String> header);
 }

@@ -16,6 +16,8 @@ import com.zzcar.zzc.networks.requests.AddMsgRequest;
 import com.zzcar.zzc.networks.requests.ApplyDepositRequest;
 import com.zzcar.zzc.networks.requests.ApplyFriendRequest;
 import com.zzcar.zzc.networks.requests.BuyIntegraRequest;
+import com.zzcar.zzc.networks.requests.BuysecurityRequest;
+import com.zzcar.zzc.networks.requests.EmptyRequest;
 import com.zzcar.zzc.networks.requests.ForgetPwdResquest;
 import com.zzcar.zzc.networks.requests.LoginRequest;
 import com.zzcar.zzc.networks.requests.NickRequest;
@@ -35,6 +37,7 @@ import com.zzcar.zzc.networks.responses.CityResponse;
 import com.zzcar.zzc.networks.responses.ColorResponse;
 import com.zzcar.zzc.networks.responses.CommentResponse;
 import com.zzcar.zzc.networks.responses.DepositResponse;
+import com.zzcar.zzc.networks.responses.EmptyResponse;
 import com.zzcar.zzc.networks.responses.FridendListResponse;
 import com.zzcar.zzc.networks.responses.HomeAdverResponse;
 import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
@@ -502,7 +505,6 @@ public class UserManager {
      * @param subscriber
      */
     public static void getUserMsg(Subscriber<ResponseParent<MineMsgResponse>> subscriber){
-         /* 防止多次点击 */
         String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
         Map<String, String> hashmap = new HashMap<>();
         ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
@@ -1218,6 +1220,38 @@ public class UserManager {
 
         ZZCHeaders zzcHeaders = new ZZCHeaders(accessToken, request);
         ApiClient.getApiService().savesubscribe(request, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 支付交易担保金
+     * @param subscriber
+     */
+    public static void buySecurity(String pay_code, Subscriber<String> subscriber){
+        String accessToken = SecurePreferences.getInstance().getString("Authorization", "");
+        BuysecurityRequest request = new BuysecurityRequest(pay_code);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(accessToken, request);
+        ApiClient.getApiService().buysecurity(request, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 退交易担保金
+     * @param subscriber
+     */
+    public static void refundSecurity( Subscriber<Boolean> subscriber){
+        String accessToken = SecurePreferences.getInstance().getString("Authorization", "");
+        EmptyRequest request = new EmptyRequest();
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(accessToken, request);
+        ApiClient.getApiService().refundsecurity(zzcHeaders.getHashMap())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

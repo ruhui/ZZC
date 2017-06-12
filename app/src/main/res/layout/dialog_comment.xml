@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ScrollView
@@ -12,8 +13,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
-            android:orientation="vertical"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -28,11 +29,11 @@
                     android:layout_height="30dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:imeOptions="actionSend"
-                    android:singleLine="true"
                     android:background="@drawable/shape_grey_radio"
                     android:hint="咨询点神秘吧..."
+                    android:imeOptions="actionSend"
                     android:paddingLeft="10dp"
+                    android:singleLine="true"
                     android:textSize="13sp" />
 
                 <ImageView
@@ -82,26 +83,26 @@
                     android:id="@+id/textView54"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="照片"
-                    android:gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:layout_below="@+id/imageView10"
-                    android:layout_toLeftOf="@+id/imageView11"
                     android:layout_alignLeft="@+id/imageView10"
-                    android:layout_alignStart="@+id/imageView10" />
+                    android:layout_alignStart="@+id/imageView10"
+                    android:layout_below="@+id/imageView10"
+                    android:layout_marginTop="10dp"
+                    android:layout_toLeftOf="@+id/imageView11"
+                    android:gravity="center"
+                    android:text="照片" />
 
                 <TextView
                     android:id="@+id/textView56"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignEnd="@+id/imageView11"
                     android:layout_alignLeft="@+id/imageView11"
+                    android:layout_alignRight="@+id/imageView11"
                     android:layout_alignStart="@+id/imageView11"
                     android:layout_below="@+id/imageView11"
-                    android:text="拍照"
-                    android:gravity="center"
                     android:layout_marginTop="10dp"
-                    android:layout_alignRight="@+id/imageView11"
-                    android:layout_alignEnd="@+id/imageView11" />
+                    android:gravity="center"
+                    android:text="拍照" />
             </RelativeLayout>
         </LinearLayout>
 
