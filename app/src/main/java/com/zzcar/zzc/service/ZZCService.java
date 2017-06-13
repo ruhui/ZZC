@@ -43,6 +43,7 @@ import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.networks.responses.MybillResponse;
 import com.zzcar.zzc.networks.responses.MyfavcarResponse;
 import com.zzcar.zzc.networks.responses.MysubscribeResponse;
+import com.zzcar.zzc.networks.responses.OrderListResponse;
 import com.zzcar.zzc.networks.responses.RefundOrderResponse;
 import com.zzcar.zzc.networks.responses.ShouzhiDetailResponse;
 import com.zzcar.zzc.networks.responses.UserMessageResponse;
@@ -308,4 +309,9 @@ public interface ZZCService {
     /*订单支付，生成支付单号*/
     @POST("checkout/pay")
     Observable<ResponseParent<String>> payorder(@Body PayOrderModel request, @HeaderMap Map<String, String> header);
+
+    /*我买到的*/
+    @GET("order/buy_car_order")
+    Observable<ResponseParent<OrderListResponse>> buycarorder(@QueryMap Map<String, String> hashMap , @HeaderMap Map<String, String> header);
+
 }

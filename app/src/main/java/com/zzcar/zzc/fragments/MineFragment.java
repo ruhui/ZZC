@@ -112,6 +112,14 @@ public class MineFragment extends BaseFragment {
             }
         });
 
+        /*我买到的*/
+        mybuyItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFragment(getActivity(), MineBuyFragment_.builder().build());
+            }
+        });
+
         /*二维码*/
         relaMineMark.setOnClickListener(new View.OnClickListener() {
             @Override

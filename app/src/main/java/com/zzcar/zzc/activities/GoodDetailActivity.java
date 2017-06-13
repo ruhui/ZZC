@@ -25,12 +25,9 @@ import com.zzcar.zzc.adapters.PictureAdapter;
 import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.constants.Permission;
 import com.zzcar.zzc.fragments.MineBuyFragment_;
-import com.zzcar.zzc.fragments.SureOrderFragment;
-import com.zzcar.zzc.fragments.SureOrderFragment_;
 import com.zzcar.zzc.interfaces.AdapterListener;
 import com.zzcar.zzc.interfaces.CommentListener;
 import com.zzcar.zzc.interfaces.ImageUploadListener;
-import com.zzcar.zzc.interfaces.RefreshListener;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.interfaces.ShowOrHiddenListener;
 import com.zzcar.zzc.manager.PermissonManager;
@@ -56,7 +53,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
@@ -297,6 +293,11 @@ public class GoodDetailActivity extends BaseActivity {
             if (resultCode == getActivity().RESULT_OK && requestCode == PhotoPicker.REQUEST_CODE){
                 showProgress();
                 photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
+            }else if (requestCode == 20171){
+                boolean haspayorder = data.getBooleanExtra("payorder", false);
+                if (haspayorder){
+                    showFragment(MineBuyFragment_.builder().build());
+                }
             }
         }else  if (requestCode==REQ_CODE_CAMERA) {
             showProgress();
@@ -573,11 +574,9 @@ public class GoodDetailActivity extends BaseActivity {
         @Override
         public void success(CheckoutcartResponse returnMsg) {
             closeProgress();
-            SureOrderFragment fragment = SureOrderFragment_.builder().build();
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("checkoutcart", returnMsg);
-            fragment.setArguments(bundle);
-            showFragment(fragment);
+            Intent intent = new Intent(GoodDetailActivity.this, SureOrderActivity_.class);
+            intent.putExtra("checkoutcart", returnMsg);
+            startActivityForResult(intent, 20171);
         }
 
         @Override
@@ -586,11 +585,6 @@ public class GoodDetailActivity extends BaseActivity {
         }
     };
 
-    @Subscribe
-    public void finishThisWindow(RefreshListener refreshListener){
-        if (refreshListener.TAG.equals("MINEBUYFRAGMENT")){
-            showFragment(MineBuyFragment_.builder().build());
-        }
-    }
+
 
 }

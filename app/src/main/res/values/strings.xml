@@ -44,5 +44,11 @@
     <string name="app_login_getcode">获取验证码</string>
     <string name="attach_voice_carform">车源</string>
 
+    <string name="tab_mybuy_all">全部</string>
+    <string name="tab_mybuy_daizhifu">待支付</string>
+    <string name="tab_mybuy_daimaijiazhifu">待卖家支付</string>
+    <string name="tab_mybuy_daiqueren">待确认</string>
+    <string name="tab_mybuy_daiwancheng">完成</string>
+
 
 </resources>

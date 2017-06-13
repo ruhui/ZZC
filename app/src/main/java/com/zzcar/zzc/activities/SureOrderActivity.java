@@ -1,6 +1,7 @@
-package com.zzcar.zzc.fragments;
+package com.zzcar.zzc.activities;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.zzcar.zzc.R;
+import com.zzcar.zzc.activities.base.BaseActivity;
 import com.zzcar.zzc.adapters.SureOrderAdapter;
 import com.zzcar.zzc.fragments.base.BaseFragment;
 import com.zzcar.zzc.interfaces.RefreshListener;
@@ -22,6 +24,7 @@ import com.zzcar.zzc.views.widget.PayOrderView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 import org.greenrobot.eventbus.EventBus;
@@ -34,8 +37,8 @@ import rx.Subscriber;
  * 创建作者： 黄如辉
  * 创建时间： 2017/6/13 10:05
  **/
-@EFragment(R.layout.fragment_sureorder)
-public class SureOrderFragment extends BaseFragment {
+@EActivity(R.layout.fragment_sureorder)
+public class SureOrderActivity extends BaseActivity {
 
     private CheckoutcartResponse checkoutcart;
 
@@ -61,11 +64,7 @@ public class SureOrderFragment extends BaseFragment {
     private SureOrderAdapter adapter;
 
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        checkoutcart = (CheckoutcartResponse) getArguments().getSerializable("checkoutcart");
-    }
+
 
     @Override
     public void onNetChange(int netMobile) {
@@ -74,13 +73,14 @@ public class SureOrderFragment extends BaseFragment {
 
     @AfterViews
     void initView(){
+        checkoutcart = (CheckoutcartResponse) getIntent().getSerializableExtra("checkoutcart");
         mNavbar.setMiddleTitle("确认订单");
         mNavbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
         mNavbar.setOnMenuClickListener(new NavBar2.OnMenuClickListener() {
             @Override
             public void onLeftMenuClick(View view) {
                 super.onLeftMenuClick(view);
-                finishFragment();
+                finish();
             }
         });
 
@@ -126,8 +126,10 @@ public class SureOrderFragment extends BaseFragment {
             closeProgress();
             ToastUtil.showToast("支付成功");
             //跳转到我买到的
-            EventBus.getDefault().post(new RefreshListener("MINEBUYFRAGMENT"));
-            finishFragment();
+            Intent intent = new Intent();
+            intent.putExtra("payorder", true);
+            setResult(20171, intent);
+            finish();
         }
 
         @Override
