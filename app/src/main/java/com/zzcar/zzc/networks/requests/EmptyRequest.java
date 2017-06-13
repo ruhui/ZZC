@@ -7,5 +7,6 @@ package com.zzcar.zzc.networks.requests;
  */
 
 public class EmptyRequest {
-
+    public EmptyRequest() {
+    }
 }

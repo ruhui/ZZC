@@ -2,6 +2,7 @@ package com.zzcar.zzc.networks;
 
 import android.text.TextUtils;
 import com.zzcar.zzc.constants.Constant;
+import com.zzcar.zzc.networks.requests.EmptyRequest;
 import com.zzcar.zzc.utils.Tool;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -150,7 +151,11 @@ public class ZZCHeaders<T> {
         String md5sign = "";
         if (!TextUtils.isEmpty(ContentType) || ContentType.equals("application/json")){
             //post方式传送，用json格式
-            md5sign += Tool.getGson(reqData)  + privateKey+timestamp+nonce;
+            if (reqData instanceof EmptyRequest){
+                md5sign += privateKey+timestamp+nonce;
+            }else{
+                md5sign += Tool.getGson(reqData)  + privateKey+timestamp+nonce;
+            }
         }else{
            if (paraMap == null){
                return "";

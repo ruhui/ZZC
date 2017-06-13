@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,17 +24,23 @@ import com.zzcar.zzc.adapters.CommentAdapter;
 import com.zzcar.zzc.adapters.PictureAdapter;
 import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.constants.Permission;
+import com.zzcar.zzc.fragments.MineBuyFragment_;
+import com.zzcar.zzc.fragments.SureOrderFragment;
+import com.zzcar.zzc.fragments.SureOrderFragment_;
 import com.zzcar.zzc.interfaces.AdapterListener;
 import com.zzcar.zzc.interfaces.CommentListener;
 import com.zzcar.zzc.interfaces.ImageUploadListener;
+import com.zzcar.zzc.interfaces.RefreshListener;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.interfaces.ShowOrHiddenListener;
 import com.zzcar.zzc.manager.PermissonManager;
 import com.zzcar.zzc.manager.UserManager;
+import com.zzcar.zzc.models.CheckoutcartModel;
 import com.zzcar.zzc.models.CommentModle;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.UploadFileWithoutLoding;
 import com.zzcar.zzc.networks.responses.CarDetailRespose;
+import com.zzcar.zzc.networks.responses.CheckoutcartResponse;
 import com.zzcar.zzc.networks.responses.CommentResponse;
 import com.zzcar.zzc.utils.ImageLoader;
 import com.zzcar.zzc.utils.LogUtil;
@@ -121,6 +128,7 @@ public class GoodDetailActivity extends BaseActivity {
     TextView safeDes;
     @ViewById(R.id.mRecyclerView)
     RecyclerView mRecyclerView;
+
 
     /*商品id*/
     private int productId;
@@ -219,8 +227,8 @@ public class GoodDetailActivity extends BaseActivity {
         picList.addAll(returnMsg.getImage_path());
         adapter.setPicture(picList);
         content.setText(returnMsg.getName());
-        marketPrice.setText("￥"+returnMsg.getMarket_price()+"万");
-        priceDingjin.setText("订金￥" + returnMsg.getPrice());
+        marketPrice.setText("¥"+returnMsg.getMarket_price()+"万");
+        priceDingjin.setText("订金¥" + returnMsg.getPrice());
         ImageLoader.loadImage(Tool.getPicUrl(GoodDetailActivity.this,returnMsg.getMember().getPhoto(), 30, 30), headMember, Constant.HEADIMG);
         memNick.setText(returnMsg.getMember().getNick());
         carCompany.setText(returnMsg.getMember().getShop_name());
@@ -269,6 +277,17 @@ public class GoodDetailActivity extends BaseActivity {
             mToolbar.setRightMenuIcon(R.drawable.nav_button_shoucang_default_unselect);
             imgRight.setImageResource(R.drawable.nav_button_shoucang_default_unselect);
         }
+    }
+
+    /*立即购买*/
+    @Click(R.id.linearLayout)
+    void buyOrder(){
+        showProgress();
+        List<CheckoutcartModel> listmodel = new ArrayList<>();
+        CheckoutcartModel model = new CheckoutcartModel(productId, 1);
+        listmodel.add(model);
+        Subscriber subscriber = new PosetSubscriber<>().getSubscriber(callback_buyorder);
+        UserManager.getSureorder(listmodel, 2, subscriber);
     }
 
     @Override
@@ -432,6 +451,16 @@ public class GoodDetailActivity extends BaseActivity {
         setImageFavo();
     }
 
+    @Click(R.id.btnBuy)
+    void bottomBuy(){
+        showProgress();
+        List<CheckoutcartModel> listmodel = new ArrayList<>();
+        CheckoutcartModel model = new CheckoutcartModel(productId, 1);
+        listmodel.add(model);
+        Subscriber subscriber = new PosetSubscriber<>().getSubscriber(callback_buyorder);
+        UserManager.getSureorder(listmodel, 2, subscriber);
+    }
+
     /*获取商品详情*/
     private void getCarDetail(int productId) {
         Subscriber subscriber = new PosetSubscriber<CarDetailRespose>().getSubscriber(callbak_cardetail);
@@ -538,5 +567,30 @@ public class GoodDetailActivity extends BaseActivity {
 
         }
     };
+
+    /*确认订单回调*/
+    ResponseResultListener callback_buyorder = new ResponseResultListener<CheckoutcartResponse>() {
+        @Override
+        public void success(CheckoutcartResponse returnMsg) {
+            closeProgress();
+            SureOrderFragment fragment = SureOrderFragment_.builder().build();
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("checkoutcart", returnMsg);
+            fragment.setArguments(bundle);
+            showFragment(fragment);
+        }
+
+        @Override
+        public void fialed(String resCode, String message) {
+            closeProgress();
+        }
+    };
+
+    @Subscribe
+    public void finishThisWindow(RefreshListener refreshListener){
+        if (refreshListener.TAG.equals("MINEBUYFRAGMENT")){
+            showFragment(MineBuyFragment_.builder().build());
+        }
+    }
 
 }

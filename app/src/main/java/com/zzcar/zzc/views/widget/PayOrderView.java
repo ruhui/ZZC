@@ -78,4 +78,21 @@ public class PayOrderView extends LinearLayout {
     public int getSlect(){
         return SELECTPOSITION;
     }
+
+    /*选择的类型*/
+    public String getType(){
+        String pay_code = "";
+        int selectposition = getSlect();
+        switch (selectposition){
+            case 0:
+                //微信支付
+                pay_code = "weixin_sdk";
+                break;
+            case 1:
+                //支付宝
+                pay_code = "alipay_sdk";
+                break;
+        }
+        return pay_code;
+    }
 }

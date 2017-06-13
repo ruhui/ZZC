@@ -7,7 +7,9 @@ import com.zzcar.zzc.models.AddCarMiddleModle;
 import com.zzcar.zzc.models.AddressModel;
 import com.zzcar.zzc.models.BlandModle;
 import com.zzcar.zzc.models.CarFromModel;
+import com.zzcar.zzc.models.CheckoutcartModel;
 import com.zzcar.zzc.models.EnumSendUserType;
+import com.zzcar.zzc.models.PayOrderModel;
 import com.zzcar.zzc.models.SinglecarModel;
 import com.zzcar.zzc.networks.ApiClient;
 import com.zzcar.zzc.networks.ResponseParent;
@@ -17,6 +19,7 @@ import com.zzcar.zzc.networks.requests.ApplyDepositRequest;
 import com.zzcar.zzc.networks.requests.ApplyFriendRequest;
 import com.zzcar.zzc.networks.requests.BuyIntegraRequest;
 import com.zzcar.zzc.networks.requests.BuysecurityRequest;
+import com.zzcar.zzc.networks.requests.CheckoutcartRequest;
 import com.zzcar.zzc.networks.requests.EmptyRequest;
 import com.zzcar.zzc.networks.requests.ForgetPwdResquest;
 import com.zzcar.zzc.networks.requests.LoginRequest;
@@ -33,6 +36,7 @@ import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.networks.responses.CarSeriesResponse;
 import com.zzcar.zzc.networks.responses.CarTypeResponse;
+import com.zzcar.zzc.networks.responses.CheckoutcartResponse;
 import com.zzcar.zzc.networks.responses.CityResponse;
 import com.zzcar.zzc.networks.responses.ColorResponse;
 import com.zzcar.zzc.networks.responses.CommentResponse;
@@ -1252,6 +1256,43 @@ public class UserManager {
 
         ZZCHeaders zzcHeaders = new ZZCHeaders(accessToken, request);
         ApiClient.getApiService().refundsecurity(zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+
+    /**
+     * 直接购买，交易使用,确认订单
+     * @param items
+     * @param shipping_type
+     * @param subscriber
+     */
+    public static void getSureorder(List<CheckoutcartModel> items, int shipping_type, Subscriber<CheckoutcartResponse> subscriber){
+        String accessToken = SecurePreferences.getInstance().getString("Authorization", "");
+        CheckoutcartRequest request = new CheckoutcartRequest(items, shipping_type);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(accessToken, request);
+        ApiClient.getApiService().getSureorder(request, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 支付订单
+     * @param order_no
+     * @param pay_code
+     * @param subscriber
+     */
+    public static void payOrder(String order_no, String pay_code, Subscriber<CheckoutcartResponse> subscriber){
+        String accessToken = SecurePreferences.getInstance().getString("Authorization", "");
+        PayOrderModel request = new PayOrderModel(order_no, pay_code);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(accessToken, request);
+        ApiClient.getApiService().payorder(request, zzcHeaders.getHashMap())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

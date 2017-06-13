@@ -2,6 +2,7 @@ package com.zzcar.zzc.service;
 
 import com.zzcar.zzc.models.AddCarFrom;
 import com.zzcar.zzc.models.AddressModel;
+import com.zzcar.zzc.models.PayOrderModel;
 import com.zzcar.zzc.models.SinglecarModel;
 import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.requests.AddMsgRequest;
@@ -9,6 +10,7 @@ import com.zzcar.zzc.networks.requests.ApplyDepositRequest;
 import com.zzcar.zzc.networks.requests.ApplyFriendRequest;
 import com.zzcar.zzc.networks.requests.BuyIntegraRequest;
 import com.zzcar.zzc.networks.requests.BuysecurityRequest;
+import com.zzcar.zzc.networks.requests.CheckoutcartRequest;
 import com.zzcar.zzc.networks.requests.ForgetPwdResquest;
 import com.zzcar.zzc.networks.requests.LoginRequest;
 import com.zzcar.zzc.networks.requests.NickRequest;
@@ -23,6 +25,7 @@ import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.networks.responses.CarDetailRespose;
 import com.zzcar.zzc.networks.responses.CarSeriesResponse;
 import com.zzcar.zzc.networks.responses.CarTypeResponse;
+import com.zzcar.zzc.networks.responses.CheckoutcartResponse;
 import com.zzcar.zzc.networks.responses.CityResponse;
 import com.zzcar.zzc.networks.responses.ColorResponse;
 import com.zzcar.zzc.networks.responses.CommentResponse;
@@ -297,4 +300,12 @@ public interface ZZCService {
     /*退交易担保金*/
     @POST("account/refund_security")
     Observable<ResponseParent<Boolean>> refundsecurity(@HeaderMap Map<String, String> header);
+
+    /*直接购买，交易使用*/
+    @POST("checkout/cart")
+    Observable<ResponseParent<CheckoutcartResponse>> getSureorder(@Body CheckoutcartRequest request, @HeaderMap Map<String, String> header);
+
+    /*订单支付，生成支付单号*/
+    @POST("checkout/pay")
+    Observable<ResponseParent<String>> payorder(@Body PayOrderModel request, @HeaderMap Map<String, String> header);
 }
