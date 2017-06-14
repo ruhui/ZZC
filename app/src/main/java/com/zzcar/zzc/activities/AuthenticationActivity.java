@@ -81,7 +81,6 @@ public class AuthenticationActivity extends BaseActivity {
         });
     }
 
-
     private View createTabView(int titelResId) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.item_textview, null);
         ((TextView) view.findViewById(R.id.homeTitle)).setText(titelResId);
