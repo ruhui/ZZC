@@ -120,6 +120,14 @@ public class MineFragment extends BaseFragment {
             }
         });
 
+        /*我卖出的*/
+        mysaleItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFragment(getActivity(), MineSaleFragment_.builder().build());
+            }
+        });
+
         /*二维码*/
         relaMineMark.setOnClickListener(new View.OnClickListener() {
             @Override

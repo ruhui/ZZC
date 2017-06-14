@@ -33,45 +33,6 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/mRecyclerView">
 
-            <RelativeLayout
-                android:id="@+id/relativeLayout11"
-                android:layout_width="78dp"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/view7"
-                android:layout_marginRight="20dp"
-                android:layout_toLeftOf="@+id/textView178"
-                android:layout_toStartOf="@+id/textView178"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/textView179"
-                    android:layout_width="78dp"
-                    android:layout_height="32dp"
-                    android:background="@drawable/shape_radio_line_red"
-                    android:gravity="center"
-                    android:text="支付定金"
-                    android:textColor="@color/app_red"
-                    android:textSize="@dimen/sp_14" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="78dp"
-                android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
-                android:layout_marginRight="20dp"
-                android:layout_toLeftOf="@+id/relativeLayout11"
-                android:layout_toStartOf="@+id/relativeLayout11"
-                android:gravity="center">
-
-                <TextView
-                    android:id="@+id/textView180"
-                    android:layout_width="78dp"
-                    android:layout_height="32dp"
-                    android:background="@drawable/shape_line_radio_grey"
-                    android:gravity="center"
-                    android:textColor="@color/color_090909"
-                    android:text="待支付" />
-            </RelativeLayout>
 
             <TextView
                 android:id="@+id/textView177"
@@ -86,24 +47,76 @@
                 android:textColor="@color/app_red"
                 android:textSize="@dimen/sp_14" />
 
-            <TextView
-                android:id="@+id/textView178"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="20dp"
-                android:gravity="center"
-                android:text="完成"
-                android:textColor="@color/app_red"
-                android:textSize="@dimen/sp_14" />
+
 
             <View
                 android:id="@+id/view7"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/windowbackcolor" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true">
+
+                <RelativeLayout
+                    android:layout_width="78dp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="20dp"
+                    android:layout_toLeftOf="@+id/relativeLayout11"
+                    android:layout_toStartOf="@+id/relativeLayout11"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/textView180"
+                        android:layout_width="78dp"
+                        android:layout_height="32dp"
+                        android:background="@drawable/shape_line_radio_grey"
+                        android:gravity="center"
+                        android:textColor="@color/color_090909"
+                        android:text="待支付" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/relativeLayout11"
+                    android:layout_width="78dp"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/view7"
+                    android:layout_marginRight="20dp"
+                    android:layout_toLeftOf="@+id/textView178"
+                    android:layout_toStartOf="@+id/textView178"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/textView179"
+                        android:layout_width="78dp"
+                        android:layout_height="32dp"
+                        android:background="@drawable/shape_radio_line_red"
+                        android:gravity="center"
+                        android:text="支付定金"
+                        android:textColor="@color/app_red"
+                        android:textSize="@dimen/sp_14" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/textView178"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:gravity="center"
+                    android:text="完成"
+                    android:textColor="@color/app_red"
+                    android:textSize="@dimen/sp_14" />
+            </LinearLayout>
         </RelativeLayout>
 
 

@@ -9,9 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.zzcar.zzc.R;
-import com.zzcar.zzc.activities.GoodDetailActivity;
 import com.zzcar.zzc.activities.SureOrderActivity_;
 import com.zzcar.zzc.adapters.MyorderAdapter;
+import com.zzcar.zzc.adapters.MyorderSaleAdapter;
 import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.fragments.base.BasePullRecyclerFragment;
 import com.zzcar.zzc.interfaces.RefreshListener;
@@ -29,9 +29,6 @@ import org.androidannotations.annotations.EFragment;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import rx.Subscriber;
 
 /**
@@ -41,10 +38,9 @@ import rx.Subscriber;
  */
 
 @EFragment(R.layout.fragment_pullrefresh)
-public class MineOrderListFragment extends BasePullRecyclerFragment {
+public class MineOrderSaleFragment extends BasePullRecyclerFragment {
 
-
-    private MyorderAdapter adapter;
+    private MyorderSaleAdapter adapter;
     private int toolbarName;
     private int CURTURNPAGE = Constant.DEFAULTPAGE;
     private String status = "0";
@@ -68,20 +64,25 @@ public class MineOrderListFragment extends BasePullRecyclerFragment {
 
     @Override
     protected void initView(PullRecyclerView recyclerView) {
-        //我买到的：待付款1,待卖家支付2,已完成3,待确认5
+        //我卖出的：待买家付款1,待支付2,已完成3,待确认5
         switch (toolbarName){
+            //全部
             case 1:
                 status = "0";
                 break;
+            //待支付
             case 2:
-                status = "1";
-                break;
-            case 3:
                 status = "2";
                 break;
+            //待买家支付
+            case 3:
+                status = "1";
+                break;
+            //待确定
             case 4:
                 status = "5";
                 break;
+            //完成
             case 5:
                 status = "3";
                 break;
@@ -91,17 +92,17 @@ public class MineOrderListFragment extends BasePullRecyclerFragment {
         getOrderList();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(adapter = new MyorderAdapter(orderClickListener));
+        recyclerView.setAdapter(adapter = new MyorderSaleAdapter(orderClickListener));
     }
 
     /*事件监听*/
-    MyorderAdapter.OrderClickListener orderClickListener = new MyorderAdapter.OrderClickListener() {
+    MyorderSaleAdapter.OrderClickListener orderClickListener = new MyorderSaleAdapter.OrderClickListener() {
         @Override
         public void itemClickListener(OrderRowsModel model) {
             /*点击行*/
             OrderDetailFragment fragment = OrderDetailFragment_.builder().build();
             Bundle bundle = new Bundle();
-            bundle.putString("type", "0");//买家
+            bundle.putString("type", "1");//卖家
             bundle.putString("id", String.valueOf(model.getId()));
             fragment.setArguments(bundle);
             showFragment(getActivity(), fragment);
@@ -111,22 +112,6 @@ public class MineOrderListFragment extends BasePullRecyclerFragment {
         public void payorderClickListener(OrderRowsModel model) {
             /*支付订单*/
             payWaitOrder(model.getOrder_no());
-        }
-
-        @Override
-        public void cancleOrderClickListener(final OrderRowsModel model) {
-            /*取消订单*/
-            final MyAlertDialog alertDialog = new MyAlertDialog(getActivity(), true);
-            alertDialog.show();
-            alertDialog.setTitle("删除订单");
-            alertDialog.setContent("是否删除订单");
-            alertDialog.setOnPositiveListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    alertDialog.dismiss();
-                    cancleOrder(model.getId());
-                }
-            });
         }
 
         @Override
@@ -163,21 +148,14 @@ public class MineOrderListFragment extends BasePullRecyclerFragment {
 
     void getOrderList(){
         Subscriber subscriber = new PosetSubscriber<OrderListResponse>().getSubscriber(callback_getorder);
-        UserManager.buyCarorder(status, CURTURNPAGE, subscriber);
+        UserManager.sellCarorder(status, CURTURNPAGE, subscriber);
     }
 
-    /*取消订单*/
-    void cancleOrder(int id){
-        showProgress();
-        Subscriber subscriber = new PosetSubscriber<Integer>().getSubscriber(callback_cancleorder);
-        UserManager.cancelOrder(id, subscriber);
-    }
-
-    /*买家确认*/
+    /*卖家确认*/
     void carbuyerConfirm(int id){
         showProgress();
         Subscriber subscriber = new PosetSubscriber<Boolean>().getSubscriber(callback_sureorder);
-        UserManager.carbuyerConfirm(id, subscriber);
+        UserManager.carsellerconfirm(id, subscriber);
     }
 
     ResponseResultListener callback_getorder = new ResponseResultListener<OrderListResponse>() {
@@ -237,22 +215,6 @@ public class MineOrderListFragment extends BasePullRecyclerFragment {
         }
     };
 
-
-    /*删除订单回调*/
-    ResponseResultListener callback_cancleorder = new ResponseResultListener<Integer>() {
-        @Override
-        public void success(Integer returnMsg) {
-            closeProgress();
-            ToastUtil.showToast("删除成功");
-            CURTURNPAGE = Constant.DEFAULTPAGE;
-            getOrderList();
-        }
-
-        @Override
-        public void fialed(String resCode, String message) {
-            closeProgress();
-        }
-    };
 
     /*买家确认回调*/
     ResponseResultListener callback_sureorder = new ResponseResultListener<Boolean>() {

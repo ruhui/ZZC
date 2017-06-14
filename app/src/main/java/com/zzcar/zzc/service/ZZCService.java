@@ -14,6 +14,8 @@ import com.zzcar.zzc.networks.requests.CheckoutcartRequest;
 import com.zzcar.zzc.networks.requests.ForgetPwdResquest;
 import com.zzcar.zzc.networks.requests.LoginRequest;
 import com.zzcar.zzc.networks.requests.NickRequest;
+import com.zzcar.zzc.networks.requests.OrderNoRequest;
+import com.zzcar.zzc.networks.requests.OrderidResquest;
 import com.zzcar.zzc.networks.requests.PhotoRequest;
 import com.zzcar.zzc.networks.requests.ProduceIdResquest;
 import com.zzcar.zzc.networks.requests.RefreshLoginRequest;
@@ -43,6 +45,7 @@ import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.networks.responses.MybillResponse;
 import com.zzcar.zzc.networks.responses.MyfavcarResponse;
 import com.zzcar.zzc.networks.responses.MysubscribeResponse;
+import com.zzcar.zzc.networks.responses.OrderDetailResponse;
 import com.zzcar.zzc.networks.responses.OrderListResponse;
 import com.zzcar.zzc.networks.responses.RefundOrderResponse;
 import com.zzcar.zzc.networks.responses.ShouzhiDetailResponse;
@@ -314,4 +317,27 @@ public interface ZZCService {
     @GET("order/buy_car_order")
     Observable<ResponseParent<OrderListResponse>> buycarorder(@QueryMap Map<String, String> hashMap , @HeaderMap Map<String, String> header);
 
+    /*待支付订单生成*/
+    @POST("checkout/order")
+    Observable<ResponseParent<CheckoutcartResponse>> payWairorder(@Body OrderNoRequest request, @HeaderMap Map<String, String> header);
+
+    /*取消订单*/
+    @POST("order/cancel")
+    Observable<ResponseParent<Integer>> cancelorder(@Body OrderidResquest request, @HeaderMap Map<String, String> header);
+
+    /*买家确认*/
+    @POST("order/car_buyer_confirm")
+    Observable<ResponseParent<Boolean>> carbuyerconfirm(@Body OrderidResquest request, @HeaderMap Map<String, String> header);
+
+    /*我卖出的*/
+    @GET("order/sell_car_order")
+    Observable<ResponseParent<OrderListResponse>> sellcarorder(@QueryMap Map<String, String> hashMap , @HeaderMap Map<String, String> header);
+
+    /*卖家确认*/
+    @POST("order/car_seller_confirm")
+    Observable<ResponseParent<Boolean>> carsellerconfirm(@Body OrderidResquest request, @HeaderMap Map<String, String> header);
+
+    /*订单详情*/
+    @GET("order/car_detail")
+    Observable<ResponseParent<OrderDetailResponse>> cardetail(@QueryMap Map<String, String> hashMap , @HeaderMap Map<String, String> header);
 }

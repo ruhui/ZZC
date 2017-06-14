@@ -125,6 +125,8 @@ public class SureOrderActivity extends BaseActivity {
             //调起支付
             closeProgress();
             ToastUtil.showToast("支付成功");
+            //广播刷新消息
+            EventBus.getDefault().post(new RefreshListener("MineOrderListFragmentFresh"));
             //跳转到我买到的
             Intent intent = new Intent();
             intent.putExtra("payorder", true);

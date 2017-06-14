@@ -34,7 +34,7 @@ public class MyOrderFragment extends BaseFragment{
     @AfterViews
     void initView(){
         mNavbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
-        mNavbar.setTitle("我的订单");
+        mNavbar.setMiddleTitle("我的订单");
         mNavbar.setOnMenuClickListener(new NavBar2.OnMenuClickListener() {
             @Override
             public void onLeftMenuClick(View view) {
@@ -48,5 +48,21 @@ public class MyOrderFragment extends BaseFragment{
 
         mysaleItem.setImgResouse(R.drawable.nav_icon_maidao);
         mysaleItem.setNameText("我卖出的");
+
+        /*我买到的*/
+        mybuyItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFragment(getActivity(), MineBuyFragment_.builder().build());
+            }
+        });
+
+        /*我卖出的*/
+        mysaleItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFragment(getActivity(), MineSaleFragment_.builder().build());
+            }
+        });
     }
 }

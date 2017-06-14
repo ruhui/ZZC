@@ -49,6 +49,7 @@
     <string name="tab_mybuy_daimaijiazhifu">待卖家支付</string>
     <string name="tab_mybuy_daiqueren">待确认</string>
     <string name="tab_mybuy_daiwancheng">完成</string>
+    <string name="tab_mysale_daimaifangzhifu">待买方支付</string>
 
 
 </resources>

@@ -24,6 +24,8 @@ import com.zzcar.zzc.networks.requests.EmptyRequest;
 import com.zzcar.zzc.networks.requests.ForgetPwdResquest;
 import com.zzcar.zzc.networks.requests.LoginRequest;
 import com.zzcar.zzc.networks.requests.NickRequest;
+import com.zzcar.zzc.networks.requests.OrderNoRequest;
+import com.zzcar.zzc.networks.requests.OrderidResquest;
 import com.zzcar.zzc.networks.requests.ParametersRequest;
 import com.zzcar.zzc.networks.requests.PhotoRequest;
 import com.zzcar.zzc.networks.requests.ProduceIdResquest;
@@ -54,6 +56,7 @@ import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.networks.responses.MybillResponse;
 import com.zzcar.zzc.networks.responses.MyfavcarResponse;
 import com.zzcar.zzc.networks.responses.MysubscribeResponse;
+import com.zzcar.zzc.networks.responses.OrderDetailResponse;
 import com.zzcar.zzc.networks.responses.OrderListResponse;
 import com.zzcar.zzc.networks.responses.RefundOrderResponse;
 import com.zzcar.zzc.networks.responses.ShouzhiDetailResponse;
@@ -1317,4 +1320,111 @@ public class UserManager {
                 .subscribe(subscriber);
     }
 
+    /**
+     * 待支付生成订单
+     * @param order_no
+     * @param subscriber
+     */
+    public static void payWairorder(String order_no, Subscriber<CheckoutcartResponse> subscriber){
+        String accessToken = SecurePreferences.getInstance().getString("Authorization", "");
+        OrderNoRequest request = new OrderNoRequest(order_no);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(accessToken, request);
+        ApiClient.getApiService().payWairorder(request, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 删除订单
+     * @param orderid
+     * @param subscriber
+     */
+    public static void cancelOrder(int orderid, Subscriber<Integer> subscriber){
+        String accessToken = SecurePreferences.getInstance().getString("Authorization", "");
+        OrderidResquest request = new OrderidResquest(String.valueOf(orderid));
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(accessToken, request);
+        ApiClient.getApiService().cancelorder(request, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     *  买家确认
+     * @param orderid
+     * @param subscriber
+     */
+    public static void carbuyerConfirm(int orderid, Subscriber<Integer> subscriber){
+        String accessToken = SecurePreferences.getInstance().getString("Authorization", "");
+        OrderidResquest request = new OrderidResquest(String.valueOf(orderid));
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(accessToken, request);
+        ApiClient.getApiService().carbuyerconfirm(request, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+
+    /**
+     * 我卖出的
+     * @param order_status
+     * @param page
+     * @param subscriber
+     */
+    public static void sellCarorder(String order_status,int page, Subscriber<ResponseParent<OrderListResponse>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("order_status", order_status);
+        hashmap.put("page", String.valueOf(page));
+        hashmap.put("size", "10");
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        ApiClient.getApiService().sellcarorder(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 卖家确认
+     * @param orderid
+     * @param subscriber
+     */
+    public static void carsellerconfirm(int orderid, Subscriber<Integer> subscriber){
+        String accessToken = SecurePreferences.getInstance().getString("Authorization", "");
+        OrderidResquest request = new OrderidResquest(String.valueOf(orderid));
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(accessToken, request);
+        ApiClient.getApiService().carsellerconfirm(request, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 订单详情
+     * @param id
+     * @param subscriber
+     */
+    public static void getCarOrderdetail(String id, Subscriber<ResponseParent<OrderDetailResponse>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("id", id);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        ApiClient.getApiService().cardetail(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
 }

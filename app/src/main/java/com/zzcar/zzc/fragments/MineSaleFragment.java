@@ -12,13 +12,11 @@ import android.widget.TextView;
 
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.fragments.base.BaseFragment;
-import com.zzcar.zzc.interfaces.RefreshListener;
 import com.zzcar.zzc.views.widget.NavBar2;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -28,7 +26,7 @@ import java.util.ArrayList;
  * 创建时间： 2017/6/13 15:22
  **/
 @EFragment(R.layout.fragment_mybuyorder)
-public class MineBuyFragment extends BaseFragment {
+public class MineSaleFragment extends BaseFragment {
 
     @ViewById(R.id.mNavbar)
     NavBar2 mNavbar;
@@ -51,7 +49,7 @@ public class MineBuyFragment extends BaseFragment {
     public void initView(){
 
         setup();
-        mNavbar.setMiddleTitle("我买到的");
+        mNavbar.setMiddleTitle("我卖出的");
         mNavbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
 
         mNavbar.setOnMenuClickListener(new NavBar2.OnMenuClickListener() {
@@ -69,30 +67,30 @@ public class MineBuyFragment extends BaseFragment {
 
 
 
-        MineOrderListFragment allfragment = MineOrderListFragment_.builder().build();
+        MineOrderSaleFragment allfragment = MineOrderSaleFragment_.builder().build();
         Bundle bundle = new Bundle();
         bundle.putInt("toolbarName", 1);//全部
         allfragment.setArguments(bundle);
-        MineOrderListFragment daizhifufragment = MineOrderListFragment_.builder().build();
+        MineOrderSaleFragment daizhifufragment = MineOrderSaleFragment_.builder().build();
         Bundle bundle1 = new Bundle();
         bundle1.putInt("toolbarName", 2);//待支付
         daizhifufragment.setArguments(bundle1);
-        MineOrderListFragment daimaijiazhifufragment = MineOrderListFragment_.builder().build();
+        MineOrderSaleFragment daimaijiazhifufragment = MineOrderSaleFragment_.builder().build();
         Bundle bundle2 = new Bundle();
-        bundle2.putInt("toolbarName", 3);//待卖家支付
+        bundle2.putInt("toolbarName", 3);//待买家支付
         daimaijiazhifufragment.setArguments(bundle2);
-        MineOrderListFragment daiquerenfragment = MineOrderListFragment_.builder().build();
+        MineOrderSaleFragment daiquerenfragment = MineOrderSaleFragment_.builder().build();
         Bundle bundle3 = new Bundle();
         bundle3.putInt("toolbarName", 4);//待确定
         daiquerenfragment.setArguments(bundle3);
-        MineOrderListFragment wanchengfragment = MineOrderListFragment_.builder().build();
+        MineOrderSaleFragment wanchengfragment = MineOrderSaleFragment_.builder().build();
         Bundle bundle4 = new Bundle();
         bundle4.putInt("toolbarName", 5);//完成
         wanchengfragment.setArguments(bundle4);
 
         infos.add(new TabInfo(allfragment,  R.string.tab_mybuy_all));
         infos.add(new TabInfo(daizhifufragment, R.string.tab_mybuy_daizhifu));
-        infos.add(new TabInfo(daimaijiazhifufragment, R.string.tab_mybuy_daimaijiazhifu));
+        infos.add(new TabInfo(daimaijiazhifufragment, R.string.tab_mysale_daimaifangzhifu));
         infos.add( new TabInfo(daiquerenfragment, R.string.tab_mybuy_daiqueren));
         infos.add(new TabInfo(wanchengfragment, R.string.tab_mybuy_daiwancheng));
 
