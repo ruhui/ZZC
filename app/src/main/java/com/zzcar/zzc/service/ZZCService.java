@@ -340,4 +340,9 @@ public interface ZZCService {
     /*订单详情*/
     @GET("order/car_detail")
     Observable<ResponseParent<OrderDetailResponse>> cardetail(@QueryMap Map<String, String> hashMap , @HeaderMap Map<String, String> header);
+
+    /*我的询价*/
+    @GET("info/my_supply")
+    Observable<ResponseParent<OrderDetailResponse>> getmysupply(@QueryMap Map<String, String> hashMap , @HeaderMap Map<String, String> header);
+
 }

@@ -98,6 +98,7 @@
         <activity android:name=".activities.SubscriberSettingActivity_"/>
         <activity android:name=".activities.SubscriberBrandCarActivity_"/>
         <activity android:name=".activities.SureOrderActivity_"/>
+        <activity android:name=".activities.MysupplyActivity_"/>
 
     </application>
 
