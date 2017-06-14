@@ -92,7 +92,7 @@ public class OrderSaleViewHold extends LinearLayout {
                 break;
             case 5:
                 //待确认5
-                if (model.isBuyer_confirm()){
+                if (model.isSeller_confirm()){
                     //true是显示“已确认”
                     txtPayAmount.setVisibility(GONE);
                     txtWaitPay.setVisibility(GONE);

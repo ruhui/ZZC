@@ -47,7 +47,9 @@ public class MyorderAdapter extends BaseRecyclerAdapter<OrderRowsModel, OrderVie
                     orderClickListener.payorderClickListener(model);
                 }else if (model.getStatus() == 5){
                     //交易成功
-                    orderClickListener.successClickListener(model);
+                    if (!model.isBuyer_confirm()){
+                        orderClickListener.successClickListener(model);
+                    }
                 }
             }
         });

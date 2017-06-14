@@ -40,7 +40,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:background="@color/white">
 
                 <TextView
@@ -54,6 +54,7 @@
                     android:layout_marginStart="17dp"
                     android:layout_marginTop="11dp"
                     android:id="@+id/textView181"
+                    android:layout_marginBottom="10dp"
                     android:textColor="@color/color_090909"
                     android:textSize="@dimen/sp_14"/>
 
@@ -86,27 +87,29 @@
                     android:text="支付流水号:"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_alignLeft="@+id/textView181"
-                    android:layout_alignStart="@+id/textView181"
                     android:id="@+id/textView184"
                     android:textColor="@color/color_090909"
-                    android:textSize="@dimen/sp_14"/>
-
-                <TextView
-                    android:text=""
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@+id/textView184"
-                    android:layout_toEndOf="@+id/textView184"
-                    android:id="@+id/textView185"
-                    android:layout_marginLeft="@dimen/dp_10"
-                    android:textColor="@color/color_090909"
-                    android:textSize="@dimen/sp_12"/>
+                    android:textSize="@dimen/sp_14"
+                    android:layout_marginBottom="@dimen/dp_10"
+                    android:layout_below="@+id/textView181"
+                    android:layout_alignLeft="@+id/textView181"
+                    android:layout_alignStart="@+id/textView181"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:text=" "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/textView185"
+                    android:textColor="@color/color_090909"
+                    android:textSize="@dimen/sp_12"
+                    android:layout_alignBottom="@+id/textView184"
+                    android:layout_toRightOf="@+id/textView184"
+                    android:layout_toEndOf="@+id/textView184"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:text="    "
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/textView186"
@@ -116,19 +119,21 @@
                     android:layout_toRightOf="@+id/textView185"
                     android:layout_toEndOf="@+id/textView185"
                     android:textColor="@color/color_090909"
-                    android:textSize="@dimen/sp_12"/>
+                    android:textSize="@dimen/sp_12"
+                    android:visibility="gone"/>
 
                 <TextView
-                    android:text=" "
+                    android:text=" sdfsdfasdfsadfasdfasd "
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignLeft="@+id/textView184"
-                    android:layout_alignStart="@+id/textView184"
-                    android:layout_marginBottom="14dp"
                     android:id="@+id/textView187"
                     android:textColor="@color/gray"
-                    android:textSize="@dimen/sp_14"/>
+                    android:textSize="@dimen/sp_14"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="gone"
+                    android:layout_below="@+id/textView184"
+                    android:layout_alignLeft="@+id/textView184"
+                    android:layout_alignStart="@+id/textView184" />
             </RelativeLayout>
 
             <android.support.v7.widget.RecyclerView
@@ -202,6 +207,7 @@
                     android:layout_toEndOf="@+id/textView169"
                     android:id="@+id/textView171"
                     android:textSize="@dimen/sp_14"
+                    android:singleLine="true"
                     android:textColor="@color/color_090909"/>
 
                 <TextView
@@ -218,14 +224,6 @@
                     android:textSize="@dimen/sp_14"
                     android:textColor="@color/color_090909"/>
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/nav_icon_right_default"
-                    android:id="@+id/imageView42"
-                    android:layout_centerVertical="true"
-                    android:layout_alignRight="@+id/textView172"
-                    android:layout_alignEnd="@+id/textView172" />
 
                 <TextView
                     android:text=" "
@@ -236,10 +234,8 @@
                     android:textColor="@color/color_090909"
                     android:layout_alignBaseline="@+id/textView172"
                     android:layout_alignBottom="@+id/textView172"
-                    android:layout_toLeftOf="@+id/imageView42"
-                    android:layout_toStartOf="@+id/imageView42"
-                    android:layout_marginRight="11dp"
-                    android:layout_marginEnd="11dp" />
+                    android:layout_toLeftOf="@+id/textView172"
+                    android:layout_toStartOf="@+id/textView172" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -284,21 +280,50 @@
         android:background="@color/white"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:visibility="gone">
 
-        <TextView
-            android:text="支付"
-            android:layout_width="100dp"
+        <RelativeLayout
+            android:layout_width="78dp"
             android:layout_height="match_parent"
-            android:id="@+id/textView192"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/relativeLayout11"
+            android:layout_toStartOf="@+id/relativeLayout11"
             android:gravity="center"
-            android:textSize="@dimen/sp_16"
-            android:textColor="@color/white"
-            android:background="@color/app_red"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:id="@+id/relativeLayout12">
 
+            <TextView
+                android:id="@+id/textView180"
+                android:layout_width="78dp"
+                android:layout_height="32dp"
+                android:background="@drawable/shape_line_radio_grey"
+                android:gravity="center"
+                android:textColor="@color/color_090909"
+                android:text="取消" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/relativeLayout11"
+            android:layout_width="78dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:layout_marginRight="@dimen/dp_10"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true">
+
+            <TextView
+                android:id="@+id/textView179"
+                android:layout_width="78dp"
+                android:layout_height="32dp"
+                android:background="@drawable/shape_radio_line_red"
+                android:gravity="center"
+                android:text="支付定金"
+                android:textColor="@color/app_red"
+                android:textSize="@dimen/sp_14" />
+        </RelativeLayout>
         <TextView
             android:text="合计  ¥"
             android:layout_width="wrap_content"
@@ -306,12 +331,11 @@
             android:id="@+id/textView193"
             android:textSize="@dimen/sp_14"
             android:textColor="@color/app_red"
-            android:layout_alignBaseline="@+id/textView192"
-            android:layout_alignBottom="@+id/textView192"
-            android:layout_toLeftOf="@+id/textView192"
-            android:layout_toStartOf="@+id/textView192"
-            android:layout_marginRight="16dp"
-            android:layout_marginEnd="16dp" />
+            android:layout_marginRight="11dp"
+            android:layout_marginEnd="11dp"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/relativeLayout12"
+            android:layout_toStartOf="@+id/relativeLayout12" />
     </RelativeLayout>
 
 </RelativeLayout>
