@@ -79,7 +79,6 @@ public class AuthenticationActivity extends BaseActivity {
                 finish();
             }
         });
-
     }
 
 
