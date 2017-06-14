@@ -75,18 +75,21 @@ public class OrderViewHold extends LinearLayout {
                 //待卖家支付2
                 txtPayAmount.setVisibility(GONE);
                 txtWaitPay.setVisibility(GONE);
+                txtDes.setVisibility(VISIBLE);
                 txtDes.setText("待卖家支付订金");
                 break;
             case 3:
                 //已完成3
                 txtPayAmount.setVisibility(GONE);
                 txtWaitPay.setVisibility(GONE);
+                txtDes.setVisibility(VISIBLE);
                 txtDes.setText("完成");
                 break;
             case 4:
                 //取消4
                 txtPayAmount.setVisibility(GONE);
                 txtWaitPay.setVisibility(GONE);
+                txtDes.setVisibility(VISIBLE);
                 txtDes.setText("已取消");
                 break;
             case 5:
@@ -95,6 +98,7 @@ public class OrderViewHold extends LinearLayout {
                     //true是显示“已确认”
                     txtPayAmount.setVisibility(GONE);
                     txtWaitPay.setVisibility(GONE);
+                    txtDes.setVisibility(VISIBLE);
                     txtDes.setText("交易成功");
                 }else{
                     txtPayAmount.setVisibility(VISIBLE);
