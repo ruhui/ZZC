@@ -100,6 +100,7 @@
         <activity android:name=".activities.SureOrderActivity_"/>
         <activity android:name=".activities.MysupplyActivity_"/>
         <activity android:name=".activities.PushSupplyActivity_"/>
+        <activity android:name=".activities.MydemendActivity_"/>
 
     </application>
 

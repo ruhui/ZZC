@@ -45,6 +45,7 @@ import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.networks.responses.MessageListResponse;
 import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.networks.responses.MybillResponse;
+import com.zzcar.zzc.networks.responses.MydemandResponse;
 import com.zzcar.zzc.networks.responses.MyfavcarResponse;
 import com.zzcar.zzc.networks.responses.MysubscribeResponse;
 import com.zzcar.zzc.networks.responses.MysupplyResponse;
@@ -360,5 +361,9 @@ public interface ZZCService {
     /*查询单条询价*/
     @GET("info/my_supply")
     Observable<ResponseParent<SingleSupplyResponse>> getsinglesupply(@Query("id") String id, @HeaderMap Map<String, String> header);
+
+    /*我的求购*/
+    @GET("info/my_demand")
+    Observable<ResponseParent<MydemandResponse>> getmydemand(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
 
 }

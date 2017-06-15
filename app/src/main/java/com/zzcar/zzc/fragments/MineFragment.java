@@ -170,6 +170,15 @@ public class MineFragment extends BaseFragment {
             }
         });
 
+        /*我的求购*/
+        myapplybuyItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), MydemendActivity_.class);
+                startActivity(intent);
+            }
+        });
+
         /*我的询价*/
         myaskItem.setOnClickListener(new View.OnClickListener() {
             @Override
