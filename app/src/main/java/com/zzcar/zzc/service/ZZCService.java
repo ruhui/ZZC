@@ -3,6 +3,7 @@ package com.zzcar.zzc.service;
 import com.zzcar.zzc.models.AddCarFrom;
 import com.zzcar.zzc.models.AddressModel;
 import com.zzcar.zzc.models.PayOrderModel;
+import com.zzcar.zzc.models.SaveSupplyModel;
 import com.zzcar.zzc.models.SinglecarModel;
 import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.requests.AddMsgRequest;
@@ -12,6 +13,7 @@ import com.zzcar.zzc.networks.requests.BuyIntegraRequest;
 import com.zzcar.zzc.networks.requests.BuysecurityRequest;
 import com.zzcar.zzc.networks.requests.CheckoutcartRequest;
 import com.zzcar.zzc.networks.requests.ForgetPwdResquest;
+import com.zzcar.zzc.networks.requests.InfoidRequest;
 import com.zzcar.zzc.networks.requests.LoginRequest;
 import com.zzcar.zzc.networks.requests.NickRequest;
 import com.zzcar.zzc.networks.requests.OrderNoRequest;
@@ -45,10 +47,12 @@ import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.networks.responses.MybillResponse;
 import com.zzcar.zzc.networks.responses.MyfavcarResponse;
 import com.zzcar.zzc.networks.responses.MysubscribeResponse;
+import com.zzcar.zzc.networks.responses.MysupplyResponse;
 import com.zzcar.zzc.networks.responses.OrderDetailResponse;
 import com.zzcar.zzc.networks.responses.OrderListResponse;
 import com.zzcar.zzc.networks.responses.RefundOrderResponse;
 import com.zzcar.zzc.networks.responses.ShouzhiDetailResponse;
+import com.zzcar.zzc.networks.responses.SingleSupplyResponse;
 import com.zzcar.zzc.networks.responses.UserMessageResponse;
 import com.zzcar.zzc.networks.responses.UserMsgResponse;
 import com.zzcar.zzc.networks.responses.ValueTextResponse;
@@ -238,7 +242,7 @@ public interface ZZCService {
     Observable<ResponseParent<Integer>> updown(@Body ProduceIdResquest request, @HeaderMap Map<String, String> header);
 
     /*获取单条车源信息*/
-    @GET(" goods/car")
+    @GET("goods/car")
     Observable<ResponseParent<SinglecarModel>> getcar(@Query("id") String id, @HeaderMap Map<String, String> header);
 
     /*获取好友列表*/
@@ -343,6 +347,18 @@ public interface ZZCService {
 
     /*我的询价*/
     @GET("info/my_supply")
-    Observable<ResponseParent<OrderDetailResponse>> getmysupply(@QueryMap Map<String, String> hashMap , @HeaderMap Map<String, String> header);
+    Observable<ResponseParent<MysupplyResponse>> getmysupply(@QueryMap Map<String, String> hashMap , @HeaderMap Map<String, String> header);
+
+    /*新增/编辑车询价*/
+    @POST("info/save_supply")
+    Observable<ResponseParent<Boolean>> savesupply(@Body SaveSupplyModel request, @HeaderMap Map<String, String> header);
+
+    /*删除我的询价*/
+    @POST("info/delete_info")
+    Observable<ResponseParent<Boolean>> deleteinfo(@Body InfoidRequest request, @HeaderMap Map<String, String> header);
+
+    /*查询单条询价*/
+    @GET("info/my_supply")
+    Observable<ResponseParent<SingleSupplyResponse>> getsinglesupply(@Query("id") String id, @HeaderMap Map<String, String> header);
 
 }

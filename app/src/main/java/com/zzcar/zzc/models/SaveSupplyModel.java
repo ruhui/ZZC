@@ -8,9 +8,8 @@ import java.util.List;
  * 作者：黄如辉  时间 2017/5/3.
  */
 
-public class AddCarFrom {
-    private String product_id;//车辆id 0
-    private String market_price;//市场价格 0
+public class SaveSupplyModel {
+    private String info_id;//信息id 0
     private List<String> image_path = new ArrayList<>();//图片JSON:["",""] 1
     private String content;//车况描述 1
     private String bland_id;//品牌id 1
@@ -33,17 +32,16 @@ public class AddCarFrom {
     private String exp_safe_month;//强险到期月份
     private String use_type;//用途
 
-    public AddCarFrom() {}
+    public SaveSupplyModel() {}
 
-    public AddCarFrom(String product_id, String market_price, List<String> image_path,
-                      String content, String bland_id, String series_id, String year_id,
-                      String spec_id, String mileage, String on_number_year, String on_number_month,
-                      String car_city_id, String on_number_province_id, String on_number_city_id,
-                      String car_province_id, String color, String emission, String out_factory_year,
-                      String out_factory_month, String new_car_price, String exp_safe_year,
-                      String exp_safe_month, String use_type) {
-        this.product_id = product_id;
-        this.market_price = market_price;
+    public SaveSupplyModel(String info_id,  List<String> image_path,
+                           String content, String bland_id, String series_id, String year_id,
+                           String spec_id, String mileage, String on_number_year, String on_number_month,
+                           String car_city_id, String on_number_province_id, String on_number_city_id,
+                           String car_province_id, String color, String emission, String out_factory_year,
+                           String out_factory_month, String new_car_price, String exp_safe_year,
+                           String exp_safe_month, String use_type) {
+        this.info_id = info_id;
         this.image_path = image_path;
         this.content = content;
         this.bland_id = bland_id;
@@ -68,19 +66,11 @@ public class AddCarFrom {
     }
 
     public String getProduct_id() {
-        return product_id;
+        return info_id;
     }
 
     public void setProduct_id(String product_id) {
-        this.product_id = product_id;
-    }
-
-    public String getMarket_price() {
-        return market_price;
-    }
-
-    public void setMarket_price(String market_price) {
-        this.market_price = market_price;
+        this.info_id = product_id;
     }
 
     public List<String> getImage_path() {
@@ -250,7 +240,6 @@ public class AddCarFrom {
     public void setUse_type(String use_type) {
         this.use_type = use_type;
     }
-
 
 }
 

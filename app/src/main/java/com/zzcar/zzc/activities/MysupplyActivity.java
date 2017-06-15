@@ -15,6 +15,8 @@ import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
 import com.zzcar.zzc.fragments.MycarfromFragment;
 import com.zzcar.zzc.fragments.MycarfromFragment_;
+import com.zzcar.zzc.fragments.MysupplyFragment;
+import com.zzcar.zzc.fragments.MysupplyFragment_;
 import com.zzcar.zzc.views.widget.NavBar2;
 import com.zzcar.zzc.views.widget.NoScrollViewPager;
 
@@ -61,7 +63,7 @@ public class MysupplyActivity extends BaseActivity {
             @Override
             public void onRightMenuClick(View view) {
                 super.onRightMenuClick(view);
-                Intent intent = new Intent(MysupplyActivity.this, PushCarActivity_.class);
+                Intent intent = new Intent(MysupplyActivity.this, PushSupplyActivity_.class);
                 startActivity(intent);
             }
         });
@@ -71,12 +73,12 @@ public class MysupplyActivity extends BaseActivity {
 
         ArrayList<MysupplyActivity.TabInfo> infos = new ArrayList<>();
 
-        MycarfromFragment fragment_zaishou = MycarfromFragment_.builder().build();
+        MysupplyFragment fragment_zaishou = MysupplyFragment_.builder().build();
         Bundle bundle = new Bundle();
         bundle.putString("Tag", "2");
         fragment_zaishou.setArguments(bundle);
 
-        MycarfromFragment fragment_yishou = MycarfromFragment_.builder().build();
+        MysupplyFragment fragment_yishou = MysupplyFragment_.builder().build();
         Bundle bundle1 = new Bundle();
         bundle1.putString("Tag", "5");
         fragment_yishou.setArguments(bundle1);

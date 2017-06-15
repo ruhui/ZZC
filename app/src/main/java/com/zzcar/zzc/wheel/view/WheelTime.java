@@ -28,7 +28,7 @@ public class WheelTime
 
 	private Type type;
 	public static final int DEFULT_START_YEAR = 1917;
-	public static int DEFULT_END_YEAR = 2017;
+	public static int DEFULT_END_YEAR = 2030;
 	private int startYear = DEFULT_START_YEAR;
 	private int endYear = DEFULT_END_YEAR;
 
@@ -43,7 +43,7 @@ public class WheelTime
 	public WheelTime(View view, Type type)
 	{
 		super();
-        DEFULT_END_YEAR = Tool.getYear();
+//        DEFULT_END_YEAR = Tool.getYear();
 		this.view = view;
 		this.type = type;
 		setView(view);

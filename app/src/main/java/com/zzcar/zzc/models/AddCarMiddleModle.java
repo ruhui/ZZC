@@ -2,6 +2,8 @@ package com.zzcar.zzc.models;
 
 import android.text.TextUtils;
 
+import com.zzcar.zzc.networks.responses.SingleSupplyResponse;
+
 import java.util.List;
 
 /**
@@ -142,6 +144,40 @@ public class AddCarMiddleModle extends AddCarFrom{
         }
     }
 
+
+    /*询价判断是否为空*/
+    public String alertSupplyMsg(AddCarMiddleModle middleModle){
+        if (TextUtils.isEmpty(middleModle.getContent())){
+            return "请输入车况描述";
+        }else if (middleModle.getImage_path().size() == 0){
+            return "请上传图片";
+        }else if(TextUtils.isEmpty(middleModle.getBland_id())){
+            return "请选择品牌";
+        }else if (TextUtils.isEmpty(middleModle.getMileage())){
+            return "请输入表显里程";
+        }else if (TextUtils.isEmpty(middleModle.getOn_number_year())){
+            return "请选择上牌时间";
+        }else if (TextUtils.isEmpty(middleModle.getOn_number_province_id())){
+            return "请选择牌照归属地";
+        }else if (TextUtils.isEmpty(middleModle.getCar_province_id())){
+            return "请选择当前车辆所在地";
+        }else if (TextUtils.isEmpty(middleModle.getColorDes())){
+            return "请选择车身颜色";
+        }else if (TextUtils.isEmpty(middleModle.getEmissionDes())){
+            return "请选择排放标准";
+        }else if (TextUtils.isEmpty(middleModle.getOut_factory_year())){
+            return "请选择出厂时间";
+        }else if (TextUtils.isEmpty(middleModle.getNew_car_price())){
+            return "请输入新车指导价格";
+        }else if (TextUtils.isEmpty(middleModle.getExp_safe_year())){
+            return "请选择强制险到期时间";
+        }else if (TextUtils.isEmpty(middleModle.getUse_type())){
+            return "请输入用途";
+        }else{
+            return "";
+        }
+    }
+
     public AddCarFrom getAddCarFrom(AddCarMiddleModle middleModle){
         AddCarFrom addCarFrom = new AddCarFrom();
         addCarFrom.setProduct_id(middleModle.getProduct_id());
@@ -204,5 +240,68 @@ public class AddCarMiddleModle extends AddCarFrom{
         setExp_safe_year(addCarFrom.getExp_safe_year());
         setExp_safe_month(addCarFrom.getExp_safe_month());
         setUse_type(addCarFrom.getUse_type());
+    }
+
+    public SaveSupplyModel getSaveSupplyFrom(AddCarMiddleModle middleModle) {
+        SaveSupplyModel savaeModle = new SaveSupplyModel();
+        savaeModle.setProduct_id(middleModle.getProduct_id());
+        savaeModle.setImage_path(middleModle.getImage_path());
+        savaeModle.setContent(middleModle.getContent());
+        savaeModle.setBland_id(middleModle.getBland_id());
+        savaeModle.setSeries_id(middleModle.getSeries_id());
+        savaeModle.setYear_id(middleModle.getYear_id());
+        savaeModle.setSpec_id(middleModle.getSpec_id());
+        savaeModle.setMileage(middleModle.getMileage());
+        savaeModle.setOn_number_year(middleModle.getOn_number_year());
+        savaeModle.setOn_number_month(middleModle.getOn_number_month());
+        savaeModle.setCar_city_id(middleModle.getCar_city_id());
+        savaeModle.setOn_number_province_id(middleModle.getOn_number_province_id());
+        savaeModle.setOn_number_city_id(middleModle.getOn_number_city_id());
+        savaeModle.setCar_province_id(middleModle.getCar_province_id());
+        savaeModle.setColor(middleModle.getColor());
+        savaeModle.setEmission(middleModle.getEmission());
+        savaeModle.setOut_factory_month(middleModle.getOut_factory_month());
+        savaeModle.setOut_factory_year(middleModle.getOut_factory_year());
+        savaeModle.setNew_car_price(middleModle.getNew_car_price());
+        savaeModle.setExp_safe_year(middleModle.getExp_safe_year());
+        savaeModle. setExp_safe_month(middleModle.getExp_safe_month());
+        return savaeModle;
+    }
+
+
+    public void setSupplyData(SingleSupplyResponse addCarFrom){
+        SingleCarDes singleCarDes = addCarFrom.getProps_name();
+        setBladseriesdes(singleCarDes.getName());
+        setBelongCityDes(singleCarDes.getCar_province_city());
+        setNumberBelongDes(singleCarDes.getOn_number_province_city());
+        setColorDes(singleCarDes.getColor());
+        setEmissionDes(singleCarDes.getEmission());
+        setUsertypeDes(singleCarDes.getUse_type());
+        setOutfactoryDes(addCarFrom.getOut_factory_year()+"年"+addCarFrom.getOut_factory_month()+"月");
+        setCardTimeDes(addCarFrom.getOn_number_year()+"年"+addCarFrom.getOn_number_month()+"月");
+        setSafeDes(addCarFrom.getExp_safe_year()+"年"+addCarFrom.getExp_safe_month()+"月");
+
+        setProduct_id(addCarFrom.getInfo_id()+"");
+        setImage_path(addCarFrom.getImage_path());
+        setContent(addCarFrom.getContent());
+        setBland_id(addCarFrom.getBland_id()+"");
+        setSeries_id(addCarFrom.getSeries_id()+"");
+        setYear_id(addCarFrom.getYear_id()+"");
+        setSpec_id( addCarFrom.getSpec_id()+"");
+        setMileage(addCarFrom.getMileage()+"");
+        setOn_number_year(addCarFrom.getOn_number_year()+"");
+        setOn_number_month(addCarFrom.getOn_number_month()+"");
+        setCar_city_id(addCarFrom.getCar_city_id()+"");
+        setOn_number_province_id(addCarFrom.getOn_number_province_id()+"");
+        setOn_number_city_id(addCarFrom.getOn_number_city_id()+"");
+        setCar_province_id(addCarFrom.getCar_province_id()+"");
+        setColor(addCarFrom.getColor()+"");
+        setEmissionDes(addCarFrom.getEmission()+"");
+        setOut_factory_year(addCarFrom.getOut_factory_year()+"");
+        setOut_factory_month(addCarFrom.getOut_factory_month()+"");
+        setNew_car_price(addCarFrom.getNew_car_price()+"");
+        setExp_safe_year(addCarFrom.getExp_safe_year()+"");
+        setExp_safe_month(addCarFrom.getExp_safe_month()+"");
+        setUse_type(addCarFrom.getUse_type()+"");
     }
 }
