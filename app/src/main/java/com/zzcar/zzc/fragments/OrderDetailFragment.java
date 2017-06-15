@@ -368,6 +368,7 @@ public class OrderDetailFragment extends BaseFragment {
         public void success(CheckoutcartResponse returnMsg) {
             closeProgress();
             Intent intent = new Intent(getActivity(), SureOrderActivity_.class);
+            intent.putExtra("isshowdetail", false);
             intent.putExtra("checkoutcart", returnMsg);
             startActivity(intent);
         }

@@ -102,7 +102,7 @@ public class MineOrderListFragment extends BasePullRecyclerFragment {
             OrderDetailFragment fragment = OrderDetailFragment_.builder().build();
             Bundle bundle = new Bundle();
             bundle.putString("type", "0");//买家
-            bundle.putString("id", String.valueOf(model.getId()));
+            bundle.putString("id", String.valueOf(model.getOrder_no()));
             fragment.setArguments(bundle);
             showFragment(getActivity(), fragment);
         }

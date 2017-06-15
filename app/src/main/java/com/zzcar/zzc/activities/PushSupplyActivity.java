@@ -584,6 +584,7 @@ public class PushSupplyActivity extends BaseActivity {
 
     /*发布车源*/
     private void saveCarFrom(AddCarMiddleModle carMiddle) {
+        showProgress();
         Subscriber subscriber = new PosetSubscriber<Boolean>().getSubscriber(callback_carfrom);
         UserManager.saveSupply(carMiddle, subscriber);
     }
@@ -591,8 +592,9 @@ public class PushSupplyActivity extends BaseActivity {
     ResponseResultListener callback_carfrom = new ResponseResultListener<Boolean>() {
         @Override
         public void success(Boolean returnMsg) {
+            closeProgress();
             ToastUtil.showToast("发布成功");
-            EventBus.getDefault().post(new RefreshFragment(true, "Mycar"));
+            EventBus.getDefault().post(new RefreshFragment(true, "MySupply"));
             Intent intent = new Intent();
             intent.putExtra("isrefreshdata", true);
             setResult(10201, intent);
@@ -600,9 +602,7 @@ public class PushSupplyActivity extends BaseActivity {
         }
 
         @Override
-        public void fialed(String resCode, String message) {
-            ToastUtil.showToast("发布失败");
-        }
+        public void fialed(String resCode, String message) {closeProgress();}
     };
 
 

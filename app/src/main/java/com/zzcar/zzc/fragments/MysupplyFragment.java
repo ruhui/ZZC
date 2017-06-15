@@ -2,6 +2,8 @@ package com.zzcar.zzc.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,6 +14,7 @@ import com.zzcar.zzc.activities.PushSupplyActivity_;
 import com.zzcar.zzc.adapters.SupplyAdapter;
 import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.fragments.base.BasePullRecyclerFragment;
+import com.zzcar.zzc.interfaces.RefreshFragment;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.interfaces.SupplyListener;
 import com.zzcar.zzc.manager.UserManager;
@@ -23,6 +26,8 @@ import com.zzcar.zzc.views.widget.dialogs.MyAlertDialog;
 import com.zzcar.zzc.views.widget.pullview.PullRecyclerView;
 
 import org.androidannotations.annotations.EFragment;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.greendao.annotation.Id;
 
 import rx.Subscriber;
@@ -38,6 +43,12 @@ public class MysupplyFragment extends BasePullRecyclerFragment {
     private String Tag = "";
     private int CURTURNPAGE = Constant.DEFAULTPAGE;
     private SupplyAdapter dapter_supply;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -95,6 +106,13 @@ public class MysupplyFragment extends BasePullRecyclerFragment {
         }
     };
 
+    @Subscribe
+    public void refreshFragment(RefreshFragment refreshFragment){
+        if (refreshFragment.refresh &&refreshFragment.TAG.equals("MySupply")){
+            CURTURNPAGE = Constant.DEFAULTPAGE;
+            getSupply();
+        }
+    }
 
     /*获取询价*/
     private void getSupply() {
@@ -148,4 +166,10 @@ public class MysupplyFragment extends BasePullRecyclerFragment {
             ToastUtil.showToast("删除失败");
         }
     };
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        EventBus.getDefault().unregister(this);
+    }
 }

@@ -26,7 +26,7 @@
             android:layout_width="160dp"
             android:layout_height="match_parent"
             android:background="@null"
-            android:gravity="center|left"
+            android:gravity="center|right"
             android:text=""
             android:inputType="numberDecimal"
             android:textColor="@color/color_959595"

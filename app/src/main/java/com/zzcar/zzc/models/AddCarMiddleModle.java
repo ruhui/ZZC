@@ -264,7 +264,8 @@ public class AddCarMiddleModle extends AddCarFrom{
         savaeModle.setOut_factory_year(middleModle.getOut_factory_year());
         savaeModle.setNew_car_price(middleModle.getNew_car_price());
         savaeModle.setExp_safe_year(middleModle.getExp_safe_year());
-        savaeModle. setExp_safe_month(middleModle.getExp_safe_month());
+        savaeModle.setExp_safe_month(middleModle.getExp_safe_month());
+        savaeModle.setUse_type(middleModle.getUse_type());
         return savaeModle;
     }
 
@@ -287,7 +288,7 @@ public class AddCarMiddleModle extends AddCarFrom{
         setBland_id(addCarFrom.getBland_id()+"");
         setSeries_id(addCarFrom.getSeries_id()+"");
         setYear_id(addCarFrom.getYear_id()+"");
-        setSpec_id( addCarFrom.getSpec_id()+"");
+        setSpec_id(addCarFrom.getSpec_id()+"");
         setMileage(addCarFrom.getMileage()+"");
         setOn_number_year(addCarFrom.getOn_number_year()+"");
         setOn_number_month(addCarFrom.getOn_number_month()+"");
@@ -296,7 +297,7 @@ public class AddCarMiddleModle extends AddCarFrom{
         setOn_number_city_id(addCarFrom.getOn_number_city_id()+"");
         setCar_province_id(addCarFrom.getCar_province_id()+"");
         setColor(addCarFrom.getColor()+"");
-        setEmissionDes(addCarFrom.getEmission()+"");
+        setEmission(addCarFrom.getEmission()+"");
         setOut_factory_year(addCarFrom.getOut_factory_year()+"");
         setOut_factory_month(addCarFrom.getOut_factory_month()+"");
         setNew_car_price(addCarFrom.getNew_car_price()+"");

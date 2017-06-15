@@ -1295,7 +1295,7 @@ public class UserManager {
      * @param pay_code
      * @param subscriber
      */
-    public static void payOrder(String order_no, String pay_code, Subscriber<CheckoutcartResponse> subscriber){
+    public static void payOrder(String order_no, String pay_code, Subscriber<String> subscriber){
         String accessToken = SecurePreferences.getInstance().getString("Authorization", "");
         PayOrderModel request = new PayOrderModel(order_no, pay_code);
 
@@ -1422,7 +1422,7 @@ public class UserManager {
     public static void getCarOrderdetail(String id, Subscriber<ResponseParent<OrderDetailResponse>> subscriber){
         String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
         Map<String, String> hashmap = new HashMap<>();
-        hashmap.put("id", id);
+        hashmap.put("order_no", id);
 
         ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
         ApiClient.getApiService().cardetail(hashmap, zzcHeaders.getHashMap())

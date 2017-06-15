@@ -293,11 +293,6 @@ public class GoodDetailActivity extends BaseActivity {
             if (resultCode == getActivity().RESULT_OK && requestCode == PhotoPicker.REQUEST_CODE){
                 showProgress();
                 photos = data.getStringArrayListExtra(PhotoPicker.KEY_SELECTED_PHOTOS);
-            }else if (requestCode == 20171){
-                boolean haspayorder = data.getBooleanExtra("payorder", false);
-                if (haspayorder){
-                    showFragment(MineBuyFragment_.builder().build());
-                }
             }
         }else  if (requestCode==REQ_CODE_CAMERA) {
             showProgress();
@@ -576,7 +571,7 @@ public class GoodDetailActivity extends BaseActivity {
             closeProgress();
             Intent intent = new Intent(GoodDetailActivity.this, SureOrderActivity_.class);
             intent.putExtra("checkoutcart", returnMsg);
-            startActivityForResult(intent, 20171);
+            startActivity(intent);
         }
 
         @Override

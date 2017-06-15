@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
 import com.zzcar.zzc.adapters.SureOrderAdapter;
+import com.zzcar.zzc.fragments.OrderDetailFragment;
+import com.zzcar.zzc.fragments.OrderDetailFragment_;
 import com.zzcar.zzc.fragments.base.BaseFragment;
 import com.zzcar.zzc.interfaces.RefreshListener;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
@@ -41,6 +43,7 @@ import rx.Subscriber;
 public class SureOrderActivity extends BaseActivity {
 
     private CheckoutcartResponse checkoutcart;
+    private boolean isshowdetail = true;
 
     @ViewById(R.id.mNavbar)
     NavBar2 mNavbar;
@@ -73,6 +76,7 @@ public class SureOrderActivity extends BaseActivity {
 
     @AfterViews
     void initView(){
+        isshowdetail = getIntent().getBooleanExtra("isshowdetail", true);
         checkoutcart = (CheckoutcartResponse) getIntent().getSerializableExtra("checkoutcart");
         mNavbar.setMiddleTitle("确认订单");
         mNavbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
@@ -116,7 +120,6 @@ public class SureOrderActivity extends BaseActivity {
         showProgress();
         Subscriber subscriber = new PosetSubscriber<String>().getSubscriber(callback_payorder);
         UserManager.payOrder(checkoutcart.getOrder_no(), mPayOrderView.getType(), subscriber);
-
     }
 
     ResponseResultListener callback_payorder = new ResponseResultListener<String>() {
@@ -127,11 +130,18 @@ public class SureOrderActivity extends BaseActivity {
             ToastUtil.showToast("支付成功");
             //广播刷新消息
             EventBus.getDefault().post(new RefreshListener("MineOrderListFragmentFresh"));
-            //跳转到我买到的
-            Intent intent = new Intent();
-            intent.putExtra("payorder", true);
-            setResult(20171, intent);
-            finish();
+            //跳转到详情界面
+
+            if (isshowdetail){
+                OrderDetailFragment fragment = OrderDetailFragment_.builder().build();
+                Bundle bundle = new Bundle();
+                bundle.putString("type", "0");//买家
+                bundle.putString("id", checkoutcart.getOrder_no());
+                fragment.setArguments(bundle);
+                showFragment(fragment);
+            }else{
+                finish();
+            }
         }
 
         @Override
@@ -141,4 +151,9 @@ public class SureOrderActivity extends BaseActivity {
         }
     };
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }
