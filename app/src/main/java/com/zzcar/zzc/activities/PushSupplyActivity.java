@@ -15,6 +15,7 @@ import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
 import com.zzcar.zzc.adapters.PhotoAdapte;
 import com.zzcar.zzc.constants.Permission;
+import com.zzcar.zzc.fragments.BuyIntegralFragment_;
 import com.zzcar.zzc.interfaces.RefreshFragment;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.PermissonManager;
@@ -23,6 +24,7 @@ import com.zzcar.zzc.models.AddCarMiddleModle;
 import com.zzcar.zzc.models.SinglecarModel;
 import com.zzcar.zzc.models.StartAndEndYear;
 import com.zzcar.zzc.networks.PosetSubscriber;
+import com.zzcar.zzc.networks.responses.PublishintegralResponse;
 import com.zzcar.zzc.networks.responses.SingleSupplyResponse;
 import com.zzcar.zzc.utils.KeyboardPatch;
 import com.zzcar.zzc.utils.LogUtil;
@@ -40,6 +42,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -101,9 +104,12 @@ public class PushSupplyActivity extends BaseActivity {
     private int REQ_CODE_CAMERA = 10125;
     /*照相机返回的路径*/
     private File tempfile;
+    private boolean isPublish = false;
 
     @AfterViews
     void initView(){
+        /*判断是否可发布*/
+        getPublishintegral();
         initpvTime();
         //车辆id为空是新增
         String productid =getIntent().getStringExtra("product_id");
@@ -342,6 +348,13 @@ public class PushSupplyActivity extends BaseActivity {
         });
     }
 
+    @Subscribe
+    public void refreshIntegra(RefreshFragment refreshFragment){
+        if (refreshFragment.refresh){
+            getPublishintegral();
+        }
+    }
+
 
     /*获取车源信息*/
     void getSingeleSupply(String productid){
@@ -350,6 +363,11 @@ public class PushSupplyActivity extends BaseActivity {
     }
 
     private void subMitCar() {
+        if (!isPublish){
+            //不可发布,跳转到购买积分界面
+            showFragment(BuyIntegralFragment_.builder().build());
+            return;
+        }
         String priceNum = priceItem.getTxtMiddle();
         String mile = mileData.getTxtMiddle();
         String newcarPri = newcarPrice.getTxtMiddle();
@@ -589,6 +607,12 @@ public class PushSupplyActivity extends BaseActivity {
         UserManager.saveSupply(carMiddle, subscriber);
     }
 
+    /*判断是否可以发布*/
+    private void getPublishintegral() {
+        Subscriber subscriber = new PosetSubscriber<PublishintegralResponse>().getSubscriber(callback_integra);
+        UserManager.getPublishintegral("2", subscriber);
+    }
+
     ResponseResultListener callback_carfrom = new ResponseResultListener<Boolean>() {
         @Override
         public void success(Boolean returnMsg) {
@@ -630,4 +654,22 @@ public class PushSupplyActivity extends BaseActivity {
         }
     };
 
+    /*是否允许发布*/
+    ResponseResultListener callback_integra = new ResponseResultListener<PublishintegralResponse>() {
+        @Override
+        public void success(PublishintegralResponse returnMsg) {
+            isPublish = returnMsg.is_pubilsh();
+            if (returnMsg.is_pubilsh()){
+                //可以发布
+                txtSubmit.setText("发布询价/需要"+returnMsg.getIntegral()+"积分");
+            }else{
+                txtSubmit.setText("积分不足，请购买");
+            }
+        }
+
+        @Override
+        public void fialed(String resCode, String message) {
+
+        }
+    };
 }

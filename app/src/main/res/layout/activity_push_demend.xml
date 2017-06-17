@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/windowbackcolor"
+    tools:context="com.zzcar.zzc.activities.PushCarActivity">
+
+    <com.zzcar.zzc.views.widget.NavBar3_
+        android:id="@+id/mNavbar"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:gravity="bottom"
+        android:background="@color/white"
+        app:title_res="@string/tab_mine">
+    </com.zzcar.zzc.views.widget.NavBar3_>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"
+        android:layout_below="@+id/mNavbar"/>
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/line">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/relaBottom">
+            <LinearLayout
+                android:id="@+id/lineParent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+
+                <com.zzcar.zzc.views.widget.ItemOneView_
+                    android:id="@+id/blandcar"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                </com.zzcar.zzc.views.widget.ItemOneView_>
+
+                <com.zzcar.zzc.views.widget.ItemOneView_
+                    android:id="@+id/cardTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                </com.zzcar.zzc.views.widget.ItemOneView_>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:text="价格"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginStart="20dp"
+                        android:id="@+id/textView195"
+                        android:textSize="@dimen/sp_14"
+                        android:textColor="@color/color_333333"/>
+
+                    <TextView
+                        android:text="—"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/editText20"
+                        android:id="@+id/textView196" />
+
+                    <EditText
+                        android:layout_width="70dp"
+                        android:layout_height="30dp"
+                        android:inputType="number"
+                        android:ems="10"
+                        android:gravity="center"
+                        android:background="@drawable/shape_line_radio_grey"
+                        android:id="@+id/editText20"
+                        android:textSize="@dimen/sp_12"
+                        android:layout_marginRight="@dimen/size_15"
+                        android:layout_toLeftOf="@+id/textView197"
+                        android:layout_centerVertical="true" />
+
+                    <EditText
+                        android:layout_width="70dp"
+                        android:layout_height="30dp"
+                        android:inputType="number"
+                        android:layout_centerVertical="true"
+                        android:ems="10"
+                        android:textSize="@dimen/sp_12"
+                        android:gravity="center"
+                        android:background="@drawable/shape_line_radio_grey"
+                        android:id="@+id/editText21"
+                        android:layout_toLeftOf="@+id/textView196"
+                        />
+
+                    <TextView
+                        android:text="万"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:id="@+id/textView197"
+                        android:layout_marginRight="@dimen/size_15"/>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginLeft="20dp"
+                        android:background="@color/windowbackcolor"
+                        android:layout_alignParentBottom="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true" />
+                </RelativeLayout>
+
+                <com.zzcar.zzc.views.widget.ItemOneView_
+                    android:id="@+id/carinColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                </com.zzcar.zzc.views.widget.ItemOneView_>
+
+                <com.zzcar.zzc.views.widget.ItemOneView_
+                    android:id="@+id/caroutColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp">
+
+                </com.zzcar.zzc.views.widget.ItemOneView_>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:background="@color/white"
+                    android:layout_marginTop="5dp">
+
+
+                    <EditText
+                        android:id="@+id/editText3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignLeft="@+id/textView13"
+                        android:layout_alignStart="@+id/textView13"
+                        android:ems="10"
+                        android:textSize="@dimen/sp_14"
+                        android:background="@null"
+                        android:gravity="top|left"
+                        android:inputType="textPersonName"
+                        android:text=""
+                        android:padding="10dp"
+                        android:hint="可以描述您对配置、内饰、颜色等其他要求"
+                        android:layout_below="@+id/textView13" />
+                </RelativeLayout>
+            </LinearLayout>
+        </ScrollView>
+
+
+        <RelativeLayout
+            android:id="@+id/relaBottom"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:gravity="center">
+
+            <ImageView
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                app:srcCompat="@drawable/icon_push_demend"
+                android:id="@+id/imageView44"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:text=""
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/imageView44"
+                android:layout_toEndOf="@+id/imageView44"
+                android:layout_marginLeft="14dp"
+                android:layout_marginStart="14dp"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_14"
+                android:id="@+id/textView199" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </FrameLayout>
+
+</RelativeLayout>

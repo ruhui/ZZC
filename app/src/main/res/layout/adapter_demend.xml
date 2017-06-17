@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:zhy="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -8,16 +9,63 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="wrap_content"
         android:background="@color/white">
+
+        <RelativeLayout
+            android:id="@+id/relaTop"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <TextView
+                android:text="TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
+                android:singleLine="true"
+                android:layout_marginRight="@dimen/size_15"
+                android:layout_marginEnd="@dimen/size_15"
+                android:textSize="14sp"
+                android:textColor="@color/color_090909"
+                android:id="@+id/textView194" />
+        </RelativeLayout>
+
+        <com.zhy.view.flowlayout.TagFlowLayout
+            android:id="@+id/id_flowlayoutsize"
+            zhy:max_select="1"
+            android:layout_below="@+id/relaTop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            >
+        </com.zhy.view.flowlayout.TagFlowLayout>
+
+        <TextView
+            android:text=""
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/id_flowlayoutsize"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/textView198"
+            android:lineSpacingExtra="5dp"
+            android:paddingLeft="@dimen/size_15"
+            android:paddingRight="@dimen/size_15" />
 
         <RelativeLayout
             android:id="@+id/relaBottom"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_30"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/textView198"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="17dp">
 
             <TextView
                 android:text=" "
@@ -54,103 +102,6 @@
                 android:layout_toStartOf="@+id/imageView42"
                 android:id="@+id/imageView43" />
         </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/relaTop"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
-
-            <TextView
-                android:text="TextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_marginLeft="15dp"
-                android:layout_marginStart="15dp"
-                android:singleLine="true"
-                android:layout_marginRight="@dimen/size_15"
-                android:layout_marginEnd="@dimen/size_15"
-                android:textSize="14sp"
-                android:textColor="@color/color_090909"
-                android:id="@+id/textView194" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/relaMiddle"
-            android:layout_width="match_parent"
-            android:layout_height="35dp"
-            android:layout_below="@+id/relaTop"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
-
-            <TextView
-                android:id="@+id/textView195"
-                android:text="年限"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:textColor="#f7a008"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:background="@drawable/shpe_line_noradio_yellow"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:gravity="center"
-                android:textSize="@dimen/sp_12"
-                android:layout_marginLeft="15dp"
-                android:layout_marginStart="15dp" />
-
-            <TextView
-                android:text="颜色"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:id="@+id/textView196"
-                android:layout_alignTop="@+id/textView195"
-                android:layout_toRightOf="@+id/textView195"
-                android:layout_toEndOf="@+id/textView195"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
-                android:textSize="@dimen/sp_12"
-                android:gravity="center"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:background="@drawable/shape_line_grey"/>
-
-            <TextView
-                android:text="颜色"
-                android:layout_width="wrap_content"
-                android:layout_height="25dp"
-                android:id="@+id/textView197"
-                android:layout_alignTop="@+id/textView196"
-                android:layout_toRightOf="@+id/textView196"
-                android:layout_toEndOf="@+id/textView196"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
-                android:textSize="@dimen/sp_12"
-                android:gravity="center"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:background="@drawable/shape_line_blue"/>
-
-        </RelativeLayout>
-
-        <TextView
-            android:text=""
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/relaMiddle"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:id="@+id/textView198"
-            android:layout_marginTop="5dp"
-            android:lineSpacingExtra="5dp"
-            android:paddingLeft="@dimen/size_15"
-            android:paddingRight="@dimen/size_15"
-            android:layout_above="@+id/relaBottom" />
 
     </RelativeLayout>
 

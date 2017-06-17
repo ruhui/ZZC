@@ -64,7 +64,7 @@ public class MydemendActivity extends BaseActivity {
             @Override
             public void onRightMenuClick(View view) {
                 super.onRightMenuClick(view);
-                Intent intent = new Intent(MydemendActivity.this, PushSupplyActivity_.class);
+                Intent intent = new Intent(MydemendActivity.this, PushDemendActivity_.class);
                 startActivity(intent);
             }
         });

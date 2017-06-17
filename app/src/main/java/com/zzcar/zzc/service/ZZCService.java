@@ -22,6 +22,7 @@ import com.zzcar.zzc.networks.requests.PhotoRequest;
 import com.zzcar.zzc.networks.requests.ProduceIdResquest;
 import com.zzcar.zzc.networks.requests.RefreshLoginRequest;
 import com.zzcar.zzc.networks.requests.SaveCommentRequest;
+import com.zzcar.zzc.networks.requests.SavedemandRequest;
 import com.zzcar.zzc.networks.requests.SendRegsmsRequest;
 import com.zzcar.zzc.networks.responses.ApplyFriendResponse;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
@@ -51,7 +52,9 @@ import com.zzcar.zzc.networks.responses.MysubscribeResponse;
 import com.zzcar.zzc.networks.responses.MysupplyResponse;
 import com.zzcar.zzc.networks.responses.OrderDetailResponse;
 import com.zzcar.zzc.networks.responses.OrderListResponse;
+import com.zzcar.zzc.networks.responses.PublishintegralResponse;
 import com.zzcar.zzc.networks.responses.RefundOrderResponse;
+import com.zzcar.zzc.networks.responses.SavedemandResponse;
 import com.zzcar.zzc.networks.responses.ShouzhiDetailResponse;
 import com.zzcar.zzc.networks.responses.SingleSupplyResponse;
 import com.zzcar.zzc.networks.responses.UserMessageResponse;
@@ -365,5 +368,17 @@ public interface ZZCService {
     /*我的求购*/
     @GET("info/my_demand")
     Observable<ResponseParent<MydemandResponse>> getmydemand(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+
+    /*是否可以发布*/
+    @GET("info/publish_integral")
+    Observable<ResponseParent<PublishintegralResponse>> getPublishintegral(@Query("id") String id, @HeaderMap Map<String, String> header);
+
+    /*新增/编辑车求购(管理)*/
+    @POST("info/save_demand")
+    Observable<ResponseParent<Boolean>> savedemand(@Body SavedemandRequest request, @HeaderMap Map<String, String> header);
+
+    /*获取单条求购*/
+    @GET("info/my_demand")
+    Observable<ResponseParent> getsingelmydemand(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
 
 }

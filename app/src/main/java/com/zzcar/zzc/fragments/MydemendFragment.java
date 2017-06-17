@@ -9,6 +9,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.zzcar.zzc.R;
+import com.zzcar.zzc.activities.PushDemendActivity;
+import com.zzcar.zzc.activities.PushDemendActivity_;
 import com.zzcar.zzc.activities.PushSupplyActivity_;
 import com.zzcar.zzc.adapters.DemendAdapter;
 import com.zzcar.zzc.adapters.SupplyAdapter;
@@ -86,9 +88,9 @@ public class MydemendFragment extends BasePullRecyclerFragment {
     DemendListener supplyListener = new DemendListener() {
         @Override
         public void editClickListener(MydemandModel model) {
-//            Intent intent = new Intent(getActivity(), PushSupplyActivity_.class);
-//            intent.putExtra("product_id", model.getInfo_id()+"");
-//            startActivity(intent);
+            Intent intent = new Intent(getActivity(), PushDemendActivity_.class);
+            intent.putExtra("product_id", model.getInfo_id()+"");
+            startActivity(intent);
         }
 
         @Override
@@ -110,7 +112,7 @@ public class MydemendFragment extends BasePullRecyclerFragment {
 
     @Subscribe
     public void refreshFragment(RefreshFragment refreshFragment){
-        if (refreshFragment.refresh &&refreshFragment.TAG.equals("MySupply")){
+        if (refreshFragment.refresh &&refreshFragment.TAG.equals("MyDemend")){
             CURTURNPAGE = Constant.DEFAULTPAGE;
             getDemend();
         }

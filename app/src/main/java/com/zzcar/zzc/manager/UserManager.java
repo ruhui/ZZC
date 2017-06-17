@@ -11,6 +11,7 @@ import com.zzcar.zzc.models.CheckoutcartModel;
 import com.zzcar.zzc.models.EnumSendUserType;
 import com.zzcar.zzc.models.PayOrderModel;
 import com.zzcar.zzc.models.SaveSupplyModel;
+import com.zzcar.zzc.models.SavedemandModel;
 import com.zzcar.zzc.models.SinglecarModel;
 import com.zzcar.zzc.networks.ApiClient;
 import com.zzcar.zzc.networks.ResponseParent;
@@ -33,6 +34,7 @@ import com.zzcar.zzc.networks.requests.PhotoRequest;
 import com.zzcar.zzc.networks.requests.ProduceIdResquest;
 import com.zzcar.zzc.networks.requests.RefreshLoginRequest;
 import com.zzcar.zzc.networks.requests.SaveCommentRequest;
+import com.zzcar.zzc.networks.requests.SavedemandRequest;
 import com.zzcar.zzc.networks.requests.SearchRequest;
 import com.zzcar.zzc.networks.requests.SendRegsmsRequest;
 import com.zzcar.zzc.networks.responses.ApplyFriendResponse;
@@ -62,7 +64,9 @@ import com.zzcar.zzc.networks.responses.MysubscribeResponse;
 import com.zzcar.zzc.networks.responses.MysupplyResponse;
 import com.zzcar.zzc.networks.responses.OrderDetailResponse;
 import com.zzcar.zzc.networks.responses.OrderListResponse;
+import com.zzcar.zzc.networks.responses.PublishintegralResponse;
 import com.zzcar.zzc.networks.responses.RefundOrderResponse;
+import com.zzcar.zzc.networks.responses.SavedemandResponse;
 import com.zzcar.zzc.networks.responses.ShouzhiDetailResponse;
 import com.zzcar.zzc.networks.responses.SingleSupplyResponse;
 import com.zzcar.zzc.networks.responses.UserMessageResponse;
@@ -1531,4 +1535,56 @@ public class UserManager {
                 .subscribe(subscriber);
     }
 
+    /**
+     * 是否可以发布，需要多少积分,{id}：1需求，2询价
+     * @param id
+     * @param subscriber
+     */
+    public static void getPublishintegral(String id,  Subscriber<ResponseParent<PublishintegralResponse>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("id", id);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        ApiClient.getApiService().getPublishintegral(id, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 新增/编辑车求购(管理)
+     * @param savedeman
+     * @param subscriber
+     */
+    public static void saveDemand(SavedemandModel savedeman, Subscriber<ResponseParent<Boolean>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        SavedemandRequest request = savedeman.getRequest(savedeman);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, request);
+        ApiClient.getApiService().savedemand(request, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 获取单条求购
+     * @param id
+     * @param subscriber
+     */
+    public static void getSingelmydemand(String id, Subscriber<ResponseParent<SavedemandResponse>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("id", id);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        ApiClient.getApiService().getsingelmydemand(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
 }
