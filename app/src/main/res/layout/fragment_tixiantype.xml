@@ -49,16 +49,17 @@
         <TextView
             android:text=""
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/textView87"
             android:textSize="@dimen/sp_14"
+            android:gravity="center|left"
             android:textColor="#2e2d2d"
             android:layout_marginLeft="60dp"
             android:hint="请选择银行"
             android:layout_marginStart="60dp"
-            android:layout_alignTop="@+id/mid_rightImg"
             android:layout_toRightOf="@+id/textView86"
-            android:layout_toEndOf="@+id/textView86" />
+            android:layout_toEndOf="@+id/textView86"
+            android:layout_alignParentTop="true" />
     </RelativeLayout>
     <View
         android:layout_width="match_parent"
@@ -87,12 +88,15 @@
 
         <EditText
             android:text=""
-            android:layout_width="160dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="35dp"
             android:layout_marginStart="35dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
             android:id="@+id/textView89"
             android:background="@null"
+            android:gravity="center|left"
             android:textSize="@dimen/sp_14"
             android:textColor="#2e2d2d"
             android:hint="请输入姓名"
@@ -137,6 +141,7 @@
             android:hint="请填写储值卡号"
             android:ems="10"
             android:background="@null"
+            android:gravity="center|left"
             android:textSize="@dimen/sp_14"
             android:textColor="#2e2d2d"
             android:id="@+id/editText6"
@@ -169,7 +174,7 @@
         <EditText
             android:layout_width="200dp"
             android:layout_height="match_parent"
-            android:inputType="textPersonName"
+            android:inputType="numberDecimal"
             android:text=""
             android:ems="10"
             android:background="@null"

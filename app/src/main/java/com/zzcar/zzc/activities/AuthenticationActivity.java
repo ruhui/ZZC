@@ -30,6 +30,7 @@ import com.zzcar.zzc.utils.LogUtil;
 import com.zzcar.zzc.utils.ToastUtil;
 import com.zzcar.zzc.views.widget.NavBar2;
 import com.zzcar.zzc.views.widget.NoScrollViewPager;
+import com.zzcar.zzc.views.widget.dialogs.MyAlertDialog;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -59,7 +60,7 @@ public class AuthenticationActivity extends BaseActivity {
     NoScrollViewPager mPager;
 
     private VerifiedResponse verifiedResponse;
-
+    private int auth_status;
     private AuthenUsermsgFragment authenUsermsgFragment;
     private AuthenLoadPhotoFragment loadPhotoFragment;
 
@@ -68,6 +69,9 @@ public class AuthenticationActivity extends BaseActivity {
 
     @AfterViews
     void initView(){
+        /*验证状态*/
+        auth_status = getIntent().getIntExtra("Auth_status", 0);
+
         showProgress();
         getVerified();
         mNavbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
@@ -93,11 +97,13 @@ public class AuthenticationActivity extends BaseActivity {
 
         authenUsermsgFragment = AuthenUsermsgFragment_.builder().build();
         Bundle bundle = new Bundle();
+        bundle.putInt("auth_status", auth_status);
         bundle.putSerializable("verifiedResponse", (Serializable) verifiedResponse);
         authenUsermsgFragment.setArguments(bundle);
 
         loadPhotoFragment = AuthenLoadPhotoFragment_.builder().build();
         Bundle bundle_photo = new Bundle();
+        bundle_photo.putInt("auth_status", auth_status);
         bundle_photo.putSerializable("verifiedResponse", (Serializable) verifiedResponse);
         loadPhotoFragment.setArguments(bundle_photo);
 
@@ -190,7 +196,7 @@ public class AuthenticationActivity extends BaseActivity {
         if (checked){
             //去认证
             showProgress();
-            Subscriber subscriber =  new PosetSubscriber<VerifiedResponse>().getSubscriber(callback_saveverified);
+            Subscriber subscriber =  new PosetSubscriber<String>().getSubscriber(callback_saveverified);
             UserManager.saveVerified(verifiedMsg, subscriber);
         }
     }
@@ -231,22 +237,39 @@ public class AuthenticationActivity extends BaseActivity {
     }
 
     /*实名认证保存*/
-    ResponseResultListener callback_saveverified = new ResponseResultListener<Boolean>() {
+    ResponseResultListener callback_saveverified = new ResponseResultListener<String>() {
         @Override
-        public void success(Boolean returnMsg) {
+        public void success(String returnMsg) {
             closeProgress();
-            if (returnMsg){
-                ToastUtil.showToast("提交成功");
-                finish();
-            }else{
-                ToastUtil.showToast("提交失败");
-            }
+            final MyAlertDialog alertDialog = new MyAlertDialog(AuthenticationActivity.this, true);
+            alertDialog.show();
+            alertDialog.setContent(returnMsg);
+            alertDialog.setPosiButtion("修改认证");
+            alertDialog.setNegButtion("确定完成");
+            alertDialog.setOnPositiveListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialog.dismiss();
+                }
+            });
+            alertDialog.setNegsitiveListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+
+//            if (returnMsg){
+//                ToastUtil.showToast("提交成功");
+//                finish();
+//            }else{
+//                ToastUtil.showToast("提交失败");
+//            }
         }
 
         @Override
         public void fialed(String resCode, String message) {
             closeProgress();
-            ToastUtil.showToast("提交失败");
         }
     };
 

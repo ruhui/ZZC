@@ -58,11 +58,11 @@ public class PayOrderView extends LinearLayout {
     }
 
     public void setSelectOnWechatListener(OnClickListener listener){
-        checkBoxWechat.setOnClickListener(listener);
+        relaWeichat.setOnClickListener(listener);
     }
 
     public void setSelectOnZhifuListener(OnClickListener listener){
-        checkBoxZhifu.setOnClickListener(listener);
+        relaZhifubao.setOnClickListener(listener);
     }
 
     public boolean hasChecked(){

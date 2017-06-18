@@ -22,7 +22,6 @@ public class SavedemandModel extends SavedemandRequest{
 
     public SavedemandModel() {
         super();
-        this.blandDes = blandDes;
     }
 
     public SavedemandRequest getRequest(SavedemandModel model){

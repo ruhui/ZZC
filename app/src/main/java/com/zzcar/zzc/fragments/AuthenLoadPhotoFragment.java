@@ -5,12 +5,16 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.CountDownTimer;
 import android.provider.MediaStore;
+import android.text.TextUtils;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.AuthenticationActivity;
+import com.zzcar.zzc.activities.ViewPagerActivity;
 import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.constants.Permission;
 import com.zzcar.zzc.fragments.base.BaseFragment;
@@ -35,7 +39,9 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import me.iwf.photopicker.PhotoPicker;
 import rx.Subscriber;
@@ -61,6 +67,12 @@ public class AuthenLoadPhotoFragment extends BaseFragment {
     TextView sendtoPhone;
     @ViewById(R.id.editText5)
     EditText edtCode;
+    @ViewById(R.id.relaCode)
+    RelativeLayout relaCode;
+    @ViewById(R.id.txtAlert)
+    TextView txtAlert;
+    @ViewById(R.id.txtSave)
+    TextView txtSave;
 
     private boolean timerstart = false;
     private int SELECTPOSITION = 1;//1为营业执照 2为身份证正面照  3为身份证反面照
@@ -79,10 +91,12 @@ public class AuthenLoadPhotoFragment extends BaseFragment {
 
     private VerifiedResponse verifiedResponse;
     private KeyboardPatch keyboard;
+    private int auth_status = 0;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        auth_status = getArguments().getInt("auth_status");
         verifiedResponse = (VerifiedResponse) getArguments().getSerializable("verifiedResponse");
     }
 
@@ -91,21 +105,23 @@ public class AuthenLoadPhotoFragment extends BaseFragment {
         ImageLoader.loadImage(Tool.getPicUrl(getActivity(), verifiedResponse.getLicense(), 154, 100), imgYingye, R.drawable.nav_image_ad_yingyezhizhao);
         ImageLoader.loadImage(Tool.getPicUrl(getActivity(), verifiedResponse.getCard_positive(), 154, 100), shenfenzz, R.drawable.nav_image_ad_shenfenzheng_a);
         ImageLoader.loadImage(Tool.getPicUrl(getActivity(), verifiedResponse.getCard_negative(), 154, 100), shenfenzf, R.drawable.nav_image_ad_shenfenzheng_b);
+
         //设置键盘弹起
         keyboard = new KeyboardPatch(getActivity(), getView());
         keyboard.enable();
         String mobile = SecurePreferences.getInstance().getString("USERMOBILE", "");
         sendtoPhone.setText("短信验证码将会发送到"+ mobile.substring(0, 4)+"****"+mobile.substring(mobile.length()-4, mobile.length()));
 
-        ImageLoader.loadImage(Tool.getPicUrl(getActivity(), verifiedResponse.getLicense(), 154, 100), imgYingye);
-        ImageLoader.loadImage(Tool.getPicUrl(getActivity(), verifiedResponse.getCard_positive(), 154, 100), shenfenzz);
-        ImageLoader.loadImage(Tool.getPicUrl(getActivity(), verifiedResponse.getCard_negative(), 154, 100), shenfenzf);
+        if (auth_status == 3){
+            relaCode.setVisibility(View.GONE);
+            sendtoPhone.setVisibility(View.GONE);
+            txtAlert.setVisibility(View.GONE);
+            txtSave.setVisibility(View.GONE);
+        }
     }
 
     @Override
-    public void onNetChange(int netMobile) {
-
-    }
+    public void onNetChange(int netMobile) {}
 
 
     /*获取验证码*/
@@ -124,40 +140,69 @@ public class AuthenLoadPhotoFragment extends BaseFragment {
     /*获取营业执照*/
     @Click(R.id.imageView14)
     void yingyePicture(){
-        SELECTPOSITION = 1;
-        if (dialog != null){
-            dialog.show();
+
+        if (auth_status == 3){
+            List<String> imagepath = new ArrayList<>();
+            imagepath.add(verifiedResponse.getLicense());
+            Intent intent = new Intent(getActivity(), ViewPagerActivity.class);
+            intent.putExtra("imagepathList", (Serializable) imagepath);
+            intent.putExtra("position", 0);
+            getActivity().startActivity(intent);
         }else{
-            dialog = new ShowPhotoRenzhengDialog(getActivity(), mListener);
-            dialog.show();
+            SELECTPOSITION = 1;
+            if (dialog != null){
+                dialog.show();
+            }else{
+                dialog = new ShowPhotoRenzhengDialog(getActivity(), mListener);
+                dialog.show();
+            }
+            dialog.setDemoPic(R.drawable.bg_demo_yingye);
         }
-        dialog.setDemoPic(R.drawable.bg_demo_yingye);
     }
 
     /*身份证正面*/
     @Click(R.id.imageView15)
     void shenfenzhengZM(){
-        SELECTPOSITION = 2;
-        if (dialog != null){
-            dialog.show();
+        if (auth_status == 3){
+            List<String> imagepath = new ArrayList<>();
+            imagepath.add(verifiedResponse.getCard_positive());
+            Intent intent = new Intent(getActivity(), ViewPagerActivity.class);
+            intent.putExtra("imagepathList", (Serializable) imagepath);
+            intent.putExtra("position", 0);
+            getActivity().startActivity(intent);
         }else{
-            dialog = new ShowPhotoRenzhengDialog(getActivity(), mListener);
-            dialog.show();
+            SELECTPOSITION = 2;
+            if (dialog != null){
+                dialog.show();
+            }else{
+                dialog = new ShowPhotoRenzhengDialog(getActivity(), mListener);
+                dialog.show();
+            }
+            dialog.setDemoPic(R.drawable.bg_demo_shenfenz);
         }
-        dialog.setDemoPic(R.drawable.bg_demo_shenfenz);
+
     }
 
     /*身份证反面*/
     @Click(R.id.imageView16)
     void shenfenzhengFM(){
-        SELECTPOSITION = 3;
-        if (dialog != null){
-            dialog.show();
+        if (auth_status == 3){
+            List<String> imagepath = new ArrayList<>();
+            imagepath.add(verifiedResponse.getCard_negative());
+            Intent intent = new Intent(getActivity(), ViewPagerActivity.class);
+            intent.putExtra("imagepathList", (Serializable) imagepath);
+            intent.putExtra("position", 0);
+            getActivity().startActivity(intent);
         }else{
-            dialog = new ShowPhotoRenzhengDialog(getActivity(), mListener);
-            dialog.show();
+            SELECTPOSITION = 3;
+            if (dialog != null){
+                dialog.show();
+            }else{
+                dialog = new ShowPhotoRenzhengDialog(getActivity(), mListener);
+                dialog.show();
+            }
+            dialog.setDemoPic(R.drawable.bg_demo_shenfenf);
         }
-        dialog.setDemoPic(R.drawable.bg_demo_shenfenf);
     }
 
     /*保存*/

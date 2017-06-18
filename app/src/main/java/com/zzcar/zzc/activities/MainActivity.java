@@ -8,6 +8,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ import com.zzcar.greendao.MyEaseUserDao;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
 import com.zzcar.zzc.constants.Constant;
+import com.zzcar.zzc.fragments.BusinessFragment_;
 import com.zzcar.zzc.fragments.CarFromFragment;
 import com.zzcar.zzc.fragments.CarFromFragment_;
 import com.zzcar.zzc.fragments.HomeFragment;
@@ -42,6 +44,7 @@ import com.zzcar.zzc.fragments.MessageFragment_;
 import com.zzcar.zzc.fragments.MineFragment_;
 import com.zzcar.zzc.interfaces.ActivityFinish;
 import com.zzcar.zzc.interfaces.FragmentClosePop;
+import com.zzcar.zzc.interfaces.RefreshListener;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.MyEaseUser;
@@ -56,6 +59,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,7 +119,7 @@ public class MainActivity extends BaseActivity {
         TabInfo preheatTabInfo = new TabInfo(CarFromFragment_.builder().build(), R.drawable.tab_home_car, R.string.tab_carfrom);
         infos.add(preheatTabInfo);
 
-        TabInfo shopingTabInfo = new TabInfo(HomeFragment_.builder().build(), R.drawable.tab_home_shangji, R.string.tab_shangji);
+        TabInfo shopingTabInfo = new TabInfo(BusinessFragment_.builder().build(), R.drawable.tab_home_shangji, R.string.tab_shangji);
         infos.add(shopingTabInfo);
 
         TabInfo mineTabInfo = new TabInfo(MessageFragment_.builder().build(), R.drawable.tab_home_message, R.string.tab_message);
@@ -504,9 +508,16 @@ public class MainActivity extends BaseActivity {
     ResponseResultListener callback_refhresh = new ResponseResultListener<LoginResponse>() {
         @Override
         public void success(LoginResponse returnMsg) {
-            SecurePreferences.getInstance().edit().putString("Authorization", returnMsg.access_token).commit();
-            SecurePreferences.getInstance().edit().putString("EXPIRESDATE", returnMsg.expires_date).commit();
-            restart();
+            if (returnMsg == null || TextUtils.isEmpty(returnMsg.access_token)){
+                EventBus.getDefault().post(new ActivityFinish(true));
+                Intent intent = new Intent(MainActivity.this, LoginAcitivty_.class);
+                startActivity(intent);
+                finish();
+            }else{
+                SecurePreferences.getInstance().edit().putString("Authorization", returnMsg.access_token).commit();
+                SecurePreferences.getInstance().edit().putString("EXPIRESDATE", returnMsg.expires_date).commit();
+                restart();
+            }
         }
 
         @Override

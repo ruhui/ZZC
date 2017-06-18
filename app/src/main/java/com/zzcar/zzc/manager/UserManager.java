@@ -858,7 +858,7 @@ public class UserManager {
      * @param code
      * @param subscriber
      */
-    public static void regiestUser(String mobile, String password, String re_password, String code,String nick, Subscriber<Boolean> subscriber){
+    public static void regiestUser(String mobile, String password, String re_password, String code,String nick, Subscriber<LoginResponse> subscriber){
          /* 防止多次点击 */
         cancelTagandRemove("regiestUser");
         ForgetPwdResquest request = new ForgetPwdResquest(mobile, password, re_password, code, nick);

@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.TextView;
 
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.ChannelActivity_;
@@ -54,13 +56,18 @@ public class AuthenUsermsgFragment extends BaseFragment {
     /*详细地址*/
     @ViewById(R.id.carcomDetailAddress)
     ItemTextEditView carcomDetailAddress;
+    @ViewById(R.id.txtAlert)
+    TextView txtAlert;
+
     //做完删掉
     private  VerifiedResponse verifiedResponse;
     private KeyboardPatch keyboard;
+    private int auth_status = 0;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        auth_status = getArguments().getInt("auth_status");
         verifiedResponse = (VerifiedResponse) getArguments().getSerializable("verifiedResponse");
     }
 
@@ -93,7 +100,23 @@ public class AuthenUsermsgFragment extends BaseFragment {
         carcomAddress.setTitle("所在地");carcomAddress.setRightGravity(Gravity.RIGHT);carcomAddress.setRightTextColor();carcomAddress.setRightHint("请选择车辆所在地");
         carcomDetailAddress.setLeftValue("详细地址");carcomDetailAddress.setEdtRightHint("请填输入详细地址");
         resetView();
+
+        if (auth_status == 3){
+            legalPerson.setEnableClick(false);
+            personCard.setEnableClick(false);
+            BusinesLicense.setEnableClick(false);
+            carcomDetailAddress.setEnableClick(false);
+        }else if (auth_status == 1){
+            txtAlert.setVisibility(View.VISIBLE);
+            txtAlert.setText("平台审核中，请耐心等待");
+        }else if (auth_status == 2){
+            txtAlert.setVisibility(View.VISIBLE);
+            txtAlert.setText("审核未通过，请重新上传");
+        }
     }
+
+
+
 
     void resetView(){
         if (verifiedResponse != null){
@@ -118,6 +141,9 @@ public class AuthenUsermsgFragment extends BaseFragment {
     /*车行名称*/
     @Click(R.id.carcomName)
     void setcarName(){
+        if (auth_status == 3){
+            return;
+        }
         Intent intent = new Intent(getActivity(), NickChangeAcitivity_.class);
         intent.putExtra("titleBar", "车行名称");
         intent.putExtra("value", verifiedResponse.getAccount_name());
@@ -127,6 +153,9 @@ public class AuthenUsermsgFragment extends BaseFragment {
     /*渠道*/
     @Click(R.id.carcomType)
     void setaCarType(){
+        if (auth_status == 3){
+            return;
+        }
         Intent intent = new Intent(getActivity(), ChannelActivity_.class);
         intent.putExtra("actionTitle", "车行类型");
         intent.putExtra("dismisbuxian", true);
@@ -135,6 +164,9 @@ public class AuthenUsermsgFragment extends BaseFragment {
 
     @Click(R.id.carcomAddress)
     void selectCity(){
+        if (auth_status == 3){
+            return;
+        }
         Intent intent = new Intent(getActivity(), SelectCountryActivity_.class);
         startActivityForResult(intent, 20173);
     }

@@ -103,7 +103,7 @@ public class MydemendFragment extends BasePullRecyclerFragment {
             dialog.setOnPositiveListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    cancleSupply(model);
+                    cancleSupply(model);
                     dialog.dismiss();
                 }
             });
@@ -125,7 +125,8 @@ public class MydemendFragment extends BasePullRecyclerFragment {
     }
 
     /*删除询价*/
-    private void cancleSupply(MysupplyModel model){
+    private void cancleSupply(MydemandModel model){
+        showProgress();
         Subscriber subscriber = new PosetSubscriber<MysupplyResponse>().getSubscriber(callback_deletesupply);
         UserManager.deleteSupplyinfo(model.getInfo_id(), subscriber);
     }

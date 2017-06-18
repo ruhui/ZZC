@@ -51,7 +51,6 @@ public class MsgFragment extends BaseFragment{
     }
 
 
-
     @AfterViews
     void initView(){
         /*获取消息列表*/

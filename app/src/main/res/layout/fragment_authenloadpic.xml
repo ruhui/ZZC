@@ -93,6 +93,7 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/relaCode"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp">
@@ -138,6 +139,7 @@
                 android:text="短信验证码将会发送到" />
 
             <TextView
+                android:id="@+id/txtAlert"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="54dp"

@@ -17,7 +17,7 @@ import com.zzcar.zzc.R;
 
 public class MyAlertDialog extends AlertDialog {
 
-   public TextView dialogTitle,txtContent,btnSure;
+   public TextView dialogTitle,txtContent,btnSure,txtSure, txtCancle;
    public RelativeLayout relaSure,relaCancle;
    private boolean bothbutton = false;
 
@@ -32,6 +32,8 @@ public class MyAlertDialog extends AlertDialog {
    protected void onCreate(Bundle savedInstanceState) {
        super.onCreate(savedInstanceState);
        setContentView(R.layout.dialog_alert);
+       txtSure = (TextView) findViewById(R.id.textView61);
+       txtCancle = (TextView) findViewById(R.id.txtCancle);
        dialogTitle = (TextView) findViewById(R.id.textView59);
        txtContent = (TextView) findViewById(R.id.textView60);
        relaSure = (RelativeLayout) findViewById(R.id.relaSure);
@@ -55,7 +57,19 @@ public class MyAlertDialog extends AlertDialog {
        txtContent.setText(content);
    }
 
+   public void setNegButtion(String neg){
+       txtCancle.setText(neg);
+   }
+
+    public void setPosiButtion(String posi){
+        txtSure.setText(posi);
+    }
+
    public void setOnPositiveListener(View.OnClickListener listener){
        relaSure.setOnClickListener(listener);
+   }
+
+   public void setNegsitiveListener(View.OnClickListener listener){
+       relaCancle.setOnClickListener(listener);
    }
 }

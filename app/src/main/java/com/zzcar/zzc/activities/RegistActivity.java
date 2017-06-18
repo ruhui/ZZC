@@ -1,5 +1,6 @@
 package com.zzcar.zzc.activities;
 
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,6 +14,9 @@ import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.EnumSendUserType;
 import com.zzcar.zzc.networks.PosetSubscriber;
+import com.zzcar.zzc.networks.responses.LoginResponse;
+import com.zzcar.zzc.networks.responses.MineMsgResponse;
+import com.zzcar.zzc.utils.SecurePreferences;
 import com.zzcar.zzc.utils.ToastUtil;
 import com.zzcar.zzc.utils.Tool;
 import com.zzcar.zzc.views.widget.NavBar2;
@@ -122,7 +126,7 @@ public class RegistActivity extends BaseActivity {
         }
 
         showProgress();
-        Subscriber subscriber =  new PosetSubscriber<Boolean>().getSubscriber(callback_regist);
+        Subscriber subscriber =  new PosetSubscriber<LoginResponse>().getSubscriber(callback_regist);
         UserManager.regiestUser(mobile, loginpwd, surepwd, code, nick, subscriber);
     }
 
@@ -193,22 +197,49 @@ public class RegistActivity extends BaseActivity {
 
     }
 
+    /*获取用户信息*/
+    public void getUserMsg() {
+        Subscriber subscriber = new PosetSubscriber<MineMsgResponse>().getSubscriber(callback_usermsg);
+        UserManager.getUserMsg(subscriber);
+    }
+
+
+
     /*修改密码*/
-    ResponseResultListener callback_regist = new ResponseResultListener<Boolean>() {
+    ResponseResultListener callback_regist = new ResponseResultListener<LoginResponse>() {
         @Override
-        public void success(Boolean returnMsg) {
-            closeProgress();
-            if (returnMsg){
-                ToastUtil.showToast("注册成功");
-                finish();
-            }else{
-                ToastUtil.showToast("注册失败");
-            }
+        public void success(LoginResponse returnMsg) {
+            ToastUtil.showToast("注册成功");
+            String phonenum = edtPhone.getText().toString();
+            String password = edtSurepwd.getText().toString();
+            SecurePreferences.getInstance().edit().putString("Authorization", returnMsg.access_token).commit();
+            SecurePreferences.getInstance().edit().putString("USERMOBILE", phonenum).commit();
+            SecurePreferences.getInstance().edit().putString("USERPASSWORD", password).commit();
+            SecurePreferences.getInstance().edit().putString("EXPIRESDATE", returnMsg.expires_date).commit();
+            /*查看用户是否认证，未认证则跳转到认证界面*/
+            getUserMsg();
+            finish();
         }
 
         @Override
         public void fialed(String resCode, String message) {
             closeProgress();
+        }
+    };
+
+    ResponseResultListener callback_usermsg = new ResponseResultListener<MineMsgResponse>() {
+        @Override
+        public void success(MineMsgResponse returnMsg) {
+            //未认证
+            Intent intent = new Intent(RegistActivity.this, AuthenticationActivity_.class);
+            intent.putExtra("Auth_status", returnMsg.getAuth_status());
+            startActivity(intent);
+            finish();
+        }
+
+        @Override
+        public void fialed(String resCode, String message) {
+
         }
     };
 }

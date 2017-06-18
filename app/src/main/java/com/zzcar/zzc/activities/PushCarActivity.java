@@ -23,6 +23,7 @@ import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
 import com.zzcar.zzc.adapters.PhotoAdapte;
 import com.zzcar.zzc.constants.Permission;
+import com.zzcar.zzc.interfaces.ActivityFinish;
 import com.zzcar.zzc.interfaces.RefreshFragment;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.PermissonManager;
@@ -34,10 +35,12 @@ import com.zzcar.zzc.models.SinglecarModel;
 import com.zzcar.zzc.models.StartAndEndYear;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.responses.CheckSuccessResponse;
+import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.utils.ImageLoader;
 import com.zzcar.zzc.utils.KeyboardPatch;
 import com.zzcar.zzc.utils.LogUtil;
 import com.zzcar.zzc.utils.PermissionUtili;
+import com.zzcar.zzc.utils.SecurePreferences;
 import com.zzcar.zzc.utils.ToastUtil;
 import com.zzcar.zzc.utils.Tool;
 import com.zzcar.zzc.views.widget.ItemOneView;
@@ -168,7 +171,7 @@ public class PushCarActivity extends BaseActivity {
         priceItem.setTxtLeft("价格");priceItem.setTxtRight("万元");
         cardTime.setTxtLeft("上牌时间");cardTime.setHint("必填");
         cardBelong.setTxtLeft("牌照归属");cardBelong.setHint("必填");
-        mileData.setTxtLeft("表显里程");mileData.setTxtRight("万公里");
+        mileData.setTxtLeft("表显里程");mileData.setTxtRight("公里数");
         carColor.setTxtLeft("车身颜色");carColor.setHint("必填");
         outComTime.setTxtLeft("出厂时间");outComTime.setHint("必填");
         emissionSta.setTxtLeft("排放标准");emissionSta.setHint("必填");
@@ -386,7 +389,9 @@ public class PushCarActivity extends BaseActivity {
         String alertmsg = carMiddle.alertMsg(carMiddle);
         if (TextUtils.isEmpty(alertmsg)){
             //添加车源
-            saveCarFrom(carMiddle);
+            showProgress();
+            refreshlogin();
+
         }else{
             ToastUtil.showToast(alertmsg);
         }
@@ -604,9 +609,42 @@ public class PushCarActivity extends BaseActivity {
         UserManager.savecar(carMiddle, subscriber);
     }
 
+    //刷新数据
+    private void refreshlogin() {
+        Subscriber subscriber = new PosetSubscriber<LoginResponse>().getSubscriber(callback_refhresh);
+        UserManager.refreshLogin(subscriber);
+    }
+
+    //刷新数据回调
+    ResponseResultListener callback_refhresh = new ResponseResultListener<LoginResponse>() {
+        @Override
+        public void success(LoginResponse returnMsg) {
+            if (returnMsg == null || TextUtils.isEmpty(returnMsg.access_token)){
+                EventBus.getDefault().post(new ActivityFinish(true));
+                Intent intent = new Intent(PushCarActivity.this, LoginAcitivty_.class);
+                startActivity(intent);
+                finish();
+                closeProgress();
+            }else{
+                saveCarFrom(carMiddle);
+            }
+        }
+
+        @Override
+        public void fialed(String resCode, String message) {
+            closeProgress();
+            EventBus.getDefault().post(new ActivityFinish(true));
+            Intent intent = new Intent(PushCarActivity.this, LoginAcitivty_.class);
+            startActivity(intent);
+            finish();
+        }
+    };
+
+
     ResponseResultListener callback_carfrom = new ResponseResultListener<Boolean>() {
         @Override
         public void success(Boolean returnMsg) {
+            closeProgress();
             ToastUtil.showToast("发布成功");
             EventBus.getDefault().post(new RefreshFragment(true, "Mycar"));
             Intent intent = new Intent();
@@ -617,7 +655,7 @@ public class PushCarActivity extends BaseActivity {
 
         @Override
         public void fialed(String resCode, String message) {
-            ToastUtil.showToast("发布失败");
+            closeProgress();
         }
     };
 

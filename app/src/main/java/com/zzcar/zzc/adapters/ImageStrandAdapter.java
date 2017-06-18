@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import com.zzcar.zzc.activities.ShowPhotoAcitivity;
 import com.zzcar.zzc.activities.ShowPhotoAcitivity_;
+import com.zzcar.zzc.activities.ViewPagerActivity;
 import com.zzcar.zzc.adapters.base.BaseRecyclerAdapter;
 import com.zzcar.zzc.utils.Tool;
 import com.zzcar.zzc.views.widget.ItemImageView;
@@ -44,7 +45,7 @@ public class ImageStrandAdapter extends BaseRecyclerAdapter<String, ItemImageVie
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, ShowPhotoAcitivity_.class);
+                Intent intent = new Intent(mContext, ViewPagerActivity.class);
                 intent.putExtra("imagepathList", (Serializable) imagepath);
                 intent.putExtra("position", position);
                 mContext.startActivity(intent);

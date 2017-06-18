@@ -19,6 +19,7 @@ import com.zzcar.zzc.networks.UploadFileWithoutLoding;
 import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.utils.ImageLoader;
 import com.zzcar.zzc.utils.PermissionUtili;
+import com.zzcar.zzc.utils.SecurePreferences;
 import com.zzcar.zzc.utils.ToastUtil;
 import com.zzcar.zzc.utils.Tool;
 import com.zzcar.zzc.views.widget.NavBar2;
@@ -92,7 +93,6 @@ public class MineInfoActivity extends BaseActivity {
         });
 
         resetView();
-
     }
 
     private void resetView() {
@@ -104,7 +104,9 @@ public class MineInfoActivity extends BaseActivity {
 
     @Click(R.id.relaRenzheng)
     void renzheng(){
+        int auth_status = SecurePreferences.getInstance().getInt("Auth_Status", 0);
         Intent intent = new Intent(MineInfoActivity.this, AuthenticationActivity_.class);
+        intent.putExtra("Auth_status", auth_status);
         startActivity(intent);
     }
 

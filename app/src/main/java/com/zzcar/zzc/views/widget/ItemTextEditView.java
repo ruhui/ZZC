@@ -52,4 +52,11 @@ public class ItemTextEditView extends LinearLayout {
     public void setInputNumber(){
         edtRight.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
     }
+
+    public void setEnableClick(boolean enable){
+        if (!enable){
+            edtRight.setFocusable(false);
+            edtRight.setFocusableInTouchMode(false);
+        }
+    }
 }

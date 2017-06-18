@@ -266,7 +266,7 @@ public class WheelTime
 		// startYear)).append("-").append((wv_month.getCurrentItem() +
 		// 1)).append("-").append((wv_day.getCurrentItem() +
 		// 1)).append(" ").append(wv_hours.getCurrentItem()).append(":").append(wv_mins.getCurrentItem());
-		sb.append((wv_year.getCurrentItem())).append("-").append((wv_month.getCurrentItem())).append("-").append((wv_day.getCurrentItem())).append(" ").append(wv_hours.getCurrentItem()).append(":").append(wv_mins.getCurrentItem());
+		sb.append((wv_year.getCurrentItem())).append("-").append((wv_month.getCurrentItem()+1)).append("-").append((wv_day.getCurrentItem())).append(" ").append(wv_hours.getCurrentItem()).append(":").append(wv_mins.getCurrentItem());
 		return sb.toString();
 	}
 

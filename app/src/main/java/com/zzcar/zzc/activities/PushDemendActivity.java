@@ -26,6 +26,7 @@ import com.zzcar.zzc.models.SavedemandModel;
 import com.zzcar.zzc.models.StartAndEndYear;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.responses.PublishintegralResponse;
+import com.zzcar.zzc.networks.responses.SavedemandResponse;
 import com.zzcar.zzc.networks.responses.SingleSupplyResponse;
 import com.zzcar.zzc.utils.KeyboardPatch;
 import com.zzcar.zzc.utils.LogUtil;
@@ -362,20 +363,50 @@ public class PushDemendActivity extends BaseActivity {
 
 
     /*获取单条车源*/
-    ResponseResultListener callback_singlecar = new ResponseResultListener<SingleSupplyResponse>() {
+    ResponseResultListener callback_singlecar = new ResponseResultListener<SavedemandResponse>() {
         @Override
-        public void success(SingleSupplyResponse returnMsg) {
+        public void success(SavedemandResponse returnMsg) {
             closeProgress();
-//            carMiddle.setSupplyData(returnMsg);
-//            resetView();
-//
-//            priceItem.setTxtMiddle(carMiddle.getMarket_price());
-//            mileData.setTxtMiddle(carMiddle.getMileage());
-//            newcarPrice.setTxtMiddle(carMiddle.getNew_car_price());
-//            carDes.setText(carMiddle.getContent());
-//
-//            photos.addAll(carMiddle.getImage_path());
-//            adapter.setData(photos);
+            List<String> carcolor = returnMsg.getProps_name().getColor();
+            String carColor = "";
+            for (String str : carcolor){
+                if (TextUtils.isEmpty(carColor)){
+                    carColor = str;
+                }else{
+                    carColor += "、"+str;
+                }
+            }
+
+            List<String> carintcolor = returnMsg.getProps_name().getInside_color();
+            String carInColor = "";
+            for (String str : carintcolor){
+                if (TextUtils.isEmpty(carColor)){
+                    carInColor = str;
+                }else{
+                    carInColor += "、"+str;
+                }
+            }
+
+            savedemandModel.setBlandDes(returnMsg.getProps_name().getName());
+            savedemandModel.setCarColorDes(carColor);
+            savedemandModel.setCarInColorDes(carInColor);
+            savedemandModel.setTimeDes(returnMsg.getOn_number_min_year()+"—"+returnMsg.getOn_number_max_year()+"年");
+
+            savedemandModel.setBland_id(returnMsg.getBland_id());
+            savedemandModel.setColor(returnMsg.getColor());
+            savedemandModel.setContent(returnMsg.getContent());
+            savedemandModel.setInside_color(returnMsg.getInside_color());
+            savedemandModel.setMax_price(returnMsg.getMax_price());
+            savedemandModel.setMin_price(returnMsg.getMin_price());
+            savedemandModel.setOn_number_max_year(returnMsg.getOn_number_max_year());
+            savedemandModel.setOn_number_min_year(returnMsg.getOn_number_min_year());
+            savedemandModel.setSeries_id(returnMsg.getSeries_id());
+
+            resetView();
+            cardTime.setTxtMiddle(savedemandModel.getTimeDes());
+            edtMinPrice.setText(savedemandModel.getMin_price()+"");
+            edtMaxPrice.setText(savedemandModel.getMax_price()+"");
+            carDes.setText(savedemandModel.getContent());
         }
 
         @Override

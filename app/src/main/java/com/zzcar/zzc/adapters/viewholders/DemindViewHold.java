@@ -66,7 +66,7 @@ public class DemindViewHold extends LinearLayout {
             if (TextUtils.isEmpty(caroutColor)){
                 caroutColor = str;
             }else{
-                caroutColor += str;
+                caroutColor += "、"+str;
             }
         }
 

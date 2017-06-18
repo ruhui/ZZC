@@ -191,7 +191,7 @@ public interface ZZCService {
 
     /*车行认证*/
     @POST("account/save_verified")
-    Observable<ResponseParent<Boolean>> saveverified(@Body VerifiedResponse verfied, @HeaderMap Map<String, String> header);
+    Observable<ResponseParent<String>> saveverified(@Body VerifiedResponse verfied, @HeaderMap Map<String, String> header);
 
     /*获取积分明细*/
     @GET("account/integral_detail")
@@ -223,7 +223,7 @@ public interface ZZCService {
 
     /*注册*/
     @POST("account/register")
-    Observable<ResponseParent<Boolean>> register(@Body ForgetPwdResquest request, @HeaderMap Map<String, String> header);
+    Observable<ResponseParent<LoginResponse>> register(@Body ForgetPwdResquest request, @HeaderMap Map<String, String> header);
 
     /*购买积分*/
     @POST("account/buy_integral")
@@ -379,6 +379,6 @@ public interface ZZCService {
 
     /*获取单条求购*/
     @GET("info/my_demand")
-    Observable<ResponseParent> getsingelmydemand(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+    Observable<ResponseParent<SavedemandResponse>> getsingelmydemand(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
 
 }

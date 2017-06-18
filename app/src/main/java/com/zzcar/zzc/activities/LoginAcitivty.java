@@ -142,7 +142,9 @@ public class LoginAcitivty extends BaseActivity {
     ResponseResultListener callback_usermsg = new ResponseResultListener<MineMsgResponse>() {
         @Override
         public void success(MineMsgResponse returnMsg) {
+            closeProgress();
             if (returnMsg.getAuth_status() == 3){
+                SecurePreferences.getInstance().edit().putInt("Auth_Status", returnMsg.getAuth_status()).commit();
                 //登录环信
                 SecurePreferences.getInstance().edit().putString("EMChatUsername", String.valueOf(returnMsg.getId())).commit();
                 loginEM(String.valueOf(returnMsg.getId()), Constant.EMCHATPASSWORD);
@@ -152,8 +154,8 @@ public class LoginAcitivty extends BaseActivity {
             }else{
                 //未认证
                 Intent intent = new Intent(LoginAcitivty.this, AuthenticationActivity_.class);
+                intent.putExtra("Auth_status", returnMsg.getAuth_status());
                 startActivity(intent);
-                finish();
             }
         }
 

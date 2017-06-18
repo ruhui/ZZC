@@ -44,13 +44,13 @@
 
             </com.zzcar.zzc.views.widget.ItemOneView_>
 
-            <com.zzcar.zzc.views.widget.ItemOneView_
-                android:id="@+id/selectCity"
+
+            <com.zzcar.zzc.views.widget.ItemSecondView_
+                android:id="@+id/newcarPrice"
                 android:layout_width="match_parent"
                 android:layout_height="50dp">
 
-            </com.zzcar.zzc.views.widget.ItemOneView_>
-
+            </com.zzcar.zzc.views.widget.ItemSecondView_>
 
             <com.zzcar.zzc.views.widget.ItemSecondView_
                 android:id="@+id/priceItem"
@@ -60,7 +60,21 @@
             </com.zzcar.zzc.views.widget.ItemSecondView_>
 
             <com.zzcar.zzc.views.widget.ItemOneView_
+                android:id="@+id/outComTime"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+            </com.zzcar.zzc.views.widget.ItemOneView_>
+
+            <com.zzcar.zzc.views.widget.ItemOneView_
                 android:id="@+id/cardTime"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+            </com.zzcar.zzc.views.widget.ItemOneView_>
+
+            <com.zzcar.zzc.views.widget.ItemOneView_
+                android:id="@+id/selectCity"
                 android:layout_width="match_parent"
                 android:layout_height="50dp">
 
@@ -86,12 +100,6 @@
                 android:layout_height="50dp">
 
             </com.zzcar.zzc.views.widget.ItemOneView_>
-            <com.zzcar.zzc.views.widget.ItemOneView_
-                android:id="@+id/outComTime"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
-
-            </com.zzcar.zzc.views.widget.ItemOneView_>
 
             <com.zzcar.zzc.views.widget.ItemOneView_
                 android:id="@+id/emissionSta"
@@ -100,12 +108,7 @@
 
             </com.zzcar.zzc.views.widget.ItemOneView_>
 
-            <com.zzcar.zzc.views.widget.ItemSecondView_
-                android:id="@+id/newcarPrice"
-                android:layout_width="match_parent"
-                android:layout_height="50dp">
 
-            </com.zzcar.zzc.views.widget.ItemSecondView_>
 
             <com.zzcar.zzc.views.widget.ItemOneView_
                 android:id="@+id/limitTime"

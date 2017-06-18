@@ -13,7 +13,7 @@
         android:layout_centerHorizontal="true">
 
         <TextView
-            android:text="TextView"
+            android:text=""
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -25,14 +25,17 @@
 
         <TextView
             android:text=" "
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textView60"
+            android:gravity="center|top"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
             android:layout_below="@+id/textView59"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="25dp"
             android:textSize="@dimen/size_15"
-            android:textColor="@color/color_333333"/>
+            android:textColor="@color/color_333333"
+            android:layout_above="@+id/view11" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -78,6 +81,7 @@
                 >
 
                 <TextView
+                    android:id="@+id/txtCancle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/pickerview_cancel"

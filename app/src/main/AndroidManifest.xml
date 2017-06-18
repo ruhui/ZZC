@@ -58,10 +58,10 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".activities.LoginAcitivty_" >
+        <activity android:name=".activities.LoginAcitivty_"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -102,6 +102,8 @@
         <activity android:name=".activities.PushSupplyActivity_"/>
         <activity android:name=".activities.MydemendActivity_"/>
         <activity android:name=".activities.PushDemendActivity_"/>
+        <activity
+            android:name=".activities.ViewPagerActivity"/>
 
     </application>
 
