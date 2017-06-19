@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.zzcar.zzc.views.widget.NavbarSwitch_
+    <com.zzcar.zzc.views.widget.NavbarSwitch2_
         android:id="@+id/navbarSwitch"
         android:layout_width="match_parent"
         android:layout_height="65dp"
@@ -14,7 +14,7 @@
         android:gravity="bottom"
         android:background="@color/white"
         app:title_res="@string/tab_mine">
-    </com.zzcar.zzc.views.widget.NavbarSwitch_>
+    </com.zzcar.zzc.views.widget.NavbarSwitch2_>
 
     <com.zzcar.zzc.views.widget.NoScrollViewPager
         android:id="@+id/mViewPager"

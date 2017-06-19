@@ -8,6 +8,7 @@ import com.zzcar.zzc.models.AddressModel;
 import com.zzcar.zzc.models.BlandModle;
 import com.zzcar.zzc.models.CarFromModel;
 import com.zzcar.zzc.models.CheckoutcartModel;
+import com.zzcar.zzc.models.DemendPropsModel;
 import com.zzcar.zzc.models.EnumSendUserType;
 import com.zzcar.zzc.models.PayOrderModel;
 import com.zzcar.zzc.models.SaveSupplyModel;
@@ -1579,6 +1580,27 @@ public class UserManager {
 
         ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
         ApiClient.getApiService().getsingelmydemand(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 商机 求购
+     * @param props
+     * @param CURURNPAGE
+     * @param subscriber
+     */
+    public static void getSingelmydemand(DemendPropsModel props, int CURURNPAGE, Subscriber<ResponseParent<MydemandResponse>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("props", Tool.getGson(props));
+        hashmap.put("page", String.valueOf(CURURNPAGE));
+        hashmap.put("size", "20");
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        ApiClient.getApiService().getdemand(hashmap, zzcHeaders.getHashMap())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

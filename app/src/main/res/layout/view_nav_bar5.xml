@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/activityTitleHeight"
+   >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:gravity="center">
+
+
+        <TextView
+            android:id="@+id/textView132"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/shape_radio_message_switch"
+            android:gravity="center"
+            android:text="消息"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/textView133"
+            android:layout_width="80dp"
+            android:layout_height="25dp"
+            android:layout_alignTop="@+id/textView132"
+            android:layout_toEndOf="@+id/textView132"
+            android:layout_toRightOf="@+id/textView132"
+            android:background="@drawable/shape_radio_fridend_unswich"
+            android:gravity="center"
+            android:text="好友"
+            android:textColor="@color/app_red"
+            android:textSize="@dimen/sp_14" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/imageView46"
+        android:layout_width="45dp"
+        android:layout_height="match_parent"
+        android:scaleType="center"
+        app:srcCompat="@drawable/nav_icon_seach_red"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+
+</RelativeLayout>

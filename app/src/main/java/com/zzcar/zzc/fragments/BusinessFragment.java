@@ -3,12 +3,14 @@ package com.zzcar.zzc.fragments;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.viewpagerindicator.IconPagerAdapter;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.fragments.base.BaseFragment;
 import com.zzcar.zzc.views.widget.NavbarSwitch;
+import com.zzcar.zzc.views.widget.NavbarSwitch2;
 import com.zzcar.zzc.views.widget.NoScrollViewPager;
 
 import org.androidannotations.annotations.AfterViews;
@@ -21,15 +23,16 @@ import java.util.ArrayList;
  * 描述：商机
  * 作者：黄如辉  时间 2017/5/24.
  */
-@EFragment(R.layout.fragment_message)
+@EFragment(R.layout.fragment_home_demend)
 public class BusinessFragment extends BaseFragment{
 
     @ViewById(R.id.navbarSwitch)
-    NavbarSwitch navbarSwitch;
+    NavbarSwitch2 navbarSwitch;
     @ViewById(R.id.mViewPager)
     NoScrollViewPager mPager;
 
     private ArrayList<Fragment> listFragment = new ArrayList<>();
+    private int curturnPage = 0;
 
     @Override
     public void onNetChange(int netMobile) {
@@ -38,22 +41,38 @@ public class BusinessFragment extends BaseFragment{
 
     @AfterViews
     void initVie(){
-        navbarSwitch.setSwitchListener(new NavbarSwitch.SwitchListener() {
+        navbarSwitch.setLeftText("求购");
+        navbarSwitch.setRightText("询价");
+
+        navbarSwitch.setSwitchListener(new NavbarSwitch2.SwitchListener() {
             @Override
             public void messageListener() {
                 mPager.setCurrentItem(0);
+                curturnPage = 0;
             }
 
             @Override
             public void fridendListener() {
                 mPager.setCurrentItem(1);
+                curturnPage = 1;
             }
         });
 
-        MsgFragment msgFragment = MsgFragment_.builder().build();
-        MyFriendFragment friendFragment = MyFriendFragment_.builder().build();
-        listFragment.add(msgFragment);
-        listFragment.add(friendFragment);
+        navbarSwitch.setSearch(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (curturnPage == 0){
+                    //求购
+                }else{
+                    //询价
+                }
+            }
+        });
+
+        BusinessDemendFragment demendFragment = BusinessDemendFragment_.builder().build();
+        BusinessDemendFragment supplyFragment = BusinessDemendFragment_.builder().build();
+        listFragment.add(demendFragment);
+        listFragment.add(supplyFragment);
 
         TabFragmentAdapter adapter = new TabFragmentAdapter(listFragment);
         mPager.setAdapter(adapter);

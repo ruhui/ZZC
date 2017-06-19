@@ -381,4 +381,7 @@ public interface ZZCService {
     @GET("info/my_demand")
     Observable<ResponseParent<SavedemandResponse>> getsingelmydemand(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
 
+    /*商机求购*/
+    @GET("info/demand")
+    Observable<ResponseParent<MydemandResponse>> getdemand(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
 }
