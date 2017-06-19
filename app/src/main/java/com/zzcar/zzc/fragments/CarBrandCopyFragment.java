@@ -89,6 +89,9 @@ public class CarBrandCopyFragment extends BaseFragment {
                 if(position != -1){
                     sortListView.setSelection(position);
                 }
+                if (carseriesFragment.isAdded()){
+                    carseriesFragment.closeSpecFragment();
+                }
             }
         });
 
@@ -100,7 +103,9 @@ public class CarBrandCopyFragment extends BaseFragment {
                 int brandid = mBrandList.get(position-1).getId();
                 String branddes = mBrandList.get(position-1).getName();
                 showCarSeriesfragment(brandid, branddes);
-
+                if (carseriesFragment.isAdded()){
+                    carseriesFragment.closeSpecFragment();
+                }
             }
         });
         Collections.sort(mBrandList, pinyinComparator);

@@ -255,9 +255,9 @@ public class SearchActivity extends BaseActivity {
                 itemIconTextIcon1.setRightText(citydes);
                 iscleardata = false;
             }else if (requestCode == 10107){
-                List<String> colorids = (List<String>) data.getSerializableExtra("colorids");
+                List<String> coloridlist = (List<String>) data.getSerializableExtra("colorids");
                 String colordes = data.getStringExtra("colordes");
-                searchRequest.setColor_ids(colorids);
+                searchRequest.setColor_ids(coloridlist);
                 searchRequest.setColorDes(colordes);
                 itemIconTextIcon4.setRightText(colordes);
                 iscleardata = false;

@@ -124,7 +124,7 @@ public class SearchRequest implements Serializable{
     }
 
     public void setEmission_ids(List<String> emission_ids) {
-        emission_ids.clear();
+        this.emission_ids.clear();
         this.emission_ids = emission_ids;
     }
 
@@ -133,7 +133,7 @@ public class SearchRequest implements Serializable{
     }
 
     public void setColor_ids(List<String> color_ids) {
-        color_ids.clear();
+        this.color_ids.clear();
         this.color_ids = color_ids;
     }
 
@@ -245,56 +245,12 @@ public class SearchRequest implements Serializable{
         if (!TextUtils.isEmpty(request.getSort())){
             setSortdes(request.getSort());
         }
-        if (!TextUtils.isEmpty(request.getChannel())){
-            setChannel(request.getChannel());
-        }
-        if (request.getEmission_ids().size() != 0){
-            setEmission_ids(request.getEmission_ids());
-        }
-        if (request.getColor_ids().size() != 0){
-            setColor_ids(request.getColor_ids());
-        }
-        if (!TextUtils.isEmpty(request.getBland_id())){
-            setBland_id(request.getBland_id());
-        }
-        if (!TextUtils.isEmpty(request.getSeries_id())){
-            setSeries_id(request.getSeries_id());
-        }
-
-        if (!TextUtils.isEmpty(request.getYear_id())){
-            setYear_id(request.getYear_id());
-        }
-        if (!TextUtils.isEmpty(request.getSpec_id())){
-            setSpec_id(request.getSpec_id());
-        }
-        if (!TextUtils.isEmpty(request.getProvince_id())){
-            setProvince_id(request.getProvince_id());
-        }
-        if (!TextUtils.isEmpty(request.getCity_id())){
-            setCity_id(request.getCity_id());
-        }
-        if (!TextUtils.isEmpty(request.getPrice_type())){
-            setPrice_type(request.getPrice_type());
-        }
-        if (!TextUtils.isEmpty(request.getMin_price())){
-            setMin_price(request.getMin_price());
-        }
-        if (!TextUtils.isEmpty(request.getMax_price())){
-            setMax_price(request.getMax_price());
-        }
-        if (!TextUtils.isEmpty(request.getMileage())){
-            setMileage(request.getMileage());
-        }
-        if (!TextUtils.isEmpty(request.getMin_mileage())){
-            setMin_mileage(request.getMin_mileage());
-        }
-        if (!TextUtils.isEmpty(request.getMax_mileage())){
-            setMax_mileage(request.getMax_mileage());
-        }
         if (!TextUtils.isEmpty(request.getSortdes())){
             setSortdes(request.getSortdes());
         }
-
+        if (!TextUtils.isEmpty(request.getYear_id())){
+            setYear_id(request.getYear_id());
+        }
         if (!TextUtils.isEmpty(request.getChanneldes())){
             setChanneldes(request.getChanneldes());
         }
@@ -316,6 +272,21 @@ public class SearchRequest implements Serializable{
         if (!TextUtils.isEmpty(request.getMileagedes())){
             setMileagedes(request.getMileagedes());
         }
+
+        setChannel(request.getChannel());
+        setEmission_ids(request.getEmission_ids());
+        setColor_ids(request.getColor_ids());
+        setBland_id(request.getBland_id());
+        setSeries_id(request.getSeries_id());
+        setSpec_id(request.getSpec_id());
+        setProvince_id(request.getProvince_id());
+        setCity_id(request.getCity_id());
+        setPrice_type(request.getPrice_type());
+        setMin_price(request.getMin_price());
+        setMax_price(request.getMax_price());
+        setMileage(request.getMileage());
+        setMin_mileage(request.getMin_mileage());
+        setMax_mileage(request.getMax_mileage());
     }
 
     public void resetData(){

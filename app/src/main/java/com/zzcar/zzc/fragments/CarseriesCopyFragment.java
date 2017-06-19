@@ -199,6 +199,12 @@ public class CarseriesCopyFragment extends BaseFragment {
         getFragmentManager().popBackStackImmediate("CarseriesCopyFragment",
                 FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
+
+    public void closeSpecFragment(){
+        if (cartypeFragment.isAdded()){
+            cartypeFragment.closefragment();
+        }
+    }
 }
 
 

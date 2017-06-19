@@ -233,7 +233,7 @@ public class AddCarMiddleModle extends AddCarFrom{
         setOn_number_city_id(addCarFrom.getOn_number_city_id());
         setCar_province_id(addCarFrom.getCar_province_id());
         setColor(addCarFrom.getColor());
-        setEmissionDes(addCarFrom.getEmission());
+        setEmission(addCarFrom.getEmission());
         setOut_factory_year(addCarFrom.getOut_factory_year());
         setOut_factory_month(addCarFrom.getOut_factory_month());
         setNew_car_price(addCarFrom.getNew_car_price());

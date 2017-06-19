@@ -61,6 +61,7 @@ public class ColorSelectActivity extends BaseActivity {
         getColorData();
 
         singleselect = getIntent().getBooleanExtra("singleselect",false);
+
         mNavbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
         mNavbar.setMiddleTextColor(R.color.color_333333);
         mNavbar.setMiddleTitle("颜色");

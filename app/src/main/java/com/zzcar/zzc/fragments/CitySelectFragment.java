@@ -73,6 +73,7 @@ public class CitySelectFragment extends BaseFragment {
         cityList.clear();
         cityList.addAll(userList);
         if (getView() != null){
+            citySelectAdapter.clear();
             citySelectAdapter.addAll(cityList);
         }
     }

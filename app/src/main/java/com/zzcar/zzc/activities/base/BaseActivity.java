@@ -1,5 +1,6 @@
 package com.zzcar.zzc.activities.base;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import com.umeng.analytics.MobclickAgent;
 import com.zzcar.zzc.R;
+import com.zzcar.zzc.activities.LoginAcitivty_;
+import com.zzcar.zzc.activities.MainActivity;
 import com.zzcar.zzc.fragments.base.BaseFragment;
 import com.zzcar.zzc.interfaces.ActivityFinish;
 import com.zzcar.zzc.interfaces.NetEvevt;
@@ -214,6 +217,10 @@ public abstract class BaseActivity extends AppCompatActivity implements NetEvevt
     @Subscribe
     public void finishPage(ActivityFinish activityFinish){
         if (activityFinish.isfinish){
+            if (BaseActivity.this instanceof MainActivity){
+                Intent intent = new Intent(this, LoginAcitivty_.class);
+                startActivity(intent);
+            }
             finish();
         }
     }

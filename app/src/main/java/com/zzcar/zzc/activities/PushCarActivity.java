@@ -626,6 +626,8 @@ public class PushCarActivity extends BaseActivity {
                 finish();
                 closeProgress();
             }else{
+                SecurePreferences.getInstance().edit().putString("Authorization", returnMsg.access_token).commit();
+                SecurePreferences.getInstance().edit().putString("EXPIRESDATE", returnMsg.expires_date).commit();
                 saveCarFrom(carMiddle);
             }
         }

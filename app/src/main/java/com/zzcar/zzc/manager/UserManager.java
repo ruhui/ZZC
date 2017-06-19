@@ -483,17 +483,14 @@ public class UserManager {
      * 发布修改车源
      */
     public static void savecar(AddCarMiddleModle middleModle, Subscriber<ResponseParent<Boolean>> subscriber){
-         /* 防止多次点击 */
-        cancelTagandRemove("savecar");
         String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
         AddCarFrom addCarFrom = middleModle.getAddCarFrom(middleModle);
         ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, addCarFrom);
-        Subscription subscription = ApiClient.getApiService().savecar(addCarFrom, zzcHeaders.getHashMap())
+       ApiClient.getApiService().savecar(addCarFrom, zzcHeaders.getHashMap())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
-        add("savecar", subscription);
     }
 
     /**

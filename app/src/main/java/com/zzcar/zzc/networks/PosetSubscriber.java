@@ -40,6 +40,9 @@ public class PosetSubscriber<T> {
                 if (httpResult.result_code.equals("1000")){
                     //成功
                     listener.success(httpResult.data);
+                }else if (httpResult.result_code.equals("401")){
+                    //身份验证失败
+                    EventBus.getDefault().post(new ActivityFinish(true));
                 }else{
                     ToastUtil.showToast(httpResult.result_msg);
                     listener.fialed(httpResult.result_code, httpResult.result_msg);
