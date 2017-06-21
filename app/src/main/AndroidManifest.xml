@@ -102,8 +102,10 @@
         <activity android:name=".activities.PushSupplyActivity_"/>
         <activity android:name=".activities.MydemendActivity_"/>
         <activity android:name=".activities.PushDemendActivity_"/>
-        <activity
-            android:name=".activities.ViewPagerActivity"/>
+        <activity android:name=".activities.SearchDemendActivity_"/>
+        <activity android:name=".activities.ViewPagerActivity"/>
+        <activity android:name=".activities.SearchSupplyActivity_"/>
+        <activity android:name=".activities.DemendDetailActivity_"/>
 
     </application>
 

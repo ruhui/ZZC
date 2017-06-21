@@ -428,6 +428,9 @@ public class PushDemendActivity extends BaseActivity {
             }else{
                 txtAlert.setText("积分不足，请购买");
             }
+            if (!TextUtils.isEmpty(savedemandModel.getInfo_id())){
+                txtAlert.setText("发布求购");
+            }
         }
 
         @Override

@@ -665,6 +665,10 @@ public class PushSupplyActivity extends BaseActivity {
             }else{
                 txtSubmit.setText("积分不足，请购买");
             }
+
+            if (!TextUtils.isEmpty(carMiddle.getProduct_id())){
+                txtSubmit.setText("发布询价");
+            }
         }
 
         @Override

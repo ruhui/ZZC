@@ -58,17 +58,18 @@ public class CarBrandCopyFragment extends BaseFragment {
     private int mListViewFirstItem = 0;
     //listView中第一项的在屏幕中的位置
     private int mScreenY = 0;
+    private boolean isNotspec = false;
 
 
     @AfterViews
     void initView(){
+        isNotspec= ((BrandCarActivity)getActivity()).isNotspec();
         View vHead= View.inflate(getActivity(), R.layout.headview_brand, null);
         RelativeLayout relaClearPrice = (RelativeLayout) vHead.findViewById(R.id.relaClearPrice);
         RecyclerView mRecyclerView = (RecyclerView) vHead.findViewById(R.id.hotcityRecycleView);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 5));
         mRecyclerView.setAdapter(adapter = new CarBrandAdapter(brandadapterListener));
         adapter.addAll(hotBrandList);
-
 
         sortListView.addHeaderView(vHead);
         pinyinComparator = new PinyinComparator();
@@ -226,6 +227,6 @@ public class CarBrandCopyFragment extends BaseFragment {
             transaction.addToBackStack("CarseriesCopyFragment");
             transaction.commit();
         }
-        carseriesFragment.setBrand(brandid, branddes);
+        carseriesFragment.setBrand(brandid, branddes, isNotspec);
     }
 }

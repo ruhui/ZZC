@@ -174,6 +174,8 @@ public class CarseriesSubscribeFragment extends BaseFragment {
 
         @Override
         public void fialed(String resCode, String message) {
+            mCarseriesList.clear();
+            carseriaAdapter.updateListView(mCarseriesList);
             LogUtil.E("fialed", "fialed");
         }
     };

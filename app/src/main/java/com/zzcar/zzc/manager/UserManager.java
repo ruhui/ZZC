@@ -14,6 +14,8 @@ import com.zzcar.zzc.models.PayOrderModel;
 import com.zzcar.zzc.models.SaveSupplyModel;
 import com.zzcar.zzc.models.SavedemandModel;
 import com.zzcar.zzc.models.SinglecarModel;
+import com.zzcar.zzc.models.SupplyPropsMiddleModel;
+import com.zzcar.zzc.models.SupplyPropsModel;
 import com.zzcar.zzc.networks.ApiClient;
 import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.ZZCHeaders;
@@ -47,6 +49,7 @@ import com.zzcar.zzc.networks.responses.CheckoutcartResponse;
 import com.zzcar.zzc.networks.responses.CityResponse;
 import com.zzcar.zzc.networks.responses.ColorResponse;
 import com.zzcar.zzc.networks.responses.CommentResponse;
+import com.zzcar.zzc.networks.responses.DemendDetailResponse;
 import com.zzcar.zzc.networks.responses.DepositResponse;
 import com.zzcar.zzc.networks.responses.EmptyResponse;
 import com.zzcar.zzc.networks.responses.FridendListResponse;
@@ -70,6 +73,7 @@ import com.zzcar.zzc.networks.responses.RefundOrderResponse;
 import com.zzcar.zzc.networks.responses.SavedemandResponse;
 import com.zzcar.zzc.networks.responses.ShouzhiDetailResponse;
 import com.zzcar.zzc.networks.responses.SingleSupplyResponse;
+import com.zzcar.zzc.networks.responses.SupplyResponse;
 import com.zzcar.zzc.networks.responses.UserMessageResponse;
 import com.zzcar.zzc.networks.responses.ValueTextResponse;
 import com.zzcar.zzc.networks.responses.VerifiedResponse;
@@ -1595,12 +1599,55 @@ public class UserManager {
     public static void getSingelmydemand(DemendPropsModel props, int CURURNPAGE, Subscriber<ResponseParent<MydemandResponse>> subscriber){
         String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
         Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("status", "2");
         hashmap.put("props", Tool.getGson(props));
         hashmap.put("page", String.valueOf(CURURNPAGE));
         hashmap.put("size", "20");
 
         ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
         ApiClient.getApiService().getdemand(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+
+    /**
+     * 商机询价
+     * @param model
+     * @param CURURNPAGE
+     * @param subscriber
+     */
+    public static void getsupplyList(SupplyPropsMiddleModel model, int CURURNPAGE, Subscriber<ResponseParent<SupplyResponse>> subscriber){
+        SupplyPropsModel supplyProp = model.getSupplyProp(model);
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("status", "2");
+        hashmap.put("props", Tool.getGson(supplyProp));
+        hashmap.put("page", String.valueOf(CURURNPAGE));
+        hashmap.put("size", "20");
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        ApiClient.getApiService().getsupplyList(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 求购详情
+     * @param infoId
+     * @param subscriber
+     */
+    public static void getDemendDetail(int infoId, Subscriber<ResponseParent<DemendDetailResponse>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("id", String.valueOf(infoId));
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        ApiClient.getApiService().getDemendDetail(hashmap, zzcHeaders.getHashMap())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -1,5 +1,6 @@
 package com.zzcar.zzc.fragments;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -8,7 +9,14 @@ import android.view.ViewGroup;
 
 import com.viewpagerindicator.IconPagerAdapter;
 import com.zzcar.zzc.R;
+import com.zzcar.zzc.activities.SearchDemendActivity_;
+import com.zzcar.zzc.activities.SearchSupplyActivity_;
 import com.zzcar.zzc.fragments.base.BaseFragment;
+import com.zzcar.zzc.interfaces.RefreshDemendFragment;
+import com.zzcar.zzc.interfaces.RefreshSupplyFragment;
+import com.zzcar.zzc.models.DemendPropsModel;
+import com.zzcar.zzc.models.MiddleDemendModel;
+import com.zzcar.zzc.models.SupplyPropsMiddleModel;
 import com.zzcar.zzc.views.widget.NavbarSwitch;
 import com.zzcar.zzc.views.widget.NavbarSwitch2;
 import com.zzcar.zzc.views.widget.NoScrollViewPager;
@@ -16,7 +24,9 @@ import com.zzcar.zzc.views.widget.NoScrollViewPager;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -33,6 +43,10 @@ public class BusinessFragment extends BaseFragment{
 
     private ArrayList<Fragment> listFragment = new ArrayList<>();
     private int curturnPage = 0;
+    /*求购缓存数据*/
+    MiddleDemendModel propsModel = new MiddleDemendModel();
+    /*询价缓存数据*/
+    SupplyPropsMiddleModel searchRequest = new SupplyPropsMiddleModel();
 
     @Override
     public void onNetChange(int netMobile) {
@@ -63,14 +77,21 @@ public class BusinessFragment extends BaseFragment{
             public void onClick(View v) {
                 if (curturnPage == 0){
                     //求购
+                    Intent intent = new Intent(getActivity(), SearchDemendActivity_.class);
+                    intent.putExtra("propsModel", (Serializable) propsModel);
+                    startActivityForResult(intent, 20171);
+
                 }else{
                     //询价
+                    Intent intent = new Intent(getActivity(), SearchSupplyActivity_.class);
+                    intent.putExtra("supplypropsModel", (Serializable) searchRequest);
+                    startActivityForResult(intent, 20172);
                 }
             }
         });
 
         BusinessDemendFragment demendFragment = BusinessDemendFragment_.builder().build();
-        BusinessDemendFragment supplyFragment = BusinessDemendFragment_.builder().build();
+        BusinessSupplyFragment supplyFragment = BusinessSupplyFragment_.builder().build();
         listFragment.add(demendFragment);
         listFragment.add(supplyFragment);
 
@@ -124,6 +145,20 @@ public class BusinessFragment extends BaseFragment{
         public void destroyItem(ViewGroup container, int position, Object object) {
             //取消销毁fragment,提高性能
             //super.destroyItem(container, position, object);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null){
+            if (requestCode == 20171){
+                propsModel = (MiddleDemendModel) data.getSerializableExtra("propsModel");
+                EventBus.getDefault().post(new RefreshDemendFragment(propsModel));
+            }else if (requestCode == 20172){
+                searchRequest = (SupplyPropsMiddleModel) data.getSerializableExtra("searchRequest");
+                EventBus.getDefault().post(new RefreshSupplyFragment(searchRequest));
+            }
         }
     }
 }

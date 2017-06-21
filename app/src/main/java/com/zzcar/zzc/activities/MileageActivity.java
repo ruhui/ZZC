@@ -46,6 +46,8 @@ public class MileageActivity extends BaseActivity {
     RelativeLayout relaClearPrice;
     @ViewById(R.id.mRecyclerView)
     RecyclerView mRecyclerView;
+    @ViewById(R.id.txtNolimit)
+    TextView txtNolimit;
 
     private ChannelAdapter adapter;
     private List<CarChanelResponse> mChannelList = new ArrayList<>();
@@ -53,6 +55,8 @@ public class MileageActivity extends BaseActivity {
     @AfterViews
     void initView(){
         getMileage();
+
+        txtNolimit.setText("不限里程");
         mNavbar.setMiddleTitle("里程");
         mNavbar.setMiddleTextColor(R.color.color_333333);
         mNavbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);

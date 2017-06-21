@@ -139,6 +139,7 @@
             android:layout_marginLeft="22dp"/>
 
         <TextView
+            android:id="@+id/txtNolimit"
             android:layout_width="75dp"
             android:layout_height="30dp"
             android:text="不限价格"

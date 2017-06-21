@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/windowbackcolor">
+
+    <com.zzcar.zzc.views.widget.NavBar2_
+        android:id="@+id/mNavbar"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:gravity="bottom"
+        android:background="@color/white"
+        app:title_res="@string/tab_mine">
+    </com.zzcar.zzc.views.widget.NavBar2_>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/mNavbar"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/grey"/>
+
+        <com.zzcar.zzc.views.widget.ItemIconTextIcon_
+            android:id="@+id/itemIconTextIcon1"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+        </com.zzcar.zzc.views.widget.ItemIconTextIcon_>
+
+
+        <com.zzcar.zzc.views.widget.ItemIconTextIcon_
+            android:id="@+id/itemIconTextIcon2"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+        </com.zzcar.zzc.views.widget.ItemIconTextIcon_>
+
+        <com.zzcar.zzc.views.widget.ItemOneView_
+            android:id="@+id/outComTime"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+
+        </com.zzcar.zzc.views.widget.ItemOneView_>
+
+        <com.zzcar.zzc.views.widget.ItemIconTextIcon_
+            android:id="@+id/itemIconTextIcon3"
+            android:layout_width="match_parent"
+            android:layout_height="50dp">
+        </com.zzcar.zzc.views.widget.ItemIconTextIcon_>
+
+        <TextView
+            android:id="@+id/txtSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:textSize="@dimen/sp_16"
+            android:textColor="@color/white"
+            android:text="确定"
+            android:gravity="center"
+            android:background="@drawable/shape_red_radio"/>
+
+    </LinearLayout>
+
+</LinearLayout>

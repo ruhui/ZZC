@@ -1,5 +1,6 @@
 package com.zzcar.zzc.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,22 +10,23 @@ import java.util.List;
  * 功能描述：
  */
 
-public class DemendPropsModel {
-    public int bland_id;//品牌id
+public class DemendPropsModel implements Serializable{
+    public int bland_id ;//品牌id
     public int series_id;//车系id
-    public int price_typ;//价格区间
-    public double min_price;//自定义查询最低价格
-    public double max_price;//自定义查询最高价格
+    public int price_type;//价格区间
+    public int min_price;//自定义查询最低价格
+    public int max_price;//自定义查询最高价格
     public int start_year;//上牌年份－起
     public int end_year;//上牌年份-止
     public List<String> color_ids = new ArrayList<>();//颜色数组
 
     public DemendPropsModel(){}
 
-    public DemendPropsModel(int bland_id, int series_id, int price_typ, double min_price, double max_price, int start_year, int end_year, List<String> color_ids) {
+
+    public DemendPropsModel(int bland_id, int series_id, int price_typ, int min_price, int max_price, int start_year, int end_year, List<String> color_ids) {
         this.bland_id = bland_id;
         this.series_id = series_id;
-        this.price_typ = price_typ;
+        this.price_type = price_typ;
         this.min_price = min_price;
         this.max_price = max_price;
         this.start_year = start_year;
@@ -49,26 +51,26 @@ public class DemendPropsModel {
     }
 
     public int getPrice_typ() {
-        return price_typ;
+        return price_type;
     }
 
     public void setPrice_typ(int price_typ) {
-        this.price_typ = price_typ;
+        this.price_type = price_typ;
     }
 
-    public double getMin_price() {
+    public int getMin_price() {
         return min_price;
     }
 
-    public void setMin_price(double min_price) {
+    public void setMin_price(int min_price) {
         this.min_price = min_price;
     }
 
-    public double getMax_price() {
+    public int getMax_price() {
         return max_price;
     }
 
-    public void setMax_price(double max_price) {
+    public void setMax_price(int max_price) {
         this.max_price = max_price;
     }
 

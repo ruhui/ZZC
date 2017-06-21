@@ -53,6 +53,7 @@ public class CarseriesCopyFragment extends BaseFragment {
 
     private String brandiddes;
     private int brandid;
+    private boolean isNotspec = false;
 
     @AfterViews
     void initView(){
@@ -75,8 +76,14 @@ public class CarseriesCopyFragment extends BaseFragment {
                 long facrotyid = carfactory.getFactory_id();
                 long id = carfactory.getId();
                 brandiddes += ""+name;
-                //設置車型
-                showCarTypefragment(id);
+                if (isNotspec){
+                    //不显示车型
+                    ((BrandCarActivity)getActivity()).setBrandandType(brandid+"", id+"" , "", brandiddes);
+                }else{
+                    //設置車型
+                    showCarTypefragment(id);
+                }
+
             }
         });
 
@@ -127,9 +134,11 @@ public class CarseriesCopyFragment extends BaseFragment {
 
 
 
-    public void setBrand(int brandid, String branddes) {
+    public void setBrand(int brandid, String branddes, boolean isNotspec) {
+        //isNotspec是否显示车型
         this.brandid = brandid;
         this.brandiddes = branddes;
+        this.isNotspec = isNotspec;
         getCarSeries(brandid);
     }
 
@@ -158,6 +167,8 @@ public class CarseriesCopyFragment extends BaseFragment {
 
         @Override
         public void fialed(String resCode, String message) {
+            mCarseriesList.clear();
+            carseriaAdapter.updateListView(mCarseriesList);
             LogUtil.E("fialed", "fialed");
         }
     };

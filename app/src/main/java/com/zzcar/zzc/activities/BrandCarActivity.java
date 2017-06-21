@@ -40,10 +40,13 @@ public class BrandCarActivity extends BaseActivity {
     private CarBrandCopyFragment carBrandFragment;
     /*品牌列表*/
     private List<BrandListResponse> mBrandList = new ArrayList<>();
+    /*是否选择车型*/
+    private boolean notspec = false;
 
 
     @AfterViews
     void initView(){
+        notspec = getIntent().getBooleanExtra("notspec", false);
         mNavbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
         mNavbar.setMiddleTitle("品牌");
         mNavbar.setRightTxtColor(R.color.color_959595);
@@ -94,6 +97,11 @@ public class BrandCarActivity extends BaseActivity {
     @Override
     public void onNetChange(int netMobile) {
 
+    }
+
+    /*是否不显示车型, true作为不显示*/
+    public boolean isNotspec(){
+        return  notspec;
     }
 
 
