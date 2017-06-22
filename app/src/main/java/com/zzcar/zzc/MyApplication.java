@@ -40,9 +40,6 @@ public class MyApplication extends Application {
     private static MyApplication mInstance;
     private Context appContext;
     private EaseUI easeUI;
-    /*聊天图片用到测试时图片查看地址*/
-    public static final String PICLOOKURL = "http://47.89.48.28:5002";
-
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -73,7 +70,6 @@ public class MyApplication extends Application {
     public void onTerminate() {
         super.onTerminate();
         mInstance = null;
-
     }
 //    private void initEMchat(){
 //        EMOptions options = new EMOptions();
@@ -118,34 +114,37 @@ public class MyApplication extends Application {
 //        EMClient.getInstance().setDebugMode(true);
 //    }
 //
-    private String getAppName(int pID) {
-        String processName = null;
-        ActivityManager am = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
-        List l = am.getRunningAppProcesses();
-        Iterator i = l.iterator();
-        PackageManager pm = this.getPackageManager();
-        while (i.hasNext()) {
-            ActivityManager.RunningAppProcessInfo info = (ActivityManager.RunningAppProcessInfo) (i.next());
-            try {
-                if (info.pid == pID) {
-                    processName = info.processName;
-                    return processName;
-                }
-            } catch (Exception e) {
-                // Log.d("Process", "Error>> :"+ e.toString());
-            }
-        }
-        return processName;
-    }
+//    private String getAppName(int pID) {
+//        String processName = null;
+//        ActivityManager am = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
+//        List l = am.getRunningAppProcesses();
+//        if (l == null){
+//            return "";
+//        }
+//        Iterator i = l.iterator();
+//        PackageManager pm = this.getPackageManager();
+//        while (i.hasNext()) {
+//            ActivityManager.RunningAppProcessInfo info = (ActivityManager.RunningAppProcessInfo) (i.next());
+//            try {
+//                if (info.pid == pID) {
+//                    processName = info.processName;
+//                    return processName;
+//                }
+//            } catch (Exception e) {
+//                // Log.d("Process", "Error>> :"+ e.toString());
+//            }
+//        }
+//        return processName;
+//    }
 
     public void initEaseUi(Context context) {
         EMOptions options = initChatOptions();
-        int pid = android.os.Process.myPid();
-        String processAppName = getAppName(pid);
-        if (processAppName == null ||!processAppName.equalsIgnoreCase(this.getPackageName())) {
-            // 则此application::onCreate 是被service 调用的，直接返回
-            return;
-        }
+//        int pid = android.os.Process.myPid();
+//        String processAppName = getAppName(pid);
+//        if (processAppName == null ||!processAppName.equalsIgnoreCase(this.getPackageName())) {
+//            // 则此application::onCreate 是被service 调用的，直接返回
+//            return;
+//        }
         //use default options if options is null
         if (EaseUI.getInstance().init(context, options)) {
             appContext = context;
