@@ -1,5 +1,6 @@
 package com.zzcar.zzc.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -49,10 +50,17 @@ public class BusinessDemendFragment extends BasePullRecyclerFragment{
 
     private int CURTUNPAGE = Constant.DEFAULTPAGE;
     private BusinessDemendAdapter adapter;
+    private String userid = "";
 
     @Override
     public void onNetChange(int netMobile) {
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        userid = getArguments().getString("userid");
     }
 
     @Override
@@ -112,7 +120,7 @@ public class BusinessDemendFragment extends BasePullRecyclerFragment{
     private void getDemend() {
         showProgress();
         Subscriber subscriber = new PosetSubscriber<>().getSubscriber(callback_demend);
-        UserManager.getSingelmydemand(propsModel, CURTUNPAGE, subscriber);
+        UserManager.getSingelmydemand(userid, propsModel, CURTUNPAGE, subscriber);
     }
 
     ResponseResultListener callback_demend = new ResponseResultListener<MydemandResponse>() {

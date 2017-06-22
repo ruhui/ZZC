@@ -58,6 +58,7 @@ import com.zzcar.zzc.networks.responses.RefundOrderResponse;
 import com.zzcar.zzc.networks.responses.SavedemandResponse;
 import com.zzcar.zzc.networks.responses.ShouzhiDetailResponse;
 import com.zzcar.zzc.networks.responses.SingleSupplyResponse;
+import com.zzcar.zzc.networks.responses.SupplyDetailResponse;
 import com.zzcar.zzc.networks.responses.SupplyResponse;
 import com.zzcar.zzc.networks.responses.UserMessageResponse;
 import com.zzcar.zzc.networks.responses.UserMsgResponse;
@@ -394,5 +395,10 @@ public interface ZZCService {
     /*商机求购*/
     @GET("info/demand")
     Observable<ResponseParent<DemendDetailResponse>> getDemendDetail(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+
+    /*商机询价*/
+    @GET("info/supply")
+    Observable<ResponseParent<SupplyDetailResponse>> getSupplyDetail(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+
 
 }

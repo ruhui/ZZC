@@ -40,7 +40,7 @@
                 android:layout_marginTop="7dp"
                 android:layout_toEndOf="@+id/imageView45"
                 android:layout_toRightOf="@+id/imageView45"
-                android:text="TextView"
+                android:text=""
                 android:textColor="#909090"
                 android:textSize="10sp" />
 
@@ -53,7 +53,7 @@
                 android:layout_marginTop="3dp"
                 android:layout_toEndOf="@+id/imageView45"
                 android:layout_toRightOf="@+id/imageView45"
-                android:text="TextView"
+                android:text=""
                 android:textColor="#909090"
                 android:textSize="10sp" />
         </RelativeLayout>
@@ -78,7 +78,7 @@
                 android:layout_marginRight="@dimen/size_15"
                 android:layout_marginStart="15dp"
                 android:singleLine="true"
-                android:text="TextView"
+                android:text=""
                 android:textColor="@color/color_090909"
                 android:textSize="14sp" />
         </RelativeLayout>

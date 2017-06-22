@@ -22,6 +22,10 @@ import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
+import com.zzcar.zzc.fragments.BusinessDemendFragment;
+import com.zzcar.zzc.fragments.BusinessDemendFragment_;
+import com.zzcar.zzc.fragments.BusinessSupplyFragment;
+import com.zzcar.zzc.fragments.BusinessSupplyFragment_;
 import com.zzcar.zzc.fragments.MycarfromFragment;
 import com.zzcar.zzc.fragments.MycarfromFragment_;
 import com.zzcar.zzc.fragments.UserCarFromFragment;
@@ -160,20 +164,20 @@ public class MemberMsgActivity extends BaseActivity {
     private void initTab() {
 
         ArrayList<MemberMsgActivity.TabInfo> infos = new ArrayList<>();
-
+        /*车源*/
         UserCarFromFragment fragment_zaishou = UserCarFromFragment_.builder().build();
         Bundle bundle = new Bundle();
         bundle.putString("userid", userid+"");
         fragment_zaishou.setArguments(bundle);
-
-        MycarfromFragment fragment_yishou = MycarfromFragment_.builder().build();
+        /*求购*/
+        BusinessDemendFragment fragment_yishou = BusinessDemendFragment_.builder().build();
         Bundle bundle1 = new Bundle();
-        bundle1.putString("Tag", "1");
+        bundle1.putString("userid", userid+"");
         fragment_yishou.setArguments(bundle1);
-
-        MycarfromFragment fragment_weishangjai = MycarfromFragment_.builder().build();
+        /*询价*/
+        BusinessSupplyFragment fragment_weishangjai = BusinessSupplyFragment_.builder().build();
         Bundle bundle2 = new Bundle();
-        bundle2.putString("Tag", "2");
+        bundle2.putString("userid", userid+"");
         fragment_weishangjai.setArguments(bundle2);
 
         MemberMsgActivity.TabInfo homeTabInfo = new MemberMsgActivity.TabInfo(fragment_zaishou, "在售("+usermessage.getSell_count()+")");

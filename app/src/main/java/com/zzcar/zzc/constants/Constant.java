@@ -18,7 +18,7 @@ public class Constant {
     /* 和后台接口对应的密钥 */
     public static final String PRIVATEKEY = "3BDB71CA-11A3-49";
     /* 友盟Appkey*/
-    public static final String UMENGAPPKEY = "58ef20a6cae7e7474500182a";
+    public static final String UMENGAPPKEY = "594bae4bcae7e7450100025e";
     /* sharesdk的Appkey */
     public static final String SHARESDKAPPKEY = "1cf6a7b7657a2";
     /*公钥*/

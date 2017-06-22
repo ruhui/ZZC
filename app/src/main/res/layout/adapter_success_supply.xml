@@ -31,7 +31,7 @@
             android:layout_marginLeft="10dp"
             android:layout_toEndOf="@+id/imageView47"
             android:layout_toRightOf="@+id/imageView47"
-            android:text="TextView"
+            android:text=" "
             android:textColor="@color/color_090909"
             android:textSize="@dimen/sp_14" />
 
@@ -44,7 +44,7 @@
             android:layout_marginRight="10dp"
             android:layout_toEndOf="@+id/imageView47"
             android:layout_toRightOf="@+id/imageView47"
-            android:text="TextView"
+            android:text=" "
             android:textColor="@color/color_090909"
             android:textSize="@dimen/sp_14" />
     </RelativeLayout>
@@ -66,5 +66,9 @@
         android:gravity="center|left"
         android:paddingLeft="65dp"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/windowbackcolor"/>
 
 </LinearLayout>

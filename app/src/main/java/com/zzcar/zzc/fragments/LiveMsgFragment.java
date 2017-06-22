@@ -1,10 +1,15 @@
 package com.zzcar.zzc.fragments;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.zzcar.zzc.R;
+import com.zzcar.zzc.activities.DemendDetailActivity_;
+import com.zzcar.zzc.activities.GoodDetailActivity_;
+import com.zzcar.zzc.activities.MemberMsgActivity_;
+import com.zzcar.zzc.activities.SupplyDetailActivity_;
 import com.zzcar.zzc.adapters.LiveMsgAdapter;
 import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.fragments.base.BasePullRecyclerFragment;
@@ -30,7 +35,7 @@ import rx.Subscriber;
 /**
  * 创建时间： 2017/6/7.
  * 作者：黄如辉
- * 功能描述：
+ * 功能描述：实况
  */
 @EFragment(R.layout.fragment_footprint)
 public class LiveMsgFragment extends BasePullRecyclerFragment {
@@ -70,7 +75,27 @@ public class LiveMsgFragment extends BasePullRecyclerFragment {
     AdapterListener adapterListener = new AdapterListener<ShouzhiItem>() {
         @Override
         public void setOnItemListener(ShouzhiItem o, int position) {
-
+            if (o.getType() == 1){
+                //用户信息
+                Intent intent = new Intent(getActivity(), MemberMsgActivity_.class);
+                intent.putExtra("userid", o.getObject_id());
+                startActivity(intent);
+            }else if (o.getType() == 2 || o.getType() == 5){
+                //车源信息
+                Intent intent = new Intent(getActivity(), GoodDetailActivity_.class);
+                intent.putExtra("productId", o.getObject_id());
+                startActivity(intent);
+            }else if (o.getType() == 3){
+                //求购详情
+                Intent intent = new Intent(getActivity(), DemendDetailActivity_.class);
+                intent.putExtra("info_id", o.getObject_id());
+                startActivity(intent);
+            }else if (o.getType() == 4){
+                //询价
+                Intent intent = new Intent(getActivity(), SupplyDetailActivity_.class);
+                intent.putExtra("info_id", o.getObject_id());
+                startActivity(intent);
+            }
         }
     };
 
@@ -103,7 +128,7 @@ public class LiveMsgFragment extends BasePullRecyclerFragment {
             closeProgress();
             dataList.clear();
             dataList.addAll(returnMsg.getRows());
-            adapter.clear();;
+            adapter.clear();
             adapter.addAll(dataList);
             if (CURTURNPAGE >= returnMsg.getTotal_pages()){
                 finishLoad(false);

@@ -38,15 +38,57 @@
 
             <include
                 android:id="@+id/include_demend"
-                layout="@layout/adapter_business_demend"
+                layout="@layout/adapter_success_supply"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/mRecyclerView"
+            <include
+                layout="@layout/view_car_detial"
+                android:id="@+id/includeView"/>
+
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="车况描述"
+                    android:textSize="12sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:textColor="#909090"
+                    android:layout_marginStart="15dp"
+                    android:id="@+id/textView43"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+                <TextView
+                    android:id="@+id/textView44"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textSize="14sp"
+                    android:textColor="@color/color_333333"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toRightOf="@+id/textView43"
+                    android:layout_toEndOf="@+id/textView43" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/mRecyclerViewMement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
                 android:saveEnabled="false"
                 android:background="@color/white">
 

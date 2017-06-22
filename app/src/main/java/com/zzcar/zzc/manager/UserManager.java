@@ -73,6 +73,7 @@ import com.zzcar.zzc.networks.responses.RefundOrderResponse;
 import com.zzcar.zzc.networks.responses.SavedemandResponse;
 import com.zzcar.zzc.networks.responses.ShouzhiDetailResponse;
 import com.zzcar.zzc.networks.responses.SingleSupplyResponse;
+import com.zzcar.zzc.networks.responses.SupplyDetailResponse;
 import com.zzcar.zzc.networks.responses.SupplyResponse;
 import com.zzcar.zzc.networks.responses.UserMessageResponse;
 import com.zzcar.zzc.networks.responses.ValueTextResponse;
@@ -1596,9 +1597,13 @@ public class UserManager {
      * @param CURURNPAGE
      * @param subscriber
      */
-    public static void getSingelmydemand(DemendPropsModel props, int CURURNPAGE, Subscriber<ResponseParent<MydemandResponse>> subscriber){
+    public static void getSingelmydemand(String userid, DemendPropsModel props, int CURURNPAGE, Subscriber<ResponseParent<MydemandResponse>> subscriber){
         String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        if (userid == null){
+            userid = "";
+        }
         Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("user_id", userid);
         hashmap.put("status", "2");
         hashmap.put("props", Tool.getGson(props));
         hashmap.put("page", String.valueOf(CURURNPAGE));
@@ -1619,10 +1624,14 @@ public class UserManager {
      * @param CURURNPAGE
      * @param subscriber
      */
-    public static void getsupplyList(SupplyPropsMiddleModel model, int CURURNPAGE, Subscriber<ResponseParent<SupplyResponse>> subscriber){
+    public static void getsupplyList(String userid, SupplyPropsMiddleModel model, int CURURNPAGE, Subscriber<ResponseParent<SupplyResponse>> subscriber){
         SupplyPropsModel supplyProp = model.getSupplyProp(model);
         String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        if (userid == null){
+            userid = "";
+        }
         Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("user_id", userid);
         hashmap.put("status", "2");
         hashmap.put("props", Tool.getGson(supplyProp));
         hashmap.put("page", String.valueOf(CURURNPAGE));
@@ -1648,6 +1657,24 @@ public class UserManager {
 
         ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
         ApiClient.getApiService().getDemendDetail(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 商机询价
+     * @param infoId
+     * @param subscriber
+     */
+    public static void getSupplyDetail(int infoId, Subscriber<ResponseParent<SupplyDetailResponse>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("id", String.valueOf(infoId));
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        ApiClient.getApiService().getSupplyDetail(hashmap, zzcHeaders.getHashMap())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

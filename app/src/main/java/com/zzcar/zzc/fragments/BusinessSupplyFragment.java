@@ -1,5 +1,6 @@
 package com.zzcar.zzc.fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.PushSupplyActivity_;
+import com.zzcar.zzc.activities.SupplyDetailActivity;
+import com.zzcar.zzc.activities.SupplyDetailActivity_;
 import com.zzcar.zzc.adapters.SuccessSupplyAdapter;
 import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.fragments.base.BasePullRecyclerFragment;
@@ -16,6 +19,7 @@ import com.zzcar.zzc.interfaces.RefreshSupplyFragment;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.MydemandModel;
+import com.zzcar.zzc.models.SupplyModel;
 import com.zzcar.zzc.models.SupplyPropsMiddleModel;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.responses.SupplyResponse;
@@ -43,10 +47,17 @@ public class BusinessSupplyFragment extends BasePullRecyclerFragment {
     private int CURTUNPAGE = Constant.DEFAULTPAGE;
     SupplyPropsMiddleModel prosModel = new SupplyPropsMiddleModel();
     private SuccessSupplyAdapter adapter;
+    private String userid = "";
 
     @Override
     public void onNetChange(int netMobile) {
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        userid = getArguments().getString("userid");
     }
 
     @Override
@@ -61,10 +72,12 @@ public class BusinessSupplyFragment extends BasePullRecyclerFragment {
     }
 
 
-    AdapterListener adapterListener = new AdapterListener<MydemandModel>() {
+    AdapterListener adapterListener = new AdapterListener<SupplyModel>() {
         @Override
-        public void setOnItemListener(MydemandModel o, int position) {
-
+        public void setOnItemListener(SupplyModel o, int position) {
+            Intent intent = new Intent(getActivity(), SupplyDetailActivity_.class);
+            intent.putExtra("info_id", o.getInfo_id());
+            startActivity(intent);
         }
     };
 
@@ -105,7 +118,7 @@ public class BusinessSupplyFragment extends BasePullRecyclerFragment {
     private void getSupply() {
         showProgress();
         Subscriber subscriber = new PosetSubscriber<>().getSubscriber(callback_demend);
-        UserManager.getsupplyList(prosModel, CURTUNPAGE, subscriber);
+        UserManager.getsupplyList(userid, prosModel, CURTUNPAGE, subscriber);
     }
 
     ResponseResultListener callback_demend = new ResponseResultListener<SupplyResponse>() {

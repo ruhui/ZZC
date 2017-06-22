@@ -55,7 +55,9 @@ public class MyApplication extends Application {
         super.onCreate();
         mInstance = this;
         //集成测试，正式试用时要设为false
-//        MobclickAgent.setDebugMode(false);
+        MobclickAgent.setDebugMode(true);
+        MobclickAgent.UMAnalyticsConfig config = new MobclickAgent.UMAnalyticsConfig( mInstance, Constant.UMENGAPPKEY, "yingyongbao");
+        MobclickAgent. startWithConfigure(config);
         //环信初始化
 //        EaseUI.getInstance().init(this, null);
 //        EMClient.getInstance().setDebugMode(true);
@@ -116,28 +118,34 @@ public class MyApplication extends Application {
 //        EMClient.getInstance().setDebugMode(true);
 //    }
 //
-//    private String getAppName(int pID) {
-//        String processName = null;
-//        ActivityManager am = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
-//        List l = am.getRunningAppProcesses();
-//        Iterator i = l.iterator();
-//        PackageManager pm = this.getPackageManager();
-//        while (i.hasNext()) {
-//            ActivityManager.RunningAppProcessInfo info = (ActivityManager.RunningAppProcessInfo) (i.next());
-//            try {
-//                if (info.pid == pID) {
-//                    processName = info.processName;
-//                    return processName;
-//                }
-//            } catch (Exception e) {
-//                // Log.d("Process", "Error>> :"+ e.toString());
-//            }
-//        }
-//        return processName;
-//    }
+    private String getAppName(int pID) {
+        String processName = null;
+        ActivityManager am = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
+        List l = am.getRunningAppProcesses();
+        Iterator i = l.iterator();
+        PackageManager pm = this.getPackageManager();
+        while (i.hasNext()) {
+            ActivityManager.RunningAppProcessInfo info = (ActivityManager.RunningAppProcessInfo) (i.next());
+            try {
+                if (info.pid == pID) {
+                    processName = info.processName;
+                    return processName;
+                }
+            } catch (Exception e) {
+                // Log.d("Process", "Error>> :"+ e.toString());
+            }
+        }
+        return processName;
+    }
 
     public void initEaseUi(Context context) {
         EMOptions options = initChatOptions();
+        int pid = android.os.Process.myPid();
+        String processAppName = getAppName(pid);
+        if (processAppName == null ||!processAppName.equalsIgnoreCase(this.getPackageName())) {
+            // 则此application::onCreate 是被service 调用的，直接返回
+            return;
+        }
         //use default options if options is null
         if (EaseUI.getInstance().init(context, options)) {
             appContext = context;

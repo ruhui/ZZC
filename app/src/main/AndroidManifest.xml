@@ -48,7 +48,8 @@
             </intent-filter>
         </receiver>
 
-
+        <meta-data android:value="YOUR_APP_KEY" android:name="594bae4bcae7e7450100025e"/>
+        <meta-data android:value="Channel ID" android:name="yingyongbao"/>
 
         <activity android:name=".activities.MainActivity_"  android:launchMode="singleTask"/>
 
@@ -106,6 +107,7 @@
         <activity android:name=".activities.ViewPagerActivity"/>
         <activity android:name=".activities.SearchSupplyActivity_"/>
         <activity android:name=".activities.DemendDetailActivity_"/>
+        <activity android:name=".activities.SupplyDetailActivity_"/>
 
     </application>
 

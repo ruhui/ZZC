@@ -1,5 +1,6 @@
 package com.zzcar.zzc.adapters;
 
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.zzcar.zzc.adapters.base.BaseRecyclerAdapter;
@@ -29,7 +30,13 @@ public class SuccessSupplyAdapter extends BaseRecyclerAdapter<SupplyModel, Succe
     }
 
     @Override
-    protected void onBindView(SuccessSupplyViewHold itemView, SupplyModel supplyModel, int position) {
+    protected void onBindView(SuccessSupplyViewHold itemView, final SupplyModel supplyModel, final int position) {
         itemView.bind(supplyModel);
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapterListener.setOnItemListener(supplyModel, position);
+            }
+        });
     }
 }
