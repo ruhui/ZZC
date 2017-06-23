@@ -72,9 +72,9 @@ public class LiveMsgFragment extends BasePullRecyclerFragment {
     }
 
     /*点击监听*/
-    AdapterListener adapterListener = new AdapterListener<ShouzhiItem>() {
+    AdapterListener adapterListener = new AdapterListener<HomeLiveMode>() {
         @Override
-        public void setOnItemListener(ShouzhiItem o, int position) {
+        public void setOnItemListener(HomeLiveMode o, int position) {
             if (o.getType() == 1){
                 //用户信息
                 Intent intent = new Intent(getActivity(), MemberMsgActivity_.class);

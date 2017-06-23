@@ -2,6 +2,7 @@ package com.zzcar.zzc.adapters;
 
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.zzcar.zzc.adapters.base.BaseRecyclerAdapter;
@@ -18,8 +19,10 @@ import com.zzcar.zzc.models.HomeLiveMode;
 
 public class LiveMsgAdapter extends BaseRecyclerAdapter<HomeLiveMode, LivemsgViewHold> {
 
+    private AdapterListener adapterListener;
     public LiveMsgAdapter(Context activity, AdapterListener adapterListener) {
         super();
+        this.adapterListener = adapterListener;
     }
 
     @Override
@@ -28,7 +31,13 @@ public class LiveMsgAdapter extends BaseRecyclerAdapter<HomeLiveMode, LivemsgVie
     }
 
     @Override
-    protected void onBindView(LivemsgViewHold itemView, HomeLiveMode homeLiveMode, int position) {
+    protected void onBindView(LivemsgViewHold itemView, final HomeLiveMode homeLiveMode, final int position) {
         itemView.bind(homeLiveMode, position);
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapterListener.setOnItemListener(homeLiveMode, position);
+            }
+        });
     }
 }
