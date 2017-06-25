@@ -173,10 +173,12 @@ public class MemberMsgActivity extends BaseActivity {
         BusinessDemendFragment fragment_yishou = BusinessDemendFragment_.builder().build();
         Bundle bundle1 = new Bundle();
         bundle1.putString("userid", userid+"");
+        bundle1.putBoolean("dismisspush", true);
         fragment_yishou.setArguments(bundle1);
         /*询价*/
         BusinessSupplyFragment fragment_weishangjai = BusinessSupplyFragment_.builder().build();
         Bundle bundle2 = new Bundle();
+        bundle2.putBoolean("dismisspush", true);
         bundle2.putString("userid", userid+"");
         fragment_weishangjai.setArguments(bundle2);
 

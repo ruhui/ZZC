@@ -48,6 +48,7 @@ public class BusinessSupplyFragment extends BasePullRecyclerFragment {
     SupplyPropsMiddleModel prosModel = new SupplyPropsMiddleModel();
     private SuccessSupplyAdapter adapter;
     private String userid = "";
+    private boolean dismisspush;
 
     @Override
     public void onNetChange(int netMobile) {
@@ -58,6 +59,7 @@ public class BusinessSupplyFragment extends BasePullRecyclerFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         userid = getArguments().getString("userid");
+        dismisspush = getArguments().getBoolean("dismisspush");
     }
 
     @Override
@@ -69,6 +71,11 @@ public class BusinessSupplyFragment extends BasePullRecyclerFragment {
         getSupply();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter = new SuccessSupplyAdapter(adapterListener));
+        if (dismisspush){
+            pushCar.setVisibility(View.GONE);
+        }else {
+            pushCar.setVisibility(View.VISIBLE);
+        }
     }
 
 

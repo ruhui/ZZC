@@ -27,7 +27,7 @@ import rx.Subscriber;
 /**
  * 创建时间： 2017/6/12.
  * 作者：黄如辉
- * 功能描述：
+ * 功能描述：交易担保
  */
 @EFragment(R.layout.fragment_jiaoyidanbao)
 public class JiaoyiFragment extends BaseFragment {

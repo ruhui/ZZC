@@ -114,7 +114,8 @@ public class ShouzhiItem {
     }
 
     public boolean isIntent(){
-        if (type == 6 || type == 9 || type == 5 || type == 10){
+        //6交易手续费、9购买积分、5分润、10退还手续费，11交易担保,不用跳到详情
+        if (type == 6 || type == 9 || type == 5 || type == 10 || type == 11  || type == 8){
             return false;
         }else{
             return true;

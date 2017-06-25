@@ -75,6 +75,12 @@ public class MessageViewHolde extends LinearLayout {
         if (conversation !=null){
             unread = conversation.getUnreadMsgCount();
         }
+
+        if (message.getType() == 1){
+            //业务消息
+            unread = message.getNew_count();
+        }
+
         if (unread > 99){
             unRedCount.setText("99+");
             unRedCount.setVisibility(VISIBLE);
@@ -86,5 +92,6 @@ public class MessageViewHolde extends LinearLayout {
             }
             unRedCount.setText(message.getNew_count()+"");
         }
+
     }
 }

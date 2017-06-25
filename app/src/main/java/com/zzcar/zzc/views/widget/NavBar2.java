@@ -22,7 +22,6 @@ import org.androidannotations.annotations.ViewById;
 @EViewGroup(R.layout.view_nav_bar2)
 public class NavBar2 extends Toolbar {
 
-
     @ViewById
     ImageView ivMenuLeft;
     @ViewById
@@ -100,6 +99,7 @@ public class NavBar2 extends Toolbar {
 
     public void setRightTxt(String str) {
         ivMenuRightTxt.setText(str);
+        ivMenuRightTxt.setTextColor(getResources().getColor(R.color.color_333333));
     }
 
     public void setRightTxtColor(int color){

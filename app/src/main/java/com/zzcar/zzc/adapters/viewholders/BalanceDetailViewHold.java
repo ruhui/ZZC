@@ -42,7 +42,7 @@ public class BalanceDetailViewHold extends LinearLayout {
 
     public void bind(OrderItemModle itemModle){
         txtProdctName.setText(itemModle.getProduct_name());
-        txtSingelePrie.setText("￥"+itemModle.getUnit_price());
+        txtSingelePrie.setText("¥"+itemModle.getUnit_price());
         txtQueity.setText(itemModle.getQuantity());
         txtPrice.setText(itemModle.getMarket_price());
     }

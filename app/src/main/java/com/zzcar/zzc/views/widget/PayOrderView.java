@@ -3,6 +3,7 @@ package com.zzcar.zzc.views.widget;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -21,9 +22,9 @@ import org.androidannotations.annotations.ViewById;
 public class PayOrderView extends LinearLayout {
 
     @ViewById(R.id.checkBoxWechat)
-    CheckBox checkBoxWechat;
+    ImageView checkBoxWechat;
     @ViewById(R.id.checkBoxZhifu)
-    CheckBox checkBoxZhifu;
+    ImageView checkBoxZhifu;
     @ViewById(R.id.relaWeichat)
     RelativeLayout relaWeichat;
     @ViewById(R.id.relaZhifubao)
@@ -41,20 +42,20 @@ public class PayOrderView extends LinearLayout {
 
     @AfterViews
     void initView(){
-        checkBoxWechat.setChecked(true);
-        checkBoxZhifu.setChecked(false);
+        checkBoxWechat.setImageResource(R.drawable.nav_icon_selected);
+        checkBoxZhifu.setImageResource(R.drawable.nav_icon_default);
     }
 
     public void selectWechatListener(){
         SELECTPOSITION = 0;
-        checkBoxWechat.setChecked(true);
-        checkBoxZhifu.setChecked(false);
+        checkBoxWechat.setImageResource(R.drawable.nav_icon_selected);
+        checkBoxZhifu.setImageResource(R.drawable.nav_icon_default);
     }
 
     public void selectZhifubaoListener(){
         SELECTPOSITION = 1;
-        checkBoxWechat.setChecked(false);
-        checkBoxZhifu.setChecked(true);
+        checkBoxWechat.setImageResource(R.drawable.nav_icon_default);
+        checkBoxZhifu.setImageResource(R.drawable.nav_icon_selected);
     }
 
     public void setSelectOnWechatListener(OnClickListener listener){
@@ -66,13 +67,7 @@ public class PayOrderView extends LinearLayout {
     }
 
     public boolean hasChecked(){
-        if (checkBoxWechat.isChecked()){
-            return true;
-        }else if (checkBoxZhifu.isChecked()){
-            return true;
-        }else{
-            return false;
-        }
+        return true;
     }
 
     public int getSlect(){

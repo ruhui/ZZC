@@ -19,6 +19,7 @@ import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.responses.MessageListResponse;
+import com.zzcar.zzc.networks.responses.SystemMsgResponse;
 import com.zzcar.zzc.utils.LogUtil;
 
 import org.androidannotations.annotations.AfterViews;
@@ -70,13 +71,17 @@ public class MsgFragment extends BaseFragment{
             switch (messageList.getType()){
                 case 1:
                     //业务消息
+                    SystemMsgFragment fragment = SystemMsgFragment_.builder().build();
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("objectId", o.getObject_id());
+                    fragment.setArguments(bundle);
+                    showFragment(getActivity(), fragment);
                     break;
                 case 2:
                     //新朋友（验证朋友）
                     showFragment(getActivity(), CheckFriendFragment_.builder().build());
                     break;
                 case 3:
-
                     //传入参数
                     Intent intent = new Intent(getActivity(), ChatActivity.class);
                     intent.putExtra("userId", o.getObject_id()+"");

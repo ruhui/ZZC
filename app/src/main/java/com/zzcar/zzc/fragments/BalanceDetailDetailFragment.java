@@ -99,7 +99,7 @@ public class BalanceDetailDetailFragment extends BaseFragment{
             txtSwitTimel.setText(returnMsg.getApply_time());
             txtOrderid.setText(returnMsg.getOrder_no());
             txtRefundType.setText(returnMsg.getPay_name());
-            txtRefundMoney.setText(returnMsg.getPay_name());
+            txtRefundMoney.setText("¥"+returnMsg.getAmount());
             if (adapter != null){
                 orderList.clear();
                 orderList.addAll(returnMsg.getOrder_items());

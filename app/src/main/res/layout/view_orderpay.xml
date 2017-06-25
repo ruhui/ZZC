@@ -42,15 +42,15 @@
                 android:textSize="15sp"
                 android:textColor="@color/color_333333"/>
 
-            <CheckBox
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/checkBoxWechat"
-                style="@style/CustomCheckboxTheme"
                 android:layout_alignBottom="@+id/textView35"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="@dimen/dp_10"
+                android:src="@drawable/nav_icon_selected"
                 />
         </RelativeLayout>
 
@@ -90,15 +90,15 @@
                 android:textSize="15sp"
                 android:textColor="@color/color_333333"/>
 
-            <CheckBox
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/checkBoxZhifu"
-                style="@style/CustomCheckboxTheme"
                 android:layout_alignBottom="@+id/textView36"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginRight="@dimen/dp_10"
+                android:src="@drawable/nav_icon_default"
                 />
         </RelativeLayout>
 

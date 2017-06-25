@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.hyphenate.EMContactListener;
+import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.hyphenate.util.EasyUtils;
 import com.zzcar.zzc.R;
@@ -26,11 +27,13 @@ public class ChatActivity extends EBaseActivity {
     private EaseChatFragment chatFragment;
     String toChatUsername;
     private NavBar mNavbar;
+    private int chatType;
 
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         setContentView(R.layout.em_activity_chat);
+        chatType = getIntent().getIntExtra("chatType", 1);
         String nick = getIntent().getStringExtra("nick");
         boolean isfriend = getIntent().getBooleanExtra("isfriend", false);
 
@@ -49,7 +52,15 @@ public class ChatActivity extends EBaseActivity {
             @Override
             public void onRightMenuClick(View view) {
                 super.onRightMenuClick(view);
-                finish();
+               //如果不是群聊到个人信息里
+                if (chatType == EaseConstant.CHATTYPE_SINGLE){
+                    Intent intent_member = new Intent(ChatActivity.this, MemberMsgActivity_.class);
+                    intent_member.putExtra("userid", Integer.valueOf(toChatUsername));
+                    startActivity(intent_member);
+                }else{
+                    //群聊
+                }
+
             }
         });
 

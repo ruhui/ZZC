@@ -13,6 +13,7 @@ import com.zzcar.zzc.networks.requests.BuyIntegraRequest;
 import com.zzcar.zzc.networks.requests.BuysecurityRequest;
 import com.zzcar.zzc.networks.requests.CheckoutcartRequest;
 import com.zzcar.zzc.networks.requests.ForgetPwdResquest;
+import com.zzcar.zzc.networks.requests.IdRequest;
 import com.zzcar.zzc.networks.requests.InfoidRequest;
 import com.zzcar.zzc.networks.requests.LoginRequest;
 import com.zzcar.zzc.networks.requests.NickRequest;
@@ -26,6 +27,7 @@ import com.zzcar.zzc.networks.requests.SavedemandRequest;
 import com.zzcar.zzc.networks.requests.SendRegsmsRequest;
 import com.zzcar.zzc.networks.responses.ApplyFriendResponse;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
+import com.zzcar.zzc.networks.responses.BulletinResponse;
 import com.zzcar.zzc.networks.responses.CarChanelResponse;
 import com.zzcar.zzc.networks.responses.CarDetailRespose;
 import com.zzcar.zzc.networks.responses.CarSeriesResponse;
@@ -60,6 +62,7 @@ import com.zzcar.zzc.networks.responses.ShouzhiDetailResponse;
 import com.zzcar.zzc.networks.responses.SingleSupplyResponse;
 import com.zzcar.zzc.networks.responses.SupplyDetailResponse;
 import com.zzcar.zzc.networks.responses.SupplyResponse;
+import com.zzcar.zzc.networks.responses.SystemMsgResponse;
 import com.zzcar.zzc.networks.responses.UserMessageResponse;
 import com.zzcar.zzc.networks.responses.UserMsgResponse;
 import com.zzcar.zzc.networks.responses.ValueTextResponse;
@@ -400,5 +403,16 @@ public interface ZZCService {
     @GET("info/supply")
     Observable<ResponseParent<SupplyDetailResponse>> getSupplyDetail(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
 
+    /*业务消息*/
+    @GET("msg/system")
+    Observable<ResponseParent<SystemMsgResponse>> getSystemMsg(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+
+   /*公告明细*/
+   @GET("msg/bulletin")
+   Observable<ResponseParent<BulletinResponse>> getBulletin(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+
+   /*已读设置*/
+   @POST("msg/read")
+   Observable<ResponseParent<Boolean>> setread(@Body IdRequest request, @HeaderMap Map<String, String> header);
 
 }

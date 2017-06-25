@@ -51,6 +51,7 @@ public class BusinessDemendFragment extends BasePullRecyclerFragment{
     private int CURTUNPAGE = Constant.DEFAULTPAGE;
     private BusinessDemendAdapter adapter;
     private String userid = "";
+    private boolean dismisspush;
 
     @Override
     public void onNetChange(int netMobile) {
@@ -61,6 +62,7 @@ public class BusinessDemendFragment extends BasePullRecyclerFragment{
     public void onAttach(Context context) {
         super.onAttach(context);
         userid = getArguments().getString("userid");
+        dismisspush = getArguments().getBoolean("dismisspush");
     }
 
     @Override
@@ -72,6 +74,12 @@ public class BusinessDemendFragment extends BasePullRecyclerFragment{
         getDemend();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter = new BusinessDemendAdapter(adapterListener));
+
+        if (dismisspush){
+            pushCar.setVisibility(View.GONE);
+        }else{
+            pushCar.setVisibility(View.VISIBLE);
+        }
     }
 
 

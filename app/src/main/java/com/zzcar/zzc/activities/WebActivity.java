@@ -39,7 +39,7 @@ public class WebActivity extends BaseActivity {
             }
         });
 
-        mHeaderView.setTitle(titlebar);
+        mHeaderView.setMiddleTitle(titlebar);
 
         mWebView.getSettings().setJavaScriptEnabled(true);
         // mWebView.getSettings().setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);

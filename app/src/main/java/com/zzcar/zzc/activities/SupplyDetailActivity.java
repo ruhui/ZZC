@@ -66,7 +66,7 @@ import rx.Subscriber;
 /**
  * 创建时间： 2017/6/22.
  * 作者：黄如辉
- * 功能描述：
+ * 功能描述：询价详情
  */
 @EActivity(R.layout.activity_detail_supply)
 public class SupplyDetailActivity extends BaseActivity {
