@@ -23,6 +23,7 @@ import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.fragments.base.BaseFragment;
 import com.zzcar.zzc.interfaces.AdapterListener;
 import com.zzcar.zzc.interfaces.RefreshFragment;
+import com.zzcar.zzc.interfaces.RefreshListener;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.MyEaseUser;
@@ -103,7 +104,14 @@ public class MyFriendFragment extends BaseFragment {
 
     @Subscribe
     public void refreshData(RefreshFragment refresh){
-        if (refresh.refresh && refresh.TAG.equals("ADDFRIENDSUCCESS")){
+        if (refresh.refresh && refresh.TAG.equals("ADDFRIENDSUCCESS") ){
+            getFriendList();
+        }
+    }
+
+    @Subscribe
+    public void refreshData(RefreshListener refreshListener){
+        if (refreshListener.TAG.equals("REFRESHMEMBER") ){
             getFriendList();
         }
     }

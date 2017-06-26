@@ -84,13 +84,12 @@ public class OrderDetailFragment extends BaseFragment {
     RelativeLayout relaBottom;
 
     private OrderDetailResponse response;
-    private String productID = "", type = "";//type 0为买家  1为卖家
+    private String productID = "";
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         productID = getArguments().getString("id");
-        type = getArguments().getString("type");
     }
 
     @Override
@@ -126,7 +125,7 @@ public class OrderDetailFragment extends BaseFragment {
         txtPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (type.equals("0")) {
+                if (response.getOrder_use() == 2) {
                     //买家
                     if (response.getStatus() == 1){
                         //支付定金
@@ -145,7 +144,7 @@ public class OrderDetailFragment extends BaseFragment {
                             }
                         });
                     }
-                }else if (type.equals("1")){
+                }else if (response.getOrder_use() == 1){
                     //卖家
                     if (response.getStatus() == 2){
                         //支付定金
@@ -171,7 +170,7 @@ public class OrderDetailFragment extends BaseFragment {
         txtCancle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (type.equals("0")){
+                if (response.getStatus() == 1){
                     //买家
                     if (response.getStatus() == 1){
                         //取消
@@ -268,7 +267,7 @@ public class OrderDetailFragment extends BaseFragment {
             adapter.addAll(returnMsg.getOrder_items());
 
             relaBottom.setVisibility(View.GONE);
-            if (type.equals("0")){
+            if (response.getOrder_use() == 2){
                 //买家
                 String statu = "";
                 switch (returnMsg.getStatus()){

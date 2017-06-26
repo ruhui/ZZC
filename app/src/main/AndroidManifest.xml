@@ -108,7 +108,8 @@
         <activity android:name=".activities.SearchSupplyActivity_"/>
         <activity android:name=".activities.DemendDetailActivity_"/>
         <activity android:name=".activities.SupplyDetailActivity_"/>
-
+        <activity android:name=".activities.MemberMsgSettingActivity_"/>
+        <activity android:name=".activities.GroupSettingActivity_"/>
     </application>
 
 </manifest>

@@ -12,19 +12,30 @@ public class SupplyModel {
     private int info_id;
     private String name;
     private List<String> image_path;
+    private String first_image;
     private String start_time;
     private String end_time;
     private String content;
     private MemberModel member;
 
-    public SupplyModel(int info_id, String name, List<String> image_path, String start_time, String end_time, String content, MemberModel member) {
+    public SupplyModel(int info_id, String name, List<String> image_path, String first_image,
+                       String start_time, String end_time, String content, MemberModel member) {
         this.info_id = info_id;
         this.name = name;
         this.image_path = image_path;
+        this.first_image = first_image;
         this.start_time = start_time;
         this.end_time = end_time;
         this.content = content;
         this.member = member;
+    }
+
+    public String getFirst_image() {
+        return first_image;
+    }
+
+    public void setFirst_image(String first_image) {
+        this.first_image = first_image;
     }
 
     public int getInfo_id() {

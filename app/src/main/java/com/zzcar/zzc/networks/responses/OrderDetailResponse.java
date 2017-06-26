@@ -12,6 +12,7 @@ import java.util.List;
  * 创建时间： 2017/6/14 14:55
  **/
 public class OrderDetailResponse {
+    private int order_use;
     private String order_time;
     private PayInfoModel pay_info;
     private int shipping_type;
@@ -24,7 +25,8 @@ public class OrderDetailResponse {
     private boolean seller_confirm;
     private List<OrderitemsModel> order_items;
 
-    public OrderDetailResponse(String order_time, PayInfoModel pay_info, int shipping_type, ShoppingModel shipping, int id, String order_no, int status, double amount, boolean buyer_confirm, boolean seller_confirm, List<OrderitemsModel> order_items) {
+    public OrderDetailResponse(int order_use,String order_time, PayInfoModel pay_info, int shipping_type, ShoppingModel shipping, int id, String order_no, int status, double amount, boolean buyer_confirm, boolean seller_confirm, List<OrderitemsModel> order_items) {
+        this.order_use = order_use;
         this.order_time = order_time;
         this.pay_info = pay_info;
         this.shipping_type = shipping_type;
@@ -36,6 +38,14 @@ public class OrderDetailResponse {
         this.buyer_confirm = buyer_confirm;
         this.seller_confirm = seller_confirm;
         this.order_items = order_items;
+    }
+
+    public int getOrder_use() {
+        return order_use;
+    }
+
+    public void setOrder_use(int order_use) {
+        this.order_use = order_use;
     }
 
     public String getOrder_time() {

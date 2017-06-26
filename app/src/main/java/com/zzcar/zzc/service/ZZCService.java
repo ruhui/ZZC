@@ -12,6 +12,8 @@ import com.zzcar.zzc.networks.requests.ApplyFriendRequest;
 import com.zzcar.zzc.networks.requests.BuyIntegraRequest;
 import com.zzcar.zzc.networks.requests.BuysecurityRequest;
 import com.zzcar.zzc.networks.requests.CheckoutcartRequest;
+import com.zzcar.zzc.networks.requests.DeleteFriendRequest;
+import com.zzcar.zzc.networks.requests.FilterRequest;
 import com.zzcar.zzc.networks.requests.ForgetPwdResquest;
 import com.zzcar.zzc.networks.requests.IdRequest;
 import com.zzcar.zzc.networks.requests.InfoidRequest;
@@ -414,5 +416,14 @@ public interface ZZCService {
    /*已读设置*/
    @POST("msg/read")
    Observable<ResponseParent<Boolean>> setread(@Body IdRequest request, @HeaderMap Map<String, String> header);
+
+
+    /*删除好友*/
+    @POST("friend/del_friend")
+    Observable<ResponseParent<Boolean>> delfriend(@Body DeleteFriendRequest request, @HeaderMap Map<String, String> header);
+
+    /*屏蔽或取消*/
+    @POST("friend/filter_chat")
+    Observable<ResponseParent<Boolean>> filterchat(@Body FilterRequest request, @HeaderMap Map<String, String> header);
 
 }

@@ -135,7 +135,6 @@ public class SureOrderActivity extends BaseActivity {
             if (isshowdetail){
                 OrderDetailFragment fragment = OrderDetailFragment_.builder().build();
                 Bundle bundle = new Bundle();
-                bundle.putString("type", "0");//买家
                 bundle.putString("id", checkoutcart.getOrder_no());
                 fragment.setArguments(bundle);
                 showFragment(fragment);

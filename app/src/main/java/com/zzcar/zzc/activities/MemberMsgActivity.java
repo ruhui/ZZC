@@ -2,53 +2,39 @@ package com.zzcar.zzc.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.hyphenate.chat.EMMessage;
-import com.hyphenate.easeui.EaseConstant;
-import com.hyphenate.easeui.ui.EaseChatFragment;
 import com.viewpagerindicator.IconPagerAdapter;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
 import com.zzcar.zzc.fragments.BusinessDemendFragment;
 import com.zzcar.zzc.fragments.BusinessDemendFragment_;
-import com.zzcar.zzc.fragments.BusinessSupplyFragment;
-import com.zzcar.zzc.fragments.BusinessSupplyFragment_;
-import com.zzcar.zzc.fragments.MycarfromFragment;
-import com.zzcar.zzc.fragments.MycarfromFragment_;
 import com.zzcar.zzc.fragments.UserCarFromFragment;
 import com.zzcar.zzc.fragments.UserCarFromFragment_;
+import com.zzcar.zzc.fragments.UserSupplyFragment;
+import com.zzcar.zzc.fragments.UserSupplyFragment_;
+import com.zzcar.zzc.interfaces.RefreshListener;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
-import com.zzcar.zzc.interfaces.TablayoutTitle;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.networks.PosetSubscriber;
-import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
 import com.zzcar.zzc.networks.responses.UserMessageResponse;
 import com.zzcar.zzc.utils.ImageLoader;
-import com.zzcar.zzc.utils.SecurePreferences;
 import com.zzcar.zzc.utils.Tool;
 import com.zzcar.zzc.views.widget.NavBar;
-import com.zzcar.zzc.views.widget.NavBar2;
 import com.zzcar.zzc.views.widget.NoScrollViewPager;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Transactional;
 import org.androidannotations.annotations.ViewById;
-import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
@@ -85,6 +71,8 @@ public class MemberMsgActivity extends BaseActivity {
 
     private int userid;
     private UserMessageResponse usermessage;
+    private ArrayList<MemberMsgActivity.TabInfo> infos = new ArrayList<>();
+
 
     @Override
     public void onNetChange(int netMobile) {}
@@ -108,6 +96,12 @@ public class MemberMsgActivity extends BaseActivity {
             @Override
             public void onRightMenuClick(View view) {
                 super.onRightMenuClick(view);
+                //设置，屏蔽或者删除好友
+                Intent intent = new Intent(MemberMsgActivity.this, MemberMsgSettingActivity_.class);
+                intent.putExtra("friendId", userid);
+                intent.putExtra("filter", usermessage.isFilter());
+                intent.putExtra("isfriend", usermessage.is_friend());
+                startActivity(intent);
             }
         });
 
@@ -162,8 +156,6 @@ public class MemberMsgActivity extends BaseActivity {
 
 
     private void initTab() {
-
-        ArrayList<MemberMsgActivity.TabInfo> infos = new ArrayList<>();
         /*车源*/
         UserCarFromFragment fragment_zaishou = UserCarFromFragment_.builder().build();
         Bundle bundle = new Bundle();
@@ -176,7 +168,7 @@ public class MemberMsgActivity extends BaseActivity {
         bundle1.putBoolean("dismisspush", true);
         fragment_yishou.setArguments(bundle1);
         /*询价*/
-        BusinessSupplyFragment fragment_weishangjai = BusinessSupplyFragment_.builder().build();
+        UserSupplyFragment fragment_weishangjai = UserSupplyFragment_.builder().build();
         Bundle bundle2 = new Bundle();
         bundle2.putBoolean("dismisspush", true);
         bundle2.putString("userid", userid+"");
@@ -263,6 +255,14 @@ public class MemberMsgActivity extends BaseActivity {
         }
     }
 
+    /*刷新数据*/
+    @Subscribe
+    public void refreshData(RefreshListener refreshListener){
+        if (refreshListener.TAG.equals("REFRESHMEMBER")){
+            getUserMessage();
+        }
+    }
+
 
     /*获取用户数据*/
     ResponseResultListener callback_usermsg = new ResponseResultListener<UserMessageResponse>() {
@@ -283,8 +283,9 @@ public class MemberMsgActivity extends BaseActivity {
                 txtAddFriend.setBackgroundResource(R.color.gray);
             }
 
-
-            initTab();
+            if (infos.size() == 0){
+                initTab();
+            }
         }
 
         @Override

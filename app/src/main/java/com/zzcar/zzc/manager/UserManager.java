@@ -25,7 +25,9 @@ import com.zzcar.zzc.networks.requests.ApplyFriendRequest;
 import com.zzcar.zzc.networks.requests.BuyIntegraRequest;
 import com.zzcar.zzc.networks.requests.BuysecurityRequest;
 import com.zzcar.zzc.networks.requests.CheckoutcartRequest;
+import com.zzcar.zzc.networks.requests.DeleteFriendRequest;
 import com.zzcar.zzc.networks.requests.EmptyRequest;
+import com.zzcar.zzc.networks.requests.FilterRequest;
 import com.zzcar.zzc.networks.requests.ForgetPwdResquest;
 import com.zzcar.zzc.networks.requests.IdRequest;
 import com.zzcar.zzc.networks.requests.InfoidRequest;
@@ -1735,6 +1737,42 @@ public class UserManager {
 
         ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, addCarFrom);
         ApiClient.getApiService().setread(addCarFrom, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 删除好友
+     * @param friendid
+     * @param subscriber
+     */
+    public static void deleteFriend(int friendid, Subscriber<ResponseParent<Boolean>> subscriber){
+
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        DeleteFriendRequest addCarFrom = new DeleteFriendRequest(friendid);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, addCarFrom);
+        ApiClient.getApiService().delfriend(addCarFrom, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 屏蔽和取消屏蔽
+     * @param friendid
+     * @param subscriber
+     */
+    public static void filterchat(int friendid, Subscriber<ResponseParent<Boolean>> subscriber){
+
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        FilterRequest addCarFrom = new FilterRequest(friendid);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, addCarFrom);
+        ApiClient.getApiService().filterchat(addCarFrom, zzcHeaders.getHashMap())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

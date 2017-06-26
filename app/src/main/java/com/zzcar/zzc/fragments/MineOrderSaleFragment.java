@@ -102,7 +102,6 @@ public class MineOrderSaleFragment extends BasePullRecyclerFragment {
             /*点击行*/
             OrderDetailFragment fragment = OrderDetailFragment_.builder().build();
             Bundle bundle = new Bundle();
-            bundle.putString("type", "1");//卖家
             bundle.putString("id", String.valueOf(model.getOrder_no()));
             fragment.setArguments(bundle);
             showFragment(getActivity(), fragment);

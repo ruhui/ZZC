@@ -135,7 +135,6 @@ public class SystemMsgFragment extends BasePullRecyclerFragment {
                     //订单4：跳到订单详情页1
                     OrderDetailFragment fragment_order_detail = OrderDetailFragment_.builder().build();
                     Bundle bundle_order_detail = new Bundle();
-                    bundle_order_detail.putString("type", "0");//买家
                     bundle_order_detail.putString("id", o.getOrder_no());
                     fragment_order_detail.setArguments(bundle_order_detail);
                     showFragment(getActivity(), fragment_order_detail);

@@ -88,4 +88,8 @@
         <item name="android:button">@drawable/check_round</item>
     </style>
 
+    <style name="CheckboxOpenTheme" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/check_open_close</item>
+    </style>
+
 </resources>

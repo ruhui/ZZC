@@ -58,7 +58,10 @@ public class ChatActivity extends EBaseActivity {
                     intent_member.putExtra("userid", Integer.valueOf(toChatUsername));
                     startActivity(intent_member);
                 }else{
-                    //群聊
+                    //群聊设置
+                    Intent intent_group = new Intent(ChatActivity.this, GroupSettingActivity_.class);
+                    intent_group.putExtra("groupId", Integer.valueOf(toChatUsername));
+                    startActivity(intent_group);
                 }
 
             }

@@ -86,7 +86,7 @@ public class MsgFragment extends BasePullRecyclerFragment{
     /*刷新数据*/
     @Subscribe
     public void refreshData(RefreshListener refreshListener){
-        if (refreshListener.TAG.equals("MsgFragment")){
+        if (refreshListener.TAG.equals("MsgFragment") || refreshListener.TAG.equals("REFRESHMEMBER")){
             getMessageList();
         }
     }
@@ -127,6 +127,8 @@ public class MsgFragment extends BasePullRecyclerFragment{
                     intent_group.putExtra("nick", o.getName());
                     intent_group.putExtra("headImg", o.getPhoto());
                     intent_group.putExtra("isfriend", true);
+                    /*是否屏蔽*/
+//                    intent_group.putExtra("isfriend", o.isf);
                     startActivity(intent_group);
                     break;
             }
