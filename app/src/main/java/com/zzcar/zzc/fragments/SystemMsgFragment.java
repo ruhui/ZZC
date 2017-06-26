@@ -18,6 +18,7 @@ import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.fragments.base.BaseFragment;
 import com.zzcar.zzc.fragments.base.BasePullRecyclerFragment;
 import com.zzcar.zzc.interfaces.AdapterListener;
+import com.zzcar.zzc.interfaces.RefreshListener;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.SystemModel;
@@ -30,6 +31,7 @@ import com.zzcar.zzc.views.widget.pullview.PullRecyclerView;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +52,8 @@ public class SystemMsgFragment extends BasePullRecyclerFragment {
     private int CURTTURNPAGE = Constant.DEFAULTPAGE;
     private long objectId;
     private SystemAdapter adapter;
+    private List<Integer> list_Id = new ArrayList<>();
+    private SystemMsgResponse response;
 
 
     @Override
@@ -80,7 +84,8 @@ public class SystemMsgFragment extends BasePullRecyclerFragment {
             @Override
             public void onRightMenuClick(View view) {
                 super.onRightMenuClick(view);
-                List<String> listId = new ArrayList<>();
+                List<Integer> listId = new ArrayList<>();
+                list_Id.addAll(listId);
                 setRead(listId);
             }
         });
@@ -93,9 +98,10 @@ public class SystemMsgFragment extends BasePullRecyclerFragment {
         @Override
         public void setOnItemListener(SystemModel o, int position) {
             /*设置已读*/
-            List<String> listId = new ArrayList<>();
+            List<Integer> listId = new ArrayList<>();
             listId.clear();
-            listId.add(o.getId()+"");
+            listId.add(o.getId());
+            list_Id.addAll(listId);
             setRead(listId);
 
             switch (o.getType()) {
@@ -191,7 +197,7 @@ public class SystemMsgFragment extends BasePullRecyclerFragment {
         }
     };
 
-    private void setRead(List<String> ids) {
+    private void setRead(List<Integer> ids) {
         Subscriber subscriber = new PosetSubscriber<Boolean>().getSubscriber(callback_read);
         UserManager.setread(ids, subscriber);
     }
@@ -219,6 +225,7 @@ public class SystemMsgFragment extends BasePullRecyclerFragment {
     ResponseResultListener callback_systemmsg = new ResponseResultListener<SystemMsgResponse>() {
         @Override
         public void success(SystemMsgResponse returnMsg) {
+            response = returnMsg;
             closeProgress();
             if (returnMsg.getTotal_pages() <= CURTTURNPAGE){
                 finishLoad(false);
@@ -243,6 +250,27 @@ public class SystemMsgFragment extends BasePullRecyclerFragment {
     ResponseResultListener callback_read = new ResponseResultListener<Boolean>() {
         @Override
         public void success(Boolean returnMsg) {
+            //刷新数据,把对应id的值的read设置为true
+            List<SystemModel> listModel = response.getRows();
+            if (list_Id.size() == 0){
+                //清除全部的
+                for (SystemModel model : listModel){
+                    model.setIs_read(true);
+                }
+            }else{
+                for (int readid: list_Id){
+                    for (SystemModel model : listModel){
+                        if (model.getId() == readid){
+                            model.setIs_read(true);
+                            break;
+                        }
+                    }
+
+                }
+            }
+            adapter.clear();
+            adapter.addAll(response.getRows());
+            EventBus.getDefault().post(new RefreshListener("MsgFragment"));
             LogUtil.E("success", "success");
         }
 

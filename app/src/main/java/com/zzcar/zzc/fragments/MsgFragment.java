@@ -14,17 +14,23 @@ import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.ChatActivity;
 import com.zzcar.zzc.adapters.MsgListAdapter;
 import com.zzcar.zzc.fragments.base.BaseFragment;
+import com.zzcar.zzc.fragments.base.BasePullRecyclerFragment;
 import com.zzcar.zzc.interfaces.AdapterListener;
+import com.zzcar.zzc.interfaces.RefreshListener;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.responses.MessageListResponse;
 import com.zzcar.zzc.networks.responses.SystemMsgResponse;
 import com.zzcar.zzc.utils.LogUtil;
+import com.zzcar.zzc.views.pulltorefresh.PullToRefreshBase;
+import com.zzcar.zzc.views.widget.pullview.PullRecyclerView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,11 +43,8 @@ import static com.hyphenate.easeui.EaseConstant.CHATTYPE_SINGLE;
  * 描述：
  * 作者：黄如辉  时间 2017/5/24.
  */
-@EFragment(R.layout.fragment_msgf)
-public class MsgFragment extends BaseFragment{
-
-    @ViewById(R.id.mRecyclerView)
-    RecyclerView mRecyclerView;
+@EFragment(R.layout.fragment_pullrefresh)
+public class MsgFragment extends BasePullRecyclerFragment{
 
     private MsgListAdapter adapter;
     private List<MessageListResponse> mList = new ArrayList<>();
@@ -51,16 +54,41 @@ public class MsgFragment extends BaseFragment{
 
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
 
-    @AfterViews
-    void initView(){
+    @Override
+    protected void initView(PullRecyclerView recyclerView) {
         /*获取消息列表*/
         getMessageList();
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(adapter = new MsgListAdapter(adapterListener));
+        recyclerView.enableLoadMore(false);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setAdapter(adapter = new MsgListAdapter(adapterListener));
         adapter.addAll(mList);
         /*初始化环信消息监听‘*/
         EMClient.getInstance().chatManager().addMessageListener(msgListener);
+    }
+
+    @Override
+    protected void onRefresh(RecyclerView recyclerView) {
+        getMessageList();
+    }
+
+    @Override
+    protected void onLoadMore(RecyclerView recyclerView) {
+
+    }
+
+
+    /*刷新数据*/
+    @Subscribe
+    public void refreshData(RefreshListener refreshListener){
+        if (refreshListener.TAG.equals("MsgFragment")){
+            getMessageList();
+        }
     }
 
     AdapterListener adapterListener = new AdapterListener<MessageListResponse>() {
@@ -115,6 +143,7 @@ public class MsgFragment extends BaseFragment{
     ResponseResultListener callback_message = new ResponseResultListener<List<MessageListResponse>>() {
         @Override
         public void success(List<MessageListResponse> returnMsg) {
+            finishLoad(false);
             mList.clear();
             mList.addAll(returnMsg);
             adapter.clear();
@@ -123,6 +152,7 @@ public class MsgFragment extends BaseFragment{
 
         @Override
         public void fialed(String resCode, String message) {
+            finishLoad(false);
             LogUtil.E("fialed", "fialed");
         }
     };
@@ -167,6 +197,7 @@ public class MsgFragment extends BaseFragment{
     public void onDestroy() {
         super.onDestroy();
         EMClient.getInstance().chatManager().removeMessageListener(msgListener);
-
+        EventBus.getDefault().register(this);
     }
+
 }

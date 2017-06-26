@@ -9,17 +9,17 @@ import java.util.List;
  */
 
 public class IdRequest {
-    public List<String> ids;
+    public List<Integer> ids;
 
-    public IdRequest(List<String> ids) {
+    public IdRequest(List<Integer> ids) {
         this.ids = ids;
     }
 
-    public List<String> getIds() {
+    public List<Integer> getIds() {
         return ids;
     }
 
-    public void setIds(List<String> ids) {
+    public void setIds(List<Integer> ids) {
         this.ids = ids;
     }
 }

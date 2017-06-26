@@ -1728,7 +1728,7 @@ public class UserManager {
      * @param ids
      * @param subscriber
      */
-    public static void setread(List<String> ids, Subscriber<ResponseParent<Boolean>> subscriber){
+    public static void setread(List<Integer> ids, Subscriber<ResponseParent<Boolean>> subscriber){
 
         String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
         IdRequest addCarFrom = new IdRequest(ids);
