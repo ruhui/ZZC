@@ -197,7 +197,7 @@ public class MsgFragment extends BasePullRecyclerFragment{
     public void onDestroy() {
         super.onDestroy();
         EMClient.getInstance().chatManager().removeMessageListener(msgListener);
-        EventBus.getDefault().register(this);
+        EventBus.getDefault().unregister(this);
     }
 
 }
