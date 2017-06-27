@@ -91,6 +91,7 @@ public class SystemMsgFragment extends BasePullRecyclerFragment {
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter = new SystemAdapter(adapterListener));
+        showProgress();
         getSystemMsg();
     }
 

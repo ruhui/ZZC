@@ -7,9 +7,9 @@ package com.zzcar.zzc.networks.requests;
  */
 
 public class FilterRequest {
-    public int to_id;
+    public long to_id;
 
-    public FilterRequest(int to_id) {
+    public FilterRequest(long to_id) {
         this.to_id = to_id;
     }
 }

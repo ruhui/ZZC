@@ -81,7 +81,7 @@
             android:layout_marginStart="25dp"
             android:textSize="@dimen/sp_14"
             android:textColor="@color/color_333333"
-            android:text="屏蔽消息" />
+            android:text="消息免打扰" />
 
     </RelativeLayout>
 

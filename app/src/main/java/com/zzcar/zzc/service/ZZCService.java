@@ -15,6 +15,7 @@ import com.zzcar.zzc.networks.requests.CheckoutcartRequest;
 import com.zzcar.zzc.networks.requests.DeleteFriendRequest;
 import com.zzcar.zzc.networks.requests.FilterRequest;
 import com.zzcar.zzc.networks.requests.ForgetPwdResquest;
+import com.zzcar.zzc.networks.requests.GroupIdRequest;
 import com.zzcar.zzc.networks.requests.IdRequest;
 import com.zzcar.zzc.networks.requests.InfoidRequest;
 import com.zzcar.zzc.networks.requests.LoginRequest;
@@ -42,6 +43,7 @@ import com.zzcar.zzc.networks.responses.DemendDetailResponse;
 import com.zzcar.zzc.networks.responses.DepositResponse;
 import com.zzcar.zzc.networks.responses.EmptyResponse;
 import com.zzcar.zzc.networks.responses.FridendListResponse;
+import com.zzcar.zzc.networks.responses.GroupMenberResponse;
 import com.zzcar.zzc.networks.responses.HomeAdverResponse;
 import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
@@ -425,5 +427,13 @@ public interface ZZCService {
     /*屏蔽或取消*/
     @POST("friend/filter_chat")
     Observable<ResponseParent<Boolean>> filterchat(@Body FilterRequest request, @HeaderMap Map<String, String> header);
+
+    /*群成员*/
+    @GET("msg/group_user")
+    Observable<ResponseParent<GroupMenberResponse>> getGroupuser(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+
+    /*群消息免打扰*/
+    @POST("msg/group_tip")
+    Observable<ResponseParent<Boolean>> setGrouptip(@Body GroupIdRequest request, @HeaderMap Map<String, String> header);
 
 }

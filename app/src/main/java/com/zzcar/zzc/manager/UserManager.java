@@ -29,6 +29,7 @@ import com.zzcar.zzc.networks.requests.DeleteFriendRequest;
 import com.zzcar.zzc.networks.requests.EmptyRequest;
 import com.zzcar.zzc.networks.requests.FilterRequest;
 import com.zzcar.zzc.networks.requests.ForgetPwdResquest;
+import com.zzcar.zzc.networks.requests.GroupIdRequest;
 import com.zzcar.zzc.networks.requests.IdRequest;
 import com.zzcar.zzc.networks.requests.InfoidRequest;
 import com.zzcar.zzc.networks.requests.LoginRequest;
@@ -57,6 +58,7 @@ import com.zzcar.zzc.networks.responses.DemendDetailResponse;
 import com.zzcar.zzc.networks.responses.DepositResponse;
 import com.zzcar.zzc.networks.responses.EmptyResponse;
 import com.zzcar.zzc.networks.responses.FridendListResponse;
+import com.zzcar.zzc.networks.responses.GroupMenberResponse;
 import com.zzcar.zzc.networks.responses.HomeAdverResponse;
 import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
@@ -1766,7 +1768,7 @@ public class UserManager {
      * @param friendid
      * @param subscriber
      */
-    public static void filterchat(int friendid, Subscriber<ResponseParent<Boolean>> subscriber){
+    public static void filterchat(long friendid, Subscriber<ResponseParent<Boolean>> subscriber){
 
         String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
         FilterRequest addCarFrom = new FilterRequest(friendid);
@@ -1778,4 +1780,42 @@ public class UserManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
+
+    /**
+     * 获取群组成员
+     * @param group_id
+     * @param subscriber
+     */
+    public static void getGroupuser(String group_id, Subscriber<ResponseParent<GroupMenberResponse>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("group_id", group_id);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        ApiClient.getApiService().getGroupuser(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+
+    /**
+     * 屏蔽消息群组
+     * @param groupid
+     * @param subscriber
+     */
+    public static void setGrouptip(String groupid, Subscriber<ResponseParent<Boolean>> subscriber){
+
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        GroupIdRequest addCarFrom = new GroupIdRequest(groupid);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, addCarFrom);
+        ApiClient.getApiService().setGrouptip(addCarFrom, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
 }
