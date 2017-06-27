@@ -1,5 +1,9 @@
 package com.zzcar.zzc.models;
 
+import android.text.TextUtils;
+
+import com.zzcar.zzc.utils.ChineseCharToEn;
+
 import java.io.Serializable;
 
 /**
@@ -15,6 +19,7 @@ public class MemberModel implements Serializable{
     private String auth_status_name;
     private String shop_name;
     private boolean security;
+    private String first_letter;
 
     public MemberModel(String nick, String photo, String remark, int auth_status,
                        String auth_status_name, String shop_name,boolean security) {
@@ -25,6 +30,26 @@ public class MemberModel implements Serializable{
         this.auth_status_name = auth_status_name;
         this.shop_name = shop_name;
         this.security = security;
+    }
+
+    public void setFirst_letter(String first_letter) {
+        this.first_letter = first_letter;
+    }
+
+    public String setFirstLetter(String nickName) {
+        String firstletter = "";
+        if (!TextUtils.isEmpty(nickName)){
+            ChineseCharToEn cte = new ChineseCharToEn();
+            firstletter = cte.getAllFirstLetter(nickName);
+            if (!TextUtils.isEmpty(firstletter) && firstletter.length() > 0){
+                firstletter = firstletter.substring(0, 1);
+            }
+        }
+        return firstletter.toUpperCase();
+    }
+
+    public String getFirst_letter() {
+        return first_letter;
     }
 
     public boolean isSecurity() {

@@ -12,7 +12,9 @@ import com.zzcar.zzc.fragments.base.BaseFragment;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.OrderItemModle;
+import com.zzcar.zzc.models.OrderitemsModel;
 import com.zzcar.zzc.networks.PosetSubscriber;
+import com.zzcar.zzc.networks.responses.OrderDetailResponse;
 import com.zzcar.zzc.networks.responses.RefundOrderResponse;
 import com.zzcar.zzc.views.widget.NavBar2;
 
@@ -26,12 +28,12 @@ import java.util.List;
 import rx.Subscriber;
 
 /**
- * 描述：列表明细的明细
+ * 描述：交易收入和交易付款
  * 作者：黄如辉  时间 2017/5/20.
  */
 
-@EFragment(R.layout.fragment_balance_detail)
-public class BalanceDetailDetailFragment extends BaseFragment{
+@EFragment(R.layout.fragment_business_detail)
+public class BusinessDetailFragment extends BaseFragment{
 
     @ViewById(R.id.textView113)
     TextView txtMoney;
@@ -48,6 +50,15 @@ public class BalanceDetailDetailFragment extends BaseFragment{
     RecyclerView mRecycleView;
     @ViewById(R.id.mNavbar)
     NavBar2 mNavbar;
+    /*应收*/
+    @ViewById(R.id.textView215)
+    TextView textView215;
+    /*手续费*/
+    @ViewById(R.id.textView216)
+    TextView textView216;
+    /*实收*/
+    @ViewById(R.id.textView217)
+    TextView textView217;
 
     private int id;
     private String titleBar = "";
@@ -87,22 +98,27 @@ public class BalanceDetailDetailFragment extends BaseFragment{
     }
 
     void getRefundOrder(){
-        Subscriber subscriber = new PosetSubscriber<RefundOrderResponse>().getSubscriber(callback_refundorder);
-        UserManager.getRefundorder(id, subscriber);
+        Subscriber subscriber = new PosetSubscriber<OrderDetailResponse>().getSubscriber(callback_refundorder);
+        UserManager.getCarOrderdetail(String.valueOf(id), subscriber);
     }
 
 
-    ResponseResultListener callback_refundorder = new ResponseResultListener<RefundOrderResponse>() {
+    ResponseResultListener callback_refundorder = new ResponseResultListener<OrderDetailResponse>() {
         @Override
-        public void success(RefundOrderResponse returnMsg) {
+        public void success(OrderDetailResponse returnMsg) {
             txtMoney.setText("¥"+returnMsg.getAmount());
-            txtSwitTimel.setText(returnMsg.getApply_time());
+            txtSwitTimel.setText(returnMsg.getOrder_time());
             txtOrderid.setText(returnMsg.getOrder_no());
-            txtRefundType.setText(returnMsg.getPay_name());
+            txtRefundType.setText(returnMsg.getPay_info().getPay_name());
             txtRefundMoney.setText("¥"+returnMsg.getAmount());
+            textView215.setText("");
+            textView216.setText("");
+            textView217.setText("");
             if (adapter != null){
                 orderList.clear();
-                orderList.addAll(returnMsg.getOrder_items());
+                for (OrderitemsModel model : returnMsg.getOrder_items()){
+                    orderList.add(model.getOrderItemModel(model));
+                }
                 adapter.clear();
                 adapter.addAll(orderList);
             }

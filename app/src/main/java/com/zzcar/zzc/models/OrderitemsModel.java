@@ -31,6 +31,19 @@ public class OrderitemsModel implements Serializable{
         this.body = body;
     }
 
+    public OrderItemModle getOrderItemModel(OrderitemsModel orderitemsModel){
+        OrderItemModle modle = new OrderItemModle();
+        modle.setId(orderitemsModel.getId());
+        modle.setOrder_id(orderitemsModel.getOrder_id());
+        modle.setProduct_id(orderitemsModel.getProduct_id());
+        modle.setQuantity(orderitemsModel.getQuantity());
+        modle.setUnit_price(orderitemsModel.getUnit_price());
+        modle.setProduct_name(orderitemsModel.getProduct_name());
+        modle.setThumbnails_url(orderitemsModel.getThumbnails_url());
+        modle.setMarket_price(orderitemsModel.getMarket_price());
+        return modle;
+    }
+
     public String getId() {
         return id;
     }

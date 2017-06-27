@@ -77,14 +77,47 @@ public class BalanceDetaillFragment extends BasePullRecyclerFragment{
         @Override
         public void setOnItemListener(ShouzhiItem o, int position) {
             if (o.isIntent()){
-                //是否需跳转
-                int id = o.getObject_id();
-                BalanceDetailDetailFragment fragment = BalanceDetailDetailFragment_.builder().build();
-                Bundle bundle = new Bundle();
-                bundle.putInt("id", id);
-                bundle.putString("title", o.getTypeDes());
-                fragment.setArguments(bundle);
-                showFragment(getActivity(), fragment);
+                switch (o.getType()) {
+                    case 1:
+                        //收款account/receipt  收款详情
+                        break;
+                    case 2:
+                        //收入order/car_detail	订单详情
+                        int id_b = o.getObject_id();
+                        BusinessDetailFragment fragment_business = BusinessDetailFragment_.builder().build();
+                        Bundle bundle_business = new Bundle();
+                        bundle_business.putInt("id", id_b);
+                        bundle_business.putString("title", o.getTypeDes());
+                        fragment_business.setArguments(bundle_business);
+                        showFragment(getActivity(), fragment_business);
+                        break;
+                    case 3:
+                        //退款GET account/refund_order	退款详情
+                        int id_refund = o.getObject_id();
+                        BalanceDetailDetailFragment fragment = BalanceDetailDetailFragment_.builder().build();
+                        Bundle bundle = new Bundle();
+                        bundle.putInt("id", id_refund);
+                        bundle.putString("title", o.getTypeDes());
+                        fragment.setArguments(bundle);
+                        showFragment(getActivity(), fragment);
+                        break;
+                    case 4:
+                        //提现GET account/transfer	提现详情
+                        break;
+                    case 7:
+                        //交易付款GET order/car_detail	订单详情
+                        int id_busi = o.getObject_id();
+                        BusinessDetailFragment fragment_business2 = BusinessDetailFragment_.builder().build();
+                        Bundle bundle_business2 = new Bundle();
+                        bundle_business2.putInt("id", id_busi);
+                        bundle_business2.putString("title", o.getTypeDes());
+                        fragment_business2.setArguments(bundle_business2);
+                        showFragment(getActivity(), fragment_business2);
+                        break;
+                    default:
+                        break;
+                }
+
             }
         }
     };

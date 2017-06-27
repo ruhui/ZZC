@@ -436,4 +436,7 @@ public interface ZZCService {
     @POST("msg/group_tip")
     Observable<ResponseParent<Boolean>> setGrouptip(@Body GroupIdRequest request, @HeaderMap Map<String, String> header);
 
+    @GET("account/receipt")
+    Observable<ResponseParent<GroupMenberResponse>> getReceiptDetail(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+
 }

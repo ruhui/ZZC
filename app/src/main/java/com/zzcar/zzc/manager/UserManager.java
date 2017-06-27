@@ -1818,4 +1818,22 @@ public class UserManager {
                 .subscribe(subscriber);
     }
 
+    /**
+     * 收款详情
+     * @param id
+     * @param subscriber
+     */
+    public static void getReceiptDetail(String id, Subscriber<ResponseParent<GroupMenberResponse>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("id", id);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        ApiClient.getApiService().getReceiptDetail(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
 }

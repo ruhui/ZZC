@@ -15,6 +15,8 @@ public class OrderItemModle {
     private String thumbnails_url;
     private String market_price;
 
+    public OrderItemModle() {}
+
     public OrderItemModle(String id, String order_id, String product_id,
                           String quantity, String unit_price, String product_name,
                           String thumbnails_url, String market_price) {
