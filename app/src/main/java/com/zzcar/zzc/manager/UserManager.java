@@ -44,6 +44,7 @@ import com.zzcar.zzc.networks.requests.SaveCommentRequest;
 import com.zzcar.zzc.networks.requests.SavedemandRequest;
 import com.zzcar.zzc.networks.requests.SearchRequest;
 import com.zzcar.zzc.networks.requests.SendRegsmsRequest;
+import com.zzcar.zzc.networks.responses.AcountOrderResponse;
 import com.zzcar.zzc.networks.responses.ApplyFriendResponse;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.BulletinResponse;
@@ -75,6 +76,7 @@ import com.zzcar.zzc.networks.responses.MysupplyResponse;
 import com.zzcar.zzc.networks.responses.OrderDetailResponse;
 import com.zzcar.zzc.networks.responses.OrderListResponse;
 import com.zzcar.zzc.networks.responses.PublishintegralResponse;
+import com.zzcar.zzc.networks.responses.ReceiptDetailResponse;
 import com.zzcar.zzc.networks.responses.RefundOrderResponse;
 import com.zzcar.zzc.networks.responses.SavedemandResponse;
 import com.zzcar.zzc.networks.responses.ShouzhiDetailResponse;
@@ -82,6 +84,7 @@ import com.zzcar.zzc.networks.responses.SingleSupplyResponse;
 import com.zzcar.zzc.networks.responses.SupplyDetailResponse;
 import com.zzcar.zzc.networks.responses.SupplyResponse;
 import com.zzcar.zzc.networks.responses.SystemMsgResponse;
+import com.zzcar.zzc.networks.responses.TransferDetailResponse;
 import com.zzcar.zzc.networks.responses.UserMessageResponse;
 import com.zzcar.zzc.networks.responses.ValueTextResponse;
 import com.zzcar.zzc.networks.responses.VerifiedResponse;
@@ -1823,13 +1826,49 @@ public class UserManager {
      * @param id
      * @param subscriber
      */
-    public static void getReceiptDetail(String id, Subscriber<ResponseParent<GroupMenberResponse>> subscriber){
+    public static void getReceiptDetail(String id, Subscriber<ResponseParent<ReceiptDetailResponse>> subscriber){
         String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
         Map<String, String> hashmap = new HashMap<>();
         hashmap.put("id", id);
 
         ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
         ApiClient.getApiService().getReceiptDetail(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 提现详情
+     * @param id
+     * @param subscriber
+     */
+    public static void getTransferDetail(String id, Subscriber<ResponseParent<TransferDetailResponse>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("id", id);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        ApiClient.getApiService().getTransferDetail(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 支付明细的收入
+     * @param id
+     * @param subscriber
+     */
+    public static void getAcountOrder(String id, Subscriber<ResponseParent<AcountOrderResponse>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("id", id);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        ApiClient.getApiService().getAcountOrder(hashmap, zzcHeaders.getHashMap())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

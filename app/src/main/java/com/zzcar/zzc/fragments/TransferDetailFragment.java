@@ -14,9 +14,8 @@ import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.OrderItemModle;
 import com.zzcar.zzc.models.OrderitemsModel;
 import com.zzcar.zzc.networks.PosetSubscriber;
-import com.zzcar.zzc.networks.responses.AcountOrderResponse;
 import com.zzcar.zzc.networks.responses.OrderDetailResponse;
-import com.zzcar.zzc.networks.responses.RefundOrderResponse;
+import com.zzcar.zzc.networks.responses.TransferDetailResponse;
 import com.zzcar.zzc.views.widget.NavBar2;
 
 import org.androidannotations.annotations.AfterViews;
@@ -29,12 +28,12 @@ import java.util.List;
 import rx.Subscriber;
 
 /**
- * 描述：交易收入和交易付款
+ * 描述：提现详情
  * 作者：黄如辉  时间 2017/5/20.
  */
 
-@EFragment(R.layout.fragment_business_detail)
-public class BusinessDetailFragment extends BaseFragment{
+@EFragment(R.layout.fragment_trnsfer_detail)
+public class TransferDetailFragment extends BaseFragment{
 
     @ViewById(R.id.textView113)
     TextView txtMoney;
@@ -47,24 +46,14 @@ public class BusinessDetailFragment extends BaseFragment{
     TextView txtRefundType;
     @ViewById(R.id.textView116)
     TextView txtRefundMoney;
-    @ViewById(R.id.mRecycleView)
-    RecyclerView mRecycleView;
     @ViewById(R.id.mNavbar)
     NavBar2 mNavbar;
-    /*应收*/
+    /*状态*/
     @ViewById(R.id.textView215)
     TextView textView215;
-    /*手续费*/
-    @ViewById(R.id.textView216)
-    TextView textView216;
-    /*实收*/
-    @ViewById(R.id.textView217)
-    TextView textView217;
 
     private String id;
     private String titleBar = "";
-    private RefundOrderAdapter adapter;
-    private List<OrderItemModle> orderList = new ArrayList<>();
 
     @Override
     public void onNetChange(int netMobile) {
@@ -92,39 +81,24 @@ public class BusinessDetailFragment extends BaseFragment{
         });
 
         getRefundOrder();
-        adapter = new RefundOrderAdapter();
-        mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecycleView.setAdapter(adapter);
-        adapter.addAll(orderList);
     }
 
     void getRefundOrder(){
         showProgress();
-        Subscriber subscriber = new PosetSubscriber<OrderDetailResponse>().getSubscriber(callback_refundorder);
-        UserManager.getAcountOrder(String.valueOf(id), subscriber);
+        Subscriber subscriber = new PosetSubscriber<TransferDetailResponse>().getSubscriber(callback_refundorder);
+        UserManager.getTransferDetail(String.valueOf(id), subscriber);
     }
 
 
-    ResponseResultListener callback_refundorder = new ResponseResultListener<AcountOrderResponse>() {
-
+    ResponseResultListener callback_refundorder = new ResponseResultListener<TransferDetailResponse>() {
         @Override
-        public void success(AcountOrderResponse returnMsg) {
+        public void success(TransferDetailResponse returnMsg) {
             closeProgress();
             txtMoney.setText("¥"+returnMsg.getAmount());
-            txtSwitTimel.setText(returnMsg.getOrder_time());
+            txtSwitTimel.setText(returnMsg.getAccount_name());
             txtOrderid.setText(returnMsg.getOrder_no());
-            txtRefundMoney.setText("¥"+returnMsg.getPay_amount());
-            textView215.setText("¥"+returnMsg.getPay_amount());
-            textView216.setText("¥"+returnMsg.getFee_amount());
-            textView217.setText("¥"+returnMsg.getAmount());
-            if (adapter != null){
-                orderList.clear();
-                for (OrderitemsModel model : returnMsg.getOrder_items()){
-                    orderList.add(model.getOrderItemModel(model));
-                }
-                adapter.clear();
-                adapter.addAll(orderList);
-            }
+            txtRefundMoney.setText("¥"+returnMsg.getAmount());
+            textView215.setText(returnMsg.getStatus());
             txtRefundType.setText(returnMsg.getPay_info().getPay_name());
         }
 

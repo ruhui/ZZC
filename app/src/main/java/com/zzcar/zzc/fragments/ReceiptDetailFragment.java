@@ -14,9 +14,8 @@ import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.OrderItemModle;
 import com.zzcar.zzc.models.OrderitemsModel;
 import com.zzcar.zzc.networks.PosetSubscriber;
-import com.zzcar.zzc.networks.responses.AcountOrderResponse;
 import com.zzcar.zzc.networks.responses.OrderDetailResponse;
-import com.zzcar.zzc.networks.responses.RefundOrderResponse;
+import com.zzcar.zzc.networks.responses.ReceiptDetailResponse;
 import com.zzcar.zzc.views.widget.NavBar2;
 
 import org.androidannotations.annotations.AfterViews;
@@ -29,12 +28,12 @@ import java.util.List;
 import rx.Subscriber;
 
 /**
- * 描述：交易收入和交易付款
+ * 描述：收款详情
  * 作者：黄如辉  时间 2017/5/20.
  */
 
 @EFragment(R.layout.fragment_business_detail)
-public class BusinessDetailFragment extends BaseFragment{
+public class ReceiptDetailFragment extends BaseFragment{
 
     @ViewById(R.id.textView113)
     TextView txtMoney;
@@ -100,15 +99,14 @@ public class BusinessDetailFragment extends BaseFragment{
 
     void getRefundOrder(){
         showProgress();
-        Subscriber subscriber = new PosetSubscriber<OrderDetailResponse>().getSubscriber(callback_refundorder);
-        UserManager.getAcountOrder(String.valueOf(id), subscriber);
+        Subscriber subscriber = new PosetSubscriber<ReceiptDetailResponse>().getSubscriber(callback_refundorder);
+        UserManager.getReceiptDetail(String.valueOf(id), subscriber);
     }
 
 
-    ResponseResultListener callback_refundorder = new ResponseResultListener<AcountOrderResponse>() {
-
+    ResponseResultListener callback_refundorder = new ResponseResultListener<ReceiptDetailResponse>() {
         @Override
-        public void success(AcountOrderResponse returnMsg) {
+        public void success(ReceiptDetailResponse returnMsg) {
             closeProgress();
             txtMoney.setText("¥"+returnMsg.getAmount());
             txtSwitTimel.setText(returnMsg.getOrder_time());
@@ -126,6 +124,7 @@ public class BusinessDetailFragment extends BaseFragment{
                 adapter.addAll(orderList);
             }
             txtRefundType.setText(returnMsg.getPay_info().getPay_name());
+
         }
 
         @Override

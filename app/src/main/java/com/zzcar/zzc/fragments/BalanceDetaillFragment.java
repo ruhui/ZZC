@@ -80,13 +80,18 @@ public class BalanceDetaillFragment extends BasePullRecyclerFragment{
                 switch (o.getType()) {
                     case 1:
                         //收款account/receipt  收款详情
+                        ReceiptDetailFragment fragment_bshoukuan = ReceiptDetailFragment_.builder().build();
+                        Bundle bundle_shoukuan = new Bundle();
+                        bundle_shoukuan.putString("id", String.valueOf(o.getObject_id()));
+                        bundle_shoukuan.putString("title", o.getTypeDes());
+                        fragment_bshoukuan.setArguments(bundle_shoukuan);
+                        showFragment(getActivity(), fragment_bshoukuan);
                         break;
                     case 2:
                         //收入order/car_detail	订单详情
-                        int id_b = o.getObject_id();
                         BusinessDetailFragment fragment_business = BusinessDetailFragment_.builder().build();
                         Bundle bundle_business = new Bundle();
-                        bundle_business.putInt("id", id_b);
+                        bundle_business.putString("id", o.getId());
                         bundle_business.putString("title", o.getTypeDes());
                         fragment_business.setArguments(bundle_business);
                         showFragment(getActivity(), fragment_business);
@@ -96,20 +101,25 @@ public class BalanceDetaillFragment extends BasePullRecyclerFragment{
                         int id_refund = o.getObject_id();
                         BalanceDetailDetailFragment fragment = BalanceDetailDetailFragment_.builder().build();
                         Bundle bundle = new Bundle();
-                        bundle.putInt("id", id_refund);
+                        bundle.putString("id", String.valueOf(id_refund));
                         bundle.putString("title", o.getTypeDes());
                         fragment.setArguments(bundle);
                         showFragment(getActivity(), fragment);
                         break;
                     case 4:
                         //提现GET account/transfer	提现详情
+                        TransferDetailFragment fragment_tranfer = TransferDetailFragment_.builder().build();
+                        Bundle bundle_tranfer = new Bundle();
+                        bundle_tranfer.putString("id", String.valueOf(o.getObject_id()));
+                        bundle_tranfer.putString("title", o.getTypeDes());
+                        fragment_tranfer.setArguments(bundle_tranfer);
+                        showFragment(getActivity(), fragment_tranfer);
                         break;
                     case 7:
                         //交易付款GET order/car_detail	订单详情
-                        int id_busi = o.getObject_id();
                         BusinessDetailFragment fragment_business2 = BusinessDetailFragment_.builder().build();
                         Bundle bundle_business2 = new Bundle();
-                        bundle_business2.putInt("id", id_busi);
+                        bundle_business2.putString("id", o.getId());
                         bundle_business2.putString("title", o.getTypeDes());
                         fragment_business2.setArguments(bundle_business2);
                         showFragment(getActivity(), fragment_business2);

@@ -116,21 +116,21 @@ public class SystemMsgFragment extends BasePullRecyclerFragment {
                     break;
                 case 2:
                     // 收款2：跳到收款详情账单页;1
-                    BalanceDetailDetailFragment fragment_shoukuan = BalanceDetailDetailFragment_.builder().build();
+                    ReceiptDetailFragment fragment_bshoukuan = ReceiptDetailFragment_.builder().build();
                     Bundle bundle_shoukuan = new Bundle();
-                    bundle_shoukuan.putInt("id", o.getObject_id());
+                    bundle_shoukuan.putString("id", String.valueOf(o.getObject_id()));
                     bundle_shoukuan.putString("title", o.getTitle());
-                    fragment_shoukuan.setArguments(bundle_shoukuan);
-                    showFragment(getActivity(), fragment_shoukuan);
+                    fragment_bshoukuan.setArguments(bundle_shoukuan);
+                    showFragment(getActivity(), fragment_bshoukuan);
                     break;
                 case 3:
                     //提现3：跳到提现申请或成功详情;1
-                    BalanceDetailDetailFragment fragment_tixian = BalanceDetailDetailFragment_.builder().build();
-                    Bundle bundle_tixian = new Bundle();
-                    bundle_tixian.putInt("id", o.getObject_id());
-                    bundle_tixian.putString("title", o.getTitle());
-                    fragment_tixian.setArguments(bundle_tixian);
-                    showFragment(getActivity(), fragment_tixian);
+                    TransferDetailFragment fragment_tranfer = TransferDetailFragment_.builder().build();
+                    Bundle bundle_tranfer = new Bundle();
+                    bundle_tranfer.putString("id", String.valueOf(o.getObject_id()));
+                    bundle_tranfer.putString("title", o.getTitle());
+                    fragment_tranfer.setArguments(bundle_tranfer);
+                    showFragment(getActivity(), fragment_tranfer);
                     break;
                 case 4:
                     //订单4：跳到订单详情页1
@@ -162,7 +162,7 @@ public class SystemMsgFragment extends BasePullRecyclerFragment {
                     //退款订单1
                     BalanceDetailDetailFragment fragment_refund = BalanceDetailDetailFragment_.builder().build();
                     Bundle bundle_refund = new Bundle();
-                    bundle_refund.putInt("id", o.getObject_id());
+                    bundle_refund.putString("id", String.valueOf(o.getObject_id()));
                     bundle_refund.putString("title", o.getTitle());
                     fragment_refund.setArguments(bundle_refund);
                     showFragment(getActivity(), fragment_refund);

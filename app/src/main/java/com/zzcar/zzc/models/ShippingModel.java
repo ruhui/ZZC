@@ -16,8 +16,14 @@ public class ShippingModel implements Serializable{
     private String area_id;
     private String region_name;
     private String address;
+    private String order_id;
+    private String region_id;
+    private String express_no;
+    private String express_company_name;
+    private String ship_order_number;
+    private String shipping_time;
 
-    public ShippingModel(String order_no, String ship_to, String phone, String province_id, String city_id, String area_id, String region_name, String address) {
+    public ShippingModel(String order_no, String ship_to, String phone, String province_id, String city_id, String area_id, String region_name, String address, String order_id, String region_id, String express_no, String express_company_name, String ship_order_number, String shipping_time) {
         this.order_no = order_no;
         this.ship_to = ship_to;
         this.phone = phone;
@@ -26,6 +32,12 @@ public class ShippingModel implements Serializable{
         this.area_id = area_id;
         this.region_name = region_name;
         this.address = address;
+        this.order_id = order_id;
+        this.region_id = region_id;
+        this.express_no = express_no;
+        this.express_company_name = express_company_name;
+        this.ship_order_number = ship_order_number;
+        this.shipping_time = shipping_time;
     }
 
     public String getOrder_no() {
@@ -90,6 +102,54 @@ public class ShippingModel implements Serializable{
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(String order_id) {
+        this.order_id = order_id;
+    }
+
+    public String getRegion_id() {
+        return region_id;
+    }
+
+    public void setRegion_id(String region_id) {
+        this.region_id = region_id;
+    }
+
+    public String getExpress_no() {
+        return express_no;
+    }
+
+    public void setExpress_no(String express_no) {
+        this.express_no = express_no;
+    }
+
+    public String getExpress_company_name() {
+        return express_company_name;
+    }
+
+    public void setExpress_company_name(String express_company_name) {
+        this.express_company_name = express_company_name;
+    }
+
+    public String getShip_order_number() {
+        return ship_order_number;
+    }
+
+    public void setShip_order_number(String ship_order_number) {
+        this.ship_order_number = ship_order_number;
+    }
+
+    public String getShipping_time() {
+        return shipping_time;
+    }
+
+    public void setShipping_time(String shipping_time) {
+        this.shipping_time = shipping_time;
     }
 }
 //"order_no": "sample string 1",

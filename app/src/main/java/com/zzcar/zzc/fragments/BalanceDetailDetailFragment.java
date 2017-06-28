@@ -49,7 +49,7 @@ public class BalanceDetailDetailFragment extends BaseFragment{
     @ViewById(R.id.mNavbar)
     NavBar2 mNavbar;
 
-    private int id;
+    private String id;
     private String titleBar = "";
     private RefundOrderAdapter adapter;
     private List<OrderItemModle> orderList = new ArrayList<>();
@@ -62,7 +62,7 @@ public class BalanceDetailDetailFragment extends BaseFragment{
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        id = getArguments().getInt("id");
+        id = getArguments().getString("id");
         titleBar = getArguments().getString("title");
 
     }
@@ -87,18 +87,19 @@ public class BalanceDetailDetailFragment extends BaseFragment{
     }
 
     void getRefundOrder(){
+        showProgress();
         Subscriber subscriber = new PosetSubscriber<RefundOrderResponse>().getSubscriber(callback_refundorder);
-        UserManager.getRefundorder(id, subscriber);
+        UserManager.getRefundorder(Integer.valueOf(id), subscriber);
     }
 
 
     ResponseResultListener callback_refundorder = new ResponseResultListener<RefundOrderResponse>() {
         @Override
         public void success(RefundOrderResponse returnMsg) {
+            closeProgress();
             txtMoney.setText("¥"+returnMsg.getAmount());
             txtSwitTimel.setText(returnMsg.getApply_time());
             txtOrderid.setText(returnMsg.getOrder_no());
-            txtRefundType.setText(returnMsg.getPay_name());
             txtRefundMoney.setText("¥"+returnMsg.getAmount());
             if (adapter != null){
                 orderList.clear();
@@ -106,11 +107,12 @@ public class BalanceDetailDetailFragment extends BaseFragment{
                 adapter.clear();
                 adapter.addAll(orderList);
             }
+            txtRefundType.setText(returnMsg.getPay_name());
         }
 
         @Override
         public void fialed(String resCode, String message) {
-
+            closeProgress();
         }
     };
 }

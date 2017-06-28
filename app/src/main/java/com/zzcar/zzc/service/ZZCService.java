@@ -28,6 +28,7 @@ import com.zzcar.zzc.networks.requests.RefreshLoginRequest;
 import com.zzcar.zzc.networks.requests.SaveCommentRequest;
 import com.zzcar.zzc.networks.requests.SavedemandRequest;
 import com.zzcar.zzc.networks.requests.SendRegsmsRequest;
+import com.zzcar.zzc.networks.responses.AcountOrderResponse;
 import com.zzcar.zzc.networks.responses.ApplyFriendResponse;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.BulletinResponse;
@@ -60,6 +61,7 @@ import com.zzcar.zzc.networks.responses.MysupplyResponse;
 import com.zzcar.zzc.networks.responses.OrderDetailResponse;
 import com.zzcar.zzc.networks.responses.OrderListResponse;
 import com.zzcar.zzc.networks.responses.PublishintegralResponse;
+import com.zzcar.zzc.networks.responses.ReceiptDetailResponse;
 import com.zzcar.zzc.networks.responses.RefundOrderResponse;
 import com.zzcar.zzc.networks.responses.SavedemandResponse;
 import com.zzcar.zzc.networks.responses.ShouzhiDetailResponse;
@@ -67,6 +69,7 @@ import com.zzcar.zzc.networks.responses.SingleSupplyResponse;
 import com.zzcar.zzc.networks.responses.SupplyDetailResponse;
 import com.zzcar.zzc.networks.responses.SupplyResponse;
 import com.zzcar.zzc.networks.responses.SystemMsgResponse;
+import com.zzcar.zzc.networks.responses.TransferDetailResponse;
 import com.zzcar.zzc.networks.responses.UserMessageResponse;
 import com.zzcar.zzc.networks.responses.UserMsgResponse;
 import com.zzcar.zzc.networks.responses.ValueTextResponse;
@@ -436,7 +439,17 @@ public interface ZZCService {
     @POST("msg/group_tip")
     Observable<ResponseParent<Boolean>> setGrouptip(@Body GroupIdRequest request, @HeaderMap Map<String, String> header);
 
+    /*收款详情*/
     @GET("account/receipt")
-    Observable<ResponseParent<GroupMenberResponse>> getReceiptDetail(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+    Observable<ResponseParent<ReceiptDetailResponse>> getReceiptDetail(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+
+    /*提现详情*/
+    @GET("account/transfer")
+    Observable<ResponseParent<TransferDetailResponse>> getTransferDetail(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+
+    /*收支明细的收入*/
+    @GET("account/order")
+    Observable<ResponseParent<AcountOrderResponse>> getAcountOrder(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+
 
 }

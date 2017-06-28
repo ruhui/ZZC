@@ -7,19 +7,29 @@ package com.zzcar.zzc.models;
 
 public class ShouzhiItem {
     private int object_id;
+    private String id;
     private int type;
     private String name;
     private double ammount;
     private String time;
     private String status_name;
 
-    public ShouzhiItem(int object_id, int type, String name, double ammount, String time, String status_name) {
+    public ShouzhiItem(int object_id, String id, int type, String name, double ammount, String time, String status_name) {
         this.object_id = object_id;
+        this.id = id;
         this.type = type;
         this.name = name;
         this.ammount = ammount;
         this.time = time;
         this.status_name = status_name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public int getObject_id() {
