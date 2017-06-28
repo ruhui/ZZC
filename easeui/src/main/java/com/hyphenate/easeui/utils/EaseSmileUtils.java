@@ -22,6 +22,8 @@ import java.util.regex.Pattern;
 
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
+import android.support.v4.content.FileProvider;
 import android.text.Spannable;
 import android.text.Spannable.Factory;
 import android.text.style.ImageSpan;
@@ -30,6 +32,7 @@ import com.hyphenate.easeui.EaseUI;
 import com.hyphenate.easeui.EaseUI.EaseEmojiconInfoProvider;
 import com.hyphenate.easeui.domain.EaseEmojicon;
 import com.hyphenate.easeui.model.EaseDefaultEmojiconDatas;
+import com.hyphenate.easeui.ui.EaseShowVideoActivity;
 
 public class EaseSmileUtils {
     public static final String DELETE_KEY = "em_delete_delete_expression";
@@ -129,7 +132,15 @@ public class EaseSmileUtils {
 	                    if(!file.exists() || file.isDirectory()){
 	                        return false;
 	                    }
-	                    spannable.setSpan(new ImageSpan(context, Uri.fromFile(file)),
+
+						Uri mOriginUri;
+						if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+							mOriginUri = FileProvider.getUriForFile(context, "com.zzcar.zzc.FileProvider", file);
+						} else {
+							mOriginUri = Uri.fromFile(file);
+						}
+
+	                    spannable.setSpan(new ImageSpan(context, mOriginUri),
 	                            matcher.start(), matcher.end(),
 	                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 	                }else{

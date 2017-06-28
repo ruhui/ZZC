@@ -3,8 +3,10 @@ package com.zzcar.zzc.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.zzcar.zzc.MyApplication;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.AuthenticationActivity;
 import com.zzcar.zzc.activities.ViewPagerActivity;
@@ -225,25 +228,43 @@ public class AuthenLoadPhotoFragment extends BaseFragment {
                 case 1:
                     //拍照
                     if (checked){
-                        Uri Imagefile= null;
+
+                        Uri mOriginUri = null;
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         switch (SELECTPOSITION){
                             case 1:
                                 tempfileYingye = Tool.getFilePath();
-                                Imagefile = Uri.fromFile(tempfileYingye);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    mOriginUri = FileProvider.getUriForFile(MyApplication.getInstance(), MyApplication.getInstance().getPackageName() + ".FileProvider", tempfileYingye);
+                                } else {
+                                    mOriginUri = Uri.fromFile(tempfileYingye);
+                                }
                                 break;
                             case 2:
                                 tempfileShenfenzz = Tool.getFilePath();
-                                Imagefile = Uri.fromFile(tempfileShenfenzz);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    mOriginUri = FileProvider.getUriForFile(MyApplication.getInstance(), MyApplication.getInstance().getPackageName() + ".FileProvider", tempfileShenfenzz);
+                                } else {
+                                    mOriginUri = Uri.fromFile(tempfileShenfenzz);
+                                }
                                 break;
                             case 3:
                                 tempfileShenfenzf = Tool.getFilePath();
-                                Imagefile = Uri.fromFile(tempfileShenfenzf);
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                                    mOriginUri = FileProvider.getUriForFile(MyApplication.getInstance(), MyApplication.getInstance().getPackageName() + ".FileProvider", tempfileShenfenzf);
+                                } else {
+                                    mOriginUri = Uri.fromFile(tempfileShenfenzf);
+                                }
                                 break;
                         }
-
-                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Imagefile);
-                        startActivityForResult(cameraIntent, REQ_CODE_CAMERA);
+                       
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, mOriginUri);
+                        startActivityForResult(intent, REQ_CODE_CAMERA);
+                        
+//                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Imagefile);
+//                        startActivityForResult(cameraIntent, REQ_CODE_CAMERA);
                     }
                     break;
                 case 2:

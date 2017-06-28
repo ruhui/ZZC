@@ -7,6 +7,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.zzcar.zzc.R;
@@ -47,6 +49,8 @@ public class SureOrderActivity extends BaseActivity {
 
     @ViewById(R.id.mNavbar)
     NavBar2 mNavbar;
+    @ViewById(R.id.relaAddress)
+    RelativeLayout relaAddress;
     @ViewById(R.id.textView172)
     TextView txtPhone;
     @ViewById(R.id.textView170)
@@ -63,7 +67,11 @@ public class SureOrderActivity extends BaseActivity {
     RecyclerView mRecycleView;
     @ViewById(R.id.mPayOrderView)
     PayOrderView mPayOrderView;
+    @ViewById(R.id.imageView39)
+    ImageView imgSelect;
 
+    /*默认地址不显示*/
+    private boolean showAddress = false;
     private SureOrderAdapter adapter;
 
 
@@ -107,8 +115,47 @@ public class SureOrderActivity extends BaseActivity {
                 mPayOrderView.selectZhifubaoListener();
             }
         });
+
+
+        refreshAddShow();
     }
 
+
+    @Click(R.id.imageView39)
+    void AddressSelect(){
+        if (showAddress){
+            imgSelect.setImageResource(R.drawable.nav_icon_default);
+            showAddress = false;
+        }else{
+            imgSelect.setImageResource(R.drawable.nav_icon_selected);
+            showAddress = true;
+        }
+        refreshAddShow();
+    }
+
+    void refreshAddShow(){
+        if (showAddress){
+            if (checkoutcart.getShipping() == null){
+                //去添加地址
+
+            }else{
+                txtName.setText(checkoutcart.getShipping().getShip_to());
+                txtAddress.setText(checkoutcart.getShipping().getRegion_name());
+                txtPhone.setText(checkoutcart.getShipping().getPhone());
+            }
+            relaAddress.setVisibility(View.VISIBLE);
+        }else{
+            relaAddress.setVisibility(View.GONE);
+        }
+
+    }
+
+    /*地址点击*/
+    @Click(R.id.relaAddress)
+    void selectAddress(){
+        Intent intent = new Intent(SureOrderActivity.this, SelectAddressActivity_.class);
+        startActivityForResult(intent, 20176);
+    }
 
     @Click(R.id.textView175)
     void payOrder(){

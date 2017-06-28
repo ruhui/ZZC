@@ -3,7 +3,11 @@ package com.zzcar.zzc.utils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
+
+import com.zzcar.zzc.MyApplication;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -207,7 +211,15 @@ public class FileUtil {
         }
 
         // Save a file: path for use with ACTION_VIEW intents
-        return Uri.fromFile(image);
+
+
+        Uri mOriginUri;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            mOriginUri = FileProvider.getUriForFile(MyApplication.getInstance(), MyApplication.getInstance().getPackageName() + ".FileProvider", image);
+        } else {
+            mOriginUri = Uri.fromFile(image);
+        }
+        return mOriginUri;
     }
 
 

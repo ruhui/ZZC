@@ -2,8 +2,10 @@ package com.zzcar.zzc.activities;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -17,6 +19,7 @@ import android.widget.TextView;
 import com.zhy.view.flowlayout.FlowLayout;
 import com.zhy.view.flowlayout.TagAdapter;
 import com.zhy.view.flowlayout.TagFlowLayout;
+import com.zzcar.zzc.MyApplication;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
 import com.zzcar.zzc.adapters.CommentAdapter;
@@ -51,6 +54,7 @@ import org.androidannotations.annotations.ViewById;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -192,11 +196,24 @@ public class DemendDetailActivity extends BaseActivity {
             boolean checked =  PermissionUtili.checkPermission(getActivity(), permission, "需要设置手机权限",
                     "需要使用相机和读取相册权限，请到设置中设置应用权限。");
             if (checked){
+
                 tempfile = getFilePath();
-                Uri Imagefile = Uri.fromFile(tempfile);
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Imagefile);
-                startActivityForResult(cameraIntent, REQ_CODE_CAMERA);
+                Uri mOriginUri;
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    mOriginUri = FileProvider.getUriForFile(MyApplication.getInstance(), MyApplication.getInstance().getPackageName() + ".FileProvider", tempfile);
+                } else {
+                    mOriginUri = Uri.fromFile(tempfile);
+                }
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, mOriginUri);
+                startActivityForResult(intent, REQ_CODE_CAMERA);
+
+
+//                Uri Imagefile = Uri.fromFile(tempfile);
+//                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//                cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Imagefile);
+//                startActivityForResult(cameraIntent, REQ_CODE_CAMERA);
             }
         }
 
@@ -353,13 +370,13 @@ public class DemendDetailActivity extends BaseActivity {
     /*获取评论*/
     private void getComments(int productId) {
         Subscriber subscriber = new PosetSubscriber<CarDetailRespose>().getSubscriber(callbak_comments);
-        UserManager.getCommentList(productId, CURTUNPAGE, subscriber);
+        UserManager.getInfocomments(productId, CURTUNPAGE, subscriber);
     }
 
     /*上传评论*/
     private void saveComment() {
         Subscriber subscriber = new PosetSubscriber<Boolean>().getSubscriber(callbak_savecomment);
-        UserManager.saveComment(infoId, atid, commentContent, successPath, subscriber);
+        UserManager.saveInfocomment(infoId, atid, commentContent, successPath, subscriber);
     }
 
 

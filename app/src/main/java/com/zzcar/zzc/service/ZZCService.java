@@ -29,6 +29,7 @@ import com.zzcar.zzc.networks.requests.SaveCommentRequest;
 import com.zzcar.zzc.networks.requests.SavedemandRequest;
 import com.zzcar.zzc.networks.requests.SendRegsmsRequest;
 import com.zzcar.zzc.networks.responses.AcountOrderResponse;
+import com.zzcar.zzc.networks.responses.AddressResponse;
 import com.zzcar.zzc.networks.responses.ApplyFriendResponse;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
 import com.zzcar.zzc.networks.responses.BulletinResponse;
@@ -451,5 +452,16 @@ public interface ZZCService {
     @GET("account/order")
     Observable<ResponseParent<AcountOrderResponse>> getAcountOrder(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
 
+    /*求购和询价评论列表*/
+    @GET("info/comment")
+    Observable<ResponseParent<CommentResponse>> getInfocomments(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+
+    /*求购和询价评论*/
+    @POST("info/save_comment")
+    Observable<ResponseParent<Boolean>> saveInfocomment(@Body SaveCommentRequest saveComment, @HeaderMap Map<String, String> header);
+
+    /*获取收货地址列表*/
+    @GET("account/address")
+    Observable<ResponseParent<List<AddressResponse>>> getAddressList(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
 
 }

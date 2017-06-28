@@ -2,7 +2,9 @@ package com.hyphenate.easeui.ui;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -53,8 +55,14 @@ public class EaseShowVideoActivity extends EaseBaseActivity{
 
 		if (localFilePath != null && new File(localFilePath).exists()) {
 			Intent intent = new Intent(Intent.ACTION_VIEW);
-			intent.setDataAndType(Uri.fromFile(new File(localFilePath)),
-					"video/mp4");
+
+			Uri mOriginUri;
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+				mOriginUri = FileProvider.getUriForFile(EaseShowVideoActivity.this, "com.zzcar.zzc.FileProvider", new File(localFilePath));
+			} else {
+				mOriginUri = Uri.fromFile(new File(localFilePath));
+			}
+			intent.setDataAndType(mOriginUri, "video/mp4");
 			startActivity(intent);
 			finish();
 		} else {
@@ -69,8 +77,14 @@ public class EaseShowVideoActivity extends EaseBaseActivity{
 	 */
 	private void showLocalVideo(String localPath){
 		Intent intent = new Intent(Intent.ACTION_VIEW);
-		intent.setDataAndType(Uri.fromFile(new File(localPath)),
-				"video/mp4");
+
+		Uri mOriginUri;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+			mOriginUri = FileProvider.getUriForFile(EaseShowVideoActivity.this, "com.zzcar.zzc.FileProvider", new File(localPath));
+		} else {
+			mOriginUri = Uri.fromFile(new File(localPath));
+		}
+		intent.setDataAndType(mOriginUri, "video/mp4");
 		startActivity(intent);
 		finish();
 	}

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.support.v4.content.FileProvider;
 import android.support.v4.os.AsyncTaskCompat;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -94,7 +96,12 @@ public class EaseChatRowImage extends EaseChatRowFile{
         Intent intent = new Intent(context, EaseShowBigImageActivity.class);
         File file = new File(imgBody.getLocalUrl());
         if (file.exists()) {
-            Uri uri = Uri.fromFile(file);
+            Uri uri;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                uri = FileProvider.getUriForFile(context, "com.zzcar.zzc.FileProvider", file);
+            } else {
+                uri = Uri.fromFile(file);
+            }
             intent.putExtra("uri", uri);
         } else {
             // The local full size pic does not exist yet.

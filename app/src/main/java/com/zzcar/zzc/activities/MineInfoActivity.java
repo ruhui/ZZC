@@ -2,11 +2,14 @@ package com.zzcar.zzc.activities;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.zzcar.zzc.MyApplication;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
 import com.zzcar.zzc.constants.Constant;
@@ -137,10 +140,21 @@ public class MineInfoActivity extends BaseActivity {
                     //拍照
                     if (checked){
                         tempfile = Tool.getFilePath();
-                        Uri Imagefile = Uri.fromFile(tempfile);
-                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Imagefile);
-                        startActivityForResult(cameraIntent, REQ_CODE_CAMERA);
+                        Uri mOriginUri;
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            mOriginUri = FileProvider.getUriForFile(MyApplication.getInstance(), MyApplication.getInstance().getPackageName() + ".FileProvider", tempfile);
+                        } else {
+                            mOriginUri = Uri.fromFile(tempfile);
+                        }
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, mOriginUri);
+                        startActivityForResult(intent, REQ_CODE_CAMERA);
+
+//                        Uri Imagefile = Uri.fromFile(tempfile);
+//                        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Imagefile);
+//                        startActivityForResult(cameraIntent, REQ_CODE_CAMERA);
                     }
                     break;
                 case 2:
