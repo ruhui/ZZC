@@ -25,6 +25,7 @@ import com.zzcar.zzc.networks.requests.OrderidResquest;
 import com.zzcar.zzc.networks.requests.PhotoRequest;
 import com.zzcar.zzc.networks.requests.ProduceIdResquest;
 import com.zzcar.zzc.networks.requests.RefreshLoginRequest;
+import com.zzcar.zzc.networks.requests.SaveAddressaRequest;
 import com.zzcar.zzc.networks.requests.SaveCommentRequest;
 import com.zzcar.zzc.networks.requests.SavedemandRequest;
 import com.zzcar.zzc.networks.requests.SendRegsmsRequest;
@@ -463,5 +464,9 @@ public interface ZZCService {
     /*获取收货地址列表*/
     @GET("account/address")
     Observable<ResponseParent<List<AddressResponse>>> getAddressList(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+
+    /*新增/修改地址*/
+    @POST("account/address_save")
+    Observable<ResponseParent<Boolean>> saveAddress(@Body SaveAddressaRequest addressaRequest, @HeaderMap Map<String, String> header);
 
 }

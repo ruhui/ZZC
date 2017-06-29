@@ -43,6 +43,7 @@ public class ToastUtil {
         Context context = MyApplication.getInstance();
         showToast(context, s);
     }
+
 }
 
 

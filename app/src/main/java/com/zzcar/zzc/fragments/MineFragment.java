@@ -257,7 +257,6 @@ public class MineFragment extends BaseFragment {
         public void success(MineMsgResponse returnMsg) {
             mineMsgResponse = returnMsg;
             resetMineData();
-
             MyEaseUserDao easeUserDao = GreenDaoUtils.getSingleTon().getmDaoSession().getMyEaseUserDao();
             MyEaseUser easeUser = new MyEaseUser(returnMsg.getId()+"", returnMsg.getPhoto(), returnMsg.getNick());
             long count = easeUserDao.queryBuilder().where(MyEaseUserDao.Properties.Id.eq(easeUser.getId())).count();

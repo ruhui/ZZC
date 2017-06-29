@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -70,8 +71,8 @@ public class SureOrderActivity extends BaseActivity {
     @ViewById(R.id.imageView39)
     ImageView imgSelect;
 
-    /*默认地址不显示*/
-    private boolean showAddress = false;
+    /*默认地址不显示，默认打勾*/
+    private boolean showAddress = true;
     private SureOrderAdapter adapter;
 
 
@@ -116,39 +117,35 @@ public class SureOrderActivity extends BaseActivity {
             }
         });
 
-
-        refreshAddShow();
+        if (checkoutcart.getShipping() != null){
+            txtName.setText(checkoutcart.getShipping().getShip_to());
+            txtAddress.setText(checkoutcart.getShipping().getRegion_name());
+            txtPhone.setText(checkoutcart.getShipping().getPhone());
+        }
     }
 
 
     @Click(R.id.imageView39)
     void AddressSelect(){
         if (showAddress){
-            imgSelect.setImageResource(R.drawable.nav_icon_default);
-            showAddress = false;
+            if (checkoutcart.getShipping() == null){
+                //去添加地址
+                Intent intent = new Intent(SureOrderActivity.this, SelectAddressActivity_.class);
+                startActivityForResult(intent, 20176);
+            }else{
+                imgSelect.setImageResource(R.drawable.nav_icon_default);
+                showAddress = false;
+                txtName.setText(checkoutcart.getShipping().getShip_to());
+                txtAddress.setText(checkoutcart.getShipping().getRegion_name());
+                txtPhone.setText(checkoutcart.getShipping().getPhone());
+                relaAddress.setVisibility(View.VISIBLE);
+            }
         }else{
             imgSelect.setImageResource(R.drawable.nav_icon_selected);
             showAddress = true;
         }
-        refreshAddShow();
     }
 
-    void refreshAddShow(){
-        if (showAddress){
-            if (checkoutcart.getShipping() == null){
-                //去添加地址
-
-            }else{
-                txtName.setText(checkoutcart.getShipping().getShip_to());
-                txtAddress.setText(checkoutcart.getShipping().getRegion_name());
-                txtPhone.setText(checkoutcart.getShipping().getPhone());
-            }
-            relaAddress.setVisibility(View.VISIBLE);
-        }else{
-            relaAddress.setVisibility(View.GONE);
-        }
-
-    }
 
     /*地址点击*/
     @Click(R.id.relaAddress)
@@ -201,5 +198,29 @@ public class SureOrderActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null){
+            if (requestCode == 20176){
+                //列表反回
+            }else if (requestCode == 20177){
+                //编辑反回
+            }
+            String sendto = data.getStringExtra("sendto");
+            String address = data.getStringExtra("address");
+            String phone = data.getStringExtra("phone");
+            txtName.setText(sendto);
+            txtAddress.setText(address);
+            txtPhone.setText(phone);
+
+            if (!TextUtils.isEmpty(sendto)){
+                relaAddress.setVisibility(View.VISIBLE);
+                imgSelect.setImageResource(R.drawable.nav_icon_default);
+                showAddress = false;
+            }
+        }
     }
 }

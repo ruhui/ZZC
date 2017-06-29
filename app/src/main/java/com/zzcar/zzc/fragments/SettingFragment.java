@@ -16,6 +16,7 @@ import com.zzcar.greendao.CountyModeDao;
 import com.zzcar.greendao.ProvenceModelCountryDao;
 import com.zzcar.greendao.ProvenceModelDao;
 import com.zzcar.zzc.R;
+import com.zzcar.zzc.activities.AboutZzcarActivity_;
 import com.zzcar.zzc.activities.LoginAcitivty_;
 import com.zzcar.zzc.fragments.base.BaseFragment;
 import com.zzcar.zzc.manager.DataCleanManager;
@@ -66,6 +67,14 @@ public class SettingFragment extends BaseFragment {
                 finishFragment();
             }
         });
+
+        aboutApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AboutZzcarActivity_.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Click(R.id.textView131)
@@ -84,8 +93,6 @@ public class SettingFragment extends BaseFragment {
     void cancelMemory(){
         showProgress();
         new CleanMemoryAsynTask().execute("");
-
-
     }
 
     @Override

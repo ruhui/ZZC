@@ -40,6 +40,7 @@ import com.zzcar.zzc.networks.requests.ParametersRequest;
 import com.zzcar.zzc.networks.requests.PhotoRequest;
 import com.zzcar.zzc.networks.requests.ProduceIdResquest;
 import com.zzcar.zzc.networks.requests.RefreshLoginRequest;
+import com.zzcar.zzc.networks.requests.SaveAddressaRequest;
 import com.zzcar.zzc.networks.requests.SaveCommentRequest;
 import com.zzcar.zzc.networks.requests.SavedemandRequest;
 import com.zzcar.zzc.networks.requests.SearchRequest;
@@ -1938,4 +1939,22 @@ public class UserManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
+
+    /**
+     * 保存编辑地址
+     * @param request
+     * @param subscriber
+     */
+    public static void saveAddress(SaveAddressaRequest request, Subscriber<ResponseParent<Boolean>> subscriber){
+         /* 防止多次点击 */
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, request);
+        ApiClient.getApiService().saveAddress(request, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
 }

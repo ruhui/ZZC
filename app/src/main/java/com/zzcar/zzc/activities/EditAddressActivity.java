@@ -1,20 +1,30 @@
 package com.zzcar.zzc.activities;
 
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.zzcar.greendao.MyEaseUserDao;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
 import com.zzcar.zzc.constants.Constant;
+import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
+import com.zzcar.zzc.models.MyEaseUser;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.UploadFileWithoutLoding;
+import com.zzcar.zzc.networks.requests.SaveAddressaRequest;
+import com.zzcar.zzc.networks.responses.MineMsgResponse;
+import com.zzcar.zzc.utils.GreenDaoUtils;
+import com.zzcar.zzc.utils.ToastUtil;
 import com.zzcar.zzc.views.widget.ItemIconTextIcon;
 import com.zzcar.zzc.views.widget.NavBar2;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
@@ -42,6 +52,11 @@ public class EditAddressActivity extends BaseActivity {
     @ViewById(R.id.imgSelect)
     ImageView imgSelect;
 
+    private long id;
+    private int userId;
+    private boolean isDefault = false;
+    private SaveAddressaRequest addressaRequest = new SaveAddressaRequest();
+
     @Override
     public void onNetChange(int netMobile) {
 
@@ -49,6 +64,7 @@ public class EditAddressActivity extends BaseActivity {
 
     @AfterViews
     void initView(){
+
         boolean isadd = getIntent().getBooleanExtra("addAddress", true);
         mNavbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
         if (isadd){
@@ -80,13 +96,86 @@ public class EditAddressActivity extends BaseActivity {
                 startActivityForResult(intent, 20172);
             }
         });
+
+        //地址选择
+        itemCity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SelectCountryActivity_.class);
+                startActivityForResult(intent, 20173);
+            }
+        });
+
+        //是否设置默认
+        imgSelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isDefault){
+                    isDefault = false;
+                    imgSelect.setImageResource(R.drawable.nav_icon_default);
+                }else{
+                    isDefault = true;
+                    imgSelect.setImageResource(R.drawable.nav_icon_selected);
+                }
+            }
+        });
+
+        mNavbar.setOnMenuClickListener(new NavBar2.OnMenuClickListener() {
+            @Override
+            public void onLeftMenuClick(View view) {
+                super.onLeftMenuClick(view);
+                finish();
+            }
+        });
+
+        getUserMsg();
     }
 
+    @Click(R.id.txtSave)
+    void saveAddress(){
+        String nickname = itemName.getRightText().toString();
+        String phonenum = itemPhone.getRightText().toString();
+        String regonname = itemCity.getRightText().toString();
+        String addressDetail = edtAddress.getText().toString();
+        if (TextUtils.isEmpty(nickname)){
+            ToastUtil.showToast("请输入收货人姓名");
+            return;
+        }
+        if (TextUtils.isEmpty(phonenum)){
+            ToastUtil.showToast("请输入手机号码");
+            return;
+        }
+        if (TextUtils.isEmpty(regonname)){
+            ToastUtil.showToast("请输入省市行政中心");
+            return;
+        }
+        if (TextUtils.isEmpty(addressDetail)){
+            ToastUtil.showToast("请输入详细地址");
+            return;
+        }
+
+        addressaRequest.setShip_to(nickname);
+        addressaRequest.setPhone(phonenum);
+        addressaRequest.setRegion_name(regonname);
+        addressaRequest.setAddress(addressDetail);
+        addressaRequest.setIs_default(isDefault);
+        addressaRequest.setId(id);
+        addressaRequest.setUser_id(userId);
+
+        showProgress();
+        Subscriber subscriber = new PosetSubscriber<Boolean>().getSubscriber(callback_address);
+        UserManager.saveAddress(addressaRequest, subscriber);
+    }
+
+    /*获取用户信息*/
+    public void getUserMsg() {
+        Subscriber subscriber = new PosetSubscriber<MineMsgResponse>().getSubscriber(callback_usermsg);
+        UserManager.getUserMsg(subscriber);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        showProgress();
         if (data != null){
             if (requestCode == 20171){
                 String nick = data.getStringExtra("value");
@@ -94,7 +183,40 @@ public class EditAddressActivity extends BaseActivity {
             }else if (requestCode == 20172){
                 String phonenum = data.getStringExtra("value");
                 itemPhone.setRightText(phonenum);
+            }else if(requestCode == 20173){
+                int province_id = data.getIntExtra("province_id", 0);
+                int city_id = data.getIntExtra("city_id", 0);
+                int contryId = data.getIntExtra("contryId", 0);
+                String region_name = data.getStringExtra("region_name");
+                addressaRequest.setProvince_id(province_id);
+                addressaRequest.setCity_id(city_id);
+                addressaRequest.setArea_id(contryId);
+                itemCity.setRightText(region_name);
             }
         }
     }
+
+    ResponseResultListener callback_address = new ResponseResultListener<Boolean>() {
+        @Override
+        public void success(Boolean returnMsg) {
+            closeProgress();
+        }
+
+        @Override
+        public void fialed(String resCode, String message) {
+            closeProgress();
+        }
+    };
+
+    ResponseResultListener callback_usermsg = new ResponseResultListener<MineMsgResponse>() {
+        @Override
+        public void success(MineMsgResponse returnMsg) {
+            userId = returnMsg.getId();
+        }
+
+        @Override
+        public void fialed(String resCode, String message) {
+
+        }
+    };
 }

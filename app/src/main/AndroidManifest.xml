@@ -114,6 +114,7 @@
         <activity android:name=".activities.GroupMemberActivity_"/>
         <activity android:name=".activities.SelectAddressActivity_"/>
         <activity android:name=".activities.EditAddressActivity_"/>
+        <activity android:name=".activities.AboutZzcarActivity_"/>
     </application>
 
 </manifest>
