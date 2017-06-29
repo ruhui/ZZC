@@ -1,6 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/windowbackcolor">
 
+    <com.zzcar.zzc.views.widget.NavBar2_
+        android:id="@+id/mNavbar"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:gravity="bottom"
+        android:background="@color/white"
+        app:title_res="@string/tab_mine">
+    </com.zzcar.zzc.views.widget.NavBar2_>
+
+
+    <com.zzcar.zzc.views.widget.ItemIconTextIcon_
+        android:id="@+id/itemName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.zzcar.zzc.views.widget.ItemIconTextIcon_>
+
+    <com.zzcar.zzc.views.widget.ItemIconTextIcon_
+        android:id="@+id/itemPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.zzcar.zzc.views.widget.ItemIconTextIcon_>
+
+    <com.zzcar.zzc.views.widget.ItemIconTextIcon_
+        android:id="@+id/itemCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    </com.zzcar.zzc.views.widget.ItemIconTextIcon_>
+
+    <EditText
+        android:id="@+id/edtAddress"
+        android:layout_width="match_parent"
+        android:layout_height="81dp"
+        android:background="@color/white"
+        android:hint="详细地址"
+        android:gravity="top|left"
+        android:paddingLeft="20dp"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/color_333333"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/windowbackcolor"
+        android:layout_marginLeft="20dp"/>
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        >
+
+        <TextView
+            android:text="设为默认"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="23dp"
+            android:layout_marginStart="23dp"
+            android:id="@+id/textView222"
+            android:textSize="@dimen/sp_14"
+            android:textColor="@color/color_333333"/>
+
+        <ImageView
+            android:id="@+id/imgSelect"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="center"
+            android:src="@drawable/nav_icon_default"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+
+    </RelativeLayout>
 </LinearLayout>

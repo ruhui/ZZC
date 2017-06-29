@@ -113,6 +113,7 @@
         <activity android:name=".activities.GroupSettingActivity_"/>
         <activity android:name=".activities.GroupMemberActivity_"/>
         <activity android:name=".activities.SelectAddressActivity_"/>
+        <activity android:name=".activities.EditAddressActivity_"/>
     </application>
 
 </manifest>
