@@ -6,6 +6,7 @@ import com.zzcar.zzc.models.PayOrderModel;
 import com.zzcar.zzc.models.SaveSupplyModel;
 import com.zzcar.zzc.models.SinglecarModel;
 import com.zzcar.zzc.networks.ResponseParent;
+import com.zzcar.zzc.networks.requests.AddEmployee;
 import com.zzcar.zzc.networks.requests.AddMsgRequest;
 import com.zzcar.zzc.networks.requests.ApplyDepositRequest;
 import com.zzcar.zzc.networks.requests.ApplyFriendRequest;
@@ -13,6 +14,8 @@ import com.zzcar.zzc.networks.requests.BuyIntegraRequest;
 import com.zzcar.zzc.networks.requests.BuysecurityRequest;
 import com.zzcar.zzc.networks.requests.CheckoutcartRequest;
 import com.zzcar.zzc.networks.requests.DeleteFriendRequest;
+import com.zzcar.zzc.networks.requests.EditEmployPhone;
+import com.zzcar.zzc.networks.requests.EditEmployeeNick;
 import com.zzcar.zzc.networks.requests.FilterRequest;
 import com.zzcar.zzc.networks.requests.ForgetPwdResquest;
 import com.zzcar.zzc.networks.requests.GroupIdRequest;
@@ -55,6 +58,7 @@ import com.zzcar.zzc.networks.responses.IntegralDetailResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.networks.responses.MessageListResponse;
 import com.zzcar.zzc.networks.responses.MineMsgResponse;
+import com.zzcar.zzc.networks.responses.MyEmployeeResponse;
 import com.zzcar.zzc.networks.responses.MybillResponse;
 import com.zzcar.zzc.networks.responses.MydemandResponse;
 import com.zzcar.zzc.networks.responses.MyfavcarResponse;
@@ -468,5 +472,22 @@ public interface ZZCService {
     /*新增/修改地址*/
     @POST("account/address_save")
     Observable<ResponseParent<Boolean>> saveAddress(@Body SaveAddressaRequest addressaRequest, @HeaderMap Map<String, String> header);
+
+    /*我的员工*/
+    @GET("account/employee")
+    Observable<ResponseParent<List<MyEmployeeResponse>>> getMyEmployee(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+
+    /*增加员工*/
+    @POST("account/add_employee")
+    Observable<ResponseParent<Boolean>> addEmployee(@Body AddEmployee request, @HeaderMap Map<String, String> header);
+
+    /*编辑员工昵称*/
+    @POST("account/employee_name")
+    Observable<ResponseParent<Boolean>> editEmployeename(@Body EditEmployeeNick request, @HeaderMap Map<String, String> header);
+
+    /*编辑员工手机*/
+    @POST("account/account/employee_mobile")
+    Observable<ResponseParent<Boolean>> editEmployeemobile(@Body EditEmployPhone request, @HeaderMap Map<String, String> header);
+
 
 }

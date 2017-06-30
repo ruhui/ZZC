@@ -19,6 +19,7 @@ import com.zzcar.zzc.models.SupplyPropsModel;
 import com.zzcar.zzc.networks.ApiClient;
 import com.zzcar.zzc.networks.ResponseParent;
 import com.zzcar.zzc.networks.ZZCHeaders;
+import com.zzcar.zzc.networks.requests.AddEmployee;
 import com.zzcar.zzc.networks.requests.AddMsgRequest;
 import com.zzcar.zzc.networks.requests.ApplyDepositRequest;
 import com.zzcar.zzc.networks.requests.ApplyFriendRequest;
@@ -26,6 +27,8 @@ import com.zzcar.zzc.networks.requests.BuyIntegraRequest;
 import com.zzcar.zzc.networks.requests.BuysecurityRequest;
 import com.zzcar.zzc.networks.requests.CheckoutcartRequest;
 import com.zzcar.zzc.networks.requests.DeleteFriendRequest;
+import com.zzcar.zzc.networks.requests.EditEmployPhone;
+import com.zzcar.zzc.networks.requests.EditEmployeeNick;
 import com.zzcar.zzc.networks.requests.EmptyRequest;
 import com.zzcar.zzc.networks.requests.FilterRequest;
 import com.zzcar.zzc.networks.requests.ForgetPwdResquest;
@@ -70,6 +73,7 @@ import com.zzcar.zzc.networks.responses.IntegralDetailResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.networks.responses.MessageListResponse;
 import com.zzcar.zzc.networks.responses.MineMsgResponse;
+import com.zzcar.zzc.networks.responses.MyEmployeeResponse;
 import com.zzcar.zzc.networks.responses.MybillResponse;
 import com.zzcar.zzc.networks.responses.MydemandResponse;
 import com.zzcar.zzc.networks.responses.MyfavcarResponse;
@@ -1957,4 +1961,70 @@ public class UserManager {
                 .subscribe(subscriber);
     }
 
+    /**
+     * 我的员工
+     * @param subscriber
+     */
+    public static void getMyEmployee( Subscriber<ResponseParent<List<MyEmployeeResponse>>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        ApiClient.getApiService().getMyEmployee(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 添加员工
+     * @param request
+     * @param subscriber
+     */
+    public static void addEmployee(AddEmployee request, Subscriber<ResponseParent<Boolean>> subscriber){
+         /* 防止多次点击 */
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, request);
+        ApiClient.getApiService().addEmployee(request, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 修改员工昵称
+     * @param request
+     * @param subscriber
+     */
+    public static void editEmployeename(EditEmployeeNick request, Subscriber<ResponseParent<Boolean>> subscriber){
+         /* 防止多次点击 */
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, request);
+        ApiClient.getApiService().editEmployeename(request, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 修改员工手机
+     * @param request
+     * @param subscriber
+     */
+    public static void editEmployeemobile(EditEmployPhone request, Subscriber<ResponseParent<Boolean>> subscriber){
+         /* 防止多次点击 */
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, request);
+        ApiClient.getApiService().editEmployeemobile(request, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
 }

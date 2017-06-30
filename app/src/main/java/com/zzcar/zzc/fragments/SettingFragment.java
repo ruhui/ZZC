@@ -68,11 +68,20 @@ public class SettingFragment extends BaseFragment {
             }
         });
 
+        /*关于众众车*/
         aboutApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), AboutZzcarActivity_.class);
                 startActivity(intent);
+            }
+        });
+
+        /*员工管理*/
+        relaYuangong.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showFragment(getActivity(), MyEmployeeFragment_.builder().build());
             }
         });
     }
