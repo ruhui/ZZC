@@ -94,6 +94,7 @@ import com.zzcar.zzc.networks.responses.TransferDetailResponse;
 import com.zzcar.zzc.networks.responses.UserMessageResponse;
 import com.zzcar.zzc.networks.responses.ValueTextResponse;
 import com.zzcar.zzc.networks.responses.VerifiedResponse;
+import com.zzcar.zzc.networks.responses.VersionResponse;
 import com.zzcar.zzc.utils.SecurePreferences;
 import com.zzcar.zzc.utils.Tool;
 
@@ -2022,6 +2023,21 @@ public class UserManager {
 
         ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, request);
         ApiClient.getApiService().editEmployeemobile(request, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 获取版本号
+     * @param subscriber
+     */
+    public static void getAppNewVersion( Subscriber<ResponseParent<VersionResponse>> subscriber){
+        Map<String, String> hashmap = new HashMap<>();
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(hashmap);
+        ApiClient.getApiService().getAppNewVersion(zzcHeaders.getHashMap())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

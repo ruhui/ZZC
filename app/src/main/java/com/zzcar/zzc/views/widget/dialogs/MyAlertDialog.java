@@ -3,6 +3,7 @@ package com.zzcar.zzc.views.widget.dialogs;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.text.Spanned;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,12 +21,14 @@ public class MyAlertDialog extends AlertDialog {
    public TextView dialogTitle,txtContent,btnSure,txtSure, txtCancle;
    public RelativeLayout relaSure,relaCancle;
    private boolean bothbutton = false;
+    private Context mContext;
 
 
 
    public MyAlertDialog(Context context, boolean bothbutton) {
        super(context,  R.style.MyDialogTheme);
        this.bothbutton = bothbutton;
+       mContext = context;
    }
 
    @Override
@@ -57,6 +60,10 @@ public class MyAlertDialog extends AlertDialog {
        txtContent.setText(content);
    }
 
+    public void setContent(Spanned content){
+        txtContent.setText(content);
+    }
+
    public void setNegButtion(String neg){
        txtCancle.setText(neg);
    }
@@ -72,4 +79,16 @@ public class MyAlertDialog extends AlertDialog {
    public void setNegsitiveListener(View.OnClickListener listener){
        relaCancle.setOnClickListener(listener);
    }
+
+    public void setTopTitlColor(int topTitlColor) {
+        dialogTitle.setTextColor(mContext.getResources().getColor(topTitlColor));
+    }
+
+    public void setLeftColor(int leftColor) {
+        txtSure.setTextColor(mContext.getResources().getColor(leftColor));
+    }
+
+    public void setRightColor(int rightColor) {
+        txtCancle.setTextColor(mContext.getResources().getColor(rightColor));
+    }
 }

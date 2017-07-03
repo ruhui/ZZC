@@ -1,5 +1,7 @@
 package com.zzcar.zzc.constants;
 
+import android.os.Environment;
+
 import com.zzcar.zzc.R;
 
 /**
@@ -41,6 +43,9 @@ public class Constant {
     public static final String UPLOADCHATURL = UPLOADURL + "chat";
     /*环信密码*/
     public static final String EMCHATPASSWORD = "car123456";
+    /* 下载保存路径 */
+    public static final String SAVEAPPFILEPATH = Environment.getExternalStorageDirectory()
+            + "/"  + "xinggou/XGW.apk";
     /*环信用户头像*/
 //    public static final String USER_NAME = "USERNAME";
 //    /*环信用户头像图片*/

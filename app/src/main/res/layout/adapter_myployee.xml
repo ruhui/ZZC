@@ -30,7 +30,7 @@
             android:layout_toEndOf="@+id/imageView52"
             android:layout_toRightOf="@+id/imageView52"
             android:textSize="@dimen/sp_14"
-            android:textColor="@drawable/ee_33"
+            android:textColor="@color/color_333333"
             android:layout_marginLeft="@dimen/size_15"
             android:text="TextView" />
 

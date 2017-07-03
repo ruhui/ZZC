@@ -82,7 +82,7 @@ public class EditActivity extends BaseActivity {
         if (!TextUtils.isEmpty(nickName)){
             relaCode.setVisibility(View.GONE);
             edtValue.setText(nickName);
-        }else if (!TextUtils.isEmpty(nickName)){
+        }else if (!TextUtils.isEmpty(phoneNumber)){
             relaCode.setVisibility(View.VISIBLE);
             edtValue.setText(phoneNumber);
         }
@@ -93,15 +93,16 @@ public class EditActivity extends BaseActivity {
                 //保存
                 String value = edtValue.getText().toString();
                 String code = edtCode.getText().toString();
-                if (TextUtils.isEmpty(code)){
-                    ToastUtil.showToast("请输入验证码");
-                    return;
-                }
+
                 if (!TextUtils.isEmpty(nickName)){
                     //修改昵称
                     EditEmployeeNick request = new EditEmployeeNick(userId, value);
                     editNickMethod(request);
                 }else if (!TextUtils.isEmpty(phoneNumber)){
+                    if (TextUtils.isEmpty(code)){
+                        ToastUtil.showToast("请输入验证码");
+                        return;
+                    }
                     //修改手机
                     EditEmployPhone request = new EditEmployPhone(userId, value, code);
                     editPhoneMethod(request);

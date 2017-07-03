@@ -80,7 +80,7 @@ public class EditEmployeeFragment extends BaseFragment {
                 Intent intent = new Intent(getActivity(), EditActivity_.class);
                 intent.putExtra("title", "修改昵称");
                 intent.putExtra("userId", userId);
-                intent.putExtra("nickName", itemNick.getRightText());
+                intent.putExtra("nickName", itemNick.getLeftText());
                 startActivity(intent);
             }
         });
@@ -92,7 +92,7 @@ public class EditEmployeeFragment extends BaseFragment {
                 Intent intent = new Intent(getActivity(), EditActivity_.class);
                 intent.putExtra("title", "修改手机号");
                 intent.putExtra("userId", userId);
-                intent.putExtra("phonenumber", itemNick.getRightText());
+                intent.putExtra("phonenumber", itemPhone.getLeftText());
                 startActivity(intent);
             }
         });
@@ -112,6 +112,6 @@ public class EditEmployeeFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().register(this);
+        EventBus.getDefault().unregister(this);
     }
 }

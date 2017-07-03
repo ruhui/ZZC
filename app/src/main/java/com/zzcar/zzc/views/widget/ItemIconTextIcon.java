@@ -51,6 +51,10 @@ public class ItemIconTextIcon extends LinearLayout {
         return txtRight.getText().toString();
     }
 
+    public String getLeftText(){
+        return txttitle.getText().toString();
+    }
+
     public void setOnitemClickListener(OnClickListener listener){
         relaItem.setOnClickListener(listener);
     }

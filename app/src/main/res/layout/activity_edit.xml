@@ -23,13 +23,14 @@
         android:layout_height="45dp"
         android:background="@color/white"
         android:textSize="14sp"
+        android:paddingLeft="25dp"
         android:layout_marginTop="20dp"
         android:textColor="@color/color_333333"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/gray"
+        android:background="@color/grey"
         android:layout_marginLeft="@dimen/size_15"/>
 
     <RelativeLayout
@@ -46,7 +47,7 @@
             android:background="@color/white"
             android:hint="请填写手机收到的验证码"
             android:inputType="phone"
-            android:paddingLeft="@dimen/size_15"
+            android:paddingLeft="25dp"
             android:textColor="@color/color_333333"
             android:textSize="14sp"
             android:layout_toLeftOf="@+id/textView226"

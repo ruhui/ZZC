@@ -80,6 +80,7 @@ import com.zzcar.zzc.networks.responses.UserMessageResponse;
 import com.zzcar.zzc.networks.responses.UserMsgResponse;
 import com.zzcar.zzc.networks.responses.ValueTextResponse;
 import com.zzcar.zzc.networks.responses.VerifiedResponse;
+import com.zzcar.zzc.networks.responses.VersionResponse;
 
 import org.androidannotations.annotations.rest.Get;
 
@@ -486,8 +487,13 @@ public interface ZZCService {
     Observable<ResponseParent<Boolean>> editEmployeename(@Body EditEmployeeNick request, @HeaderMap Map<String, String> header);
 
     /*编辑员工手机*/
-    @POST("account/account/employee_mobile")
+    @POST("account/employee_mobile")
     Observable<ResponseParent<Boolean>> editEmployeemobile(@Body EditEmployPhone request, @HeaderMap Map<String, String> header);
+
+    /*版本升级*/
+    @GET("common/version")
+    Observable<ResponseParent<VersionResponse>> getAppNewVersion(@HeaderMap Map<String, String> header);
+
 
 
 }
