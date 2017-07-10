@@ -4,11 +4,13 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.text.Html;
 import android.util.AttributeSet;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.networks.responses.AddressResponse;
+import com.zzcar.zzc.utils.Tool;
 
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
@@ -27,6 +29,8 @@ public class AddressViewHold extends LinearLayout {
     TextView txtPhone;
     @ViewById(R.id.textView221)
     TextView txtAddress;
+    @ViewById(R.id.imageView49)
+    ImageView imageView49;
 
     public AddressViewHold(Context context) {
         super(context);
@@ -37,9 +41,14 @@ public class AddressViewHold extends LinearLayout {
     }
 
     public void bind(AddressResponse model){
-        String htmlStr = "<font color='#ff4040'>【默认】</font> 收货地址：" + model.getRegion_name();
+        String htmlStr = "<font color='#ff4040'>【默认】</font> 收货地址：" + Tool.trim(model.getRegion_name());
         txtName.setText(model.getShip_to());
         txtPhone.setText(model.getPhone());
         txtAddress.setText(Html.fromHtml(htmlStr));
+        if (model.is_default()){
+            imageView49.setImageResource(R.drawable.nav_icon_selected);
+        }else{
+            imageView49.setImageResource(R.drawable.nav_icon_default);
+        }
     }
 }

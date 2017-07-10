@@ -480,4 +480,14 @@ public class Tool {
             tempfile.delete();
         return tempfile;
     }
+
+    public static String trim(String str){
+        String dest = "";
+        if (str!=null) {
+            Pattern p = Pattern.compile("\\s*|\t|\r|\n");
+            Matcher m = p.matcher(str);
+            dest = m.replaceAll("");
+        }
+        return dest;
+    }
 }
