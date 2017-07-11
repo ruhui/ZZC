@@ -21,7 +21,9 @@ import com.zzcar.zzc.fragments.base.BaseFragment;
 import com.zzcar.zzc.interfaces.RefreshListener;
 import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.UserManager;
+import com.zzcar.zzc.models.ShippingModel;
 import com.zzcar.zzc.networks.PosetSubscriber;
+import com.zzcar.zzc.networks.requests.ShippingTypeRequest;
 import com.zzcar.zzc.networks.responses.CheckoutcartResponse;
 import com.zzcar.zzc.utils.ToastUtil;
 import com.zzcar.zzc.views.widget.NavBar2;
@@ -131,6 +133,7 @@ public class SureOrderActivity extends BaseActivity {
             if (checkoutcart.getShipping() == null){
                 //去添加地址
                 Intent intent = new Intent(SureOrderActivity.this, SelectAddressActivity_.class);
+                intent.putExtra("orderno", checkoutcart.getOrder_no());
                 startActivityForResult(intent, 20176);
             }else{
                 imgSelect.setImageResource(R.drawable.nav_icon_default);
@@ -142,8 +145,11 @@ public class SureOrderActivity extends BaseActivity {
             }
         }else{
             imgSelect.setImageResource(R.drawable.nav_icon_selected);
+            relaAddress.setVisibility(View.GONE);
             showAddress = true;
         }
+
+        shippingType();
     }
 
 
@@ -151,9 +157,11 @@ public class SureOrderActivity extends BaseActivity {
     @Click(R.id.relaAddress)
     void selectAddress(){
         Intent intent = new Intent(SureOrderActivity.this, SelectAddressActivity_.class);
+        intent.putExtra("orderno", checkoutcart.getOrder_no());
         startActivityForResult(intent, 20176);
     }
 
+    /*支付*/
     @Click(R.id.textView175)
     void payOrder(){
         boolean haschecked = mPayOrderView.hasChecked();
@@ -204,23 +212,47 @@ public class SureOrderActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null){
-            if (requestCode == 20176){
-                //列表反回
-            }else if (requestCode == 20177){
-                //编辑反回
-            }
             String sendto = data.getStringExtra("sendto");
             String address = data.getStringExtra("address");
             String phone = data.getStringExtra("phone");
             txtName.setText(sendto);
             txtAddress.setText(address);
             txtPhone.setText(phone);
-
+            ShippingModel shippingModel = checkoutcart.getShipping();
+            shippingModel.setShip_to(sendto);
+            shippingModel.setAddress(address);
+            shippingModel.setPhone(phone);
             if (!TextUtils.isEmpty(sendto)){
                 relaAddress.setVisibility(View.VISIBLE);
                 imgSelect.setImageResource(R.drawable.nav_icon_default);
                 showAddress = false;
             }
+
+            shippingType();
         }
     }
+
+    //更新订单的发货类型
+    private void shippingType() {
+        String shipping_type = "2";
+        if (showAddress){
+            shipping_type = "3";
+        }else{
+            shipping_type = "2";
+        }
+        ShippingTypeRequest request = new ShippingTypeRequest(checkoutcart.getOrder_no(), shipping_type);
+        Subscriber subscriber = new PosetSubscriber<Boolean>().getSubscriber(callback_shippingtype);
+        UserManager.shippingType(request, subscriber);
+    }
+
+
+    ResponseResultListener callback_shippingtype = new ResponseResultListener<Boolean>() {
+        @Override
+        public void success(Boolean returnMsg) {
+        }
+
+        @Override
+        public void fialed(String resCode, String message) {
+        }
+    };
 }

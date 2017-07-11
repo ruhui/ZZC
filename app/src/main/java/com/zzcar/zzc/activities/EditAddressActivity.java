@@ -17,6 +17,7 @@ import com.zzcar.zzc.models.MyEaseUser;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.UploadFileWithoutLoding;
 import com.zzcar.zzc.networks.requests.SaveAddressaRequest;
+import com.zzcar.zzc.networks.responses.AddressDetail;
 import com.zzcar.zzc.networks.responses.MineMsgResponse;
 import com.zzcar.zzc.utils.GreenDaoUtils;
 import com.zzcar.zzc.utils.ToastUtil;
@@ -52,7 +53,7 @@ public class EditAddressActivity extends BaseActivity {
     @ViewById(R.id.imgSelect)
     ImageView imgSelect;
 
-    private long id;
+    private String addressId;
     private int userId;
     private boolean isDefault = false;
     private SaveAddressaRequest addressaRequest = new SaveAddressaRequest();
@@ -66,6 +67,8 @@ public class EditAddressActivity extends BaseActivity {
     void initView(){
 
         boolean isadd = getIntent().getBooleanExtra("addAddress", true);
+        addressId = getIntent().getStringExtra("addressId");
+
         mNavbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
         if (isadd){
             mNavbar.setMiddleTitle("添加收货地址");
@@ -129,6 +132,17 @@ public class EditAddressActivity extends BaseActivity {
         });
 
         getUserMsg();
+
+        if (!TextUtils.isEmpty(addressId)){
+            //获取地址
+            getAddressByid(addressId);
+        }
+    }
+
+    private void getAddressByid(String addressId) {
+        showProgress();
+        Subscriber subscriber = new PosetSubscriber<AddressDetail>().getSubscriber(callback_address_Detail);
+        UserManager.getAddressdetail(addressId, subscriber);
     }
 
     @Click(R.id.txtSave)
@@ -159,9 +173,10 @@ public class EditAddressActivity extends BaseActivity {
         addressaRequest.setRegion_name(regonname);
         addressaRequest.setAddress(addressDetail);
         addressaRequest.setIs_default(isDefault);
-        addressaRequest.setId(id);
         addressaRequest.setUser_id(userId);
-
+        if (!TextUtils.isEmpty(addressId)){
+            addressaRequest.setId(Long.valueOf(addressId));
+        }
         showProgress();
         Subscriber subscriber = new PosetSubscriber<Boolean>().getSubscriber(callback_address);
         UserManager.saveAddress(addressaRequest, subscriber);
@@ -199,12 +214,15 @@ public class EditAddressActivity extends BaseActivity {
     ResponseResultListener callback_address = new ResponseResultListener<Boolean>() {
         @Override
         public void success(Boolean returnMsg) {
+            ToastUtil.showToast("保存成功");
             closeProgress();
+            finish();
         }
 
         @Override
         public void fialed(String resCode, String message) {
             closeProgress();
+            ToastUtil.showToast("保存失败");
         }
     };
 
@@ -217,6 +235,42 @@ public class EditAddressActivity extends BaseActivity {
         @Override
         public void fialed(String resCode, String message) {
 
+        }
+    };
+
+
+    ResponseResultListener callback_address_Detail = new ResponseResultListener<AddressDetail>() {
+        @Override
+        public void success(AddressDetail returnMsg) {
+            closeProgress();
+            addressaRequest.setShip_to(returnMsg.getShip_to());
+            addressaRequest.setPhone(returnMsg.getPhone());
+            addressaRequest.setRegion_name(returnMsg.getRegion_name());
+            addressaRequest.setAddress(returnMsg.getAddress());
+            addressaRequest.setIs_default(returnMsg.is_default());
+            addressaRequest.setId(Long.valueOf(returnMsg.getId()));
+            addressaRequest.setUser_id(returnMsg.getUser_id());
+            addressaRequest.setProvince_id(returnMsg.getProvince_id());
+            addressaRequest.setCity_id(returnMsg.getCity_id());
+            addressaRequest.setArea_id(returnMsg.getArea_id());
+            itemName.setRightText(returnMsg.getShip_to());
+            itemPhone.setRightText(returnMsg.getPhone());
+            itemCity.setRightText(returnMsg.getRegion_name());
+            edtAddress.setText(returnMsg.getAddress());
+
+            if (!returnMsg.is_default()){
+                isDefault = false;
+                imgSelect.setImageResource(R.drawable.nav_icon_default);
+            }else{
+                isDefault = true;
+                imgSelect.setImageResource(R.drawable.nav_icon_selected);
+            }
+
+        }
+
+        @Override
+        public void fialed(String resCode, String message) {
+            closeProgress();
         }
     };
 }

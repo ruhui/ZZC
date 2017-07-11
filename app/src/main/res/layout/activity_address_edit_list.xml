@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/windowbackcolor">
+
+    <com.zzcar.zzc.views.widget.NavBar2_
+        android:id="@+id/mNavbar"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp"
+        android:gravity="bottom"
+        android:background="@color/white"
+        app:title_res="@string/tab_mine">
+    </com.zzcar.zzc.views.widget.NavBar2_>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/mRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/mNavbar"
+        android:layout_above="@+id/txtAddress"
+        android:layout_marginBottom="1dp">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/txtAddress"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:text="新增地址"
+        android:textSize="@dimen/sp_14"
+        android:textColor="@color/app_red"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/white"
+        android:gravity="center"/>
+
+
+</RelativeLayout>

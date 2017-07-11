@@ -116,6 +116,7 @@
         <activity android:name=".activities.EditAddressActivity_"/>
         <activity android:name=".activities.AboutZzcarActivity_"/>
         <activity android:name=".activities.EditActivity_"/>
+        <activity android:name=".activities.EditAddressListActivity_"/>
     </application>
 
 </manifest>

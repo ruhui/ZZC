@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-   >
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
 
     <RelativeLayout
@@ -13,11 +12,28 @@
         android:layout_marginTop="5dp"
         android:background="@color/white">
 
+        <RelativeLayout
+            android:id="@+id/imageView54"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/textView227"
+            android:layout_alignTop="@+id/textView218">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/nav_icon_dele"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+
+        </RelativeLayout>
+
+
         <ImageView
             android:id="@+id/imageView49"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/nav_icon_default"
+            app:srcCompat="@drawable/nav_icon_right_default"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
@@ -32,7 +48,8 @@
             android:textSize="@dimen/sp_14"
             android:textColor="@color/color_333333"
             android:layout_marginTop="@dimen/size_15"
-            android:layout_marginLeft="@dimen/size_15"/>
+            android:layout_toRightOf="@+id/imageView54"
+            android:layout_toEndOf="@+id/imageView54" />
 
         <TextView
             android:id="@+id/textView219"
@@ -79,7 +96,8 @@
             android:layout_height="5dp"
             android:layout_below="@+id/textView221"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="12dp"
+            android:id="@+id/textView227" />
     </RelativeLayout>
 
 </LinearLayout>

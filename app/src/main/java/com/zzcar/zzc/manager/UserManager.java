@@ -25,7 +25,9 @@ import com.zzcar.zzc.networks.requests.ApplyDepositRequest;
 import com.zzcar.zzc.networks.requests.ApplyFriendRequest;
 import com.zzcar.zzc.networks.requests.BuyIntegraRequest;
 import com.zzcar.zzc.networks.requests.BuysecurityRequest;
+import com.zzcar.zzc.networks.requests.CheckAddressRequest;
 import com.zzcar.zzc.networks.requests.CheckoutcartRequest;
+import com.zzcar.zzc.networks.requests.DeleteAddressRequest;
 import com.zzcar.zzc.networks.requests.DeleteFriendRequest;
 import com.zzcar.zzc.networks.requests.EditEmployPhone;
 import com.zzcar.zzc.networks.requests.EditEmployeeNick;
@@ -48,7 +50,9 @@ import com.zzcar.zzc.networks.requests.SaveCommentRequest;
 import com.zzcar.zzc.networks.requests.SavedemandRequest;
 import com.zzcar.zzc.networks.requests.SearchRequest;
 import com.zzcar.zzc.networks.requests.SendRegsmsRequest;
+import com.zzcar.zzc.networks.requests.ShippingTypeRequest;
 import com.zzcar.zzc.networks.responses.AcountOrderResponse;
+import com.zzcar.zzc.networks.responses.AddressDetail;
 import com.zzcar.zzc.networks.responses.AddressResponse;
 import com.zzcar.zzc.networks.responses.ApplyFriendResponse;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
@@ -2043,4 +2047,74 @@ public class UserManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
+
+
+    /**
+     * 删除地址
+     * @param addressId
+     * @param subscriber
+     */
+    public static void addressDelete(String addressId, Subscriber<ResponseParent<Boolean>> subscriber){
+         /* 防止多次点击 */
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        DeleteAddressRequest request = new DeleteAddressRequest(addressId);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, request);
+        ApiClient.getApiService().addressDelete(request, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 地址详情
+     * @param addressid
+     * @param subscriber
+     */
+    public static void getAddressdetail(String addressid, Subscriber<ResponseParent<AddressDetail>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+        Map<String, String> hashmap = new HashMap<>();
+        hashmap.put("id", addressid);
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
+        ApiClient.getApiService().getAddressdetail(hashmap, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 更新订单的发货地址
+     * @param request
+     * @param subscriber
+     */
+    public static void checkoutAddress(CheckAddressRequest request, Subscriber<ResponseParent<Boolean>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, request);
+        ApiClient.getApiService().checkoutAddress(request, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
+    /**
+     * 更新订单的发货类型
+     * @param request
+     * @param subscriber
+     */
+    public static void shippingType(ShippingTypeRequest request, Subscriber<ResponseParent<Boolean>> subscriber){
+        String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
+
+        ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, request);
+        ApiClient.getApiService().shippingType(request, zzcHeaders.getHashMap())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(subscriber);
+    }
+
 }

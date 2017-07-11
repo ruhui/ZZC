@@ -12,7 +12,9 @@ import com.zzcar.zzc.networks.requests.ApplyDepositRequest;
 import com.zzcar.zzc.networks.requests.ApplyFriendRequest;
 import com.zzcar.zzc.networks.requests.BuyIntegraRequest;
 import com.zzcar.zzc.networks.requests.BuysecurityRequest;
+import com.zzcar.zzc.networks.requests.CheckAddressRequest;
 import com.zzcar.zzc.networks.requests.CheckoutcartRequest;
+import com.zzcar.zzc.networks.requests.DeleteAddressRequest;
 import com.zzcar.zzc.networks.requests.DeleteFriendRequest;
 import com.zzcar.zzc.networks.requests.EditEmployPhone;
 import com.zzcar.zzc.networks.requests.EditEmployeeNick;
@@ -32,7 +34,9 @@ import com.zzcar.zzc.networks.requests.SaveAddressaRequest;
 import com.zzcar.zzc.networks.requests.SaveCommentRequest;
 import com.zzcar.zzc.networks.requests.SavedemandRequest;
 import com.zzcar.zzc.networks.requests.SendRegsmsRequest;
+import com.zzcar.zzc.networks.requests.ShippingTypeRequest;
 import com.zzcar.zzc.networks.responses.AcountOrderResponse;
+import com.zzcar.zzc.networks.responses.AddressDetail;
 import com.zzcar.zzc.networks.responses.AddressResponse;
 import com.zzcar.zzc.networks.responses.ApplyFriendResponse;
 import com.zzcar.zzc.networks.responses.BrandListResponse;
@@ -494,6 +498,18 @@ public interface ZZCService {
     @GET("common/version")
     Observable<ResponseParent<VersionResponse>> getAppNewVersion(@HeaderMap Map<String, String> header);
 
+    /*删除地址*/
+    @POST("account/address_delete")
+    Observable<ResponseParent<Boolean>> addressDelete(@Body DeleteAddressRequest request, @HeaderMap Map<String, String> header);
 
+    /*获取地址详情*/
+    @GET("account/address_detail")
+    Observable<ResponseParent<AddressDetail>> getAddressdetail(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
 
+    /*更新订单的发货地址*/
+    @POST("checkout/address")
+    Observable<ResponseParent<Boolean>> checkoutAddress(@Body CheckAddressRequest request, @HeaderMap Map<String, String> header);
+
+    @POST("checkout/shipping_type")
+    Observable<ResponseParent<Boolean>> shippingType(@Body ShippingTypeRequest request, @HeaderMap Map<String, String> header);
 }
