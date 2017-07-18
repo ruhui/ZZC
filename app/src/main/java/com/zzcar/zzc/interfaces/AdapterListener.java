@@ -10,5 +10,4 @@ import com.zzcar.zzc.models.ApplyFriendModel;
 public interface AdapterListener<T> {
     public void setOnItemListener(T t, int position);
 
-
 }

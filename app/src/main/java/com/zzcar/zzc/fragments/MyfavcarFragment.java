@@ -60,7 +60,7 @@ public class MyfavcarFragment extends BasePullRecyclerFragment{
             }
         });
 
-        adapter = new MyfavCarAdapter(adapterListener);
+        adapter = new MyfavCarAdapter(adapterListener, getActivity());
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(adapter);
         adapter.addAll(favList);

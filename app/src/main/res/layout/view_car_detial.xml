@@ -67,7 +67,7 @@
 
                 <TextView
                     android:id="@+id/textView26"
-                    android:layout_width="100dp"
+                    android:layout_width="90dp"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/textView25"
                     android:layout_alignParentEnd="true"
@@ -141,12 +141,12 @@
 
                 <TextView
                     android:id="@+id/textView34"
-                    android:layout_width="100dp"
+                    android:layout_width="90dp"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/textView33"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
-                    android:text=""
+                    android:text="20.59万元"
                     android:textColor="@color/color_333333"
                     android:textSize="14sp" />
             </RelativeLayout>
@@ -214,7 +214,7 @@
 
                 <TextView
                     android:id="@+id/textView38"
-                    android:layout_width="100dp"
+                    android:layout_width="90dp"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/textView37"
                     android:layout_alignParentEnd="true"
@@ -287,7 +287,7 @@
 
                 <TextView
                     android:id="@+id/textView42"
-                    android:layout_width="100dp"
+                    android:layout_width="90dp"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/textView41"
                     android:layout_alignParentEnd="true"
@@ -326,14 +326,18 @@
 
             <TextView
                 android:id="@+id/textView28"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/textView27"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:text=""
+                android:layout_marginLeft="@dimen/size_15"
+                android:layout_marginRight="15dp"
                 android:textColor="@color/color_333333"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:layout_toRightOf="@+id/textView27"
+                android:layout_toEndOf="@+id/textView27" />
         </RelativeLayout>
 
 
@@ -364,14 +368,18 @@
 
             <TextView
                 android:id="@+id/textView30"
-                android:layout_width="100dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@+id/textView29"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:text=""
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="@dimen/size_15"
                 android:textColor="@color/color_333333"
-                android:textSize="14sp" />
+                android:textSize="14sp"
+                android:layout_toRightOf="@+id/textView29"
+                android:layout_toEndOf="@+id/textView29" />
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>
