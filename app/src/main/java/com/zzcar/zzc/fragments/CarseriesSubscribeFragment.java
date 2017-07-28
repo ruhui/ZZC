@@ -71,7 +71,7 @@ public class CarseriesSubscribeFragment extends BaseFragment {
         textView6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((BrandCarActivity)getActivity()).setBrandandType(brandid+"", "" , "", brandiddes);
+                ((BrandCarActivity)getActivity()).setBrandandType(brandid+"", "" , "", brandiddes, "");
             }
         });
 

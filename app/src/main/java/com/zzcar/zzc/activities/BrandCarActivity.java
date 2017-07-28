@@ -41,11 +41,13 @@ public class BrandCarActivity extends BaseActivity {
     /*品牌列表*/
     private List<BrandListResponse> mBrandList = new ArrayList<>();
     /*是否选择车型*/
-    private boolean notspec = false;
+    private boolean notspec = false, selectspece = false;
 
 
     @AfterViews
     void initView(){
+        //是否一定要选择车型
+        selectspece = getIntent().getBooleanExtra("selectspec", false);
         notspec = getIntent().getBooleanExtra("notspec", false);
         mNavbar.setLeftMenuIcon(R.drawable.nav_icon_lift_default);
         mNavbar.setMiddleTitle("品牌");
@@ -74,6 +76,7 @@ public class BrandCarActivity extends BaseActivity {
                     transaction.commit();
                 }else{
                     carBrandFragment.setData();
+                    carBrandFragment.setSelectspece(selectspece);
                 }
             }else{
                 showCarBrandfragment();
@@ -87,6 +90,7 @@ public class BrandCarActivity extends BaseActivity {
 
     void showCarBrandfragment(){
         carBrandFragment = CarBrandCopyFragment_.builder().build();
+        carBrandFragment.setSelectspece(selectspece);
         if (carBrandFragment==null || !carBrandFragment.isAdded()){
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.add(R.id.brandframe, carBrandFragment, CarBrandFragment.class.getName());
@@ -105,12 +109,13 @@ public class BrandCarActivity extends BaseActivity {
     }
 
 
-    public void setBrandandType(String branid, String seriesid, String typeid,String branddes){
+    public void setBrandandType(String branid, String seriesid, String typeid,String branddes, String price){
         Intent intent = new Intent();
         intent.putExtra("brandid", branid);
         intent.putExtra("seriesid", seriesid);
         intent.putExtra("typeid", typeid);
         intent.putExtra("branddes",branddes);
+        intent.putExtra("price",price);
         setResult(10105, intent);
         finish();
     }
@@ -133,6 +138,7 @@ public class BrandCarActivity extends BaseActivity {
             //写入数据库
             BrandListResponseDao brandDao = GreenDaoUtils.getSingleTon().getmDaoSession().getBrandListResponseDao();
             brandDao.insertInTx(mBrandList);
+            carBrandFragment.setSelectspece(selectspece);
             carBrandFragment.setData();
         }
 

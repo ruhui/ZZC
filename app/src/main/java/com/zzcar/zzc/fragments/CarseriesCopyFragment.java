@@ -53,7 +53,7 @@ public class CarseriesCopyFragment extends BaseFragment {
 
     private String brandiddes;
     private int brandid;
-    private boolean isNotspec = false;
+    private boolean isNotspec = false, selectspece = false;
 
     @AfterViews
     void initView(){
@@ -61,10 +61,16 @@ public class CarseriesCopyFragment extends BaseFragment {
         carseriaAdapter = new CarseriesAdapter(getActivity(), mCarseriesList);
         mListView.setAdapter(carseriaAdapter);
 
+        if (selectspece){
+            textView6.setVisibility(View.GONE);
+        }else{
+            textView6.setVisibility(View.VISIBLE);
+        }
+
         textView6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((BrandCarActivity)getActivity()).setBrandandType(brandid+"", "" , "", brandiddes);
+                ((BrandCarActivity)getActivity()).setBrandandType(brandid+"", "" , "", brandiddes, "");
             }
         });
 
@@ -78,7 +84,7 @@ public class CarseriesCopyFragment extends BaseFragment {
                 brandiddes += ""+name;
                 if (isNotspec){
                     //不显示车型
-                    ((BrandCarActivity)getActivity()).setBrandandType(brandid+"", id+"" , "", brandiddes);
+                    ((BrandCarActivity)getActivity()).setBrandandType(brandid+"", id+"" , "", brandiddes, "");
                 }else{
                     //設置車型
                     showCarTypefragment(id);
@@ -201,6 +207,11 @@ public class CarseriesCopyFragment extends BaseFragment {
             transaction.commit();
         }
         cartypeFragment.setBrand(typeid, brandid, brandiddes);
+        cartypeFragment.setSelectspece(selectspece);
+    }
+
+    public void setSelectspece(boolean selectspece){
+        this.selectspece = selectspece;
     }
 
     void closefragment() {

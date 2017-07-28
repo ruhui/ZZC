@@ -50,4 +50,12 @@ public class ItemSecondView extends LinearLayout {
     public String getTxtMiddle(){
         return txtMiddle.getText().toString();
     }
+
+    public void setEdtEnable(boolean enable){
+        if (enable){
+            txtMiddle.requestFocus();
+        }
+        txtMiddle.setFocusable(enable);
+        txtMiddle.setFocusableInTouchMode(enable);
+    }
 }

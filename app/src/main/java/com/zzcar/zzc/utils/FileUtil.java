@@ -153,6 +153,8 @@ public class FileUtil {
    /*图片压缩并获取新的地址*/
     public static String scal(String filepath){
         File outputFile = new File(filepath);
+
+
         long fileSize = outputFile.length();
         final long fileMaxSize = 200 * 1024;
         if (fileSize >= fileMaxSize) {
@@ -214,11 +216,11 @@ public class FileUtil {
 
 
         Uri mOriginUri;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            mOriginUri = FileProvider.getUriForFile(MyApplication.getInstance(), MyApplication.getInstance().getPackageName() + ".FileProvider", image);
-        } else {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//            mOriginUri = FileProvider.getUriForFile(MyApplication.getInstance(), "com.zzcar.zzc.provider", image);
+//        } else {
             mOriginUri = Uri.fromFile(image);
-        }
+//        }
         return mOriginUri;
     }
 

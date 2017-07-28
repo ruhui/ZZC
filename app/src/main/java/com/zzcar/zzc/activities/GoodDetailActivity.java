@@ -397,7 +397,7 @@ public class GoodDetailActivity extends BaseActivity {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    mOriginUri = FileProvider.getUriForFile(MyApplication.getInstance(), MyApplication.getInstance().getPackageName() + ".FileProvider", tempfile);
+                    mOriginUri = FileProvider.getUriForFile(MyApplication.getInstance(), "com.zzcar.zzc.provider", tempfile);
                 } else {
                     mOriginUri = Uri.fromFile(tempfile);
                 }

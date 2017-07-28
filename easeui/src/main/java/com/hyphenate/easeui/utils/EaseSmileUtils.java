@@ -133,12 +133,7 @@ public class EaseSmileUtils {
 	                        return false;
 	                    }
 
-						Uri mOriginUri;
-						if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-							mOriginUri = FileProvider.getUriForFile(context, "com.zzcar.zzc.FileProvider", file);
-						} else {
-							mOriginUri = Uri.fromFile(file);
-						}
+						Uri mOriginUri = Uri.fromFile(file);
 
 	                    spannable.setSpan(new ImageSpan(context, mOriginUri),
 	                            matcher.start(), matcher.end(),

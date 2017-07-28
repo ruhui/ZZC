@@ -880,7 +880,7 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
 
         Uri mOriginUri;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            mOriginUri = FileProvider.getUriForFile(getActivity(), "com.zzcar.zzc.FileProvider", cameraFile);
+            mOriginUri = FileProvider.getUriForFile(getActivity(), "com.zzcar.zzc.provider", cameraFile);
         } else {
             mOriginUri = Uri.fromFile(cameraFile);
         }

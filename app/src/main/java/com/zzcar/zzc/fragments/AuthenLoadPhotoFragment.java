@@ -236,7 +236,7 @@ public class AuthenLoadPhotoFragment extends BaseFragment {
                             case 1:
                                 tempfileYingye = Tool.getFilePath();
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                    mOriginUri = FileProvider.getUriForFile(MyApplication.getInstance(), MyApplication.getInstance().getPackageName() + ".FileProvider", tempfileYingye);
+                                    mOriginUri = FileProvider.getUriForFile(MyApplication.getInstance(), "com.zzcar.zzc.provider", tempfileYingye);
                                 } else {
                                     mOriginUri = Uri.fromFile(tempfileYingye);
                                 }
@@ -244,7 +244,7 @@ public class AuthenLoadPhotoFragment extends BaseFragment {
                             case 2:
                                 tempfileShenfenzz = Tool.getFilePath();
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                    mOriginUri = FileProvider.getUriForFile(MyApplication.getInstance(), MyApplication.getInstance().getPackageName() + ".FileProvider", tempfileShenfenzz);
+                                    mOriginUri = FileProvider.getUriForFile(MyApplication.getInstance(), "com.zzcar.zzc.provider", tempfileShenfenzz);
                                 } else {
                                     mOriginUri = Uri.fromFile(tempfileShenfenzz);
                                 }
@@ -252,7 +252,7 @@ public class AuthenLoadPhotoFragment extends BaseFragment {
                             case 3:
                                 tempfileShenfenzf = Tool.getFilePath();
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                    mOriginUri = FileProvider.getUriForFile(MyApplication.getInstance(), MyApplication.getInstance().getPackageName() + ".FileProvider", tempfileShenfenzf);
+                                    mOriginUri = FileProvider.getUriForFile(MyApplication.getInstance(), "com.zzcar.zzc.provider", tempfileShenfenzf);
                                 } else {
                                     mOriginUri = Uri.fromFile(tempfileShenfenzf);
                                 }

@@ -161,11 +161,11 @@ public class PushSupplyActivity extends BaseActivity {
         priceItem.setVisibility(View.GONE);
         cardTime.setTxtLeft("上牌时间");cardTime.setHint("必填");
         cardBelong.setTxtLeft("牌照归属");cardBelong.setHint("必填");
-        mileData.setTxtLeft("表显里程");mileData.setTxtRight("万公里");
+        mileData.setTxtLeft("表显里程");mileData.setTxtRight("万公里");mileData.setEdtEnable(true);
         carColor.setTxtLeft("车身颜色");carColor.setHint("必填");
         outComTime.setTxtLeft("出厂时间");outComTime.setHint("必填");
         emissionSta.setTxtLeft("排放标准");emissionSta.setHint("必填");
-        newcarPrice.setTxtLeft("新车指导价");newcarPrice.setTxtRight("万元");
+        newcarPrice.setTxtLeft("新车指导价");newcarPrice.setTxtRight("万元");newcarPrice.setEdtEnable(false);
         limitTime.setTxtLeft("强制险到期");limitTime.setHint("必填");
         useto.setTxtLeft("用途");useto.setHint("必填");
 
@@ -292,6 +292,7 @@ public class PushSupplyActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(PushSupplyActivity.this, BrandCarActivity_.class);
+                intent.putExtra("selectspec", true);//一定要选择车型
                 startActivityForResult(intent, 10105);
             }
         });
@@ -474,10 +475,13 @@ public class PushSupplyActivity extends BaseActivity {
                 String seriesid = data.getStringExtra("seriesid");
                 String typeid = data.getStringExtra("typeid");
                 String branddes = data.getStringExtra("branddes");
+                String price = data.getStringExtra("price");
                 carMiddle.setBland_id(brandid);
                 carMiddle.setSeries_id(seriesid);
                 carMiddle.setSpec_id(typeid);
                 carMiddle.setBladseriesdes(branddes);
+
+                newcarPrice.setTxtMiddle(price);
             }else if (requestCode == 10106){
                 /*车辆所属城市*/
                 String province_id = data.getStringExtra("province_id");
@@ -571,7 +575,7 @@ public class PushSupplyActivity extends BaseActivity {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                mOriginUri = FileProvider.getUriForFile(MyApplication.getInstance(), MyApplication.getInstance().getPackageName() + ".FileProvider", tempfile);
+                mOriginUri = FileProvider.getUriForFile(MyApplication.getInstance(), "com.zzcar.zzc.provider", tempfile);
             } else {
                 mOriginUri = Uri.fromFile(tempfile);
             }

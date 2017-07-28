@@ -58,7 +58,7 @@ public class EaseShowVideoActivity extends EaseBaseActivity{
 
 			Uri mOriginUri;
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-				mOriginUri = FileProvider.getUriForFile(EaseShowVideoActivity.this, "com.zzcar.zzc.FileProvider", new File(localFilePath));
+				mOriginUri = FileProvider.getUriForFile(EaseShowVideoActivity.this, "com.zzcar.zzc.provider", new File(localFilePath));
 			} else {
 				mOriginUri = Uri.fromFile(new File(localFilePath));
 			}
@@ -80,7 +80,7 @@ public class EaseShowVideoActivity extends EaseBaseActivity{
 
 		Uri mOriginUri;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-			mOriginUri = FileProvider.getUriForFile(EaseShowVideoActivity.this, "com.zzcar.zzc.FileProvider", new File(localPath));
+			mOriginUri = FileProvider.getUriForFile(EaseShowVideoActivity.this, "com.zzcar.zzc.provider", new File(localPath));
 		} else {
 			mOriginUri = Uri.fromFile(new File(localPath));
 		}

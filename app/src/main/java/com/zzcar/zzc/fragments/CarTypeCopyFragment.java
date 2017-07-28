@@ -43,6 +43,7 @@ public class CarTypeCopyFragment extends BaseFragment {
     private long branid;
     private String brandiddes;
     private long seriesid;
+    private boolean selectspece =false;
 
     @AfterViews
     void initView(){
@@ -54,17 +55,22 @@ public class CarTypeCopyFragment extends BaseFragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 CarTypeSpecs carTypeSpecs = mCartypeList.get(i);
                 brandiddes += " "+carTypeSpecs.getName();
-                ((BrandCarActivity)getActivity()).setBrandandType(branid+"", seriesid+"" , carTypeSpecs.getId()+"", brandiddes);
+                ((BrandCarActivity)getActivity()).setBrandandType(branid+"", seriesid+"" , carTypeSpecs.getId()+"", brandiddes, carTypeSpecs.getPrice());
             }
 
         });
         textView6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((BrandCarActivity)getActivity()).setBrandandType(branid+"", seriesid+"" , "", brandiddes);
+                ((BrandCarActivity)getActivity()).setBrandandType(branid+"", seriesid+"" , "", brandiddes, "");
             }
         });
 
+        if (selectspece){
+            textView6.setVisibility(View.GONE);
+        }else{
+            textView6.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -73,7 +79,9 @@ public class CarTypeCopyFragment extends BaseFragment {
 
     }
 
-
+    public void setSelectspece(boolean selectspece){
+        this.selectspece = selectspece;
+    }
 
     public void setBrand(long typeid, long brandid, String brandiddes) {
         this.branid = brandid;
@@ -96,7 +104,7 @@ public class CarTypeCopyFragment extends BaseFragment {
             LogUtil.E("success", "success");
             mCartypeList.clear();
             for (CarTypeResponse carseri : returnMsg){
-                CarTypeSpecs carfactory = new CarTypeSpecs(carseri.getYear(), carseri.getName(), 0);
+                CarTypeSpecs carfactory = new CarTypeSpecs(carseri.getYear(), carseri.getName(), 0, "0");
                 mCartypeList.add(carfactory);
                 mCartypeList.addAll(carseri.getSpecs());
             }

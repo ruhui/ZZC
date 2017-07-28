@@ -53,23 +53,30 @@ public class CarBrandCopyFragment extends BaseFragment {
     TextView textView5;
     @ViewById(R.id.sidrbar)
     SideBar sideBar;
+    private  RelativeLayout relaClearPrice;
 
     //listView中第一项的索引
     private int mListViewFirstItem = 0;
     //listView中第一项的在屏幕中的位置
     private int mScreenY = 0;
-    private boolean isNotspec = false;
+    private boolean isNotspec = false,selectspece = false;;
 
 
     @AfterViews
     void initView(){
         isNotspec= ((BrandCarActivity)getActivity()).isNotspec();
         View vHead= View.inflate(getActivity(), R.layout.headview_brand, null);
-        RelativeLayout relaClearPrice = (RelativeLayout) vHead.findViewById(R.id.relaClearPrice);
+        relaClearPrice = (RelativeLayout) vHead.findViewById(R.id.relaClearPrice);
         RecyclerView mRecyclerView = (RecyclerView) vHead.findViewById(R.id.hotcityRecycleView);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 5));
         mRecyclerView.setAdapter(adapter = new CarBrandAdapter(brandadapterListener));
         adapter.addAll(hotBrandList);
+
+        if (selectspece){
+            relaClearPrice.setVisibility(View.GONE);
+        }else{
+            relaClearPrice.setVisibility(View.VISIBLE);
+        }
 
         sortListView.addHeaderView(vHead);
         pinyinComparator = new PinyinComparator();
@@ -77,7 +84,7 @@ public class CarBrandCopyFragment extends BaseFragment {
         relaClearPrice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((BrandCarActivity)getActivity()).setBrandandType("", "" , "", "品牌");
+                ((BrandCarActivity)getActivity()).setBrandandType("", "" , "", "品牌", "");
             }
         });
 
@@ -184,7 +191,12 @@ public class CarBrandCopyFragment extends BaseFragment {
     };
 
 
+    public void setSelectspece(boolean selectspece){
+        this.selectspece = selectspece;
+    }
+
     public void setData(){
+
         if (hotBrandList.size() > 0){
             adapter.clear();
             adapter.addAll(hotBrandList);
@@ -192,6 +204,7 @@ public class CarBrandCopyFragment extends BaseFragment {
             sortAdapter.updateListView(mBrandList);
             return;
         }
+
         BrandListResponseDao brandDao = GreenDaoUtils.getSingleTon().getmDaoSession().getBrandListResponseDao();
         List<BrandListResponse> userList = brandDao.queryBuilder()
                 .whereOr(BrandListResponseDao.Properties.Name.like("奥迪"), BrandListResponseDao.Properties.Name.like("宝马"),
@@ -228,5 +241,6 @@ public class CarBrandCopyFragment extends BaseFragment {
             transaction.commit();
         }
         carseriesFragment.setBrand(brandid, branddes, isNotspec);
+        carseriesFragment.setSelectspece(selectspece);
     }
 }

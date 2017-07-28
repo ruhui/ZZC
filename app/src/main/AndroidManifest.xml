@@ -119,4 +119,7 @@
         <activity android:name=".activities.EditAddressListActivity_"/>
     </application>
 
+
+
+
 </manifest>

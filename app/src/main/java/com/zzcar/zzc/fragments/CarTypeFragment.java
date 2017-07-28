@@ -111,7 +111,7 @@ public class CarTypeFragment extends BaseFragment {
             LogUtil.E("success", "success");
             mCartypeList.clear();
             for (CarTypeResponse carseri : returnMsg){
-                CarTypeSpecs carfactory = new CarTypeSpecs(carseri.getYear(), carseri.getName(), 0);
+                CarTypeSpecs carfactory = new CarTypeSpecs(carseri.getYear(), carseri.getName(), 0, "0");
                 mCartypeList.add(carfactory);
                 mCartypeList.addAll(carseri.getSpecs());
             }

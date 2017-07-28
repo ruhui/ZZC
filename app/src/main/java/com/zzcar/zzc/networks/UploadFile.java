@@ -11,6 +11,7 @@ import com.zzcar.zzc.views.widget.LoadingProgressImageView;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -88,7 +89,10 @@ public class UploadFile extends AsyncTask<String, Integer, String> {
                     + newfilePath.substring(newfilePath.lastIndexOf("/") + 1)
                     + "\"" + end);
             dos.writeBytes(end);
-
+            File flke = new File(newfilePath);
+            if  (!flke .exists()  && !flke .isDirectory())  {
+                newfilePath = "content://com.zzcar.zzc.provider" + newfilePath;
+            }
             //获取文件总大小
             FileInputStream fis = new FileInputStream(newfilePath);
             //文件总长

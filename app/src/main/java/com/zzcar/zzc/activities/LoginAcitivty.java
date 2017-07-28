@@ -427,7 +427,7 @@ public class LoginAcitivty extends BaseActivity {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         //判断是否是AndroidN以及更高的版本
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            Uri uri = FileProvider.getUriForFile(LoginAcitivty.this, "com.zzcar.zzc", apkfile);    //第二个参数是manifest中定义的`authorities`
+            Uri uri = FileProvider.getUriForFile(LoginAcitivty.this, "com.zzcar.zzc.provider", apkfile);    //第二个参数是manifest中定义的`authorities`
             intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             intent.setDataAndType(uri, "application/vnd.android.package-archive");
         } else {
