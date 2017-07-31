@@ -268,8 +268,7 @@ public class SystemMsgFragment extends BasePullRecyclerFragment {
 
                 }
             }
-            adapter.clear();
-            adapter.addAll(response.getRows());
+            adapter.replaceWith(response.getRows());
             EventBus.getDefault().post(new RefreshListener("MsgFragment"));
             LogUtil.E("success", "success");
         }

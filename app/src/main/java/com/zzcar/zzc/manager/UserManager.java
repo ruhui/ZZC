@@ -47,6 +47,7 @@ import com.zzcar.zzc.networks.requests.ProduceIdResquest;
 import com.zzcar.zzc.networks.requests.RefreshLoginRequest;
 import com.zzcar.zzc.networks.requests.SaveAddressaRequest;
 import com.zzcar.zzc.networks.requests.SaveCommentRequest;
+import com.zzcar.zzc.networks.requests.SaveInfoComment;
 import com.zzcar.zzc.networks.requests.SavedemandRequest;
 import com.zzcar.zzc.networks.requests.SearchRequest;
 import com.zzcar.zzc.networks.requests.SendRegsmsRequest;
@@ -73,6 +74,7 @@ import com.zzcar.zzc.networks.responses.HomeAdverResponse;
 import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
 import com.zzcar.zzc.networks.responses.HomeLivemsgResponse;
+import com.zzcar.zzc.networks.responses.InforCommentResponse;
 import com.zzcar.zzc.networks.responses.IntegralDetailResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.networks.responses.MessageListResponse;
@@ -1891,17 +1893,17 @@ public class UserManager {
     /**
      * 获取评论列表
      */
-    public static void getInfocomments(int product_id, int page, Subscriber<ResponseParent<CommentResponse>> subscriber){
+    public static void getInfocomments(int product_id, int page, Subscriber<ResponseParent<InforCommentResponse>> subscriber){
          /* 防止多次点击 */
         cancelTagandRemove("getCommentList");
         String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
         Map<String, String> hashmap = new HashMap<>();
-        hashmap.put("product_id", String.valueOf(product_id));
+        hashmap.put("info_id", String.valueOf(product_id));
         hashmap.put("page", String.valueOf(page));
         hashmap.put("size", "10");
 
         ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, hashmap);
-        Subscription subscription = ApiClient.getApiService().getcomments(hashmap, zzcHeaders.getHashMap())
+        Subscription subscription = ApiClient.getApiService().getInfocomments(hashmap, zzcHeaders.getHashMap())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -1911,20 +1913,20 @@ public class UserManager {
 
     /**
      * 保存评价
-     * @param product_id 商品id
+     * @param info_id 商品id
      * @param at_id
      * @param content
      * @param image_path
      * @param subscriber
      */
-    public static void saveInfocomment(int product_id, String at_id, String content, List<String> image_path, Subscriber<ResponseParent<Boolean>> subscriber){
+    public static void saveInfocomment(int info_id, String at_id, String content, List<String> image_path, Subscriber<ResponseParent<Boolean>> subscriber){
          /* 防止多次点击 */
         cancelTagandRemove("saveComment");
         String Authorization = SecurePreferences.getInstance().getString("Authorization", "");
-        SaveCommentRequest saveCommentRequest = new SaveCommentRequest(product_id, at_id, content, image_path);
+        SaveInfoComment saveCommentRequest = new SaveInfoComment(info_id, at_id, content, image_path);
 
         ZZCHeaders zzcHeaders = new ZZCHeaders(Authorization, saveCommentRequest);
-        Subscription subscription = ApiClient.getApiService().savecomment(saveCommentRequest, zzcHeaders.getHashMap())
+        Subscription subscription = ApiClient.getApiService().saveInfocomment(saveCommentRequest, zzcHeaders.getHashMap())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -2116,5 +2118,6 @@ public class UserManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
+
 
 }

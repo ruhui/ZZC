@@ -23,6 +23,7 @@ import com.zzcar.zzc.MyApplication;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
 import com.zzcar.zzc.adapters.CommentAdapter;
+import com.zzcar.zzc.adapters.CommentInfoAdapter;
 import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.constants.Permission;
 import com.zzcar.zzc.interfaces.AdapterListener;
@@ -32,11 +33,13 @@ import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.PermissonManager;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.CommentModle;
+import com.zzcar.zzc.models.InforComment;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.UploadFileWithoutLoding;
 import com.zzcar.zzc.networks.responses.CarDetailRespose;
 import com.zzcar.zzc.networks.responses.CommentResponse;
 import com.zzcar.zzc.networks.responses.DemendDetailResponse;
+import com.zzcar.zzc.networks.responses.InforCommentResponse;
 import com.zzcar.zzc.utils.ImageLoader;
 import com.zzcar.zzc.utils.LogUtil;
 import com.zzcar.zzc.utils.PermissionUtili;
@@ -95,10 +98,10 @@ public class DemendDetailActivity extends BaseActivity {
     private int CURTUNPAGE = Constant.DEFAULTPAGE;
     private int drawableD[] = new int[]{R.drawable.shpe_line_noradio_yellow, R.drawable.shape_line_grey, R.drawable.shape_line_blue};
     private int colorD[] = new int[]{R.color.color_yello, R.color.color_d5d5d5, R.color.colorPrimary};
-    private CommentAdapter commentAdapter;
+    private CommentInfoAdapter commentAdapter;
     private int infoId;
     /*at的id*/
-    private String atid = null;
+    private String atid;
     private CommentDialog dialog;
     /*评论的内容*/
     private String commentContent;
@@ -135,7 +138,7 @@ public class DemendDetailActivity extends BaseActivity {
             }
         };
 
-        commentAdapter = new CommentAdapter(adapterListener);
+        commentAdapter = new CommentInfoAdapter(adapterListener);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setAdapter(commentAdapter);
 
@@ -161,11 +164,11 @@ public class DemendDetailActivity extends BaseActivity {
     }
 
     /*评论的点击行*/
-    AdapterListener adapterListener = new AdapterListener<CommentModle>() {
+    AdapterListener adapterListener = new AdapterListener<InforComment>() {
         @Override
-        public void setOnItemListener(CommentModle commentModle, int position) {
+        public void setOnItemListener(InforComment commentModle, int position) {
             //如果是自己的评论，则删除
-            atid = commentModle.getUser_id() + "";
+            atid = commentModle.getUser_id()+"";
             dialog = new CommentDialog(DemendDetailActivity.this, "@"+commentModle.getMember().getNick(), commentListener);
             dialog.show();
         }
@@ -394,9 +397,9 @@ public class DemendDetailActivity extends BaseActivity {
     };
 
 
-    ResponseResultListener callbak_comments = new ResponseResultListener<CommentResponse>() {
+    ResponseResultListener callbak_comments = new ResponseResultListener<InforCommentResponse>() {
         @Override
-        public void success(CommentResponse returnMsg) {
+        public void success(InforCommentResponse returnMsg) {
             LogUtil.E("success", "success");
             closeProgress();
             myScrollView.onRefreshComplete();

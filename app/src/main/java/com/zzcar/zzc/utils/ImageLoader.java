@@ -111,8 +111,12 @@ public class ImageLoader {
     }
 
     public static void loadImage(String url, ImageView imageView) {
-        Glide.with(imageView.getContext()).load(url).fitCenter().diskCacheStrategy(DiskCacheStrategy.ALL).centerCrop().into(imageView);
+        Glide.with(imageView.getContext())
+                .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .into(imageView);
     }
+
 
     public static void loadImageRadio(String url, ImageView imageView,int radio) {
         if (TextUtils.isEmpty(url) || imageView == null) {

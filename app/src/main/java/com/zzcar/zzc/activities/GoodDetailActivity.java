@@ -253,7 +253,7 @@ public class GoodDetailActivity extends BaseActivity {
         //设置透明度
         mRollViewPager.setAnimationDurtion(500);
         //设置适配器
-        adapter = new PictureAdapter(mContext, dm.widthPixels, picList);
+        adapter = new PictureAdapter(mContext, dm.widthPixels, picList, adapterListener_rollview);
         //设置适配器
         mRollViewPager.setAdapter(adapter);
         //设置指示器（顺序依次）
@@ -265,7 +265,22 @@ public class GoodDetailActivity extends BaseActivity {
         mRollViewPager.setHintView(new ColorPointHintView(getActivity(), Color.YELLOW, Color.WHITE));
         //mRollViewPager.setHintView(new TextHintView(this));
         //mRollViewPager.setHintView(null);
+
     }
+
+    AdapterListener adapterListener_rollview = new AdapterListener<String>() {
+        @Override
+        public void setOnItemListener(String o, int position) {
+            ArrayList listPic = new ArrayList();
+            for (String picpath : picList){
+                listPic.add(picpath);
+            }
+            Intent intent = new Intent(getActivity(), ShowPhotoAcitivity_.class);
+            intent.putExtra("imagepathList", listPic);
+            getActivity().startActivity(intent);
+        }
+    };
+
 
     //设置收藏按钮
     void setImageFavo(){

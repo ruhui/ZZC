@@ -32,6 +32,7 @@ import com.zzcar.zzc.networks.requests.ProduceIdResquest;
 import com.zzcar.zzc.networks.requests.RefreshLoginRequest;
 import com.zzcar.zzc.networks.requests.SaveAddressaRequest;
 import com.zzcar.zzc.networks.requests.SaveCommentRequest;
+import com.zzcar.zzc.networks.requests.SaveInfoComment;
 import com.zzcar.zzc.networks.requests.SavedemandRequest;
 import com.zzcar.zzc.networks.requests.SendRegsmsRequest;
 import com.zzcar.zzc.networks.requests.ShippingTypeRequest;
@@ -58,6 +59,7 @@ import com.zzcar.zzc.networks.responses.HomeAdverResponse;
 import com.zzcar.zzc.networks.responses.HomeCarGetResponse;
 import com.zzcar.zzc.networks.responses.HomeCarPushResponse;
 import com.zzcar.zzc.networks.responses.HomeLivemsgResponse;
+import com.zzcar.zzc.networks.responses.InforCommentResponse;
 import com.zzcar.zzc.networks.responses.IntegralDetailResponse;
 import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.networks.responses.MessageListResponse;
@@ -464,11 +466,11 @@ public interface ZZCService {
 
     /*求购和询价评论列表*/
     @GET("info/comment")
-    Observable<ResponseParent<CommentResponse>> getInfocomments(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
+    Observable<ResponseParent<InforCommentResponse>> getInfocomments(@QueryMap Map<String, String> hashMap, @HeaderMap Map<String, String> header);
 
     /*求购和询价评论*/
     @POST("info/save_comment")
-    Observable<ResponseParent<Boolean>> saveInfocomment(@Body SaveCommentRequest saveComment, @HeaderMap Map<String, String> header);
+    Observable<ResponseParent<Boolean>> saveInfocomment(@Body SaveInfoComment saveComment, @HeaderMap Map<String, String> header);
 
     /*获取收货地址列表*/
     @GET("account/address")

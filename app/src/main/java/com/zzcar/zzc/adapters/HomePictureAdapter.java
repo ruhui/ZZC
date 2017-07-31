@@ -47,8 +47,7 @@ public class HomePictureAdapter extends StaticPagerAdapter {
         ImageView view = new ImageView(container.getContext());
         ImageLoader.loadImage(Tool.getPicUrl(mContext, mList.get(position).getImage_path(), windowWidth, 160), view);
         view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        view.setScaleType(ImageView.ScaleType.CENTER);
-
+        view.setScaleType(ImageView.ScaleType.FIT_XY);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

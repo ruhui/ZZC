@@ -24,6 +24,7 @@ import com.zzcar.zzc.MyApplication;
 import com.zzcar.zzc.R;
 import com.zzcar.zzc.activities.base.BaseActivity;
 import com.zzcar.zzc.adapters.CommentAdapter;
+import com.zzcar.zzc.adapters.CommentInfoAdapter;
 import com.zzcar.zzc.adapters.ImageStrandAdapter;
 import com.zzcar.zzc.constants.Constant;
 import com.zzcar.zzc.constants.Permission;
@@ -34,11 +35,13 @@ import com.zzcar.zzc.interfaces.ResponseResultListener;
 import com.zzcar.zzc.manager.PermissonManager;
 import com.zzcar.zzc.manager.UserManager;
 import com.zzcar.zzc.models.CommentModle;
+import com.zzcar.zzc.models.InforComment;
 import com.zzcar.zzc.networks.PosetSubscriber;
 import com.zzcar.zzc.networks.UploadFileWithoutLoding;
 import com.zzcar.zzc.networks.responses.CarDetailRespose;
 import com.zzcar.zzc.networks.responses.CommentResponse;
 import com.zzcar.zzc.networks.responses.DemendDetailResponse;
+import com.zzcar.zzc.networks.responses.InforCommentResponse;
 import com.zzcar.zzc.networks.responses.SupplyDetailResponse;
 import com.zzcar.zzc.utils.ImageLoader;
 import com.zzcar.zzc.utils.LogUtil;
@@ -124,7 +127,7 @@ public class SupplyDetailActivity extends BaseActivity {
     private int CURTUNPAGE = Constant.DEFAULTPAGE;
     /*评论的内容*/
     private String commentContent;
-    private CommentAdapter commentAdapter;
+    private CommentInfoAdapter commentAdapter;
     /*保存返回的图片路径*/
     private List<String> successPath = new ArrayList<>();
     /*获取图片列表*/
@@ -158,7 +161,7 @@ public class SupplyDetailActivity extends BaseActivity {
         /*获取评论*/
         getComments();
 
-        commentAdapter = new CommentAdapter(adapterListener);
+        commentAdapter = new CommentInfoAdapter(adapterListener);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(SupplyDetailActivity.this,
                 LinearLayoutManager.VERTICAL, false) {
             @Override
@@ -215,11 +218,11 @@ public class SupplyDetailActivity extends BaseActivity {
 
 
     /*评论的点击行*/
-    AdapterListener adapterListener = new AdapterListener<CommentModle>() {
+    AdapterListener adapterListener = new AdapterListener<InforComment>() {
         @Override
-        public void setOnItemListener(CommentModle commentModle, int position) {
+        public void setOnItemListener(InforComment commentModle, int position) {
             //如果是自己的评论，则删除
-            atid = commentModle.getUser_id() + "";
+            atid = commentModle.getUser_id()+"";
             dialog = new CommentDialog(SupplyDetailActivity.this, "@"+commentModle.getMember().getNick(), commentListener);
             dialog.show();
         }
@@ -398,9 +401,9 @@ public class SupplyDetailActivity extends BaseActivity {
         }
     };
 
-    ResponseResultListener callbak_comments = new ResponseResultListener<CommentResponse>() {
+    ResponseResultListener callbak_comments = new ResponseResultListener<InforCommentResponse>() {
         @Override
-        public void success(CommentResponse returnMsg) {
+        public void success(InforCommentResponse returnMsg) {
             LogUtil.E("success", "success");
             closeProgress();
             myScrollView.onRefreshComplete();
