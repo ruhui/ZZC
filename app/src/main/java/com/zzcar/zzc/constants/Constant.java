@@ -45,7 +45,7 @@ public class Constant {
     public static final String EMCHATPASSWORD = "car123456";
     /* 下载保存路径 */
     public static final String SAVEAPPFILEPATH = Environment.getExternalStorageDirectory()
-            + "/"  + "xinggou/XGW.apk";
+            + "/"  + "zzcar/ZZCar.apk";
     /*环信用户头像*/
 //    public static final String USER_NAME = "USERNAME";
 //    /*环信用户头像图片*/
