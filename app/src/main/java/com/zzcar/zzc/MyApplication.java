@@ -40,7 +40,6 @@ import cn.jpush.android.api.JPushInterface;
 public class MyApplication extends Application {
 
     private static MyApplication mInstance;
-    private Context appContext;
     private EaseUI easeUI;
 
     @Override
@@ -62,7 +61,7 @@ public class MyApplication extends Application {
 //        EMClient.getInstance().setDebugMode(true);
 //        initEMchat();
         initEaseUi(mInstance);
-        JPushInterface.setDebugMode(true);
+        JPushInterface.setDebugMode(false);
         JPushInterface.init(this);
     }
 
@@ -151,11 +150,10 @@ public class MyApplication extends Application {
 //        }
         //use default options if options is null
         if (EaseUI.getInstance().init(context, options)) {
-            appContext = context;
             //获取easeui实例
             easeUI = EaseUI.getInstance();
             //初始化easeui
-            easeUI.init(appContext,options);
+            easeUI.init(mInstance, options);
             //在做打包混淆时，关闭debug模式，避免消耗不必要的资源
 //            EMClient.getInstance().setDebugMode(true);
             setEaseUIProviders();
