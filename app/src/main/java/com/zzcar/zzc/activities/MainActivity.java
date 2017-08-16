@@ -3,6 +3,8 @@ package com.zzcar.zzc.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -53,6 +55,7 @@ import com.zzcar.zzc.networks.responses.LoginResponse;
 import com.zzcar.zzc.utils.GreenDaoUtils;
 import com.zzcar.zzc.utils.LogUtil;
 import com.zzcar.zzc.utils.SecurePreferences;
+import com.zzcar.zzc.utils.Utils;
 import com.zzcar.zzc.views.widget.NoScrollViewPager;
 
 import org.androidannotations.annotations.AfterViews;
@@ -63,7 +66,10 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import cn.jpush.android.api.JPushInterface;
+import cn.jpush.android.api.TagAliasCallback;
 import rx.Subscriber;
 
 import static com.hyphenate.easeui.EaseConstant.CHATTYPE_SINGLE;
@@ -85,6 +91,7 @@ public class MainActivity extends BaseActivity {
 
     @AfterViews
     void initView(){
+        JPushInterface.resumePush(getActivity());
          /*初始化环信消息监听‘*/
         EMClient.getInstance().chatManager().addMessageListener(msgListener);
         /*好友管理监听*/
@@ -107,6 +114,10 @@ public class MainActivity extends BaseActivity {
 
         /*开启倒计时*/
         restart();
+
+        /*设置别名*/
+        String phone = SecurePreferences.getInstance().getString("USERMOBILE", "");
+        setAlias(phone);
     }
 
 
@@ -534,4 +545,63 @@ public class MainActivity extends BaseActivity {
         mPager.setCurrentItem(page);
     }
 
+
+    @Subscribe
+    public void finishPage(ActivityFinish activityFinish){
+        if (activityFinish.isfinish){
+            JPushInterface.stopPush(getActivity());
+        }
+    }
+
+    //极光推送的设置
+    /*设置别名*/
+    private void setAlias(String mobile) {
+        if (!Utils.isValidTagAndAlias(mobile)) {
+            LogUtil.E("别名设置", "error_tag_gs_empty");
+            return;
+        }
+
+        // 调用 Handler 来异步设置别名
+        mHandler.sendMessage(mHandler.obtainMessage(MSG_SET_ALIAS, mobile));
+    }
+
+    private final TagAliasCallback mAliasCallback = new TagAliasCallback() {
+        @Override
+        public void gotResult(int code, String alias, Set<String> tags) {
+            String logs;
+            switch (code) {
+                case 0:
+                    /*别名设置成功*/
+                    logs = "Set tag and alias success";
+                    // 建议这里往 SharePreference 里写一个成功设置的状态。成功设置一次后，以后不必再次设置了。
+                    break;
+                case 6002:
+                    /*别名设置失败*/
+                    logs = "Failed to set alias and tags due to timeout. Try again after 60s.";
+                    // 延迟 60 秒来调用 Handler 设置别名
+                    mHandler.sendMessageDelayed(mHandler.obtainMessage(MSG_SET_ALIAS, alias), 1000 * 60);
+                    break;
+                default:
+                    logs = "Failed with errorCode = " + code;
+            }
+        }
+    };
+    private static final int MSG_SET_ALIAS = 1001;
+    private final Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case MSG_SET_ALIAS:
+                    // 调用 JPush 接口来设置别名。
+                    JPushInterface.setAliasAndTags(getApplicationContext(),
+                            (String) msg.obj,
+                            null,
+                            mAliasCallback);
+                    break;
+
+                default:
+            }
+        }
+    };
 }

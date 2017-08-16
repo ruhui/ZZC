@@ -29,6 +29,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  *
  * 创建作者： 黄如辉
@@ -60,6 +62,8 @@ public class MyApplication extends Application {
 //        EMClient.getInstance().setDebugMode(true);
 //        initEMchat();
         initEaseUi(mInstance);
+        JPushInterface.setDebugMode(true);
+        JPushInterface.init(this);
     }
 
     public static MyApplication getInstance() {
